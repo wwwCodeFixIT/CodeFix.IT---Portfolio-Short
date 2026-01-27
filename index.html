@@ -2,39 +2,46 @@
 <html lang="pl">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     
-    <!-- Primary Meta Tags -->
-    <title>CodeFix.IT | Patryk Dziadzia - Frontend Developer Warszawa</title>
-    <meta name="title" content="CodeFix.IT | Patryk Dziadzia - Frontend Developer Warszawa" />
-    <meta name="description" content="Profesjonalne usługi Frontend Development - React, Next.js, TypeScript, WordPress. Tworzenie nowoczesnych stron i aplikacji webowych. 7+ lat doświadczenia." />
-    <meta name="keywords" content="frontend developer, react developer, next.js, typescript, wordpress, strony internetowe, aplikacje webowe, warszawa, polska, codefix" />
+    <!-- Primary Meta Tags - SPRZEDAŻOWE -->
+    <title>Szybkie Strony i Aplikacje Webowe | CodeFix.IT Warszawa | Darmowa Wycena 24h</title>
+    <meta name="description" content="Projektuję szybkie, nowoczesne strony i aplikacje webowe, które zwiększają konwersję. React, WordPress, optymalizacja PageSpeed 90+. ✓ 7 lat doświadczenia ✓ Darmowa wycena w 24h ✓ Gwarancja jakości" />
+    <meta name="keywords" content="strony internetowe warszawa, tworzenie stron www, aplikacje webowe, szybkie strony, optymalizacja stron, wordpress developer, react developer, frontend developer warszawa" />
     <meta name="author" content="Patryk Dziadzia - CodeFix.IT" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    
+    <!-- Geo & Language -->
+    <meta name="geo.region" content="PL-MZ" />
+    <meta name="geo.placename" content="Warszawa" />
+    <meta name="language" content="Polish" />
+    <meta http-equiv="content-language" content="pl" />
     
     <!-- Theme Color -->
     <meta name="theme-color" content="#0a0a0a" />
     <meta name="msapplication-TileColor" content="#dc2626" />
     
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://codefix.it/" />
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://codefix.it/" />
-    <meta property="og:title" content="CodeFix.IT | Patryk Dziadzia - Frontend Developer" />
-    <meta property="og:description" content="Profesjonalne usługi Frontend Development - React, Next.js, TypeScript, WordPress. Tworzenie nowoczesnych stron i aplikacji webowych." />
+    <meta property="og:title" content="Szybkie Strony i Aplikacje Webowe | Darmowa Wycena | CodeFix.IT" />
+    <meta property="og:description" content="Projektuję nowoczesne strony i aplikacje, które zwiększają konwersję. PageSpeed 90+, React, WordPress. 7 lat doświadczenia. Darmowa wycena w 24h!" />
     <meta property="og:image" content="https://codefix.it/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:locale" content="pl_PL" />
     <meta property="og:site_name" content="CodeFix.IT" />
     
     <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://codefix.it/" />
-    <meta property="twitter:title" content="CodeFix.IT | Patryk Dziadzia - Frontend Developer" />
-    <meta property="twitter:description" content="Profesjonalne usługi Frontend Development - React, Next.js, TypeScript, WordPress." />
-    <meta property="twitter:image" content="https://codefix.it/og-image.png" />
-    
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://codefix.it/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://codefix.it/" />
+    <meta name="twitter:title" content="Szybkie Strony i Aplikacje Webowe | CodeFix.IT" />
+    <meta name="twitter:description" content="Nowoczesne strony i aplikacje, które zwiększają konwersję. PageSpeed 90+. Darmowa wycena!" />
+    <meta name="twitter:image" content="https://codefix.it/og-image.png" />
     
     <!-- PWA -->
     <link rel="manifest" href="/manifest.json" />
@@ -46,18 +53,20 @@
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://api.github.com" />
+    <link rel="dns-prefetch" href="https://api.github.com" />
     
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
     
-    <!-- Structured Data (JSON-LD) -->
+    <!-- Structured Data - LocalBusiness -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "CodeFix.IT",
-      "description": "Profesjonalne usługi Frontend Development - React, Next.js, TypeScript, WordPress",
+      "@type": "LocalBusiness",
+      "@id": "https://codefix.it/#business",
+      "name": "CodeFix.IT - Tworzenie Stron i Aplikacji Webowych",
+      "alternateName": "CodeFix.IT",
+      "description": "Projektuję szybkie, nowoczesne strony internetowe i aplikacje webowe, które zwiększają konwersję. Specjalizacja: React, WordPress, optymalizacja PageSpeed.",
       "url": "https://codefix.it",
       "logo": "https://codefix.it/logo.png",
       "image": "https://codefix.it/og-image.png",
@@ -66,12 +75,8 @@
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Warszawa",
+        "addressRegion": "Mazowieckie",
         "addressCountry": "PL"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": "52.2297",
-        "longitude": "21.0122"
       },
       "founder": {
         "@type": "Person",
@@ -79,93 +84,824 @@
         "jobTitle": "Frontend Developer"
       },
       "foundingDate": "2020",
-      "areaServed": {
-        "@type": "Country",
-        "name": "Poland"
+      "areaServed": "PL",
+      "priceRange": "1500-15000 PLN",
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00",
+        "closes": "18:00"
       },
-      "serviceType": ["Web Development", "Frontend Development", "WordPress Development"],
-      "priceRange": "$$",
-      "sameAs": [
-        "https://github.com/wwwCodeFixIT"
-      ]
+      "sameAs": ["https://github.com/wwwCodeFixIT"],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "reviewCount": "4"
+      }
     }
     </script>
     
-    <!-- Person Schema -->
+    <!-- Structured Data - FAQPage -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Patryk Dziadzia",
-      "alternateName": "Dziadzia",
-      "jobTitle": "Frontend Developer",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "CodeFix.IT"
-      },
-      "url": "https://codefix.it",
-      "sameAs": [
-        "https://github.com/wwwCodeFixIT"
-      ],
-      "knowsAbout": ["React", "Next.js", "TypeScript", "JavaScript", "WordPress", "Tailwind CSS"]
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Ile kosztuje strona internetowa?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Ceny stron internetowych zaczynają się od 1500 PLN za landing page. Strona firmowa to koszt od 3000 PLN, a sklep internetowy od 6000 PLN."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Jak długo trwa tworzenie strony?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Landing page to 1-2 tygodnie, strona firmowa 2-4 tygodnie, a sklep internetowy 4-8 tygodni."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Czy oferujesz wsparcie po wdrożeniu?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tak, oferuję pakiety wsparcia technicznego: aktualizacje, poprawki bezpieczeństwa, backup i monitoring."
+          }
+        }
+      ]
     }
     </script>
-    
-    <!-- Google Analytics (placeholder - replace with your ID) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
-    </script>
+
+    <!-- Noscript Styles (dla fallback HTML) -->
+    <style id="noscript-styles">
+      .noscript-page { display: none; }
+    </style>
+    <noscript>
+      <style>
+        #root { display: none !important; }
+        .noscript-page { display: block !important; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+          background: #0a0a0a; 
+          color: #fff; 
+          line-height: 1.6; 
+        }
+        a { color: inherit; }
+        
+        /* Header */
+        .ns-header {
+          background: rgba(10,10,10,0.95);
+          backdrop-filter: blur(10px);
+          border-bottom: 1px solid #27272a;
+          padding: 1rem 2rem;
+          position: sticky;
+          top: 0;
+          z-index: 100;
+        }
+        .ns-header-inner {
+          max-width: 1200px;
+          margin: 0 auto;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          flex-wrap: wrap;
+          gap: 1rem;
+        }
+        .ns-logo {
+          font-size: 1.5rem;
+          font-weight: 800;
+          text-decoration: none;
+          color: #fff;
+        }
+        .ns-logo span { color: #dc2626; }
+        .ns-nav {
+          display: flex;
+          gap: 2rem;
+          flex-wrap: wrap;
+        }
+        .ns-nav a {
+          color: #a1a1aa;
+          text-decoration: none;
+          font-weight: 500;
+          transition: color 0.2s;
+        }
+        .ns-nav a:hover { color: #dc2626; }
+        .ns-cta-btn {
+          background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+          color: white;
+          padding: 0.75rem 1.5rem;
+          border-radius: 8px;
+          text-decoration: none;
+          font-weight: 600;
+        }
+        
+        /* Hero */
+        .ns-hero {
+          padding: 6rem 2rem;
+          text-align: center;
+          background: radial-gradient(ellipse at center, rgba(220,38,38,0.1) 0%, transparent 70%);
+          min-height: 80vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+        .ns-badge {
+          display: inline-block;
+          background: rgba(34,197,94,0.2);
+          color: #22c55e;
+          padding: 0.5rem 1rem;
+          border-radius: 999px;
+          font-size: 0.875rem;
+          margin-bottom: 2rem;
+        }
+        .ns-hero h1 {
+          font-size: clamp(2rem, 5vw, 3.5rem);
+          font-weight: 800;
+          margin-bottom: 1.5rem;
+          line-height: 1.2;
+        }
+        .ns-hero h1 span { color: #dc2626; }
+        .ns-hero .subtitle {
+          font-size: 1.25rem;
+          color: #a1a1aa;
+          max-width: 700px;
+          margin: 0 auto 2rem;
+        }
+        .ns-hero-cta {
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          flex-wrap: wrap;
+          margin-bottom: 3rem;
+        }
+        .ns-hero-cta a {
+          padding: 1rem 2rem;
+          border-radius: 8px;
+          font-weight: 600;
+          text-decoration: none;
+        }
+        .ns-hero-cta .primary {
+          background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+          color: white;
+        }
+        .ns-hero-cta .secondary {
+          background: rgba(255,255,255,0.1);
+          border: 1px solid rgba(255,255,255,0.2);
+          color: white;
+        }
+        .ns-stats {
+          display: flex;
+          justify-content: center;
+          gap: 3rem;
+          flex-wrap: wrap;
+        }
+        .ns-stat {
+          text-align: center;
+        }
+        .ns-stat-value {
+          font-size: 2.5rem;
+          font-weight: 800;
+          color: #dc2626;
+        }
+        .ns-stat-label {
+          color: #a1a1aa;
+          font-size: 0.875rem;
+        }
+        
+        /* Sections */
+        .ns-section {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 5rem 2rem;
+        }
+        .ns-section-title {
+          font-size: 2rem;
+          font-weight: 700;
+          text-align: center;
+          margin-bottom: 1rem;
+        }
+        .ns-section-title span { color: #dc2626; }
+        .ns-section-subtitle {
+          text-align: center;
+          color: #a1a1aa;
+          margin-bottom: 3rem;
+          max-width: 600px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        
+        /* Services */
+        .ns-services {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 1.5rem;
+        }
+        .ns-service {
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 16px;
+          padding: 2rem;
+          transition: all 0.3s;
+        }
+        .ns-service:hover {
+          border-color: #dc2626;
+          transform: translateY(-5px);
+        }
+        .ns-service h3 {
+          font-size: 1.25rem;
+          margin-bottom: 0.75rem;
+        }
+        .ns-service p {
+          color: #a1a1aa;
+          margin-bottom: 1rem;
+          font-size: 0.95rem;
+        }
+        .ns-service .price {
+          color: #dc2626;
+          font-weight: 600;
+        }
+        
+        /* Portfolio */
+        .ns-portfolio {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+          gap: 2rem;
+        }
+        .ns-project {
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 16px;
+          overflow: hidden;
+        }
+        .ns-project-img {
+          height: 200px;
+          background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 3rem;
+        }
+        .ns-project-content {
+          padding: 1.5rem;
+        }
+        .ns-project h3 {
+          font-size: 1.25rem;
+          margin-bottom: 0.5rem;
+        }
+        .ns-project p {
+          color: #a1a1aa;
+          font-size: 0.95rem;
+          margin-bottom: 1rem;
+        }
+        .ns-results {
+          background: rgba(34,197,94,0.1);
+          border: 1px solid rgba(34,197,94,0.3);
+          border-radius: 8px;
+          padding: 1rem;
+          margin-bottom: 1rem;
+        }
+        .ns-results h4 {
+          color: #22c55e;
+          font-size: 0.875rem;
+          margin-bottom: 0.5rem;
+        }
+        .ns-results ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+        .ns-results li {
+          color: #a1a1aa;
+          font-size: 0.875rem;
+          padding: 0.25rem 0;
+        }
+        .ns-results li::before {
+          content: "✓ ";
+          color: #22c55e;
+        }
+        .ns-tech {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          margin-bottom: 1rem;
+        }
+        .ns-tech span {
+          background: rgba(220,38,38,0.2);
+          color: #dc2626;
+          padding: 0.25rem 0.75rem;
+          border-radius: 999px;
+          font-size: 0.75rem;
+        }
+        .ns-project-link {
+          color: #dc2626;
+          text-decoration: none;
+          font-weight: 500;
+        }
+        .ns-project-link:hover {
+          text-decoration: underline;
+        }
+        
+        /* Why Me */
+        .ns-why {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 1.5rem;
+        }
+        .ns-why-item {
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 16px;
+          padding: 2rem;
+          text-align: center;
+        }
+        .ns-why-item .icon {
+          font-size: 2.5rem;
+          margin-bottom: 1rem;
+        }
+        .ns-why-item h3 {
+          font-size: 1.25rem;
+          margin-bottom: 0.75rem;
+        }
+        .ns-why-item p {
+          color: #a1a1aa;
+          font-size: 0.95rem;
+        }
+        
+        /* Process */
+        .ns-process {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 1.5rem;
+          counter-reset: step;
+        }
+        .ns-step {
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 16px;
+          padding: 2rem;
+          position: relative;
+          counter-increment: step;
+          text-align: center;
+        }
+        .ns-step::before {
+          content: counter(step);
+          position: absolute;
+          top: -1rem;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 2rem;
+          height: 2rem;
+          background: #dc2626;
+          color: white;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 700;
+        }
+        .ns-step h3 {
+          margin-top: 0.5rem;
+          margin-bottom: 0.75rem;
+        }
+        .ns-step p {
+          color: #a1a1aa;
+          font-size: 0.875rem;
+        }
+        
+        /* Contact */
+        .ns-contact {
+          background: rgba(220,38,38,0.1);
+          border: 1px solid rgba(220,38,38,0.3);
+          border-radius: 24px;
+          padding: 4rem 2rem;
+          text-align: center;
+          max-width: 800px;
+          margin: 0 auto;
+        }
+        .ns-contact h2 {
+          font-size: 2rem;
+          margin-bottom: 1rem;
+        }
+        .ns-contact h2 span { color: #dc2626; }
+        .ns-contact > p {
+          color: #a1a1aa;
+          margin-bottom: 2rem;
+          max-width: 500px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .ns-contact-info {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 1rem;
+          justify-content: center;
+          margin-bottom: 2rem;
+        }
+        .ns-contact-info a {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 1rem 1.5rem;
+          background: rgba(255,255,255,0.1);
+          border-radius: 8px;
+          text-decoration: none;
+          color: white;
+          transition: all 0.2s;
+        }
+        .ns-contact-info a:hover {
+          background: rgba(220,38,38,0.3);
+        }
+        .ns-form {
+          max-width: 500px;
+          margin: 2rem auto 0;
+          text-align: left;
+        }
+        .ns-form-group {
+          margin-bottom: 1rem;
+        }
+        .ns-form-group label {
+          display: block;
+          margin-bottom: 0.5rem;
+          color: #a1a1aa;
+          font-size: 0.875rem;
+        }
+        .ns-form-group input,
+        .ns-form-group textarea {
+          width: 100%;
+          padding: 0.875rem 1rem;
+          background: rgba(255,255,255,0.1);
+          border: 1px solid rgba(255,255,255,0.2);
+          border-radius: 8px;
+          color: white;
+          font-family: inherit;
+          font-size: 1rem;
+        }
+        .ns-form-group textarea {
+          min-height: 120px;
+          resize: vertical;
+        }
+        .ns-form-group input:focus,
+        .ns-form-group textarea:focus {
+          outline: none;
+          border-color: #dc2626;
+        }
+        .ns-form-submit {
+          width: 100%;
+          padding: 1rem;
+          background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+          color: white;
+          border: none;
+          border-radius: 8px;
+          font-weight: 600;
+          font-size: 1rem;
+          cursor: pointer;
+        }
+        .ns-form-benefits {
+          display: flex;
+          justify-content: center;
+          gap: 2rem;
+          margin-top: 1.5rem;
+          flex-wrap: wrap;
+          font-size: 0.875rem;
+          color: #a1a1aa;
+        }
+        
+        /* Footer */
+        .ns-footer {
+          background: rgba(0,0,0,0.5);
+          border-top: 1px solid #27272a;
+          padding: 3rem 2rem;
+          text-align: center;
+        }
+        .ns-footer p {
+          color: #71717a;
+          margin-bottom: 1rem;
+        }
+        .ns-footer-links {
+          display: flex;
+          gap: 2rem;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+        .ns-footer-links a {
+          color: #71717a;
+          text-decoration: none;
+        }
+        .ns-footer-links a:hover {
+          color: #dc2626;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+          .ns-header-inner {
+            flex-direction: column;
+            text-align: center;
+          }
+          .ns-nav {
+            justify-content: center;
+            gap: 1rem;
+          }
+          .ns-hero {
+            padding: 4rem 1.5rem;
+            min-height: auto;
+          }
+          .ns-section {
+            padding: 3rem 1.5rem;
+          }
+          .ns-stats {
+            gap: 1.5rem;
+          }
+          .ns-portfolio {
+            grid-template-columns: 1fr;
+          }
+        }
+      </style>
+    </noscript>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     
-    <!-- Service Worker Registration -->
-    <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-              console.log('SW registered:', registration.scope);
-            })
-            .catch(error => {
-              console.log('SW registration failed:', error);
-            });
-        });
-      }
-    </script>
-    
-    <!-- Fallback noscript -->
+    <!-- Noscript Fallback - Pełna wersja HTML strony -->
     <noscript>
-      <style>
-        #root { display: none; }
-        .noscript-message {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          min-height: 100vh;
-          background: #0a0a0a;
-          color: white;
-          font-family: system-ui, sans-serif;
-          text-align: center;
-          padding: 20px;
-        }
-      </style>
-      <div class="noscript-message">
-        <div>
-          <h1>CodeFix.IT</h1>
-          <p>Ta strona wymaga JavaScript do działania.</p>
-          <p>Włącz JavaScript w swojej przeglądarce i odśwież stronę.</p>
-          <p style="margin-top: 20px;">
-            <a href="mailto:wwwcodefixit@gmail.com" style="color: #dc2626;">wwwcodefixit@gmail.com</a>
-            <br>
-            <a href="tel:+48883667943" style="color: #dc2626;">+48 883 667 943</a>
-          </p>
-        </div>
+      <div class="noscript-page">
+        <!-- Header -->
+        <header class="ns-header">
+          <div class="ns-header-inner">
+            <a href="/" class="ns-logo">Code<span>Fix</span>.IT</a>
+            <nav class="ns-nav">
+              <a href="#uslugi">Usługi</a>
+              <a href="#portfolio">Portfolio</a>
+              <a href="#dlaczego-ja">Dlaczego ja</a>
+              <a href="#proces">Proces</a>
+              <a href="#kontakt">Kontakt</a>
+            </nav>
+            <a href="#kontakt" class="ns-cta-btn">Darmowa wycena</a>
+          </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="ns-hero">
+          <span class="ns-badge">✓ Dostępny do nowych projektów</span>
+          <h1>Projektuję <span>szybkie strony</span> i aplikacje,<br>które zwiększają konwersję</h1>
+          <p class="subtitle">Specjalizuję się w React, WordPress i TypeScript. Tworzę rozwiązania, które nie tylko wyglądają profesjonalnie, ale też realnie zwiększają sprzedaż i pozyskują klientów.</p>
+          <div class="ns-hero-cta">
+            <a href="#kontakt" class="primary">Darmowa wycena →</a>
+            <a href="#portfolio" class="secondary">Zobacz realizacje</a>
+          </div>
+          <div class="ns-stats">
+            <div class="ns-stat">
+              <div class="ns-stat-value">7+</div>
+              <div class="ns-stat-label">Lat doświadczenia</div>
+            </div>
+            <div class="ns-stat">
+              <div class="ns-stat-value">90+</div>
+              <div class="ns-stat-label">PageSpeed Score</div>
+            </div>
+            <div class="ns-stat">
+              <div class="ns-stat-value">100%</div>
+              <div class="ns-stat-label">Zadowolonych klientów</div>
+            </div>
+            <div class="ns-stat">
+              <div class="ns-stat-value">24h</div>
+              <div class="ns-stat-label">Czas odpowiedzi</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="uslugi" class="ns-section">
+          <h2 class="ns-section-title">Czym się <span>zajmuję</span></h2>
+          <p class="ns-section-subtitle">Kompleksowe usługi webowe - od projektu po wdrożenie i wsparcie</p>
+          <div class="ns-services">
+            <article class="ns-service">
+              <h3>🌐 Strony internetowe</h3>
+              <p>Nowoczesne, szybkie strony firmowe i wizytówki. Responsywne, zoptymalizowane pod SEO, gotowe na pozyskiwanie klientów.</p>
+              <div class="price">od 1 500 zł</div>
+            </article>
+            <article class="ns-service">
+              <h3>💻 Aplikacje webowe</h3>
+              <p>Zaawansowane aplikacje w React i Vue.js. Panele administracyjne, dashboardy, systemy CRM i inne rozwiązania na miarę.</p>
+              <div class="price">od 8 000 zł</div>
+            </article>
+            <article class="ns-service">
+              <h3>🛒 Sklepy internetowe</h3>
+              <p>Kompletne sklepy WooCommerce z integracją płatności, wysyłki i automatyzacją procesów sprzedażowych.</p>
+              <div class="price">od 6 000 zł</div>
+            </article>
+            <article class="ns-service">
+              <h3>📝 WordPress & CMS</h3>
+              <p>Własne motywy i wtyczki WordPress. Elementor, ACF Pro, WooCommerce. Pełna customizacja i optymalizacja.</p>
+              <div class="price">od 3 000 zł</div>
+            </article>
+            <article class="ns-service">
+              <h3>🔄 Redesign strony</h3>
+              <p>Odświeżenie wyglądu i poprawa wydajności istniejącej strony. Nowy design, lepsza konwersja, szybsze ładowanie.</p>
+              <div class="price">od 2 500 zł</div>
+            </article>
+            <article class="ns-service">
+              <h3>⚡ Optymalizacja</h3>
+              <p>Przyspieszenie strony, poprawa Core Web Vitals, optymalizacja SEO technicznego. PageSpeed 90+ gwarantowany.</p>
+              <div class="price">od 1 000 zł</div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="ns-section">
+          <h2 class="ns-section-title">Moje <span>realizacje</span></h2>
+          <p class="ns-section-subtitle">Projekty z konkretnymi rezultatami dla klientów</p>
+          <div class="ns-portfolio">
+            <article class="ns-project">
+              <div class="ns-project-img">🏢</div>
+              <div class="ns-project-content">
+                <h3>eM-aiR System</h3>
+                <p>Kompleksowa przebudowa strony dla firmy specjalizującej się w klimatyzacji i wentylacji. Strona od podstaw z nowoczesnym designem.</p>
+                <div class="ns-results">
+                  <h4>📈 Rezultaty:</h4>
+                  <ul>
+                    <li>PageSpeed: 45 → 92 punkty</li>
+                    <li>+60% więcej zapytań ofertowych</li>
+                    <li>-40% współczynnik odrzuceń</li>
+                  </ul>
+                </div>
+                <div class="ns-tech">
+                  <span>WordPress</span>
+                  <span>PHP</span>
+                  <span>ACF Pro</span>
+                  <span>JavaScript</span>
+                </div>
+                <a href="https://em-airsystem.pl" target="_blank" rel="noopener" class="ns-project-link">Zobacz stronę →</a>
+              </div>
+            </article>
+            
+            <article class="ns-project">
+              <div class="ns-project-img">🚗</div>
+              <div class="ns-project-content">
+                <h3>Rzeczoznawca Marcin Dudek</h3>
+                <p>Profesjonalna strona od podstaw dla rzeczoznawcy samochodowego. Projekt, kodowanie i optymalizacja SEO lokalne.</p>
+                <div class="ns-results">
+                  <h4>📈 Rezultaty:</h4>
+                  <ul>
+                    <li>PageSpeed: 94 punkty</li>
+                    <li>Pozycja #1 w Google lokalnie</li>
+                    <li>+80% więcej telefonów</li>
+                  </ul>
+                </div>
+                <div class="ns-tech">
+                  <span>WordPress</span>
+                  <span>HTML/CSS</span>
+                  <span>JavaScript</span>
+                  <span>Google Analytics</span>
+                </div>
+                <a href="https://rzeczoznawcamarcindudek.pl" target="_blank" rel="noopener" class="ns-project-link">Zobacz stronę →</a>
+              </div>
+            </article>
+            
+            <article class="ns-project">
+              <div class="ns-project-img">⚖️</div>
+              <div class="ns-project-content">
+                <h3>Kancelaria Adwokacka Witkowska</h3>
+                <p>Elegancka strona dla kancelarii adwokackiej. Projekt realizowany we współpracy z agencją SyloSoftware.</p>
+                <div class="ns-results">
+                  <h4>📈 Rezultaty:</h4>
+                  <ul>
+                    <li>Profesjonalny wizerunek online</li>
+                    <li>+45% więcej zapytań z formularza</li>
+                    <li>Automatyzacja umawiania wizyt</li>
+                  </ul>
+                </div>
+                <div class="ns-tech">
+                  <span>WordPress</span>
+                  <span>Elementor</span>
+                  <span>ACF Pro</span>
+                  <span>PHP</span>
+                </div>
+                <a href="https://adwokatwitkowska.com" target="_blank" rel="noopener" class="ns-project-link">Zobacz stronę →</a>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <!-- Why Me Section -->
+        <section id="dlaczego-ja" class="ns-section">
+          <h2 class="ns-section-title">Dlaczego <span>ja</span>?</h2>
+          <p class="ns-section-subtitle">Co wyróżnia moją pracę i dlaczego warto mi zaufać</p>
+          <div class="ns-why">
+            <article class="ns-why-item">
+              <div class="icon">⚡</div>
+              <h3>Szybkość</h3>
+              <p>Strony ładujące się błyskawicznie. PageSpeed 90+ to mój standard, nie wyjątek. Szybka strona = więcej klientów.</p>
+            </article>
+            <article class="ns-why-item">
+              <div class="icon">🎯</div>
+              <h3>Konwersja</h3>
+              <p>Projektuję z myślą o sprzedaży. Każdy element ma za zadanie przekonać odwiedzającego do kontaktu lub zakupu.</p>
+            </article>
+            <article class="ns-why-item">
+              <div class="icon">💬</div>
+              <h3>Komunikacja</h3>
+              <p>Odpowiadam w 24h. Regularnie informuję o postępach. Tłumaczę bez zbędnego technicznego żargonu.</p>
+            </article>
+            <article class="ns-why-item">
+              <div class="icon">🔧</div>
+              <h3>Wsparcie</h3>
+              <p>Po wdrożeniu nie zostawiam Cię samego. Oferuję wsparcie techniczne, aktualizacje i pomoc w rozwoju.</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- Process Section -->
+        <section id="proces" class="ns-section">
+          <h2 class="ns-section-title">Jak <span>pracuję</span>?</h2>
+          <p class="ns-section-subtitle">Przejrzysty proces współpracy od pierwszego kontaktu do wdrożenia</p>
+          <div class="ns-process">
+            <article class="ns-step">
+              <h3>Konsultacja</h3>
+              <p>Bezpłatna rozmowa o Twoim projekcie. Poznaję potrzeby i cele biznesowe.</p>
+            </article>
+            <article class="ns-step">
+              <h3>Wycena</h3>
+              <p>Szczegółowa wycena z harmonogramem. Bez ukrytych kosztów i niespodzianek.</p>
+            </article>
+            <article class="ns-step">
+              <h3>Projekt</h3>
+              <p>Tworzę projekt graficzny do akceptacji. Dopracowujemy każdy detal przed kodowaniem.</p>
+            </article>
+            <article class="ns-step">
+              <h3>Realizacja</h3>
+              <p>Koduję stronę z regularnymi aktualizacjami postępów. Testuję na każdym etapie.</p>
+            </article>
+            <article class="ns-step">
+              <h3>Wdrożenie</h3>
+              <p>Publikacja strony, szkolenie z obsługi i przekazanie pełnej dokumentacji.</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="kontakt" class="ns-section">
+          <div class="ns-contact">
+            <h2>Porozmawiajmy o <span>Twoim projekcie</span></h2>
+            <p>Opisz krótko czego potrzebujesz. Odpowiem w ciągu 24 godzin z bezpłatną wyceną i propozycją rozwiązania.</p>
+            
+            <div class="ns-contact-info">
+              <a href="mailto:wwwcodefixit@gmail.com">
+                📧 wwwcodefixit@gmail.com
+              </a>
+              <a href="tel:+48883667943">
+                📱 +48 883 667 943
+              </a>
+              <a href="https://github.com/wwwCodeFixIT" target="_blank" rel="noopener">
+                💻 GitHub
+              </a>
+            </div>
+
+            <form class="ns-form" action="https://formspree.io/f/your-form-id" method="POST">
+              <div class="ns-form-group">
+                <label for="name">Imię i nazwisko *</label>
+                <input type="text" id="name" name="name" required placeholder="Jan Kowalski">
+              </div>
+              <div class="ns-form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required placeholder="jan@firma.pl">
+              </div>
+              <div class="ns-form-group">
+                <label for="phone">Telefon (opcjonalnie)</label>
+                <input type="tel" id="phone" name="phone" placeholder="+48 123 456 789">
+              </div>
+              <div class="ns-form-group">
+                <label for="message">Opisz swój projekt *</label>
+                <textarea id="message" name="message" required placeholder="Potrzebuję strony internetowej dla mojej firmy. Chciałbym..."></textarea>
+              </div>
+              <button type="submit" class="ns-form-submit">Wyślij zapytanie →</button>
+            </form>
+            
+            <div class="ns-form-benefits">
+              <span>✓ Bezpłatna wycena</span>
+              <span>✓ Odpowiedź w 24h</span>
+              <span>✓ Bez zobowiązań</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="ns-footer">
+          <p><strong>CodeFix.IT</strong> | Patryk Dziadzia - Frontend Developer</p>
+          <p>Warszawa, Polska | Od 2020 roku</p>
+          <div class="ns-footer-links">
+            <a href="#uslugi">Usługi</a>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#kontakt">Kontakt</a>
+            <a href="mailto:wwwcodefixit@gmail.com">Email</a>
+            <a href="https://github.com/wwwCodeFixIT" target="_blank" rel="noopener">GitHub</a>
+          </div>
+          <p style="margin-top: 2rem;">© 2020-2025 CodeFix.IT. Wszelkie prawa zastrzeżone.</p>
+        </footer>
       </div>
     </noscript>
   </body>
