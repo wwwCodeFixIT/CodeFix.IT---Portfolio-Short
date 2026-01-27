@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags -->
+    <title>CodeFix.IT | Patryk Dziadzia - Frontend Developer Warszawa</title>
+    <meta name="title" content="CodeFix.IT | Patryk Dziadzia - Frontend Developer Warszawa" />
+    <meta name="description" content="Profesjonalne usługi Frontend Development - React, Next.js, TypeScript, WordPress. Tworzenie nowoczesnych stron i aplikacji webowych. 7+ lat doświadczenia." />
+    <meta name="keywords" content="frontend developer, react developer, next.js, typescript, wordpress, strony internetowe, aplikacje webowe, warszawa, polska, codefix" />
+    <meta name="author" content="Patryk Dziadzia - CodeFix.IT" />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="msapplication-TileColor" content="#dc2626" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://codefix.it/" />
+    <meta property="og:title" content="CodeFix.IT | Patryk Dziadzia - Frontend Developer" />
+    <meta property="og:description" content="Profesjonalne usługi Frontend Development - React, Next.js, TypeScript, WordPress. Tworzenie nowoczesnych stron i aplikacji webowych." />
+    <meta property="og:image" content="https://codefix.it/og-image.png" />
+    <meta property="og:locale" content="pl_PL" />
+    <meta property="og:site_name" content="CodeFix.IT" />
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://codefix.it/" />
+    <meta property="twitter:title" content="CodeFix.IT | Patryk Dziadzia - Frontend Developer" />
+    <meta property="twitter:description" content="Profesjonalne usługi Frontend Development - React, Next.js, TypeScript, WordPress." />
+    <meta property="twitter:image" content="https://codefix.it/og-image.png" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://codefix.it/" />
+    
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="CodeFix.IT" />
+    
+    <!-- Preconnect for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://api.github.com" />
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "CodeFix.IT",
+      "description": "Profesjonalne usługi Frontend Development - React, Next.js, TypeScript, WordPress",
+      "url": "https://codefix.it",
+      "logo": "https://codefix.it/logo.png",
+      "image": "https://codefix.it/og-image.png",
+      "telephone": "+48883667943",
+      "email": "wwwcodefixit@gmail.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Warszawa",
+        "addressCountry": "PL"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "52.2297",
+        "longitude": "21.0122"
+      },
+      "founder": {
+        "@type": "Person",
+        "name": "Patryk Dziadzia",
+        "jobTitle": "Frontend Developer"
+      },
+      "foundingDate": "2020",
+      "areaServed": {
+        "@type": "Country",
+        "name": "Poland"
+      },
+      "serviceType": ["Web Development", "Frontend Development", "WordPress Development"],
+      "priceRange": "$$",
+      "sameAs": [
+        "https://github.com/wwwCodeFixIT"
+      ]
+    }
+    </script>
+    
+    <!-- Person Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Patryk Dziadzia",
+      "alternateName": "Dziadzia",
+      "jobTitle": "Frontend Developer",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "CodeFix.IT"
+      },
+      "url": "https://codefix.it",
+      "sameAs": [
+        "https://github.com/wwwCodeFixIT"
+      ],
+      "knowsAbout": ["React", "Next.js", "TypeScript", "JavaScript", "WordPress", "Tailwind CSS"]
+    }
+    </script>
+    
+    <!-- Google Analytics (placeholder - replace with your ID) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+              console.log('SW registered:', registration.scope);
+            })
+            .catch(error => {
+              console.log('SW registration failed:', error);
+            });
+        });
+      }
+    </script>
+    
+    <!-- Fallback noscript -->
+    <noscript>
+      <style>
+        #root { display: none; }
+        .noscript-message {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-height: 100vh;
+          background: #0a0a0a;
+          color: white;
+          font-family: system-ui, sans-serif;
+          text-align: center;
+          padding: 20px;
+        }
+      </style>
+      <div class="noscript-message">
+        <div>
+          <h1>CodeFix.IT</h1>
+          <p>Ta strona wymaga JavaScript do działania.</p>
+          <p>Włącz JavaScript w swojej przeglądarce i odśwież stronę.</p>
+          <p style="margin-top: 20px;">
+            <a href="mailto:wwwcodefixit@gmail.com" style="color: #dc2626;">wwwcodefixit@gmail.com</a>
+            <br>
+            <a href="tel:+48883667943" style="color: #dc2626;">+48 883 667 943</a>
+          </p>
+        </div>
+      </div>
+    </noscript>
+  </body>
+</html>
