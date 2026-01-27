@@ -10,6 +10,8 @@ import { ScrollToTop } from './components/ScrollToTop';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { Services } from './components/Services';
+import { WhyMe } from './components/WhyMe';
+import { Process } from './components/Process';
 import { Technologies } from './components/Technologies';
 import { Portfolio } from './components/Portfolio';
 import { Testimonials } from './components/Testimonials';
@@ -207,27 +209,33 @@ function AppContent() {
         </div>
       )}
       
-      {/* MAIN CONTENT - 8 sekcji */}
+      {/* MAIN CONTENT - 10 sekcji (zoptymalizowane) */}
       <main>
-        {/* 1. Hero - Przedstawienie */}
+        {/* 1. Hero - SPRZEDAŻOWY */}
         <Hero />
         
         {/* 2. Usługi - Co oferuję */}
         <Services />
         
-        {/* 3. Portfolio - Realizacje */}
+        {/* 3. Dlaczego ja? - Przewagi */}
+        <WhyMe />
+        
+        {/* 4. Portfolio - Case Studies z wynikami */}
         <Portfolio />
         
-        {/* 4. Technologie - Stack */}
+        {/* 5. Proces współpracy */}
+        <Process />
+        
+        {/* 6. Technologie - Stack */}
         <Technologies />
         
-        {/* 5. Opinie - Testimonials */}
+        {/* 7. Opinie - Testimonials */}
         <Testimonials />
         
-        {/* 6. FAQ - Najczęstsze pytania */}
+        {/* 8. FAQ - Najczęstsze pytania */}
         <FAQ />
         
-        {/* 7. Kontakt - Formularz */}
+        {/* 9. Kontakt - Formularz + Kalkulator */}
         <Contact />
       </main>
       
