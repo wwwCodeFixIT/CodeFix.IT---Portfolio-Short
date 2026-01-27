@@ -13,15 +13,15 @@ export function Navbar({ onOpenSettings }: { onOpenSettings?: () => void }) {
   const { isAdmin, openLoginModal } = useAdmin();
   const { language, setLanguage, t } = useLanguage();
 
-  // Uproszczona nawigacja - tylko 8 sekcji
+  // Nawigacja - 10 sekcji
   const navLinks = [
-    { name: t('nav.home'), href: "#hero" },
-    { name: t('nav.services'), href: "#uslugi" },
+    { name: t('nav.home'), href: "#home" },
+    { name: t('nav.services'), href: "#services" },
+    { name: language === 'pl' ? 'Dlaczego ja?' : 'Why me?', href: "#why-me" },
     { name: t('nav.portfolio'), href: "#portfolio" },
-    { name: language === 'pl' ? 'Technologie' : 'Technologies', href: "#technologies" },
-    { name: language === 'pl' ? 'Opinie' : 'Testimonials', href: "#testimonials" },
+    { name: language === 'pl' ? 'Proces' : 'Process', href: "#process" },
     { name: "FAQ", href: "#faq" },
-    { name: t('nav.contact'), href: "#kontakt" }
+    { name: t('nav.contact'), href: "#contact" }
   ];
 
   useEffect(() => {
