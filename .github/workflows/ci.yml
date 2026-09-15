@@ -36,6 +36,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+      - name: Type check
+        run: npm run typecheck
+
       - name: Lint
         run: npm run lint
 
@@ -44,3 +50,22 @@ jobs:
 
       - name: Build project
         run: npm run build
+
+      - name: Check build budgets
+        shell: bash
+        run: |
+          js_bytes=$(find dist/assets -type f -name '*.js' -printf '%s\n' | awk '{sum += $1} END {print sum+0}')
+          css_bytes=$(find dist/assets -type f -name '*.css' -printf '%s\n' | awk '{sum += $1} END {print sum+0}')
+
+          echo "JavaScript: ${js_bytes} bytes / 307200 bytes budget"
+          echo "CSS: ${css_bytes} bytes / 204800 bytes budget"
+
+          if [ "$js_bytes" -gt 307200 ]; then
+            echo "JavaScript build budget exceeded"
+            exit 1
+          fi
+
+          if [ "$css_bytes" -gt 204800 ]; then
+            echo "CSS build budget exceeded"
+            exit 1
+          fi
