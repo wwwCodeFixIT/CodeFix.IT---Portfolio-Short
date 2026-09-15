@@ -9,7 +9,6 @@ import {
   Layers3,
   MessageSquareText,
   Rocket,
-  ShieldCheck,
   Sparkles,
   Wrench,
 } from 'lucide-react';
@@ -70,18 +69,10 @@ const advantages = [
 ];
 
 const featuredProjects = projects.slice(0, 3);
+const contactEmail = 'wwwcodefixit@gmail.com';
+const contactHref = `mailto:${contactEmail}?subject=${encodeURIComponent('Zapytanie ze strony CodeFix.IT')}`;
 
 export function HomepageV1() {
-  const contactEmail = (
-    import.meta as ImportMeta & {
-      env: Record<string, string | undefined>;
-    }
-  ).env.VITE_CONTACT_EMAIL?.trim();
-
-  const contactHref = contactEmail
-    ? `mailto:${contactEmail}?subject=${encodeURIComponent('Zapytanie ze strony CodeFix.IT')}`
-    : undefined;
-
   return (
     <div className="homepage-v1">
       <header className="cf-header">
@@ -365,20 +356,14 @@ export function HomepageV1() {
                   Odpowiadam na konkretne zapytania projektowe
                 </div>
 
-                {contactHref ? (
-                  <a href={contactHref} className="cf-button cf-button-primary cf-contact-button">
-                    Napisz o projekcie
-                    <ArrowRight size={17} aria-hidden="true" />
-                  </a>
-                ) : (
-                  <div className="cf-contact-placeholder" role="status">
-                    <MessageSquareText size={18} aria-hidden="true" />
-                    <div>
-                      <strong>Kanał e-mail jeszcze niepodłączony</strong>
-                      <span>Ustawimy VITE_CONTACT_EMAIL przed publikacją.</span>
-                    </div>
-                  </div>
-                )}
+                <a href={contactHref} className="cf-button cf-button-primary cf-contact-button">
+                  Napisz o projekcie
+                  <ArrowRight size={17} aria-hidden="true" />
+                </a>
+
+                <a href={`mailto:${contactEmail}`} className="cf-github-link">
+                  {contactEmail}
+                </a>
 
                 <a
                   href="https://github.com/wwwCodeFixIT"
