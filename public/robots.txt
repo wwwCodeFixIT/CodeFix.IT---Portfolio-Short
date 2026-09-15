@@ -1,26 +1,4 @@
-# Robots.txt for CodeFix.IT
-# https://codefix.it
-
 User-agent: *
 Allow: /
 
-# Sitemap
-Sitemap: https://codefix.it/sitemap.xml
-
-# Disallow admin/private areas
-Disallow: /admin/
-Disallow: /api/
-Disallow: /*.json$
-
-# Allow all crawlers
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Slurp
-Allow: /
-
-# Crawl-delay for politeness
-Crawl-delay: 1
+Sitemap: https://codefix-it---portfolio-short.pages.dev/sitemap.xml
