@@ -1,0 +1,46 @@
+name: One-off dependency cleanup
+
+on:
+  push:
+    branches:
+      - chore/post-launch-hardening
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    name: Remove obsolete single-file plugin
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout branch
+        uses: actions/checkout@v4
+        with:
+          ref: chore/post-launch-hardening
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Remove obsolete dependency
+        run: npm uninstall --save-dev vite-plugin-singlefile
+
+      - name: Commit lockfile cleanup
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No dependency cleanup changes required."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "chore: remove unused singlefile plugin"
+          git push origin HEAD:chore/post-launch-hardening
