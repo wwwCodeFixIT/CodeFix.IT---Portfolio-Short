@@ -1,12 +1,21 @@
 import {
   ArrowRight,
+  ArrowUpRight,
   Braces,
   CheckCircle2,
+  Code2,
   Gauge,
+  GitBranch,
+  Layers3,
+  MessageSquareText,
+  Rocket,
   ShieldCheck,
+  Sparkles,
   Wrench,
 } from 'lucide-react';
+import { projects } from '../data/projects';
 import './HomepageV1.css';
+import './HomepageV1.v3.css';
 
 const services = [
   {
@@ -39,7 +48,40 @@ const process = [
   'Po akceptacji wdrażamy produkcję.',
 ];
 
+const advantages = [
+  {
+    icon: MessageSquareText,
+    title: 'Kontakt bez pośredników',
+    description:
+      'Rozmawiasz bezpośrednio z osobą, która analizuje problem i wdraża rozwiązanie.',
+  },
+  {
+    icon: GitBranch,
+    title: 'Preview przed produkcją',
+    description:
+      'Większe zmiany przechodzą przez branch, automatyczne checki i osobny podgląd.',
+  },
+  {
+    icon: Layers3,
+    title: 'Pełny stack webowy',
+    description:
+      'WordPress, front-end, API i infrastruktura wdrożeniowa w jednym procesie.',
+  },
+];
+
+const featuredProjects = projects.slice(0, 3);
+
 export function HomepageV1() {
+  const contactEmail = (
+    import.meta as ImportMeta & {
+      env: Record<string, string | undefined>;
+    }
+  ).env.VITE_CONTACT_EMAIL?.trim();
+
+  const contactHref = contactEmail
+    ? `mailto:${contactEmail}?subject=${encodeURIComponent('Zapytanie ze strony CodeFix.IT')}`
+    : undefined;
+
   return (
     <div className="homepage-v1">
       <header className="cf-header">
@@ -53,18 +95,20 @@ export function HomepageV1() {
 
           <nav className="cf-nav-links" aria-label="Główna nawigacja">
             <a href="#services">Usługi</a>
+            <a href="#work">Realizacje</a>
             <a href="#process">Proces</a>
+            <a href="#contact">Kontakt</a>
           </nav>
 
-          <a href="#services" className="cf-nav-cta">
-            Zobacz usługi
+          <a href="#contact" className="cf-nav-cta">
+            Porozmawiajmy
           </a>
         </div>
       </header>
 
       <main id="top">
         <section className="cf-container cf-hero">
-          <div>
+          <div className="cf-hero-copy">
             <div className="cf-eyebrow">
               <span className="cf-eyebrow-dot" />
               Dostępny do nowych zleceń
@@ -87,8 +131,8 @@ export function HomepageV1() {
                 Zobacz, w czym pomagam
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
-              <a href="#process" className="cf-button cf-button-secondary">
-                Jak wygląda współpraca
+              <a href="#work" className="cf-button cf-button-secondary">
+                Zobacz realizacje
               </a>
             </div>
 
@@ -109,7 +153,7 @@ export function HomepageV1() {
           </div>
 
           <div className="cf-terminal-wrap">
-            <div className="cf-terminal">
+            <div className="cf-terminal cf-terminal-polished">
               <div className="cf-terminal-bar">
                 <span className="cf-dot cf-dot-red" />
                 <span className="cf-dot cf-dot-yellow" />
@@ -161,10 +205,17 @@ export function HomepageV1() {
 
         <section id="services" className="cf-section cf-section-bordered">
           <div className="cf-container">
-            <p className="cf-section-kicker">Usługi</p>
-            <h2 className="cf-section-heading">
-              Kod ma działać. Szybko, stabilnie i bez niespodzianek.
-            </h2>
+            <div className="cf-section-head-row">
+              <div>
+                <p className="cf-section-kicker">Usługi</p>
+                <h2 className="cf-section-heading">
+                  Kod ma działać. Szybko, stabilnie i bez niespodzianek.
+                </h2>
+              </div>
+              <p className="cf-section-sidecopy">
+                Od szybkiej naprawy po rozwój produktu i poprawę wydajności.
+              </p>
+            </div>
 
             <div className="cf-services-grid">
               {services.map(({ icon: Icon, title, description, meta }) => (
@@ -175,13 +226,98 @@ export function HomepageV1() {
                   <h3>{title}</h3>
                   <p>{description}</p>
                   <p className="cf-service-meta">{meta}</p>
+                  <a href="#contact" className="cf-card-link">
+                    Omów zakres
+                    <ArrowRight size={15} aria-hidden="true" />
+                  </a>
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section id="process" className="cf-section">
+        <section id="work" className="cf-section cf-work-section">
+          <div className="cf-container">
+            <div className="cf-work-heading-row">
+              <div>
+                <p className="cf-section-kicker">Wybrane realizacje</p>
+                <h2 className="cf-section-heading">Nie tylko kod. Efekt, który da się zmierzyć.</h2>
+              </div>
+              <p className="cf-section-sidecopy">
+                Przykłady projektów i wyników zapisanych w obecnym portfolio CodeFix.IT.
+              </p>
+            </div>
+
+            <div className="cf-projects-grid">
+              {featuredProjects.map((project) => (
+                <article key={project.id} className="cf-project-card">
+                  <div className="cf-project-topline">
+                    <span>{project.year}</span>
+                    <span>{project.category}</span>
+                  </div>
+
+                  <h3>{project.title}</h3>
+                  {project.client && <p className="cf-project-client">{project.client}</p>}
+                  <p className="cf-project-description">{project.shortDescription}</p>
+
+                  <div className="cf-project-tech">
+                    {project.technologies.slice(0, 4).map((technology) => (
+                      <span key={technology}>{technology}</span>
+                    ))}
+                  </div>
+
+                  {project.caseStudy && (
+                    <div className="cf-project-results">
+                      {project.caseStudy.results.slice(0, 2).map((result) => (
+                        <div key={`${project.id}-${result.metric}`} className="cf-project-result">
+                          <span>{result.metric}</span>
+                          <strong>{result.value}</strong>
+                          {result.description && <small>{result.description}</small>}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <a
+                    href={project.demoUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="cf-project-link"
+                  >
+                    Zobacz projekt
+                    <ArrowUpRight size={16} aria-hidden="true" />
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="cf-section cf-why-section">
+          <div className="cf-container cf-why-layout">
+            <div className="cf-why-intro">
+              <p className="cf-section-kicker">Dlaczego CodeFix.IT</p>
+              <h2 className="cf-section-heading">Mniej chaosu. Więcej kontroli nad wdrożeniem.</h2>
+              <p>
+                Techniczny proces ma być przewidywalny także dla osoby, która nie siedzi na co dzień w kodzie.
+              </p>
+            </div>
+
+            <div className="cf-advantages-grid">
+              {advantages.map(({ icon: Icon, title, description }) => (
+                <article key={title} className="cf-advantage-card">
+                  <span className="cf-advantage-icon">
+                    <Icon size={19} aria-hidden="true" />
+                  </span>
+                  <h3>{title}</h3>
+                  <p>{description}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="process" className="cf-section cf-section-bordered">
           <div className="cf-container cf-process-layout">
             <div className="cf-process-intro">
               <p className="cf-section-kicker">Proces</p>
@@ -200,6 +336,61 @@ export function HomepageV1() {
                 </li>
               ))}
             </ol>
+          </div>
+        </section>
+
+        <section id="contact" className="cf-section cf-contact-section">
+          <div className="cf-container">
+            <div className="cf-contact-panel">
+              <div className="cf-contact-copy">
+                <div className="cf-contact-icon" aria-hidden="true">
+                  <Sparkles size={20} />
+                </div>
+                <p className="cf-section-kicker">Kontakt</p>
+                <h2>Masz problem ze stroną albo coś trzeba po prostu dowieźć?</h2>
+                <p>
+                  Opisz krótko sytuację. Najpierw ustalimy, co faktycznie trzeba zrobić — bez rozdmuchiwania zakresu.
+                </p>
+
+                <div className="cf-contact-tags" aria-label="Przykładowe tematy">
+                  <span><Wrench size={14} /> Awaria / bug</span>
+                  <span><Code2 size={14} /> Nowa funkcja</span>
+                  <span><Rocket size={14} /> Performance</span>
+                </div>
+              </div>
+
+              <div className="cf-contact-action">
+                <div className="cf-contact-status">
+                  <span className="cf-eyebrow-dot" />
+                  Odpowiadam na konkretne zapytania projektowe
+                </div>
+
+                {contactHref ? (
+                  <a href={contactHref} className="cf-button cf-button-primary cf-contact-button">
+                    Napisz o projekcie
+                    <ArrowRight size={17} aria-hidden="true" />
+                  </a>
+                ) : (
+                  <div className="cf-contact-placeholder" role="status">
+                    <MessageSquareText size={18} aria-hidden="true" />
+                    <div>
+                      <strong>Kanał e-mail jeszcze niepodłączony</strong>
+                      <span>Ustawimy VITE_CONTACT_EMAIL przed publikacją.</span>
+                    </div>
+                  </div>
+                )}
+
+                <a
+                  href="https://github.com/wwwCodeFixIT"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="cf-github-link"
+                >
+                  Zobacz GitHub CodeFix.IT
+                  <ArrowUpRight size={15} aria-hidden="true" />
+                </a>
+              </div>
+            </div>
           </div>
         </section>
       </main>
