@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CodeFix.IT">
+  <rect width="64" height="64" rx="14" fill="#090909"/>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="12.5" fill="none" stroke="#ef4444" stroke-width="3"/>
+  <text x="32" y="39" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="20" font-weight="700" fill="#ef4444">&lt;/&gt;</text>
+</svg>
