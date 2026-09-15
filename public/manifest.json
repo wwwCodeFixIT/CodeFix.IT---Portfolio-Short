@@ -8,5 +8,13 @@
   "background_color": "#060606",
   "theme_color": "#060606",
   "lang": "pl-PL",
-  "categories": ["business", "productivity"]
+  "categories": ["business", "productivity"],
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }
