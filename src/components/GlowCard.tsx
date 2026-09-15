@@ -93,6 +93,10 @@ export function Hover3DCard({
   const springConfig = { stiffness: 200, damping: 20 };
   const rotateX = useSpring(useTransform(y, [-0.5, 0.5], [intensity, -intensity]), springConfig);
   const rotateY = useSpring(useTransform(x, [-0.5, 0.5], [-intensity, intensity]), springConfig);
+  const glareBackground = useTransform(
+    [glareX, glareY],
+    ([gx, gy]) => `radial-gradient(circle at ${gx}% ${gy}%, ${glareColor}, transparent 60%)`
+  );
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!ref.current) return;
@@ -132,10 +136,7 @@ export function Hover3DCard({
         <motion.div
           className="pointer-events-none absolute inset-0 rounded-inherit overflow-hidden"
           style={{
-            background: useTransform(
-              [glareX, glareY],
-              ([gx, gy]) => `radial-gradient(circle at ${gx}% ${gy}%, ${glareColor}, transparent 60%)`
-            ),
+            background: glareBackground,
             opacity: 0.3,
           }}
         />
