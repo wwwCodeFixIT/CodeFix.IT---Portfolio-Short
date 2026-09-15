@@ -1,0 +1,613 @@
+/* Homepage V1 — V3 sales polish and extended sections */
+
+.homepage-v1 {
+  scroll-behavior: smooth;
+}
+
+.cf-section-head-row,
+.cf-work-heading-row {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 48px;
+}
+
+.cf-section-sidecopy {
+  max-width: 330px;
+  margin: 0 0 4px;
+  color: #7f7f87;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.cf-hero-copy {
+  position: relative;
+}
+
+.cf-hero-copy::before {
+  content: '';
+  position: absolute;
+  width: 76px;
+  height: 2px;
+  left: 0;
+  top: -24px;
+  background: linear-gradient(90deg, rgba(239, 68, 68, 0.9), transparent);
+}
+
+.cf-terminal-polished {
+  position: relative;
+  transform: translateZ(0);
+  animation: cf-terminal-float 7s ease-in-out infinite;
+}
+
+.cf-terminal-polished::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    transparent 34%,
+    rgba(255, 255, 255, 0.025) 45%,
+    transparent 56%,
+    transparent 100%
+  );
+  transform: translateX(-80%);
+  animation: cf-terminal-sheen 8s ease-in-out infinite;
+}
+
+@keyframes cf-terminal-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes cf-terminal-sheen {
+  0%,
+  62% {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  68% {
+    opacity: 1;
+  }
+  82% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.cf-service-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.cf-service-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(circle at 20% 0%, rgba(239, 68, 68, 0.08), transparent 38%);
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.cf-service-card:hover::before {
+  opacity: 1;
+}
+
+.cf-card-link {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 20px;
+  color: #c7c7cc;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  transition: color 160ms ease, gap 160ms ease;
+}
+
+.cf-card-link:hover {
+  gap: 10px;
+  color: #ff6666;
+}
+
+.cf-work-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.cf-work-section::before {
+  content: '';
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  left: 50%;
+  top: 120px;
+  z-index: -1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(185, 28, 28, 0.12);
+  filter: blur(130px);
+  pointer-events: none;
+}
+
+.cf-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 44px;
+}
+
+.cf-project-card {
+  min-height: 410px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  padding: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(18, 18, 19, 0.98), rgba(8, 8, 9, 0.98));
+  box-shadow: 0 26px 60px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.cf-project-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.055), transparent 45%);
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.cf-project-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(239, 68, 68, 0.24);
+  box-shadow: 0 32px 72px rgba(0, 0, 0, 0.32);
+}
+
+.cf-project-card:hover::after {
+  opacity: 1;
+}
+
+.cf-project-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  color: #5f5f67;
+  font: 600 10px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.cf-project-card h3 {
+  margin: 28px 0 0;
+  color: #f7f7f8;
+  font-size: 22px;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.cf-project-client {
+  margin: 7px 0 0;
+  color: #ff6666;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.cf-project-description {
+  margin: 18px 0 0;
+  color: #92929a;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.cf-project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 22px;
+}
+
+.cf-project-tech span {
+  padding: 6px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.065);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.025);
+  color: #7d7d85;
+  font: 500 10px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.cf-project-results {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.cf-project-result {
+  min-height: 82px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.022);
+}
+
+.cf-project-result span {
+  color: #6d6d75;
+  font-size: 10px;
+}
+
+.cf-project-result strong {
+  margin-top: 4px;
+  color: #efefef;
+  font-size: 18px;
+  letter-spacing: -0.03em;
+}
+
+.cf-project-result small {
+  margin-top: 2px;
+  color: #626269;
+  font-size: 9px;
+}
+
+.cf-project-link {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: auto;
+  padding-top: 24px;
+  color: #d5d5d9;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  transition: color 160ms ease, gap 160ms ease;
+}
+
+.cf-project-link:hover {
+  gap: 10px;
+  color: #ff6767;
+}
+
+.cf-why-section {
+  border-block: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 255, 255, 0.012);
+}
+
+.cf-why-layout {
+  display: grid;
+  grid-template-columns: 0.72fr 1.28fr;
+  gap: 76px;
+  align-items: start;
+}
+
+.cf-why-intro > p:last-child {
+  max-width: 470px;
+  margin: 20px 0 0;
+  color: #8f8f97;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.cf-advantages-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.cf-advantage-card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 18px;
+  align-items: start;
+  padding: 22px 24px;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.018);
+  transition: border-color 180ms ease, background 180ms ease;
+}
+
+.cf-advantage-card:hover {
+  border-color: rgba(239, 68, 68, 0.18);
+  background: rgba(255, 255, 255, 0.027);
+}
+
+.cf-advantage-icon {
+  grid-row: 1 / span 2;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(239, 68, 68, 0.18);
+  border-radius: 11px;
+  background: rgba(239, 68, 68, 0.07);
+  color: #ff6565;
+}
+
+.cf-advantage-card h3 {
+  margin: 2px 0 0;
+  color: #ececee;
+  font-size: 16px;
+  letter-spacing: -0.02em;
+}
+
+.cf-advantage-card p {
+  margin: 7px 0 0;
+  color: #86868e;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.cf-contact-section {
+  position: relative;
+  overflow: hidden;
+  padding-block: 112px;
+}
+
+.cf-contact-section::before {
+  content: '';
+  position: absolute;
+  width: 580px;
+  height: 580px;
+  right: 9%;
+  top: 50%;
+  z-index: -1;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: rgba(220, 38, 38, 0.13);
+  filter: blur(140px);
+  pointer-events: none;
+}
+
+.cf-contact-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.7fr);
+  gap: 72px;
+  align-items: center;
+  padding: 52px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  background:
+    linear-gradient(135deg, rgba(22, 10, 11, 0.96), rgba(10, 10, 11, 0.97) 54%, rgba(14, 14, 15, 0.98));
+  box-shadow: 0 42px 100px rgba(0, 0, 0, 0.32);
+}
+
+.cf-contact-icon {
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 24px;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 13px;
+  background: rgba(239, 68, 68, 0.08);
+  color: #ff6666;
+}
+
+.cf-contact-copy h2 {
+  max-width: 780px;
+  margin: 0;
+  color: #f7f7f8;
+  font-size: clamp(36px, 4vw, 58px);
+  line-height: 1.02;
+  letter-spacing: -0.05em;
+}
+
+.cf-contact-copy > p:not(.cf-section-kicker) {
+  max-width: 650px;
+  margin: 22px 0 0;
+  color: #9a9aa2;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.cf-contact-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 28px;
+}
+
+.cf-contact-tags span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.025);
+  color: #85858d;
+  font-size: 11px;
+}
+
+.cf-contact-action {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+}
+
+.cf-contact-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #a2a2a9;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.cf-contact-button {
+  width: 100%;
+  min-height: 54px;
+}
+
+.cf-contact-placeholder {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border: 1px dashed rgba(255, 255, 255, 0.13);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  color: #7f7f87;
+}
+
+.cf-contact-placeholder svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+  color: #ff6767;
+}
+
+.cf-contact-placeholder strong,
+.cf-contact-placeholder span {
+  display: block;
+}
+
+.cf-contact-placeholder strong {
+  color: #d3d3d7;
+  font-size: 12px;
+}
+
+.cf-contact-placeholder span {
+  margin-top: 4px;
+  color: #6f6f77;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.cf-github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.085);
+  border-radius: 10px;
+  color: #a6a6ad;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.cf-github-link:hover {
+  color: #efeff1;
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+@media (max-width: 1100px) {
+  .cf-projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cf-project-card {
+    min-height: auto;
+  }
+
+  .cf-contact-panel {
+    grid-template-columns: 1fr;
+    gap: 42px;
+  }
+
+  .cf-contact-action {
+    max-width: 520px;
+  }
+}
+
+@media (max-width: 920px) {
+  .cf-section-head-row,
+  .cf-work-heading-row {
+    display: block;
+  }
+
+  .cf-section-sidecopy {
+    max-width: 620px;
+    margin-top: 18px;
+  }
+
+  .cf-why-layout {
+    grid-template-columns: 1fr;
+    gap: 42px;
+  }
+
+  .cf-nav-links a[href='#work'],
+  .cf-nav-links a[href='#contact'] {
+    display: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .cf-project-results {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cf-contact-section {
+    padding-block: 80px;
+  }
+
+  .cf-contact-panel {
+    padding: 28px;
+    border-radius: 18px;
+  }
+
+  .cf-contact-copy h2 {
+    font-size: clamp(32px, 10vw, 44px);
+  }
+
+  .cf-contact-tags {
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 520px) {
+  .cf-project-results {
+    grid-template-columns: 1fr;
+  }
+
+  .cf-contact-panel {
+    padding: 24px 20px;
+  }
+
+  .cf-nav-cta {
+    padding-inline: 13px;
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cf-terminal-polished,
+  .cf-terminal-polished::after {
+    animation: none;
+  }
+
+  .cf-project-card,
+  .cf-service-card,
+  .cf-button {
+    transition: none;
+  }
+}

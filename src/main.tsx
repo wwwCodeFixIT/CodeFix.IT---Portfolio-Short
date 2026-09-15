@@ -1,16 +1,16 @@
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import App from "./App";
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import './index.css';
+import App from './App';
 
-// Dodaj klasę js-loaded do body - to ukryje fallback i pokaże React
-document.body.classList.add('js-loaded');
+const root = document.getElementById('root');
 
-// Pokaż root
-const root = document.getElementById("root")!;
+if (!root) {
+  throw new Error('Root element #root was not found.');
+}
 
 createRoot(root).render(
   <StrictMode>
     <App />
-  </StrictMode>
+  </StrictMode>,
 );
