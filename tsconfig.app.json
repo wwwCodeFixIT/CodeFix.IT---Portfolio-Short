@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/main.tsx",
+    "src/App.tsx",
+    "src/pages/**/*.tsx",
+    "src/data/projects.ts",
+    "vite.config.ts"
+  ]
+}
