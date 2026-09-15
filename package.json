@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check package.json .prettierrc.json .github/workflows/ci.yml"
+    "format:check": "prettier --check package.json tsconfig.app.json .prettierrc.json .github/workflows/ci.yml"
   },
   "dependencies": {
     "clsx": "2.1.1",
