@@ -1,4 +1,4 @@
 Contact: mailto:wwwcodefixit@gmail.com
 Expires: 2027-09-15T00:00:00Z
 Preferred-Languages: pl, en
-Canonical: https://codefix-it---portfolio-short.pages.dev/.well-known/security.txt
+Canonical: https://codefix.it/.well-known/security.txt
