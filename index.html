@@ -43,6 +43,36 @@
       rel="stylesheet"
     />
 
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HBPBYSG8PS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-HBPBYSG8PS');
+
+      document.addEventListener('click', function (event) {
+        const target = event.target instanceof Element ? event.target.closest('a') : null;
+        if (!target) return;
+
+        const href = target.getAttribute('href') || '';
+        if (href.startsWith('mailto:')) {
+          gtag('event', 'contact_click', {
+            event_category: 'lead',
+            link_text: target.textContent ? target.textContent.trim() : '',
+            link_url: href
+          });
+        }
+
+        if (href === '#contact') {
+          gtag('event', 'contact_cta_click', {
+            event_category: 'lead',
+            link_text: target.textContent ? target.textContent.trim() : ''
+          });
+        }
+      });
+    </script>
+
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
