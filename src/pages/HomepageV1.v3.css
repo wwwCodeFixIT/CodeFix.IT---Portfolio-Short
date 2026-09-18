@@ -464,6 +464,125 @@
   min-height: 54px;
 }
 
+
+.cf-lead-form {
+  display: grid;
+  gap: 14px;
+}
+
+.cf-lead-form label {
+  display: grid;
+  gap: 7px;
+}
+
+.cf-lead-form label > span {
+  color: #a7a7ae;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.cf-lead-form label > span small {
+  color: #65656d;
+  font-weight: 500;
+}
+
+.cf-form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.cf-lead-form input,
+.cf-lead-form select,
+.cf-lead-form textarea {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #f1f1f2;
+  font: inherit;
+  outline: none;
+  transition: border-color 160ms ease, background 160ms ease, box-shadow 160ms ease;
+}
+
+.cf-lead-form input,
+.cf-lead-form select {
+  min-height: 46px;
+  padding: 0 13px;
+}
+
+.cf-lead-form textarea {
+  min-height: 126px;
+  padding: 12px 13px;
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.cf-lead-form input::placeholder,
+.cf-lead-form textarea::placeholder {
+  color: #5f5f67;
+}
+
+.cf-lead-form input:focus,
+.cf-lead-form select:focus,
+.cf-lead-form textarea:focus {
+  border-color: rgba(239, 68, 68, 0.55);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
+}
+
+.cf-lead-form select option {
+  background: #111113;
+  color: #f1f1f2;
+}
+
+.cf-contact-button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+  transform: none;
+}
+
+.cf-form-feedback {
+  margin: 0;
+  padding: 11px 12px;
+  border-radius: 9px;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.cf-form-feedback.is-success {
+  border: 1px solid rgba(52, 211, 153, 0.22);
+  background: rgba(52, 211, 153, 0.07);
+  color: #9ce8c8;
+}
+
+.cf-form-feedback.is-error {
+  border: 1px solid rgba(248, 113, 113, 0.22);
+  background: rgba(248, 113, 113, 0.07);
+  color: #f5a3a3;
+}
+
+.cf-contact-fallback {
+  margin: 0;
+  color: #6f6f77;
+  font-size: 11px;
+  text-align: center;
+}
+
+.cf-contact-fallback a {
+  color: #a9a9b0;
+  text-underline-offset: 3px;
+}
+
+.cf-form-honeypot {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+}
+
 .cf-contact-placeholder {
   display: flex;
   align-items: flex-start;
@@ -562,6 +681,10 @@
 }
 
 @media (max-width: 720px) {
+  .cf-form-row {
+    grid-template-columns: 1fr;
+  }
+
   .cf-project-results {
     grid-template-columns: 1fr 1fr;
   }

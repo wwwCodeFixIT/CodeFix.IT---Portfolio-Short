@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import type { FormEvent } from 'react';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -94,8 +96,65 @@ const faqItems = [
 const featuredProjects = projects.slice(0, 3);
 const contactEmail = 'wwwcodefixit@gmail.com';
 const contactHref = `mailto:${contactEmail}?subject=${encodeURIComponent('Zapytanie ze strony CodeFix.IT')}`;
+const leadApiUrl = 'https://app.codefix.it/api/public/leads';
 
 export function HomepageV1() {
+  const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [formMessage, setFormMessage] = useState('');
+  const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
+
+  async function handleLeadSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const service = String(data.get('service') || '');
+
+    setFormState('submitting');
+    setFormMessage('');
+
+    try {
+      const response = await fetch(leadApiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: data.get('name'),
+          email: data.get('email'),
+          service,
+          pageUrl: data.get('pageUrl'),
+          message: data.get('message'),
+          companyWebsite: data.get('companyWebsite'),
+          startedAt: formStartedAt,
+        }),
+      });
+
+      const result = (await response.json()) as { error?: string };
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Nie udało się wysłać formularza.');
+      }
+
+      const analyticsWindow = window as Window & {
+        gtag?: (...args: unknown[]) => void;
+      };
+
+      analyticsWindow.gtag?.('event', 'generate_lead', {
+        event_category: 'lead',
+        lead_source: 'website_form',
+        service: service || 'not_selected',
+      });
+
+      form.reset();
+      setFormStartedAt(Date.now());
+      setFormState('success');
+      setFormMessage('Dzięki — zgłoszenie trafiło do CodeFix.IT. Odezwę się po analizie tematu.');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Nie udało się wysłać formularza.';
+      setFormState('error');
+      setFormMessage(message);
+    }
+  }
+
   return (
     <div className="homepage-v1">
       <header className="cf-header">
@@ -401,17 +460,76 @@ export function HomepageV1() {
               <div className="cf-contact-action">
                 <div className="cf-contact-status">
                   <span className="cf-eyebrow-dot" />
-                  Odpowiadam na konkretne zapytania projektowe
+                  Formularz trafia bezpośrednio do mojego CRM
                 </div>
 
-                <a href={contactHref} className="cf-button cf-button-primary cf-contact-button">
-                  Napisz o projekcie
-                  <ArrowRight size={17} aria-hidden="true" />
-                </a>
+                <form className="cf-lead-form" onSubmit={handleLeadSubmit}>
+                  <div className="cf-form-row">
+                    <label>
+                      <span>Imię / firma</span>
+                      <input name="name" type="text" autoComplete="name" minLength={2} maxLength={120} required />
+                    </label>
+                    <label>
+                      <span>E-mail</span>
+                      <input name="email" type="email" autoComplete="email" maxLength={254} required />
+                    </label>
+                  </div>
 
-                <a href={`mailto:${contactEmail}`} className="cf-github-link">
-                  {contactEmail}
-                </a>
+                  <label>
+                    <span>Temat</span>
+                    <select name="service" defaultValue="">
+                      <option value="">Wybierz opcjonalnie</option>
+                      <option value="wordpress">WordPress / WooCommerce</option>
+                      <option value="development">React / Next.js / API</option>
+                      <option value="performance">Performance / Core Web Vitals</option>
+                      <option value="other">Inny temat</option>
+                    </select>
+                  </label>
+
+                  <label>
+                    <span>Adres strony <small>opcjonalnie</small></span>
+                    <input name="pageUrl" type="url" inputMode="url" placeholder="https://twojastrona.pl" maxLength={500} />
+                  </label>
+
+                  <label>
+                    <span>Co trzeba zrobić?</span>
+                    <textarea
+                      name="message"
+                      rows={5}
+                      minLength={10}
+                      maxLength={4000}
+                      placeholder="Krótko opisz problem, zakres albo oczekiwany efekt."
+                      required
+                    />
+                  </label>
+
+                  <label className="cf-form-honeypot" aria-hidden="true">
+                    <span>Strona firmy</span>
+                    <input name="companyWebsite" type="text" tabIndex={-1} autoComplete="off" />
+                  </label>
+
+                  <button
+                    type="submit"
+                    className="cf-button cf-button-primary cf-contact-button"
+                    disabled={formState === 'submitting'}
+                  >
+                    {formState === 'submitting' ? 'Wysyłam…' : 'Wyślij zgłoszenie'}
+                    {formState !== 'submitting' && <ArrowRight size={17} aria-hidden="true" />}
+                  </button>
+
+                  {formMessage && (
+                    <p
+                      className={`cf-form-feedback ${formState === 'success' ? 'is-success' : 'is-error'}`}
+                      role="status"
+                    >
+                      {formMessage}
+                    </p>
+                  )}
+                </form>
+
+                <p className="cf-contact-fallback">
+                  Wolisz e-mail? <a href={contactHref}>{contactEmail}</a>
+                </p>
 
                 <a
                   href="https://github.com/wwwCodeFixIT"
