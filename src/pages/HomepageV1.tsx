@@ -68,6 +68,29 @@ const advantages = [
   },
 ];
 
+const faqItems = [
+  {
+    question: 'Czy naprawiasz istniejące strony WordPress?',
+    answer:
+      'Tak. Diagnozuję i naprawiam błędy WordPress, problemy po aktualizacjach, formularze, WooCommerce, integracje, motywy i niestandardowe funkcje.',
+  },
+  {
+    question: 'Czy zajmujesz się optymalizacją szybkości i Core Web Vitals?',
+    answer:
+      'Tak. Analizuję LCP, CLS i INP oraz optymalizuję obrazy, JavaScript, CSS, cache i sposób ładowania zasobów, aby poprawić realną wydajność strony.',
+  },
+  {
+    question: 'Czy rozwijasz aplikacje w React i Next.js?',
+    answer:
+      'Tak. Tworzę i rozwijam komponenty, widoki, integracje API oraz funkcje w aplikacjach React i Next.js, także w istniejących projektach.',
+  },
+  {
+    question: 'Jak wygląda wdrożenie zmian?',
+    answer:
+      'Większe zmiany trafiają najpierw na osobny branch i środowisko preview. Po akceptacji i przejściu automatycznych kontroli wdrażam je na produkcję.',
+  },
+];
+
 const featuredProjects = projects.slice(0, 3);
 const contactEmail = 'wwwcodefixit@gmail.com';
 const contactHref = `mailto:${contactEmail}?subject=${encodeURIComponent('Zapytanie ze strony CodeFix.IT')}`;
@@ -88,6 +111,7 @@ export function HomepageV1() {
             <a href="#services">Usługi</a>
             <a href="#work">Realizacje</a>
             <a href="#process">Proces</a>
+            <a href="#faq">FAQ</a>
             <a href="#contact">Kontakt</a>
           </nav>
 
@@ -113,8 +137,8 @@ export function HomepageV1() {
             </h1>
 
             <p className="cf-lead">
-              Naprawiam, rozwijam i optymalizuję strony oraz aplikacje internetowe.
-              Bez zbędnego procesu — diagnoza, konkretne rozwiązanie i wdrożenie.
+              Naprawiam strony WordPress, rozwijam aplikacje w React i Next.js oraz
+              optymalizuję Core Web Vitals. Diagnoza, konkretne rozwiązanie i bezpieczne wdrożenie.
             </p>
 
             <div className="cf-actions">
@@ -200,11 +224,11 @@ export function HomepageV1() {
               <div>
                 <p className="cf-section-kicker">Usługi</p>
                 <h2 className="cf-section-heading">
-                  Kod ma działać. Szybko, stabilnie i bez niespodzianek.
+                  Naprawa WordPress, development React / Next.js i optymalizacja wydajności.
                 </h2>
               </div>
               <p className="cf-section-sidecopy">
-                Od szybkiej naprawy po rozwój produktu i poprawę wydajności.
+                Od błędów WordPress i WooCommerce po rozwój front-endu, API i Core Web Vitals.
               </p>
             </div>
 
@@ -327,6 +351,30 @@ export function HomepageV1() {
                 </li>
               ))}
             </ol>
+          </div>
+        </section>
+
+
+        <section id="faq" className="cf-section cf-section-bordered">
+          <div className="cf-container">
+            <div className="cf-section-head-row">
+              <div>
+                <p className="cf-section-kicker">FAQ</p>
+                <h2 className="cf-section-heading">Najczęstsze pytania o naprawę i rozwój stron.</h2>
+              </div>
+              <p className="cf-section-sidecopy">
+                WordPress, React, Next.js, API i optymalizacja wydajności — konkretnie i bez marketingowego dymu.
+              </p>
+            </div>
+
+            <div className="cf-advantages-grid">
+              {faqItems.map((item) => (
+                <article key={item.question} className="cf-advantage-card">
+                  <h3>{item.question}</h3>
+                  <p>{item.answer}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 

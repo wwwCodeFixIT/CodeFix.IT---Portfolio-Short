@@ -8,10 +8,10 @@
     <meta name="application-name" content="CodeFix.IT" />
     <meta name="author" content="CodeFix.IT" />
 
-    <title>CodeFix.IT — WordPress, React, Next.js i optymalizacja</title>
+    <title>Naprawa WordPress, React i Next.js | CodeFix.IT</title>
     <meta
       name="description"
-      content="Naprawiam, rozwijam i optymalizuję strony oraz aplikacje internetowe. WordPress, React, Next.js, API, performance i bezpieczne wdrożenia z preview."
+      content="Naprawa WordPress i WooCommerce, rozwój React i Next.js, integracje API oraz optymalizacja Core Web Vitals. CodeFix.IT — diagnoza, preview i bezpieczne wdrożenie."
     />
     <meta name="robots" content="index, follow" />
 
@@ -23,17 +23,17 @@
     <meta property="og:locale" content="pl_PL" />
     <meta property="og:site_name" content="CodeFix.IT" />
     <meta property="og:url" content="https://codefix.it/" />
-    <meta property="og:title" content="CodeFix.IT — Diabeł tkwi w kodzie" />
+    <meta property="og:title" content="Naprawa WordPress, React i Next.js | CodeFix.IT" />
     <meta
       property="og:description"
-      content="WordPress, React, Next.js, API i performance. Naprawa, rozwój i optymalizacja stron oraz aplikacji webowych."
+      content="Naprawa WordPress i WooCommerce, rozwój React i Next.js, API oraz optymalizacja Core Web Vitals."
     />
 
     <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content="CodeFix.IT — Diabeł tkwi w kodzie" />
+    <meta name="twitter:title" content="Naprawa WordPress, React i Next.js | CodeFix.IT" />
     <meta
       name="twitter:description"
-      content="Naprawa, rozwój i optymalizacja stron oraz aplikacji webowych."
+      content="Naprawa WordPress, rozwój React i Next.js oraz optymalizacja Core Web Vitals."
     />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -46,12 +46,75 @@
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "CodeFix.IT",
-        "url": "https://codefix.it/",
-        "email": "wwwcodefixit@gmail.com",
-        "description": "Naprawa, rozwój i optymalizacja stron oraz aplikacji internetowych.",
-        "sameAs": ["https://github.com/wwwCodeFixIT"]
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://codefix.it/#organization",
+            "name": "CodeFix.IT",
+            "url": "https://codefix.it/",
+            "email": "wwwcodefixit@gmail.com",
+            "description": "Naprawa WordPress, rozwój React i Next.js, integracje API oraz optymalizacja Core Web Vitals.",
+            "sameAs": ["https://github.com/wwwCodeFixIT"]
+          },
+          {
+            "@type": "Service",
+            "name": "Naprawa i rozwój WordPress",
+            "provider": { "@id": "https://codefix.it/#organization" },
+            "url": "https://codefix.it/#services",
+            "description": "Naprawa błędów WordPress, WooCommerce, formularzy, integracji i problemów po aktualizacjach."
+          },
+          {
+            "@type": "Service",
+            "name": "Development React i Next.js",
+            "provider": { "@id": "https://codefix.it/#organization" },
+            "url": "https://codefix.it/#services",
+            "description": "Rozwój komponentów, widoków, integracji API i funkcji w aplikacjach React i Next.js."
+          },
+          {
+            "@type": "Service",
+            "name": "Optymalizacja Core Web Vitals",
+            "provider": { "@id": "https://codefix.it/#organization" },
+            "url": "https://codefix.it/#services",
+            "description": "Optymalizacja LCP, CLS, INP, obrazów, JavaScriptu, CSS i cache."
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Czy naprawiasz istniejące strony WordPress?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Tak. Diagnozuję i naprawiam błędy WordPress, problemy po aktualizacjach, formularze, WooCommerce, integracje, motywy i niestandardowe funkcje."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Czy zajmujesz się optymalizacją szybkości i Core Web Vitals?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Tak. Analizuję LCP, CLS i INP oraz optymalizuję obrazy, JavaScript, CSS, cache i sposób ładowania zasobów."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Czy rozwijasz aplikacje w React i Next.js?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Tak. Tworzę i rozwijam komponenty, widoki, integracje API oraz funkcje w aplikacjach React i Next.js."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Jak wygląda wdrożenie zmian?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Większe zmiany trafiają najpierw na osobny branch i środowisko preview. Po akceptacji i automatycznych kontrolach są wdrażane na produkcję."
+                }
+              }
+            ]
+          }
+        ]
       }
     </script>
   </head>
