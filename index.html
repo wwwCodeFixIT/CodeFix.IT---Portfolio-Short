@@ -43,34 +43,105 @@
       rel="stylesheet"
     />
 
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-HBPBYSG8PS"></script>
+    <!-- Basic Consent Mode v2: do not load the Analytics library before opt-in. -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-HBPBYSG8PS');
+      (function () {
+        var measurementId = 'G-HBPBYSG8PS';
+        var storageKey = 'codefix_analytics_consent_v1';
+        var choice = null;
+        try {
+          var stored = window.localStorage.getItem(storageKey);
+          if (stored === 'accepted' || stored === 'rejected') choice = stored;
+        } catch (error) {
+          // Storage may be disabled; the visitor can still make a session-only choice.
+        }
 
-      document.addEventListener('click', function (event) {
-        const target = event.target instanceof Element ? event.target.closest('a') : null;
-        if (!target) return;
+        window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { window.dataLayer.push(arguments); };
+        window.gtag('consent', 'default', {
+          analytics_storage: 'denied',
+          ad_storage: 'denied',
+          ad_user_data: 'denied',
+          ad_personalization: 'denied',
+          wait_for_update: 500
+        });
+        window.gtag('set', 'ads_data_redaction', true);
+        window.codefixAnalyticsAllowed = false;
+        window.codefixConsentChoice = choice;
 
-        const href = target.getAttribute('href') || '';
-        if (href.startsWith('mailto:')) {
-          gtag('event', 'contact_click', {
-            event_category: 'lead',
-            link_text: target.textContent ? target.textContent.trim() : '',
-            link_url: href
+        var initialized = false;
+        function startAnalytics() {
+          if (initialized) return;
+          initialized = true;
+          window.codefixAnalyticsAllowed = true;
+          window.gtag('consent', 'update', { analytics_storage: 'granted' });
+          window.gtag('js', new Date());
+          window.gtag('config', measurementId);
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
+          document.head.appendChild(script);
+        }
+
+        function clearAnalyticsCookies() {
+          var cookieNames = document.cookie.split(';').map(function (part) {
+            return part.trim().split('=')[0];
+          }).filter(function (name) {
+            return name === '_ga' || name.indexOf('_ga_') === 0;
+          });
+          var domains = ['', 'codefix.it', '.codefix.it'];
+          cookieNames.forEach(function (name) {
+            domains.forEach(function (domain) {
+              document.cookie = name + '=; Max-Age=0; Path=/; SameSite=Lax' +
+                (domain ? '; Domain=' + domain : '');
+            });
           });
         }
 
-        if (href === '#contact') {
-          gtag('event', 'contact_cta_click', {
-            event_category: 'lead',
-            link_text: target.textContent ? target.textContent.trim() : ''
-          });
-        }
-      });
+        window.codefixSetAnalyticsConsent = function (nextChoice) {
+          if (nextChoice !== 'accepted' && nextChoice !== 'rejected') return;
+          var wasInitialized = initialized;
+          window.codefixConsentChoice = nextChoice;
+          try {
+            window.localStorage.setItem(storageKey, nextChoice);
+          } catch (error) {
+            // Persist for this page only when storage is unavailable.
+          }
+
+          if (nextChoice === 'accepted') {
+            startAnalytics();
+            return;
+          }
+
+          window.codefixAnalyticsAllowed = false;
+          window.gtag('consent', 'update', { analytics_storage: 'denied' });
+          clearAnalyticsCookies();
+          // A loaded third-party script cannot be unloaded; reload without it on withdrawal.
+          if (wasInitialized) window.location.reload();
+        };
+
+        if (choice === 'accepted') startAnalytics();
+
+        document.addEventListener('click', function (event) {
+          if (!window.codefixAnalyticsAllowed) return;
+          var target = event.target instanceof Element ? event.target.closest('a') : null;
+          if (!target) return;
+          var href = target.getAttribute('href') || '';
+          if (href.startsWith('mailto:')) {
+            window.gtag('event', 'contact_click', {
+              event_category: 'lead',
+              link_text: target.textContent ? target.textContent.trim() : '',
+              link_url: href
+            });
+          }
+          if (href === '#contact') {
+            window.gtag('event', 'contact_cta_click', {
+              event_category: 'lead',
+              link_text: target.textContent ? target.textContent.trim() : ''
+            });
+          }
+        });
+      })();
     </script>
 
     <script type="application/ld+json">
