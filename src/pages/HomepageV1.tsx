@@ -102,6 +102,22 @@ export function HomepageV1() {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formMessage, setFormMessage] = useState('');
   const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
+  const [consentChoice, setConsentChoice] = useState<'accepted' | 'rejected' | null>(() => {
+    const value = (window as Window & { codefixConsentChoice?: string | null }).codefixConsentChoice;
+    return value === 'accepted' || value === 'rejected' ? value : null;
+  });
+  const [showConsent, setShowConsent] = useState(() => {
+    return !(window as Window & { codefixConsentChoice?: string | null }).codefixConsentChoice;
+  });
+
+  function saveConsent(choice: 'accepted' | 'rejected') {
+    (window as Window & {
+      codefixSetAnalyticsConsent?: (choice: 'accepted' | 'rejected') => void;
+    }).codefixSetAnalyticsConsent?.(choice);
+    setConsentChoice(choice);
+    setShowConsent(false);
+  }
+
 
   async function handleLeadSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -136,9 +152,10 @@ export function HomepageV1() {
 
       const analyticsWindow = window as Window & {
         gtag?: (...args: unknown[]) => void;
+        codefixAnalyticsAllowed?: boolean;
       };
 
-      analyticsWindow.gtag?.('event', 'generate_lead', {
+      if (analyticsWindow.codefixAnalyticsAllowed) analyticsWindow.gtag?.('event', 'generate_lead', {
         event_category: 'lead',
         lead_source: 'website_form',
         service: service || 'not_selected',
@@ -549,9 +566,53 @@ export function HomepageV1() {
       <footer className="cf-footer">
         <div className="cf-container cf-footer-inner">
           <span>© 2026 CodeFix.IT</span>
+          <button className="cf-consent-settings" type="button" onClick={() => setShowConsent(true)}>
+            Ustawienia analityki
+          </button>
           <span className="cf-footer-code">Diabeł tkwi w kodzie. 😈</span>
         </div>
       </footer>
+
+      {showConsent && (
+        <section
+          className="cf-consent-banner"
+          role="dialog"
+          aria-modal="false"
+          aria-labelledby="cf-consent-title"
+          aria-describedby="cf-consent-description"
+        >
+          <div className="cf-consent-copy">
+            <p className="cf-section-kicker">Prywatność • CodeFix.IT</p>
+            <h2 id="cf-consent-title">Czy zgadzasz się na analitykę?</h2>
+            <p id="cf-consent-description">
+              Używam Google Analytics do pomiaru odwiedzin i zgłoszeń. Jeśli wyrazisz zgodę,
+              Google może zapisywać i odczytywać identyfikatory analityczne na Twoim urządzeniu.
+              Odrzucenie nie ogranicza korzystania ze strony ani wysłania formularza.
+            </p>
+            {consentChoice && (
+              <p className="cf-consent-current">
+                Obecne ustawienie: {consentChoice === 'accepted' ? 'analityka włączona' : 'analityka wyłączona'}.
+              </p>
+            )}
+          </div>
+          <div className="cf-consent-actions">
+            <button
+              type="button"
+              className="cf-button cf-button-secondary"
+              onClick={() => saveConsent('rejected')}
+            >
+              Odrzucam
+            </button>
+            <button
+              type="button"
+              className="cf-button cf-button-primary"
+              onClick={() => saveConsent('accepted')}
+            >
+              Akceptuję analitykę
+            </button>
+          </div>
+        </section>
+      )}
     </div>
   );
 }
