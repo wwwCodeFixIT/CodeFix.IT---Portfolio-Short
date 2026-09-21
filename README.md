@@ -195,3 +195,36 @@ MIT License
 ---
 
 Zbudowane z ❤️ przez CodeFix.IT
+
+
+## WordPress Quick Fix — pozyskiwanie zleceń (PR portfolio)
+
+Aktualną stronę publiczną renderuje `src/pages/HomepageV1.tsx`. Nowa pierwsza
+karta usług WordPress Quick Fix ma cenę orientacyjną **od 390 zł netto** za
+diagnostykę i naprawę jednego uzgodnionego problemu oraz test po naprawie.
+To nie jest gwarantowana cena brutto ani automatyczna umowa. Ostateczny zakres,
+kwotę brutto i warunki Useme ustalamy osobno z klientem.
+
+CTA w hero i przycisk Quick Fix w katalogu przenoszą do istniejącego
+`#contact` i ustawiają `service=WORDPRESS_QUICK_FIX` w kontrolowanym polu
+formularza. Nie tworzymy drugiego formularza ani publicznego klucza API.
+Obecny endpoint `https://app.codefix.it/api/public/leads` zapisuje lead ze
+źródłem `WEBSITE_FORM`, a **dokładny znacznik kampanii/usługi**
+`WORDPRESS_QUICK_FIX` zapisuje w `activities.metadata.service` przy
+notatce do leada oraz w powiadomieniu e-mail. Nie wymaga zmian schematu CRM.
+
+Test na wersji Preview:
+1. Z hero kliknij „Zgłoś problem ze stroną”; sprawdź przewinięcie do
+   formularza oraz wybraną usługę Quick Fix (także na telefonie).
+2. Sprawdź, że wybór innego tematu jest nadal możliwy, a na innych kartach
+   usług zaznacza się ich odpowiedni temat.
+3. Wyślij tylko własne testowe zapytanie (ze świadomie testowym opisem);
+   w CRM powinien powstać lead `WEBSITE_FORM` z notatką, gdzie
+   `metadata.service = WORDPRESS_QUICK_FIX`, a powiadomienie powinno
+   zawierać tę usługę. Nie przesyłaj prawdziwych danych klientów w teście.
+4. Potwierdź, że formularz zachowuje błędy i stan powodzenia, a po
+   pomyślnym wysłaniu resetuje wybór tematu.
+
+Po ręcznej akceptacji i zielonym CI można scalić do `main` — Cloudflare
+Pages wystawi produkcję. Zmiana nie modyfikuje historii realizacji,
+procesu ofert, uprawnień ani rozliczeń Useme.

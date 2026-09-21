@@ -18,10 +18,23 @@ import { projects } from '../data/projects';
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
 
+const quickFixService = 'WORDPRESS_QUICK_FIX';
+
 const services = [
   {
     icon: Wrench,
+    title: 'WordPress Quick Fix',
+    description:
+      'Nie działa formularz, strona wyświetla błąd albo aktualizacja coś zepsuła? Diagnoza i naprawa jednego uzgodnionego problemu technicznego.',
+    meta: 'Jeden problem • test po naprawie',
+    price: 'Od 390 zł netto',
+    service: quickFixService,
+    cta: 'Zgłoś problem ze stroną',
+  },
+  {
+    icon: Wrench,
     title: 'WordPress Rescue',
+    service: 'wordpress',
     description:
       'Naprawy błędów, formularzy, WooCommerce, integracji i problemów po aktualizacjach.',
     meta: 'Szybka diagnoza • konkretna wycena',
@@ -29,6 +42,7 @@ const services = [
   {
     icon: Braces,
     title: 'Development',
+    service: 'development',
     description:
       'Dedykowane sekcje, komponenty i funkcje w WordPress, React oraz Next.js.',
     meta: 'ACF • API • React • Next.js',
@@ -36,6 +50,7 @@ const services = [
   {
     icon: Gauge,
     title: 'Performance',
+    service: 'performance',
     description:
       'Optymalizacja Core Web Vitals, obrazów, JavaScriptu, cache i warstwy front-end.',
     meta: 'LCP • CLS • INP • Cloudflare',
@@ -102,6 +117,13 @@ export function HomepageV1() {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formMessage, setFormMessage] = useState('');
   const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
+  const [selectedService, setSelectedService] = useState('');
+
+  function chooseService(service: string) {
+    setSelectedService(service);
+    setFormMessage('');
+    setFormState('idle');
+  }
   const [consentChoice, setConsentChoice] = useState<'accepted' | 'rejected' | null>(() => {
     const value = (window as Window & { codefixConsentChoice?: string | null }).codefixConsentChoice;
     return value === 'accepted' || value === 'rejected' ? value : null;
@@ -124,7 +146,7 @@ export function HomepageV1() {
 
     const form = event.currentTarget;
     const data = new FormData(form);
-    const service = String(data.get('service') || '');
+    const service = selectedService;
 
     setFormState('submitting');
     setFormMessage('');
@@ -162,6 +184,7 @@ export function HomepageV1() {
       });
 
       form.reset();
+      setSelectedService('');
       setFormStartedAt(Date.now());
       setFormState('success');
       setFormMessage('Dzięki — zgłoszenie trafiło do CodeFix.IT. Odezwę się po analizie tematu.');
@@ -218,8 +241,9 @@ export function HomepageV1() {
             </p>
 
             <div className="cf-actions">
-              <a href="#services" className="cf-button cf-button-primary">
-                Zobacz, w czym pomagam
+              <a href="#contact" className="cf-button cf-button-primary"
+                onClick={() => chooseService(quickFixService)}>
+                Zgłoś problem ze stroną
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
               <a href="#work" className="cf-button cf-button-secondary">
@@ -309,16 +333,23 @@ export function HomepageV1() {
             </div>
 
             <div className="cf-services-grid">
-              {services.map(({ icon: Icon, title, description, meta }) => (
-                <article key={title} className="cf-service-card">
+              {services.map(({ icon: Icon, title, description, meta, price, service, cta }) => (
+                <article key={title}
+                  className={`cf-service-card${service === quickFixService ? ' cf-service-card-featured' : ''}`}>
                   <div className="cf-service-icon">
                     <Icon size={20} aria-hidden="true" />
                   </div>
                   <h3>{title}</h3>
                   <p>{description}</p>
+                  {price && <p className="cf-service-price">{price}</p>}
+                  {price && <p className="cf-service-pricing-note">
+                    Cena początkowa. Ostateczna wycena zależy od problemu;
+                    kwotę brutto i warunki rozliczenia potwierdzę przed zleceniem.
+                  </p>}
                   <p className="cf-service-meta">{meta}</p>
-                  <a href="#contact" className="cf-card-link">
-                    Omów zakres
+                  <a href="#contact" className="cf-card-link"
+                    onClick={() => chooseService(service)}>
+                    {cta ?? 'Omów zakres'}
                     <ArrowRight size={15} aria-hidden="true" />
                   </a>
                 </article>
@@ -494,14 +525,23 @@ export function HomepageV1() {
 
                   <label>
                     <span>Temat</span>
-                    <select name="service" defaultValue="">
+                    <select name="service" value={selectedService}
+                      onChange={(event) => chooseService(event.target.value)}>
                       <option value="">Wybierz opcjonalnie</option>
+                      <option value={quickFixService}>WordPress Quick Fix — naprawa jednego problemu</option>
                       <option value="wordpress">WordPress / WooCommerce</option>
                       <option value="development">React / Next.js / API</option>
                       <option value="performance">Performance / Core Web Vitals</option>
                       <option value="other">Inny temat</option>
                     </select>
                   </label>
+
+                  {selectedService === quickFixService && (
+                    <p className="cf-quickfix-selection" role="status">
+                      Wybrano WordPress Quick Fix. Opisz jeden problem — przed rozpoczęciem
+                      prac otrzymasz indywidualną wycenę i kwotę brutto.
+                    </p>
+                  )}
 
                   <label>
                     <span>Adres strony <small>opcjonalnie</small></span>
