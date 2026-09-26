@@ -1465,3 +1465,38 @@
     justify-content: center;
   }
 }
+
+
+/* Privacy + lead attribution polish. */
+.cf-form-privacy {
+  margin: -2px 0 0;
+  color: #777780;
+  font-size: 10px;
+  line-height: 1.6;
+}
+.cf-form-privacy a {
+  color: #aaaab1;
+  text-underline-offset: 3px;
+}
+.cf-form-privacy a:hover {
+  color: #fff;
+}
+.cf-footer-legal {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+.cf-footer-legal a {
+  color: #7b7b83;
+  text-decoration: none;
+}
+.cf-footer-legal a:hover {
+  color: #fff;
+}
+@media (max-width: 560px) {
+  .cf-footer-legal {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
