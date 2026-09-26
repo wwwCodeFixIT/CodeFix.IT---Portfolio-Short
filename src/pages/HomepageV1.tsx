@@ -3,10 +3,7 @@ import type { FormEvent } from 'react';
 import {
   ArrowRight,
   ArrowUpRight,
-  Braces,
   CheckCircle2,
-  Code2,
-  Gauge,
   GitBranch,
   Layers3,
   MessageSquareText,
@@ -345,14 +342,14 @@ export function HomepageV1() {
             <div className="cf-services-grid">
               {services.map(({ icon: Icon, title, description, meta, price, service, cta }) => (
                 <article key={title}
-                  className={`cf-service-card${service === quickFixService ? ' cf-service-card-featured' : ''}`}>
+                  className={`cf-service-card${service === businessSiteService ? ' cf-service-card-featured' : ''}`}>
                   <div className="cf-service-icon">
                     <Icon size={20} aria-hidden="true" />
                   </div>
                   <h3>{title}</h3>
                   <p>{description}</p>
                   {price && <p className="cf-service-price">{price}</p>}
-                  {price && <p className="cf-service-pricing-note">
+                  {price && price !== 'Wycena indywidualna' && <p className="cf-service-pricing-note">
                     Cena orientacyjna. Dokładny zakres, kwotę i sposób rozliczenia
                     potwierdzam przed rozpoczęciem prac.
                   </p>}
