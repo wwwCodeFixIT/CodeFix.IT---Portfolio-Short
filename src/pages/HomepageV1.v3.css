@@ -1348,3 +1348,120 @@
     margin-inline: 15px;
   }
 }
+
+
+/* Final sales polish after second live screenshot review. */
+.cf-project-preview-copy {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+.cf-project-preview-domain {
+  max-width: 220px;
+  overflow: hidden;
+  color: #b7b7bd;
+  font: 650 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cf-revenue-action {
+  display: grid;
+  justify-items: end;
+  gap: 12px;
+}
+.cf-revenue-proof {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+}
+.cf-revenue-proof span {
+  padding: 6px 8px;
+  border: 1px solid rgba(255,255,255,.075);
+  border-radius: 999px;
+  background: rgba(255,255,255,.025);
+  color: #777780;
+  font-size: 10px;
+  font-weight: 650;
+}
+.cf-footer {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(239,68,68,.07), transparent 28%),
+    #070708;
+}
+.cf-footer-main {
+  min-height: 210px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(160px, .55fr) minmax(230px, .75fr);
+  gap: clamp(36px, 6vw, 84px);
+  align-items: start;
+  padding-block: 44px;
+}
+.cf-footer-brand p {
+  max-width: 470px;
+  margin: 18px 0 0;
+  color: #777780;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.cf-footer-nav,
+.cf-footer-contact {
+  display: grid;
+  gap: 11px;
+}
+.cf-footer-nav a,
+.cf-footer-contact a {
+  width: fit-content;
+  color: #aaaab1;
+  text-decoration: none;
+  font-size: 12px;
+  transition: color 150ms ease;
+}
+.cf-footer-nav a:hover,
+.cf-footer-contact a:hover {
+  color: #fff;
+}
+.cf-footer-contact > span {
+  color: #66666e;
+  font: 700 10px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: .14em;
+}
+.cf-footer-bottom {
+  min-height: 66px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid rgba(255,255,255,.065);
+  color: #686870;
+  font-size: 11px;
+}
+@media (max-width: 800px) {
+  .cf-revenue-action {
+    justify-items: start;
+  }
+  .cf-revenue-proof {
+    justify-content: flex-start;
+  }
+  .cf-footer-main {
+    grid-template-columns: 1fr 1fr;
+  }
+  .cf-footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+@media (max-width: 560px) {
+  .cf-footer-main {
+    grid-template-columns: 1fr;
+  }
+  .cf-footer-brand {
+    grid-column: auto;
+  }
+  .cf-footer-bottom {
+    min-height: 110px;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+  }
+}
