@@ -29,7 +29,7 @@ export const projects: Project[] = [
   {
     id: 1,
     title: "eM-aiR System",
-    shortDescription: "Redesign strony dla firmy klimatyzacyjnej. Poprawa szybkości o 60% i wzrost zapytań ofertowych.",
+    shortDescription: "Redesign strony firmy klimatyzacyjnej: responsywny WordPress, ACF PRO, oferta, realizacje i kontakt.",
     fullDescription: `Projekt polegał na całkowitej przebudowie istniejącej strony internetowej dla firmy eM-aiR System, specjalizującej się w montażu i serwisie klimatyzacji oraz wentylacji.
 
 Strona została stworzona od podstaw z wykorzystaniem WordPress jako systemu CMS, co pozwala klientowi na łatwe zarządzanie treścią. Wykorzystałem Advanced Custom Fields Pro do stworzenia elastycznych pól edycji, dzięki czemu właściciel może samodzielnie aktualizować ofertę, realizacje i dane kontaktowe.
@@ -66,7 +66,7 @@ Projekt obejmował responsywny design, optymalizację pod kątem SEO oraz integr
   {
     id: 2,
     title: "Rzeczoznawca Marcin Dudek",
-    shortDescription: "Strona wizytówka od zera dla rzeczoznawcy. Profesjonalny wizerunek i wzrost zaufania klientów.",
+    shortDescription: "Strona wizytówka od zera dla rzeczoznawcy: WordPress, formularze, analityka i wersja mobilna.",
     fullDescription: `Strona internetowa stworzona od podstaw dla rzeczoznawcy samochodowego Marcina Dudka. Projekt obejmował pełen proces - od projektu graficznego, przez kodowanie w HTML/CSS/JS, aż po konwersję na WordPress.
 
 Unikalne podejście polegało na tym, że najpierw stworzyłem statyczną wersję strony w czystym HTML, CSS i JavaScript, a następnie przekonwertowałem ją na w pełni funkcjonalny motyw WordPress z PHP.
@@ -103,7 +103,7 @@ Strona zawiera integrację z Google Analytics do śledzenia ruchu oraz zoptymali
   {
     id: 3,
     title: "Kancelaria Adwokacka Witkowska",
-    shortDescription: "Elegancka strona dla kancelarii. Projekt we współpracy z agencją SyloSoftware.",
+    shortDescription: "Strona kancelarii wykonana we współpracy z SyloSoftware: WordPress, Elementor, ACF PRO i responsywny front-end.",
     fullDescription: `Strona internetowa dla kancelarii adwokackiej, stworzona we współpracy z firmą SyloSoftware. Ten projekt pokazuje moje umiejętności pracy zespołowej i realizacji zleceń dla innych agencji.
 
 Wykorzystałem WordPress z Elementorem jako page builderem, co pozwala klientowi na łatwą edycję treści bez znajomości kodowania. Dodatkowo zaimplementowałem Advanced Custom Fields Pro dla niestandardowych sekcji oraz Custom Post Types dla sekcji z obszarami praktyki.

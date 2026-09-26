@@ -836,7 +836,7 @@
 
 /* PR: WordPress Quick Fix — offer discovery and CRM-bound call to action. */
 .cf-services-grid {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 .cf-service-card-featured {
   border-color: rgba(255, 105, 105, 0.5);
@@ -965,5 +965,69 @@
   .cf-revenue-strip-inner {
     min-height: 0;
     padding-block: 40px;
+  }
+}
+
+
+/* Sales-ready v2: clear audience fit and three core offers. */
+.cf-fit-section {
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 85% 12%, rgba(239, 68, 68, 0.08), transparent 34%),
+    #09090a;
+}
+.cf-fit-layout {
+  display: grid;
+  grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr);
+  gap: clamp(42px, 7vw, 96px);
+  align-items: start;
+}
+.cf-fit-copy > p:not(.cf-section-kicker) {
+  max-width: 580px;
+  margin: 20px 0 0;
+  color: #95959d;
+  font-size: 15px;
+  line-height: 1.75;
+}
+.cf-fit-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cf-fit-list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 13px;
+  align-items: start;
+  padding: 18px 20px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 14px;
+  background: rgba(255,255,255,.025);
+  color: #d8d8dc;
+  font-size: 14px;
+  line-height: 1.65;
+}
+.cf-fit-list svg {
+  margin-top: 2px;
+  color: #ff7377;
+}
+.cf-service-card-featured {
+  box-shadow: 0 24px 70px rgba(127, 29, 29, .16);
+}
+@media (max-width: 980px) {
+  .cf-fit-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+@media (max-width: 700px) {
+  .cf-services-grid {
+    grid-template-columns: 1fr;
+  }
+  .cf-fit-list li {
+    padding: 16px;
   }
 }
