@@ -370,6 +370,16 @@ export function HomepageV1() {
                     {cta ?? 'Omów zakres'}
                     <ArrowRight size={15} aria-hidden="true" />
                   </a>
+                  {service === businessSiteService && (
+                    <div className="cf-service-proof">
+                      <a href="https://demo.codefix.it/" target="_blank"
+                        rel="noreferrer" className="cf-card-link cf-card-link-secondary">
+                        Zobacz demo WordPress + ACF PRO
+                        <ArrowUpRight size={15} aria-hidden="true" />
+                      </a>
+                      <small>Własne demo techniczne CodeFix.IT — nie realizacja klienta.</small>
+                    </div>
+                  )}
                 </article>
               ))}
             </div>
