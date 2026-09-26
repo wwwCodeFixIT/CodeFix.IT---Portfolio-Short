@@ -131,6 +131,30 @@ export function HomepageV1() {
   const [formMessage, setFormMessage] = useState('');
   const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
   const [selectedService, setSelectedService] = useState('');
+  const [attribution] = useState(() => {
+    const url = new URL(window.location.href);
+    let referrerOrigin = '';
+
+    if (document.referrer) {
+      try {
+        referrerOrigin = new URL(document.referrer).origin;
+      } catch {
+        referrerOrigin = '';
+      }
+    }
+
+    const pick = (key: string) => (url.searchParams.get(key) ?? '').slice(0, 160);
+
+    return {
+      landingPath: url.pathname.slice(0, 240),
+      referrerOrigin: referrerOrigin.slice(0, 240),
+      utmSource: pick('utm_source'),
+      utmMedium: pick('utm_medium'),
+      utmCampaign: pick('utm_campaign'),
+      utmContent: pick('utm_content'),
+      utmTerm: pick('utm_term'),
+    };
+  });
 
   function chooseService(service: string) {
     setSelectedService(service);
@@ -176,6 +200,7 @@ export function HomepageV1() {
           message: data.get('message'),
           companyWebsite: data.get('companyWebsite'),
           startedAt: formStartedAt,
+          ...attribution,
         }),
       });
 
@@ -225,6 +250,7 @@ export function HomepageV1() {
             <a href="#process">Proces</a>
             <a href="#faq">FAQ</a>
             <a href="#contact">Kontakt</a>
+            <a href="/polityka-prywatnosci">Prywatność</a>
           </nav>
 
           <a href="#contact" className="cf-nav-cta">
@@ -677,6 +703,11 @@ export function HomepageV1() {
                     {formState !== 'submitting' && <ArrowRight size={17} aria-hidden="true" />}
                   </button>
 
+                  <p className="cf-form-privacy">
+                    Wysyłając formularz, przekazujesz dane potrzebne do obsługi zapytania.
+                    Szczegóły znajdziesz w <a href="/polityka-prywatnosci">polityce prywatności</a>.
+                  </p>
+
                   {formMessage && (
                     <p
                       className={`cf-form-feedback ${formState === 'success' ? 'is-success' : 'is-error'}`}
@@ -738,9 +769,12 @@ export function HomepageV1() {
 
         <div className="cf-container cf-footer-bottom">
           <span>© 2026 CodeFix.IT</span>
-          <button className="cf-consent-settings" type="button" onClick={() => setShowConsent(true)}>
-            Ustawienia analityki
-          </button>
+          <div className="cf-footer-legal">
+            <a href="/polityka-prywatnosci">Polityka prywatności</a>
+            <button className="cf-consent-settings" type="button" onClick={() => setShowConsent(true)}>
+              Ustawienia analityki
+            </button>
+          </div>
           <span className="cf-footer-code">Diabeł tkwi w kodzie. 😈</span>
         </div>
       </footer>
