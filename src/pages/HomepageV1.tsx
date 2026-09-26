@@ -19,6 +19,8 @@ import './HomepageV1.css';
 import './HomepageV1.v3.css';
 
 const quickFixService = 'WORDPRESS_QUICK_FIX';
+const businessSiteService = 'CODEFIX_BUSINESS_SITE';
+const miniAuditService = 'FREE_MINI_AUDIT';
 
 const services = [
   {
@@ -30,6 +32,16 @@ const services = [
     price: 'Od 390 zł netto',
     service: quickFixService,
     cta: 'Zgłoś problem ze stroną',
+  },
+  {
+    icon: Layers3,
+    title: 'Strona firmowa WordPress + ACF PRO',
+    description:
+      'Nowoczesna strona firmy z edytowalnymi sekcjami, wersją mobilną, formularzem, technicznym SEO i bezpiecznym wdrożeniem.',
+    meta: 'Brief • preview • WordPress • ACF PRO',
+    price: 'Wycena indywidualna',
+    service: businessSiteService,
+    cta: 'Wyceń stronę firmową',
   },
   {
     icon: Wrench,
@@ -90,6 +102,11 @@ const faqItems = [
     question: 'Czy naprawiasz istniejące strony WordPress?',
     answer:
       'Tak. Diagnozuję i naprawiam błędy WordPress, problemy po aktualizacjach, formularze, WooCommerce, integracje, motywy i niestandardowe funkcje.',
+  },
+  {
+    question: 'Czy wykonujesz kompletne strony firmowe od zera?',
+    answer:
+      'Tak. Przygotowuję strony firmowe na WordPressie z ACF PRO, responsywnym front-endem, formularzem kontaktowym, technicznym SEO i edycją treści z panelu. Zakres i cena wynikają z krótkiego briefu.',
   },
   {
     question: 'Czy zajmujesz się optymalizacją szybkości i Core Web Vitals?',
@@ -265,6 +282,11 @@ export function HomepageV1() {
                 Mobile-first
               </span>
             </div>
+            <a href="#contact" className="cf-mini-audit-link"
+              onClick={() => chooseService(miniAuditService)}>
+              Masz już stronę? Wyślij URL — zrobię krótką mini-ocenę techniczną
+              <ArrowRight size={15} aria-hidden="true" />
+            </a>
           </div>
 
           <div className="cf-terminal-wrap">
@@ -355,6 +377,21 @@ export function HomepageV1() {
                 </article>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className="cf-revenue-strip" aria-labelledby="cf-revenue-strip-title">
+          <div className="cf-container cf-revenue-strip-inner">
+            <div>
+              <p className="cf-section-kicker">Szybki start</p>
+              <h2 id="cf-revenue-strip-title">Nie wiesz, czy potrzebujesz naprawy, optymalizacji czy nowej strony?</h2>
+              <p>Wyślij adres publicznej strony. Sprawdzę trzy techniczne punkty i wskażę najrozsądniejszy następny krok — bez proszenia o dostęp do panelu.</p>
+            </div>
+            <a href="#contact" className="cf-button cf-button-primary"
+              onClick={() => chooseService(miniAuditService)}>
+              Poproś o mini-ocenę
+              <ArrowRight size={17} aria-hidden="true" />
+            </a>
           </div>
         </section>
 
@@ -500,6 +537,7 @@ export function HomepageV1() {
 
                 <div className="cf-contact-tags" aria-label="Przykładowe tematy">
                   <span><Wrench size={14} /> Awaria / bug</span>
+                  <span><Layers3 size={14} /> Nowa strona firmowa</span>
                   <span><Code2 size={14} /> Nowa funkcja</span>
                   <span><Rocket size={14} /> Performance</span>
                 </div>
@@ -529,6 +567,8 @@ export function HomepageV1() {
                       onChange={(event) => chooseService(event.target.value)}>
                       <option value="">Wybierz opcjonalnie</option>
                       <option value={quickFixService}>WordPress Quick Fix — naprawa jednego problemu</option>
+                      <option value={businessSiteService}>Nowa strona firmowa WordPress + ACF PRO</option>
+                      <option value={miniAuditService}>Mini-ocena techniczna publicznej strony</option>
                       <option value="wordpress">WordPress / WooCommerce</option>
                       <option value="development">React / Next.js / API</option>
                       <option value="performance">Performance / Core Web Vitals</option>
@@ -540,6 +580,18 @@ export function HomepageV1() {
                     <p className="cf-quickfix-selection" role="status">
                       Wybrano WordPress Quick Fix. Opisz jeden problem — przed rozpoczęciem
                       prac otrzymasz indywidualną wycenę i kwotę brutto.
+                    </p>
+                  )}
+                  {selectedService === businessSiteService && (
+                    <p className="cf-quickfix-selection" role="status">
+                      Wybrano stronę firmową WordPress + ACF PRO. Napisz, czym zajmuje się firma,
+                      ile podstron orientacyjnie potrzebujesz i czy masz już domenę, hosting, teksty oraz logo.
+                    </p>
+                  )}
+                  {selectedService === miniAuditService && (
+                    <p className="cf-quickfix-selection" role="status">
+                      Mini-ocena dotyczy publicznie dostępnej strony i nie wymaga loginu. Wklej URL
+                      poniżej i opisz, co najbardziej Cię niepokoi.
                     </p>
                   )}
 
