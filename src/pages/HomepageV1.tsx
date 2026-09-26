@@ -19,6 +19,21 @@ import './HomepageV1.v3.css';
 const quickFixService = 'WORDPRESS_QUICK_FIX';
 const businessSiteService = 'CODEFIX_BUSINESS_SITE';
 const miniAuditService = 'FREE_MINI_AUDIT';
+const careService = 'WORDPRESS_CARE';
+
+const allowedServiceDeepLinks = new Set([
+  quickFixService,
+  businessSiteService,
+  careService,
+  miniAuditService,
+  'development',
+  'other',
+]);
+
+function initialServiceFromUrl() {
+  const value = new URL(window.location.href).searchParams.get('service') ?? '';
+  return allowedServiceDeepLinks.has(value) ? value : '';
+}
 
 const services = [
   {
@@ -48,7 +63,7 @@ const services = [
       'Aktualizacje, backupy, drobne poprawki i rozwój istniejącej strony bez szukania wykonawcy od zera przy każdym kolejnym zadaniu.',
     meta: 'Stała obsługa • aktualizacje • rozwój',
     price: 'Od 300 zł / mies.',
-    service: 'WORDPRESS_CARE',
+    service: careService,
     cta: 'Zapytaj o opiekę',
   },
 ];
@@ -130,7 +145,7 @@ export function HomepageV1() {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formMessage, setFormMessage] = useState('');
   const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
-  const [selectedService, setSelectedService] = useState('');
+  const [selectedService, setSelectedService] = useState(initialServiceFromUrl);
   const [attribution] = useState(() => {
     const url = new URL(window.location.href);
     let referrerOrigin = '';
@@ -655,7 +670,7 @@ export function HomepageV1() {
                       <option value="">Wybierz opcjonalnie</option>
                       <option value={quickFixService}>WordPress Quick Fix — jeden konkretny problem</option>
                       <option value={businessSiteService}>Nowa strona firmowa WordPress + ACF PRO</option>
-                      <option value="WORDPRESS_CARE">Opieka i rozwój WordPress</option>
+                      <option value={careService}>Opieka i rozwój WordPress</option>
                       <option value={miniAuditService}>Mini-ocena techniczna publicznej strony</option>
                       <option value="development">React / Next.js / API</option>
                       <option value="other">Inny temat</option>
