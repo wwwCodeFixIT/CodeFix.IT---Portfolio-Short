@@ -1047,3 +1047,304 @@
   font-size: 10px;
   line-height: 1.5;
 }
+
+
+/* Live screenshot polish — tighter hierarchy, clearer proof and less dead space. */
+.cf-nav-cta {
+  min-height: 42px;
+  padding-inline: 20px;
+}
+.cf-hero {
+  min-height: 620px;
+  grid-template-columns: minmax(0, 1.16fr) minmax(390px, .84fr);
+  gap: clamp(44px, 5vw, 68px);
+  padding-block: 72px 82px;
+}
+.cf-title {
+  max-width: 820px;
+  font-size: clamp(54px, 5.15vw, 80px);
+  line-height: .98;
+  letter-spacing: -.055em;
+  text-wrap: pretty;
+}
+.cf-title-muted {
+  color: #92929b;
+}
+.cf-lead {
+  max-width: 720px;
+  margin-top: 26px;
+}
+.cf-terminal-wrap {
+  width: min(100%, 520px);
+  justify-self: end;
+}
+.cf-terminal-result {
+  color: #9a9aa2;
+}
+.cf-section {
+  padding-block: 82px;
+}
+.cf-section-heading {
+  max-width: 820px;
+  font-size: clamp(32px, 2.65vw, 43px);
+}
+.cf-service-card {
+  min-height: 320px;
+  padding: 28px;
+}
+.cf-service-card-featured {
+  overflow: visible;
+}
+.cf-service-badge {
+  position: absolute;
+  z-index: 2;
+  top: -12px;
+  right: 18px;
+  padding: 7px 10px;
+  border: 1px solid rgba(255, 124, 128, .3);
+  border-radius: 999px;
+  background: #2a1114;
+  color: #ff9b9f;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .04em;
+  box-shadow: 0 10px 28px rgba(0,0,0,.28);
+}
+.cf-service-card .cf-service-pricing-note {
+  max-width: 34ch;
+  color: #92929a;
+}
+.cf-service-proof small {
+  color: #85858d;
+}
+.cf-fit-layout {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(44px, 6vw, 78px);
+  align-items: center;
+}
+.cf-fit-copy .cf-section-heading {
+  max-width: 620px;
+}
+.cf-fit-list li {
+  padding: 17px 19px;
+}
+.cf-revenue-strip-inner {
+  min-height: 220px;
+  padding-block: 44px;
+}
+.cf-revenue-strip-inner h2 {
+  max-width: 760px;
+  font-size: clamp(27px, 2.8vw, 40px);
+}
+.cf-projects-grid {
+  gap: 18px;
+  margin-top: 36px;
+}
+.cf-project-card {
+  min-height: 430px;
+  padding: 18px;
+}
+.cf-project-preview {
+  overflow: hidden;
+  height: 126px;
+  margin: -1px -1px 4px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 13px;
+  background:
+    radial-gradient(circle at 80% 10%, rgba(239,68,68,.16), transparent 36%),
+    linear-gradient(145deg, #171719, #0b0b0c);
+}
+.cf-project-preview-bar {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0 11px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  background: rgba(255,255,255,.018);
+}
+.cf-project-preview-bar span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #49494f;
+}
+.cf-project-preview-bar span:first-child { background: #a5363b; }
+.cf-project-preview-body {
+  min-height: 92px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+}
+.cf-project-preview-mark {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(239,68,68,.24);
+  border-radius: 12px;
+  background: rgba(239,68,68,.08);
+  color: #ff777b;
+  font: 800 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.cf-project-preview-label {
+  color: #797981;
+  font: 650 10px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+.cf-project-card h3 {
+  margin-top: 22px;
+}
+.cf-project-description {
+  margin-top: 14px;
+}
+.cf-project-tech {
+  margin-top: 16px;
+}
+.cf-why-layout,
+.cf-process-layout {
+  grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
+  gap: clamp(44px, 5vw, 64px);
+}
+.cf-why-intro .cf-section-heading,
+.cf-process-intro .cf-section-heading {
+  max-width: 570px;
+}
+.cf-faq-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 34px;
+}
+.cf-faq-item {
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  background: rgba(255,255,255,.018);
+  transition: border-color 160ms ease, background 160ms ease;
+}
+.cf-faq-item[open] {
+  border-color: rgba(239,68,68,.22);
+  background: rgba(255,255,255,.027);
+}
+.cf-faq-item summary {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 18px;
+  color: #e2e2e5;
+  cursor: pointer;
+  list-style: none;
+  font-size: 14px;
+  font-weight: 720;
+}
+.cf-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+.cf-faq-item summary svg {
+  flex: 0 0 auto;
+  color: #777780;
+  transition: transform 160ms ease, color 160ms ease;
+}
+.cf-faq-item[open] summary svg {
+  transform: rotate(180deg);
+  color: #ff7478;
+}
+.cf-faq-item p {
+  max-width: 900px;
+  margin: -2px 18px 18px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255,255,255,.055);
+  color: #9d9da5;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.cf-contact-section {
+  padding-block: 94px;
+}
+.cf-contact-panel {
+  grid-template-columns: minmax(0, 1.05fr) minmax(390px, .95fr);
+  gap: clamp(42px, 5vw, 62px);
+  padding: clamp(38px, 4vw, 52px);
+}
+.cf-contact-copy h2 {
+  font-size: clamp(36px, 3.5vw, 52px);
+}
+.cf-lead-form label > span {
+  font-size: 12px;
+}
+.cf-lead-form input,
+.cf-lead-form select {
+  min-height: 50px;
+}
+.cf-lead-form textarea {
+  min-height: 138px;
+}
+.cf-contact-fallback,
+.cf-form-feedback {
+  font-size: 12px;
+}
+.cf-footer-inner {
+  color: #777780;
+}
+
+@media (max-width: 1100px) {
+  .cf-hero {
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .cf-terminal-wrap {
+    justify-self: stretch;
+    width: min(100%, 680px);
+  }
+  .cf-services-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .cf-service-card-featured {
+    grid-column: span 2;
+  }
+  .cf-contact-panel {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 800px) {
+  .cf-section {
+    padding-block: 68px;
+  }
+  .cf-services-grid {
+    grid-template-columns: 1fr;
+  }
+  .cf-service-card-featured {
+    grid-column: auto;
+  }
+  .cf-fit-layout,
+  .cf-why-layout,
+  .cf-process-layout {
+    grid-template-columns: 1fr;
+  }
+  .cf-project-card {
+    min-height: 0;
+  }
+}
+@media (max-width: 640px) {
+  .cf-title {
+    font-size: clamp(44px, 13.5vw, 62px);
+    line-height: 1;
+  }
+  .cf-title-muted {
+    color: #a0a0a8;
+  }
+  .cf-contact-panel {
+    padding: 24px 20px;
+  }
+  .cf-faq-item summary {
+    min-height: 64px;
+    padding: 0 15px;
+  }
+  .cf-faq-item p {
+    margin-inline: 15px;
+  }
+}
