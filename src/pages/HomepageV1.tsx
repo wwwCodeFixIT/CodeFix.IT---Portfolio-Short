@@ -228,7 +228,7 @@ export function HomepageV1() {
           </nav>
 
           <a href="#contact" className="cf-nav-cta">
-            Porozmawiajmy
+            Zapytaj o wycenę
           </a>
         </div>
       </header>
@@ -420,11 +420,18 @@ export function HomepageV1() {
               <h2 id="cf-revenue-strip-title">Masz już stronę i nie wiesz, od czego zacząć?</h2>
               <p>Wyślij publiczny adres. Sprawdzę trzy podstawowe punkty techniczne i wskażę, czy sensowniejsza jest naprawa, optymalizacja czy większa przebudowa — bez proszenia o login.</p>
             </div>
-            <a href="#contact" className="cf-button cf-button-primary"
-              onClick={() => chooseService(miniAuditService)}>
-              Poproś o mini-ocenę
-              <ArrowRight size={17} aria-hidden="true" />
-            </a>
+            <div className="cf-revenue-action">
+              <div className="cf-revenue-proof" aria-label="Zakres mini-oceny">
+                <span>bez loginu</span>
+                <span>3 punkty</span>
+                <span>krótka odpowiedź</span>
+              </div>
+              <a href="#contact" className="cf-button cf-button-primary"
+                onClick={() => chooseService(miniAuditService)}>
+                Poproś o mini-ocenę
+                <ArrowRight size={17} aria-hidden="true" />
+              </a>
+            </div>
           </div>
         </section>
 
@@ -453,7 +460,12 @@ export function HomepageV1() {
                       <span className="cf-project-preview-mark">
                         {project.title.slice(0, 2).toUpperCase()}
                       </span>
-                      <span className="cf-project-preview-label">WordPress • responsive</span>
+                      <span className="cf-project-preview-copy">
+                        <span className="cf-project-preview-label">WordPress • responsive</span>
+                        <span className="cf-project-preview-domain">
+                          {project.demoUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}
+                        </span>
+                      </span>
                     </div>
                   </div>
 
@@ -695,7 +707,36 @@ export function HomepageV1() {
       </main>
 
       <footer className="cf-footer">
-        <div className="cf-container cf-footer-inner">
+        <div className="cf-container cf-footer-main">
+          <div className="cf-footer-brand">
+            <a href="#top" className="cf-brand" aria-label="CodeFix.IT — wróć na górę">
+              <span className="cf-brand-mark">&lt;/&gt;</span>
+              <span className="cf-brand-name">CODEFIX<strong>.IT</strong></span>
+            </a>
+            <p>
+              Strony firmowe WordPress + ACF PRO, naprawy istniejących stron
+              i dalsza opieka techniczna.
+            </p>
+          </div>
+
+          <nav className="cf-footer-nav" aria-label="Nawigacja w stopce">
+            <a href="#services">Usługi</a>
+            <a href="#work">Realizacje</a>
+            <a href="#process">Proces</a>
+            <a href="#faq">FAQ</a>
+            <a href="#contact">Kontakt</a>
+          </nav>
+
+          <div className="cf-footer-contact">
+            <span>Kontakt</span>
+            <a href={contactHref}>{contactEmail}</a>
+            <a href="https://github.com/wwwCodeFixIT" target="_blank" rel="noreferrer">
+              GitHub CodeFix.IT ↗
+            </a>
+          </div>
+        </div>
+
+        <div className="cf-container cf-footer-bottom">
           <span>© 2026 CodeFix.IT</span>
           <button className="cf-consent-settings" type="button" onClick={() => setShowConsent(true)}>
             Ustawienia analityki
