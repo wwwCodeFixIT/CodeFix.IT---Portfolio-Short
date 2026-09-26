@@ -63,7 +63,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
                 Otwórz działającą stronę
                 <ArrowUpRight size={16} aria-hidden="true" />
               </a>
-              <a href="/#contact" className="cf-button cf-button-primary">
+              <a href="/?service=CODEFIX_BUSINESS_SITE#contact" className="cf-button cf-button-primary">
                 Zapytaj o podobne wdrożenie
                 <ArrowRight size={16} aria-hidden="true" />
               </a>
@@ -138,7 +138,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
                 Odpowiem z propozycją następnego kroku.
               </p>
             </div>
-            <a href="/#contact" className="cf-button cf-button-primary">
+            <a href="/?service=CODEFIX_BUSINESS_SITE#contact" className="cf-button cf-button-primary">
               Przejdź do kontaktu
               <ArrowRight size={17} aria-hidden="true" />
             </a>
