@@ -4,6 +4,7 @@ import {
   ArrowRight,
   ArrowUpRight,
   CheckCircle2,
+  ChevronDown,
   GitBranch,
   Layers3,
   MessageSquareText,
@@ -295,26 +296,26 @@ export function HomepageV1() {
               </div>
 
               <div className="cf-terminal-body">
-                <div className="cf-command">$ audit --project client-site</div>
-                <p className="cf-terminal-copy">Analiza projektu...</p>
+                <div className="cf-command">$ plan --project client-site</div>
+                <p className="cf-terminal-copy">Przygotowanie wdrożenia...</p>
 
                 <div className="cf-diagnostic-list">
                   <div className="cf-diagnostic-row">
-                    <span>Błędy krytyczne</span>
-                    <span className="cf-status-red">3 znalezione</span>
+                    <span>Zakres</span>
+                    <span className="cf-status-green">ustalony ✓</span>
                   </div>
                   <div className="cf-diagnostic-row">
-                    <span>Performance</span>
-                    <span className="cf-status-yellow">do poprawy</span>
+                    <span>Preview</span>
+                    <span className="cf-status-yellow">przed publikacją</span>
                   </div>
                   <div className="cf-diagnostic-row">
-                    <span>Plan naprawczy</span>
-                    <span className="cf-status-green">gotowy ✓</span>
+                    <span>WordPress + ACF</span>
+                    <span className="cf-status-green">edytowalne ✓</span>
                   </div>
                 </div>
 
                 <p className="cf-terminal-result">
-                  <strong>→</strong> problem znaleziony. Możemy naprawiać.
+                  <strong>→</strong> najpierw widzisz efekt, potem publikujemy.
                 </p>
               </div>
             </div>
@@ -354,6 +355,9 @@ export function HomepageV1() {
               {services.map(({ icon: Icon, title, description, meta, price, service, cta }) => (
                 <article key={title}
                   className={`cf-service-card${service === businessSiteService ? ' cf-service-card-featured' : ''}`}>
+                  {service === businessSiteService && (
+                    <span className="cf-service-badge">Najlepsze do nowej strony</span>
+                  )}
                   <div className="cf-service-icon">
                     <Icon size={20} aria-hidden="true" />
                   </div>
@@ -439,6 +443,20 @@ export function HomepageV1() {
             <div className="cf-projects-grid">
               {featuredProjects.map((project) => (
                 <article key={project.id} className="cf-project-card">
+                  <div className="cf-project-preview" aria-hidden="true">
+                    <div className="cf-project-preview-bar">
+                      <span />
+                      <span />
+                      <span />
+                    </div>
+                    <div className="cf-project-preview-body">
+                      <span className="cf-project-preview-mark">
+                        {project.title.slice(0, 2).toUpperCase()}
+                      </span>
+                      <span className="cf-project-preview-label">WordPress • responsive</span>
+                    </div>
+                  </div>
+
                   <div className="cf-project-topline">
                     <span>{project.year}</span>
                     <span>{project.category}</span>
@@ -525,16 +543,19 @@ export function HomepageV1() {
                 <h2 className="cf-section-heading">Najczęstsze pytania o naprawę i rozwój stron.</h2>
               </div>
               <p className="cf-section-sidecopy">
-                WordPress, React, Next.js, API i optymalizacja wydajności — konkretnie i bez marketingowego dymu.
+                WordPress, ACF PRO, poprawki, nowe wdrożenia i dalsza opieka — najważniejsze informacje przed kontaktem.
               </p>
             </div>
 
-            <div className="cf-advantages-grid">
+            <div className="cf-faq-list">
               {faqItems.map((item) => (
-                <article key={item.question} className="cf-advantage-card">
-                  <h3>{item.question}</h3>
+                <details key={item.question} className="cf-faq-item">
+                  <summary>
+                    <span>{item.question}</span>
+                    <ChevronDown size={18} aria-hidden="true" />
+                  </summary>
                   <p>{item.answer}</p>
-                </article>
+                </details>
               ))}
             </div>
           </div>
