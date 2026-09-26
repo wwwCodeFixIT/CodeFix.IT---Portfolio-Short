@@ -76,7 +76,18 @@ const advantages = [
     icon: Layers3,
     title: 'Strona, którą da się edytować',
     description:
-      'Przy nowych wdrożeniach WordPress + const faqItems = [
+      'Przy nowych wdrożeniach WordPress + ACF PRO przygotowuję treści tak, żeby typowe aktualizacje można było zrobić z panelu bez zmieniania kodu.',
+  },
+];
+
+const fitItems = [
+  'Masz firmę, ale obecna strona wygląda już przestarzale albo słabo działa na telefonie.',
+  'WordPress działa, lecz formularz, WooCommerce, aktualizacja lub wygląd wymagają naprawy.',
+  'Potrzebujesz nowej strony firmowej i chcesz później samodzielnie edytować jej treści.',
+  'Wolisz mieć jedną osobę do kolejnych poprawek, aktualizacji i rozwoju strony.',
+];
+
+const faqItems = [
   {
     question: 'Czy naprawiasz istniejące strony WordPress?',
     answer:
