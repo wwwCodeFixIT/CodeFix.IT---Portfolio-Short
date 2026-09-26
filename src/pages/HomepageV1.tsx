@@ -510,15 +510,24 @@ export function HomepageV1() {
                     ))}
                   </div>
 
-                  <a
-                    href={project.demoUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="cf-project-link"
-                  >
-                    Zobacz projekt
-                    <ArrowUpRight size={16} aria-hidden="true" />
-                  </a>
+                  <div className="cf-project-actions">
+                    <a
+                      href={`/realizacje/${project.slug}`}
+                      className="cf-project-link"
+                    >
+                      Zobacz case study
+                      <ArrowRight size={16} aria-hidden="true" />
+                    </a>
+                    <a
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="cf-project-live-link"
+                    >
+                      Otwórz stronę
+                      <ArrowUpRight size={15} aria-hidden="true" />
+                    </a>
+                  </div>
                 </article>
               ))}
             </div>

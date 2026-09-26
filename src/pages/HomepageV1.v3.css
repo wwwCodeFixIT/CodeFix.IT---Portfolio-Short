@@ -1500,3 +1500,35 @@
     gap: 8px;
   }
 }
+
+
+/* Portfolio conversion: separate case study from live-site proof. */
+.cf-project-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  margin-top: auto;
+  padding-top: 22px;
+}
+.cf-project-actions .cf-project-link {
+  margin-top: 0;
+}
+.cf-project-live-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #85858d;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 650;
+  transition: color 160ms ease;
+}
+.cf-project-live-link:hover {
+  color: #d7d7db;
+}
+.cf-project-live-link:focus-visible {
+  outline: 3px solid #ff9a9e;
+  outline-offset: 4px;
+  border-radius: 6px;
+}

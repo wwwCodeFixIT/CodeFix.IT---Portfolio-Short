@@ -1,0 +1,241 @@
+.cf-case-page {
+  min-height: 100vh;
+}
+
+.cf-case-nav {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.cf-case-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #aaaab1;
+  text-decoration: none;
+  font-size: 13px;
+}
+
+.cf-case-back:hover {
+  color: #fff;
+}
+
+.cf-case-hero {
+  min-height: 540px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(300px, .7fr);
+  gap: clamp(42px, 7vw, 96px);
+  align-items: center;
+  padding-block: 84px;
+}
+
+.cf-case-hero h1 {
+  max-width: 900px;
+  margin: 0;
+  color: #f7f7f8;
+  font-size: clamp(48px, 6vw, 82px);
+  line-height: .98;
+  letter-spacing: -.055em;
+}
+
+.cf-case-lead {
+  max-width: 760px;
+  margin: 24px 0 0;
+  color: #a3a3aa;
+  font-size: clamp(17px, 1.6vw, 21px);
+  line-height: 1.7;
+}
+
+.cf-case-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 34px;
+}
+
+.cf-case-summary {
+  display: grid;
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 18px;
+  background: rgba(255,255,255,.06);
+}
+
+.cf-case-summary div {
+  display: grid;
+  gap: 7px;
+  padding: 20px 22px;
+  background: #0b0b0c;
+}
+
+.cf-case-summary span {
+  color: #66666e;
+  font: 700 10px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  text-transform: uppercase;
+  letter-spacing: .13em;
+}
+
+.cf-case-summary strong {
+  color: #e9e9eb;
+  font-size: 14px;
+}
+
+.cf-case-section {
+  padding-block: 88px;
+}
+
+.cf-case-section-bordered {
+  border-block: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.012);
+}
+
+.cf-case-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(300px, .85fr);
+  gap: clamp(48px, 7vw, 96px);
+  align-items: start;
+}
+
+.cf-case-story h2,
+.cf-case-tech-heading,
+.cf-case-cta h2 {
+  max-width: 760px;
+  margin: 0;
+  color: #f4f4f5;
+  font-size: clamp(32px, 3.2vw, 46px);
+  line-height: 1.08;
+  letter-spacing: -.045em;
+}
+
+.cf-case-story > p:not(.cf-section-kicker) {
+  max-width: 760px;
+  margin: 20px 0 0;
+  color: #9b9ba3;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.cf-case-scope ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cf-case-scope li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 11px;
+  align-items: start;
+  padding: 14px 16px;
+  border: 1px solid rgba(255,255,255,.075);
+  border-radius: 12px;
+  background: rgba(255,255,255,.02);
+  color: #d4d4d8;
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.cf-case-scope svg {
+  margin-top: 1px;
+  color: #ff7377;
+}
+
+.cf-case-tech {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 28px;
+}
+
+.cf-case-tech span {
+  padding: 9px 11px;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 9px;
+  background: rgba(255,255,255,.025);
+  color: #a7a7ae;
+  font: 600 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.cf-case-cta {
+  padding-block: 92px;
+}
+
+.cf-case-cta-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 40px;
+  align-items: end;
+  padding: 42px;
+  border: 1px solid rgba(239,68,68,.18);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(239,68,68,.12), transparent 36%),
+    linear-gradient(135deg, rgba(19,10,11,.98), rgba(8,8,9,.98));
+}
+
+.cf-case-cta p:not(.cf-section-kicker) {
+  max-width: 680px;
+  margin: 18px 0 0;
+  color: #96969e;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .cf-case-hero,
+  .cf-case-layout,
+  .cf-case-cta-inner {
+    grid-template-columns: 1fr;
+  }
+
+  .cf-case-hero {
+    min-height: 0;
+    padding-block: 68px;
+  }
+
+  .cf-case-summary {
+    max-width: 620px;
+  }
+
+  .cf-case-cta-inner {
+    align-items: start;
+  }
+}
+
+@media (max-width: 640px) {
+  .cf-case-nav {
+    min-height: 66px;
+  }
+
+  .cf-case-back {
+    font-size: 12px;
+  }
+
+  .cf-case-hero h1 {
+    font-size: clamp(42px, 13vw, 60px);
+  }
+
+  .cf-case-actions {
+    flex-direction: column;
+  }
+
+  .cf-case-actions .cf-button,
+  .cf-case-cta .cf-button {
+    width: 100%;
+  }
+
+  .cf-case-section,
+  .cf-case-cta {
+    padding-block: 68px;
+  }
+
+  .cf-case-cta-inner {
+    padding: 28px 22px;
+  }
+}
