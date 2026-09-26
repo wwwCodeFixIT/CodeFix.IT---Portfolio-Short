@@ -27,81 +27,63 @@ const services = [
     icon: Wrench,
     title: 'WordPress Quick Fix',
     description:
-      'Nie działa formularz, strona wyświetla błąd albo aktualizacja coś zepsuła? Diagnoza i naprawa jednego uzgodnionego problemu technicznego.',
-    meta: 'Jeden problem • test po naprawie',
-    price: 'Od 390 zł netto',
+      'Formularz nie działa, aktualizacja coś zepsuła albo strona pokazuje błąd? Diagnozuję jeden konkretny problem, naprawiam go i sprawdzam efekt po wdrożeniu.',
+    meta: 'Jeden problem • diagnoza • test po naprawie',
+    price: 'Od 390 zł',
     service: quickFixService,
-    cta: 'Zgłoś problem ze stroną',
+    cta: 'Zgłoś problem WordPress',
   },
   {
     icon: Layers3,
     title: 'Strona firmowa WordPress + ACF PRO',
     description:
-      'Nowoczesna strona firmy z edytowalnymi sekcjami, wersją mobilną, formularzem, technicznym SEO i bezpiecznym wdrożeniem.',
-    meta: 'Brief • preview • WordPress • ACF PRO',
+      'Nowoczesna strona firmy od podstaw: czytelna oferta, wersja mobilna, formularz, techniczne SEO i wygodna edycja treści z panelu WordPress.',
+    meta: 'Brief • projekt • preview • wdrożenie',
     price: 'Wycena indywidualna',
     service: businessSiteService,
     cta: 'Wyceń stronę firmową',
   },
   {
-    icon: Wrench,
-    title: 'WordPress Rescue',
-    service: 'wordpress',
+    icon: MessageSquareText,
+    title: 'Opieka i rozwój WordPress',
     description:
-      'Naprawy błędów, formularzy, WooCommerce, integracji i problemów po aktualizacjach.',
-    meta: 'Szybka diagnoza • konkretna wycena',
-  },
-  {
-    icon: Braces,
-    title: 'Development',
-    service: 'development',
-    description:
-      'Dedykowane sekcje, komponenty i funkcje w WordPress, React oraz Next.js.',
-    meta: 'ACF • API • React • Next.js',
-  },
-  {
-    icon: Gauge,
-    title: 'Performance',
-    service: 'performance',
-    description:
-      'Optymalizacja Core Web Vitals, obrazów, JavaScriptu, cache i warstwy front-end.',
-    meta: 'LCP • CLS • INP • Cloudflare',
+      'Aktualizacje, backupy, drobne poprawki i rozwój istniejącej strony bez szukania wykonawcy od zera przy każdym kolejnym zadaniu.',
+    meta: 'Stała obsługa • aktualizacje • rozwój',
+    price: 'Od 300 zł / mies.',
+    service: 'WORDPRESS_CARE',
+    cta: 'Zapytaj o opiekę',
   },
 ];
 
 const process = [
-  'Opisujesz problem albo zakres prac.',
-  'Dostajesz konkretny plan i wycenę.',
-  'Zmiany trafiają na preview przed publikacją.',
-  'Po akceptacji wdrażamy produkcję.',
+  'Wysyłasz adres strony albo krótko opisujesz, czego potrzebuje firma.',
+  'Dostajesz proponowany zakres, cenę i informacje, czego potrzebuję do startu.',
+  'Przy większych zmianach pokazuję wersję preview przed publikacją.',
+  'Po akceptacji wdrażam produkcję, testuję kontakt i przekazuję dalsze kroki.',
 ];
 
 const advantages = [
   {
     icon: MessageSquareText,
-    title: 'Kontakt bez pośredników',
+    title: 'Bezpośredni kontakt',
     description:
-      'Rozmawiasz bezpośrednio z osobą, która analizuje problem i wdraża rozwiązanie.',
+      'Rozmawiasz bezpośrednio z osobą, która analizuje problem, przygotowuje wycenę i wdraża rozwiązanie.',
   },
   {
     icon: GitBranch,
-    title: 'Preview przed produkcją',
+    title: 'Zmiany pod kontrolą',
     description:
-      'Większe zmiany przechodzą przez branch, automatyczne checki i osobny podgląd.',
+      'Większe poprawki przechodzą przez branch, automatyczne checki i preview przed publikacją na produkcji.',
   },
   {
     icon: Layers3,
-    title: 'Pełny stack webowy',
+    title: 'Strona, którą da się edytować',
     description:
-      'WordPress, front-end, API i infrastruktura wdrożeniowa w jednym procesie.',
-  },
-];
-
-const faqItems = [
+      'Przy nowych wdrożeniach WordPress + const faqItems = [
   {
     question: 'Czy naprawiasz istniejące strony WordPress?',
     answer:
-      'Tak. Diagnozuję i naprawiam błędy WordPress, problemy po aktualizacjach, formularze, WooCommerce, integracje, motywy i niestandardowe funkcje.',
+      'Tak. Zajmuję się błędami po aktualizacjach, formularzami, WooCommerce, CSS, integracjami, motywami i innymi konkretnymi problemami technicznymi.',
   },
   {
     question: 'Czy wykonujesz kompletne strony firmowe od zera?',
@@ -109,19 +91,24 @@ const faqItems = [
       'Tak. Przygotowuję strony firmowe na WordPressie z ACF PRO, responsywnym front-endem, formularzem kontaktowym, technicznym SEO i edycją treści z panelu. Zakres i cena wynikają z krótkiego briefu.',
   },
   {
-    question: 'Czy zajmujesz się optymalizacją szybkości i Core Web Vitals?',
+    question: 'Czy mogę później samodzielnie zmieniać treści?',
     answer:
-      'Tak. Analizuję LCP, CLS i INP oraz optymalizuję obrazy, JavaScript, CSS, cache i sposób ładowania zasobów, aby poprawić realną wydajność strony.',
+      'Tak. Przy wdrożeniach WordPress + ACF PRO pola i sekcje przygotowuję tak, żeby typowe treści można było edytować z panelu bez grzebania w kodzie.',
   },
   {
-    question: 'Czy rozwijasz aplikacje w React i Next.js?',
+    question: 'Jak szybko dostanę odpowiedź?',
     answer:
-      'Tak. Tworzę i rozwijam komponenty, widoki, integracje API oraz funkcje w aplikacjach React i Next.js, także w istniejących projektach.',
+      'Na nowe zapytania odpowiadam zwykle w ciągu jednego dnia roboczego. Przy pilnej awarii najlepiej od razu podać adres strony i krótko opisać objaw.',
+  },
+  {
+    question: 'Czy oferujesz opiekę po wdrożeniu?',
+    answer:
+      'Tak. Możemy ustalić miesięczny zakres aktualizacji, backupów, drobnych zmian i wsparcia technicznego albo rozliczać pojedyncze zadania osobno.',
   },
   {
     question: 'Jak wygląda wdrożenie zmian?',
     answer:
-      'Większe zmiany trafiają najpierw na osobny branch i środowisko preview. Po akceptacji i przejściu automatycznych kontroli wdrażam je na produkcję.',
+      'Większe zmiany trafiają najpierw na osobny branch i środowisko preview. Po akceptacji i przejściu kontroli są publikowane na produkcji.',
   },
 ];
 
@@ -204,7 +191,7 @@ export function HomepageV1() {
       setSelectedService('');
       setFormStartedAt(Date.now());
       setFormState('success');
-      setFormMessage('Dzięki — zgłoszenie trafiło do CodeFix.IT. Odezwę się po analizie tematu.');
+      setFormMessage('Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiem po krótkiej analizie tematu.');
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Nie udało się wysłać formularza.';
       setFormState('error');
@@ -245,37 +232,38 @@ export function HomepageV1() {
               Dostępny do nowych zleceń
             </div>
 
-            <p className="cf-stack-label">WordPress • React • Next.js • API</p>
+            <p className="cf-stack-label">WordPress • ACF PRO • WooCommerce • Front-end</p>
 
             <h1 className="cf-title">
-              Diabeł tkwi
-              <span className="cf-title-muted">w kodzie.</span>
+              Tworzę i naprawiam
+              <span className="cf-title-muted">strony WordPress dla firm.</span>
             </h1>
 
             <p className="cf-lead">
-              Naprawiam strony WordPress, rozwijam aplikacje w React i Next.js oraz
-              optymalizuję Core Web Vitals. Diagnoza, konkretne rozwiązanie i bezpieczne wdrożenie.
+              Od szybkiej naprawy istniejącej strony po nowe wdrożenie firmowe z ACF PRO.
+              Jasny zakres, preview przed większą publikacją i możliwość dalszej opieki technicznej.
             </p>
 
             <div className="cf-actions">
               <a href="#contact" className="cf-button cf-button-primary"
-                onClick={() => chooseService(quickFixService)}>
-                Zgłoś problem ze stroną
+                onClick={() => chooseService(businessSiteService)}>
+                Wyceń stronę firmową
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
-              <a href="#work" className="cf-button cf-button-secondary">
-                Zobacz realizacje
+              <a href="#contact" className="cf-button cf-button-secondary"
+                onClick={() => chooseService(quickFixService)}>
+                Zgłoś problem WordPress
               </a>
             </div>
 
             <div className="cf-proof" aria-label="Standard pracy">
               <span className="cf-proof-item">
                 <CheckCircle2 size={15} aria-hidden="true" />
-                Preview przed wdrożeniem
+                Edycja treści w ACF PRO
               </span>
               <span className="cf-proof-item">
                 <CheckCircle2 size={15} aria-hidden="true" />
-                Git + CI/CD
+                Preview przed publikacją
               </span>
               <span className="cf-proof-item">
                 <CheckCircle2 size={15} aria-hidden="true" />
@@ -284,7 +272,7 @@ export function HomepageV1() {
             </div>
             <a href="#contact" className="cf-mini-audit-link"
               onClick={() => chooseService(miniAuditService)}>
-              Masz już stronę? Wyślij URL — zrobię krótką mini-ocenę techniczną
+              Masz już stronę? Wyślij URL — sprawdzę 3 techniczne punkty
               <ArrowRight size={15} aria-hidden="true" />
             </a>
           </div>
@@ -346,11 +334,11 @@ export function HomepageV1() {
               <div>
                 <p className="cf-section-kicker">Usługi</p>
                 <h2 className="cf-section-heading">
-                  Naprawa WordPress, development React / Next.js i optymalizacja wydajności.
+                  Trzy proste sposoby, żeby ruszyć ze stroną do przodu.
                 </h2>
               </div>
               <p className="cf-section-sidecopy">
-                Od błędów WordPress i WooCommerce po rozwój front-endu, API i Core Web Vitals.
+                Naprawa konkretnego problemu, nowa strona firmowa albo stała opieka nad WordPressem.
               </p>
             </div>
 
@@ -365,8 +353,8 @@ export function HomepageV1() {
                   <p>{description}</p>
                   {price && <p className="cf-service-price">{price}</p>}
                   {price && <p className="cf-service-pricing-note">
-                    Cena początkowa. Ostateczna wycena zależy od problemu;
-                    kwotę brutto i warunki rozliczenia potwierdzę przed zleceniem.
+                    Cena orientacyjna. Dokładny zakres, kwotę i sposób rozliczenia
+                    potwierdzam przed rozpoczęciem prac.
                   </p>}
                   <p className="cf-service-meta">{meta}</p>
                   <a href="#contact" className="cf-card-link"
@@ -380,12 +368,35 @@ export function HomepageV1() {
           </div>
         </section>
 
+        <section className="cf-section cf-fit-section" aria-labelledby="cf-fit-title">
+          <div className="cf-container cf-fit-layout">
+            <div className="cf-fit-copy">
+              <p className="cf-section-kicker">Dla kogo</p>
+              <h2 id="cf-fit-title" className="cf-section-heading">
+                Gdy strona ma pomagać firmie, a nie być kolejnym problemem do pilnowania.
+              </h2>
+              <p>
+                Nie musisz wiedzieć, czy problem leży w motywie, wtyczce, hostingu czy samym
+                projekcie. Na początku ustalamy cel i najkrótszą sensowną drogę do rozwiązania.
+              </p>
+            </div>
+            <ul className="cf-fit-list">
+              {fitItems.map((item) => (
+                <li key={item}>
+                  <CheckCircle2 size={18} aria-hidden="true" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
         <section className="cf-revenue-strip" aria-labelledby="cf-revenue-strip-title">
           <div className="cf-container cf-revenue-strip-inner">
             <div>
               <p className="cf-section-kicker">Szybki start</p>
-              <h2 id="cf-revenue-strip-title">Nie wiesz, czy potrzebujesz naprawy, optymalizacji czy nowej strony?</h2>
-              <p>Wyślij adres publicznej strony. Sprawdzę trzy techniczne punkty i wskażę najrozsądniejszy następny krok — bez proszenia o dostęp do panelu.</p>
+              <h2 id="cf-revenue-strip-title">Masz już stronę i nie wiesz, od czego zacząć?</h2>
+              <p>Wyślij publiczny adres. Sprawdzę trzy podstawowe punkty techniczne i wskażę, czy sensowniejsza jest naprawa, optymalizacja czy większa przebudowa — bez proszenia o login.</p>
             </div>
             <a href="#contact" className="cf-button cf-button-primary"
               onClick={() => chooseService(miniAuditService)}>
@@ -399,11 +410,11 @@ export function HomepageV1() {
           <div className="cf-container">
             <div className="cf-work-heading-row">
               <div>
-                <p className="cf-section-kicker">Wybrane realizacje</p>
-                <h2 className="cf-section-heading">Nie tylko kod. Efekt, który da się zmierzyć.</h2>
+                <p className="cf-section-kicker">Wybrane projekty</p>
+                <h2 className="cf-section-heading">Przykłady stron i wdrożeń, przy których pracowałem.</h2>
               </div>
               <p className="cf-section-sidecopy">
-                Przykłady projektów i wyników zapisanych w obecnym portfolio CodeFix.IT.
+                Zakres techniczny i użyte technologie — bez obiecywania wyników, których nie da się uczciwie zagwarantować.
               </p>
             </div>
 
@@ -425,18 +436,6 @@ export function HomepageV1() {
                     ))}
                   </div>
 
-                  {project.caseStudy && (
-                    <div className="cf-project-results">
-                      {project.caseStudy.results.slice(0, 2).map((result) => (
-                        <div key={`${project.id}-${result.metric}`} className="cf-project-result">
-                          <span>{result.metric}</span>
-                          <strong>{result.value}</strong>
-                          {result.description && <small>{result.description}</small>}
-                        </div>
-                      ))}
-                    </div>
-                  )}
-
                   <a
                     href={project.demoUrl}
                     target="_blank"
@@ -455,10 +454,11 @@ export function HomepageV1() {
         <section className="cf-section cf-why-section">
           <div className="cf-container cf-why-layout">
             <div className="cf-why-intro">
-              <p className="cf-section-kicker">Dlaczego CodeFix.IT</p>
-              <h2 className="cf-section-heading">Mniej chaosu. Więcej kontroli nad wdrożeniem.</h2>
+              <p className="cf-section-kicker">Jak pracuję</p>
+              <h2 className="cf-section-heading">Mniej technicznego chaosu. Więcej jasnych ustaleń.</h2>
               <p>
-                Techniczny proces ma być przewidywalny także dla osoby, która nie siedzi na co dzień w kodzie.
+                Przed startem ustalamy zakres, sposób rozliczenia i efekt, który ma zostać dostarczony.
+                Większe zmiany można zobaczyć przed publikacją.
               </p>
             </div>
 
@@ -480,10 +480,10 @@ export function HomepageV1() {
           <div className="cf-container cf-process-layout">
             <div className="cf-process-intro">
               <p className="cf-section-kicker">Proces</p>
-              <h2 className="cf-section-heading">Bez wrzucania zmian w ciemno.</h2>
+              <h2 className="cf-section-heading">Od pierwszej wiadomości do działającej strony.</h2>
               <p>
-                Każda większa zmiana przechodzi przez branch, automatyczne testy i osobne
-                środowisko preview. Najpierw widzisz efekt, potem trafia on na produkcję.
+                Najpierw ustalamy, co naprawdę trzeba zrobić. Dopiero później wycena, realizacja,
+                test i publikacja — bez dokładania przypadkowych funkcji po drodze.
               </p>
             </div>
 
@@ -530,23 +530,24 @@ export function HomepageV1() {
                   <Sparkles size={20} />
                 </div>
                 <p className="cf-section-kicker">Kontakt</p>
-                <h2>Masz problem ze stroną albo coś trzeba po prostu dowieźć?</h2>
+                <h2>Powiedz, co ma działać lepiej. Resztę ustalimy razem.</h2>
                 <p>
-                  Opisz krótko sytuację. Najpierw ustalimy, co faktycznie trzeba zrobić — bez rozdmuchiwania zakresu.
+                  Podeślij adres strony albo opisz planowane wdrożenie. Odpowiadam zwykle
+                  w ciągu jednego dnia roboczego i przed startem potwierdzam zakres oraz cenę.
                 </p>
 
                 <div className="cf-contact-tags" aria-label="Przykładowe tematy">
-                  <span><Wrench size={14} /> Awaria / bug</span>
+                  <span><Wrench size={14} /> Naprawa WordPress</span>
                   <span><Layers3 size={14} /> Nowa strona firmowa</span>
-                  <span><Code2 size={14} /> Nowa funkcja</span>
-                  <span><Rocket size={14} /> Performance</span>
+                  <span><MessageSquareText size={14} /> Stała opieka</span>
+                  <span><Rocket size={14} /> Mini-ocena techniczna</span>
                 </div>
               </div>
 
               <div className="cf-contact-action">
                 <div className="cf-contact-status">
                   <span className="cf-eyebrow-dot" />
-                  Formularz trafia bezpośrednio do mojego CRM
+                  Zgłoszenie trafia bezpośrednio do mojego CRM
                 </div>
 
                 <form className="cf-lead-form" onSubmit={handleLeadSubmit}>
@@ -566,12 +567,11 @@ export function HomepageV1() {
                     <select name="service" value={selectedService}
                       onChange={(event) => chooseService(event.target.value)}>
                       <option value="">Wybierz opcjonalnie</option>
-                      <option value={quickFixService}>WordPress Quick Fix — naprawa jednego problemu</option>
+                      <option value={quickFixService}>WordPress Quick Fix — jeden konkretny problem</option>
                       <option value={businessSiteService}>Nowa strona firmowa WordPress + ACF PRO</option>
+                      <option value="WORDPRESS_CARE">Opieka i rozwój WordPress</option>
                       <option value={miniAuditService}>Mini-ocena techniczna publicznej strony</option>
-                      <option value="wordpress">WordPress / WooCommerce</option>
                       <option value="development">React / Next.js / API</option>
-                      <option value="performance">Performance / Core Web Vitals</option>
                       <option value="other">Inny temat</option>
                     </select>
                   </label>
@@ -579,7 +579,7 @@ export function HomepageV1() {
                   {selectedService === quickFixService && (
                     <p className="cf-quickfix-selection" role="status">
                       Wybrano WordPress Quick Fix. Opisz jeden problem — przed rozpoczęciem
-                      prac otrzymasz indywidualną wycenę i kwotę brutto.
+                      prac potwierdzę dokładny zakres, cenę i sposób rozliczenia.
                     </p>
                   )}
                   {selectedService === businessSiteService && (
@@ -622,7 +622,7 @@ export function HomepageV1() {
                     className="cf-button cf-button-primary cf-contact-button"
                     disabled={formState === 'submitting'}
                   >
-                    {formState === 'submitting' ? 'Wysyłam…' : 'Wyślij zgłoszenie'}
+                    {formState === 'submitting' ? 'Wysyłam…' : 'Wyślij zapytanie'}
                     {formState !== 'submitting' && <ArrowRight size={17} aria-hidden="true" />}
                   </button>
 
