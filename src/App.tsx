@@ -2,6 +2,8 @@ import { HomepageV1 } from './pages/HomepageV1';
 import { PrivacyPolicy } from './pages/PrivacyPolicy';
 import { ProjectCaseStudy } from './pages/ProjectCaseStudy';
 import { ServiceLanding, serviceLandings } from './pages/ServiceLanding';
+import { GuidePage, GuidesIndex } from './pages/GuidePage';
+import { guideByPath } from './data/wordpress-guides';
 import { projects } from './data/projects';
 
 function App() {
@@ -9,6 +11,15 @@ function App() {
 
   if (path === '/polityka-prywatnosci') {
     return <PrivacyPolicy />;
+  }
+
+  if (path === '/poradniki') {
+    return <GuidesIndex />;
+  }
+
+  const guide = guideByPath[path];
+  if (guide) {
+    return <GuidePage guide={guide} />;
   }
 
   const serviceLanding = serviceLandings[path];
