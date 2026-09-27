@@ -13,6 +13,7 @@ import {
   Wrench,
 } from 'lucide-react';
 import { projects } from '../data/projects';
+import { captureSessionAttribution } from '../lib/attribution';
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
 
@@ -149,30 +150,7 @@ export function HomepageV1() {
   const [formMessage, setFormMessage] = useState('');
   const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
   const [selectedService, setSelectedService] = useState(initialServiceFromUrl);
-  const [attribution] = useState(() => {
-    const url = new URL(window.location.href);
-    let referrerOrigin = '';
-
-    if (document.referrer) {
-      try {
-        referrerOrigin = new URL(document.referrer).origin;
-      } catch {
-        referrerOrigin = '';
-      }
-    }
-
-    const pick = (key: string) => (url.searchParams.get(key) ?? '').slice(0, 160);
-
-    return {
-      landingPath: url.pathname.slice(0, 240),
-      referrerOrigin: referrerOrigin.slice(0, 240),
-      utmSource: pick('utm_source'),
-      utmMedium: pick('utm_medium'),
-      utmCampaign: pick('utm_campaign'),
-      utmContent: pick('utm_content'),
-      utmTerm: pick('utm_term'),
-    };
-  });
+  const [attribution] = useState(captureSessionAttribution);
 
   function chooseService(service: string) {
     setSelectedService(service);
