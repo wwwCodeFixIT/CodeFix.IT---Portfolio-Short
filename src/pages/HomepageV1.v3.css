@@ -124,6 +124,23 @@
   color: #ff6666;
 }
 
+
+.cf-service-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 18px;
+  margin-top: 20px;
+}
+
+.cf-service-card-actions .cf-card-link {
+  margin-top: 0;
+}
+
+.cf-service-card-actions .cf-card-link-secondary {
+  color: #92929a;
+}
+
 .cf-work-section {
   position: relative;
   overflow: hidden;
