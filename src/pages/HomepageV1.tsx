@@ -45,6 +45,7 @@ const services = [
     price: 'Od 390 zł',
     service: quickFixService,
     cta: 'Zgłoś problem WordPress',
+    detailsHref: '/naprawa-wordpress',
   },
   {
     icon: Layers3,
@@ -55,6 +56,7 @@ const services = [
     price: 'Wycena indywidualna',
     service: businessSiteService,
     cta: 'Wyceń stronę firmową',
+    detailsHref: '/strony-wordpress',
   },
   {
     icon: MessageSquareText,
@@ -65,6 +67,7 @@ const services = [
     price: 'Od 300 zł / mies.',
     service: careService,
     cta: 'Zapytaj o opiekę',
+    detailsHref: '/opieka-wordpress',
   },
 ];
 
@@ -393,7 +396,7 @@ export function HomepageV1() {
             </div>
 
             <div className="cf-services-grid">
-              {services.map(({ icon: Icon, title, description, meta, price, service, cta }) => (
+              {services.map(({ icon: Icon, title, description, meta, price, service, cta, detailsHref }) => (
                 <article key={title}
                   className={`cf-service-card${service === businessSiteService ? ' cf-service-card-featured' : ''}`}>
                   {service === businessSiteService && (
@@ -410,11 +413,17 @@ export function HomepageV1() {
                     potwierdzam przed rozpoczęciem prac.
                   </p>}
                   <p className="cf-service-meta">{meta}</p>
-                  <a href="#contact" className="cf-card-link"
-                    onClick={() => chooseService(service)}>
-                    {cta ?? 'Omów zakres'}
-                    <ArrowRight size={15} aria-hidden="true" />
-                  </a>
+                  <div className="cf-service-card-actions">
+                    <a href={detailsHref} className="cf-card-link cf-card-link-secondary">
+                      Zobacz pełny zakres
+                      <ArrowRight size={15} aria-hidden="true" />
+                    </a>
+                    <a href="#contact" className="cf-card-link"
+                      onClick={() => chooseService(service)}>
+                      {cta ?? 'Omów zakres'}
+                      <ArrowRight size={15} aria-hidden="true" />
+                    </a>
+                  </div>
                   {service === businessSiteService && (
                     <div className="cf-service-proof">
                       <a href="https://demo.codefix.it/" target="_blank"
