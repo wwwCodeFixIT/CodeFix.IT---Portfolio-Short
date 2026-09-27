@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 
 import { projects } from '../data/projects';
+import { captureSessionAttribution } from '../lib/attribution';
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
 import './ServiceLanding.css';
@@ -461,29 +462,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formMessage, setFormMessage] = useState('');
   const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
-  const [attribution] = useState(() => {
-    const url = new URL(window.location.href);
-    let referrerOrigin = '';
-
-    if (document.referrer) {
-      try {
-        referrerOrigin = new URL(document.referrer).origin;
-      } catch {
-        referrerOrigin = '';
-      }
-    }
-
-    const pick = (key: string) => (url.searchParams.get(key) ?? '').slice(0, 160);
-    return {
-      landingPath: url.pathname.slice(0, 240),
-      referrerOrigin: referrerOrigin.slice(0, 240),
-      utmSource: pick('utm_source'),
-      utmMedium: pick('utm_medium'),
-      utmCampaign: pick('utm_campaign'),
-      utmContent: pick('utm_content'),
-      utmTerm: pick('utm_term'),
-    };
-  });
+  const [attribution] = useState(captureSessionAttribution);
 
   useEffect(() => {
     document.title = config.metaTitle;
