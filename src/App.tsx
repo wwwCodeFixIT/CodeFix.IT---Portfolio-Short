@@ -1,6 +1,7 @@
 import { HomepageV1 } from './pages/HomepageV1';
 import { PrivacyPolicy } from './pages/PrivacyPolicy';
 import { ProjectCaseStudy } from './pages/ProjectCaseStudy';
+import { ServiceLanding, serviceLandings } from './pages/ServiceLanding';
 import { projects } from './data/projects';
 
 function App() {
@@ -8,6 +9,11 @@ function App() {
 
   if (path === '/polityka-prywatnosci') {
     return <PrivacyPolicy />;
+  }
+
+  const serviceLanding = serviceLandings[path];
+  if (serviceLanding) {
+    return <ServiceLanding config={serviceLanding} />;
   }
 
   if (path.startsWith('/realizacje/')) {
