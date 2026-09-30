@@ -1,5 +1,5 @@
 {
-  "name": "react-vite-tailwind",
+  "name": "codefix-it-portfolio",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -17,16 +17,12 @@
     "lint:production": "eslint src/main.tsx src/components/Brand.tsx src/pages/HomepageV1.tsx src/pages/ServiceLanding.tsx src/pages/GuidePage.tsx src/pages/ProjectCaseStudy.tsx src/pages/PrivacyPolicy.tsx src/data/projects.ts src/data/wordpress-guides.ts src/data/service-landings.ts src/lib/attribution.ts src/lib/conversion-journey.ts --max-warnings=0"
   },
   "dependencies": {
-    "clsx": "2.1.1",
-    "framer-motion": "^12.29.0",
     "lucide-react": "^0.563.0",
     "react": "19.2.3",
-    "react-dom": "19.2.3",
-    "tailwind-merge": "3.4.0"
+    "react-dom": "19.2.3"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@tailwindcss/vite": "4.1.17",
     "@types/node": "^22.0.0",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
@@ -37,7 +33,6 @@
     "eslint-plugin-react-refresh": "^0.5.7",
     "globals": "^17.12.0",
     "prettier": "^3.9.6",
-    "tailwindcss": "4.1.17",
     "typescript": "5.9.3",
     "typescript-eslint": "^8.70.0",
     "vite": "7.2.4"
