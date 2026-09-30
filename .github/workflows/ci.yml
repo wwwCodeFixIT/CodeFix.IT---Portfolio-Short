@@ -45,6 +45,9 @@ jobs:
       - name: Lint
         run: npm run lint
 
+      - name: Lint production graph
+        run: npm run lint:production
+
       - name: Check formatting
         run: npm run format:check
 
