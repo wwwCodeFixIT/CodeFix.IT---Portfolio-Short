@@ -1,9 +1,3 @@
-/naprawa-wordpress /naprawa-wordpress/index.html 200
-/opieka-wordpress /opieka-wordpress/index.html 200
-/strony-wordpress /strony-wordpress/index.html 200
-/poradniki /poradniki/index.html 200
-/poradniki/wordpress-nie-wysyla-maili /poradniki/wordpress-nie-wysyla-maili/index.html 200
-/poradniki/blad-500-wordpress /poradniki/blad-500-wordpress/index.html 200
-/poradniki/wordpress-zepsul-sie-po-aktualizacji /poradniki/wordpress-zepsul-sie-po-aktualizacji/index.html 200
-/poradniki/wolny-wordpress-co-sprawdzic /poradniki/wolny-wordpress-co-sprawdzic/index.html 200
-/* /index.html 200
+# Public SEO routes are generated as /<route>/index.html during build.
+# Intentionally no /* /index.html 200 fallback.
+# public/404.html keeps unknown URLs as true HTTP 404 responses on Cloudflare Pages.
