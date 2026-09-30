@@ -103,6 +103,7 @@ const organization = {
   '@type': 'Organization',
   '@id': 'https://codefix.it/#organization',
   name: 'CodeFix.IT',
+  alternateName: ['CodeFix IT', 'CodeFixIT'],
   url: 'https://codefix.it/',
 };
 

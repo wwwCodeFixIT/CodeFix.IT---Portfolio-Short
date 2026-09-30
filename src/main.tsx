@@ -9,6 +9,11 @@ if (!root) {
   throw new Error('Root element #root was not found.');
 }
 
+if (root.dataset.staticPrerender === 'true') {
+  root.replaceChildren();
+  delete root.dataset.staticPrerender;
+}
+
 createRoot(root).render(
   <StrictMode>
     <App />

@@ -88,8 +88,21 @@ async function checkIndexableUrl(url) {
   if (!/<meta\s+name=["']description["']\s+content=["'][^"']+["']/i.test(body)) {
     fail(`${url} has no meta description`);
   }
+  if (!/data-static-prerender=["']true["']/i.test(body)) {
+    fail(`${url} has no static HTML body marker`);
+  }
+  if (!/<h1[^>]*>[^<]+<\/h1>/i.test(body)) {
+    fail(`${url} has no H1 in the raw HTML response`);
+  }
+  const rawText = body
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (rawText.length < 180) fail(`${url} raw HTML content is too thin (${rawText.length} chars)`);
 
-  console.log(`✓ 200 indexable: ${url}`);
+  console.log(`✓ 200 indexable + static HTML: ${url}`);
 }
 
 async function checkNotFound() {
