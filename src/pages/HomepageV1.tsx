@@ -129,6 +129,11 @@ const faqItems = [
       'Na nowe zapytania odpowiadam zwykle w ciągu jednego dnia roboczego. Przy pilnej awarii najlepiej od razu podać adres strony i krótko opisać objaw.',
   },
   {
+    question: 'Czy obsługujesz firmy tylko z Warszawy?',
+    answer:
+      'Nie. Warszawa jest moim rynkiem lokalnym, ale naprawy, nowe wdrożenia i opiekę WordPress realizuję również zdalnie dla firm z całej Polski.',
+  },
+  {
     question: 'Czy oferujesz opiekę po wdrożeniu?',
     answer:
       'Tak. Możemy ustalić miesięczny zakres aktualizacji, backupów, drobnych zmian i wsparcia technicznego albo rozliczać pojedyncze zadania osobno.',
@@ -261,45 +266,45 @@ export function HomepageV1() {
           <div className="cf-hero-copy">
             <div className="cf-eyebrow">
               <span className="cf-eyebrow-dot" />
-              Dostępny do nowych zleceń
+              WordPress Warszawa • zdalnie cała Polska
             </div>
 
             <p className="cf-stack-label">WordPress • ACF PRO • WooCommerce • Front-end</p>
 
             <h1 className="cf-title">
-              Tworzę i naprawiam
-              <span className="cf-title-muted">strony WordPress dla firm.</span>
+              WordPress Warszawa.
+              <span className="cf-title-muted">Naprawa, strony firmowe i opieka.</span>
             </h1>
 
             <p className="cf-lead">
-              Od szybkiej naprawy istniejącej strony po nowe wdrożenie firmowe z ACF PRO.
-              Jasny zakres, preview przed większą publikacją i możliwość dalszej opieki technicznej.
+              Pomagam firmom z Warszawy i zdalnie z całej Polski: naprawiam istniejące strony WordPress,
+              tworzę nowe wdrożenia z ACF PRO i przejmuję stałą opiekę techniczną. Zakres i cenę potwierdzam przed rozpoczęciem prac.
             </p>
 
             <div className="cf-actions">
               <a href="#contact" className="cf-button cf-button-primary"
-                onClick={() => chooseService(businessSiteService)}>
-                Wyceń stronę firmową
+                onClick={() => chooseService(quickFixService)}>
+                Zgłoś problem WordPress
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
               <a href="#contact" className="cf-button cf-button-secondary"
-                onClick={() => chooseService(quickFixService)}>
-                Zgłoś problem WordPress
+                onClick={() => chooseService(businessSiteService)}>
+                Wyceń stronę firmową
               </a>
             </div>
 
             <div className="cf-proof" aria-label="Standard pracy">
               <span className="cf-proof-item">
                 <CheckCircle2 size={15} aria-hidden="true" />
-                Edycja treści w ACF PRO
+                Quick Fix od 390 zł
               </span>
               <span className="cf-proof-item">
                 <CheckCircle2 size={15} aria-hidden="true" />
-                Preview przed publikacją
+                Bez loginu na start
               </span>
               <span className="cf-proof-item">
                 <CheckCircle2 size={15} aria-hidden="true" />
-                Mobile-first
+                Odpowiedź zwykle do 1 dnia roboczego
               </span>
             </div>
             <a href="#contact" className="cf-mini-audit-link"
@@ -377,7 +382,7 @@ export function HomepageV1() {
             <div className="cf-services-grid">
               {services.map(({ icon: Icon, title, description, meta, price, service, cta, detailsHref }) => (
                 <article key={title}
-                  className={`cf-service-card${service === businessSiteService ? ' cf-service-card-featured' : ''}`}>
+                  className={`cf-service-card${service === quickFixService ? ' cf-service-card-featured' : ''}`}>
                   {service === businessSiteService && (
                     <span className="cf-service-badge">Najlepsze do nowej strony</span>
                   )}
