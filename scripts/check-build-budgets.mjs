@@ -46,8 +46,8 @@ const budgets = {
   entryJs: 215_000,
   largestDeferredJs: 50_000,
   totalJs: 330_000,
-  largestCss: 140_000,
-  totalCss: 205_000,
+  largestCss: 40_000,
+  totalCss: 70_000,
 };
 
 console.log(`Entry JS: ${entry.bytes} B / ${budgets.entryJs} B — ${entry.name}`);
