@@ -58,7 +58,7 @@ export function GuidesIndex() {
   useEffect(() => {
     document.title = 'Poradniki WordPress — diagnostyka i utrzymanie | CodeFix.IT';
     const description =
-      'Praktyczne poradniki CodeFix.IT o WordPress: błędy 500, poczta i SMTP, awarie po aktualizacji oraz wydajność.';
+      'Praktyczne poradniki CodeFix.IT o WordPress: błędy krytyczne i 500, WooCommerce checkout, poczta SMTP, awarie po aktualizacji i wydajność.';
     setMeta('meta[name="description"]', 'content', description);
     setMeta('link[rel="canonical"]', 'href', 'https://codefix.it/poradniki');
   }, []);
@@ -138,7 +138,10 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
     schema.textContent = JSON.stringify(schemaFor(guide));
   }, [guide]);
 
-  const related = wordpressGuides.filter((item) => item.slug !== guide.slug).slice(0, 3);
+  const related = wordpressGuides
+    .filter((item) => item.slug !== guide.slug)
+    .sort((a, b) => Number(b.serviceHref === guide.serviceHref) - Number(a.serviceHref === guide.serviceHref))
+    .slice(0, 3);
 
   return (
     <div className="homepage-v1 guide-page">

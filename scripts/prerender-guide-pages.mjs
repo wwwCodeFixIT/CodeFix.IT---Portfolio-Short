@@ -46,6 +46,32 @@ const guides = [
       ['Czy PageSpeed 100 jest konieczne?', 'Nie. Celem jest szybka i stabilna strona dla użytkowników. Wynik narzędzia jest pomocą diagnostyczną, a nie celem samym w sobie.'],
     ],
   },
+  {
+    slug: 'blad-krytyczny-wordpress',
+    title: 'Błąd krytyczny WordPress — Recovery Mode i diagnostyka | CodeFix.IT',
+    description: 'WordPress pokazuje komunikat o błędzie krytycznym? Sprawdź Recovery Mode, logi PHP, wtyczki, motyw i ostatnie zmiany, zanim zaczniesz przywracać cały backup.',
+    headline: 'W witrynie wystąpił błąd krytyczny — jak odzyskać WordPress',
+    publishedOn: '2026-09-30',
+    updatedOn: '2026-09-30',
+    faq: [
+      ['Czy błąd krytyczny oznacza, że strona została zhakowana?', 'Nie. Najczęściej oznacza fatalny błąd PHP lub konflikt kodu. Włamanie jest tylko jedną z wielu możliwych przyczyn i wymaga dodatkowych oznak oraz osobnej weryfikacji.'],
+      ['Co zrobić, jeśli link Recovery Mode nie przychodzi?', 'Sprawdź log błędów i panel hostingu. Jeżeli panel WordPress jest niedostępny, diagnozę można prowadzić przez pliki, logi i narzędzia hostingu bez czekania na e-mail.'],
+      ['Czy od razu przywracać cały backup?', 'Nie zawsze. Jeśli problem powoduje jeden komponent, bezpieczniejsze może być naprawienie lub cofnięcie tylko tego elementu. Pełny rollback może nadpisać nowsze dane.'],
+    ],
+  },
+  {
+    slug: 'woocommerce-checkout-nie-dziala',
+    title: 'WooCommerce checkout nie działa? Diagnostyka krok po kroku | CodeFix.IT',
+    description: 'Checkout WooCommerce nie ładuje płatności, kręci się bez końca albo nie przechodzi dalej? Sprawdź cache, JavaScript, AJAX, bramkę płatności i konflikty.',
+    headline: 'WooCommerce checkout nie działa — jak znaleźć przyczynę',
+    publishedOn: '2026-09-30',
+    updatedOn: '2026-09-30',
+    faq: [
+      ['Dlaczego checkout WooCommerce kręci się bez końca?', 'Częstą przyczyną są błędy JavaScript, niedokończone żądania AJAX, konflikt wtyczki lub motywu, cache albo problem z konfiguracją URL i sesji.'],
+      ['Czy można wyłączyć cache tylko dla checkoutu?', 'Tak. Koszyk i checkout powinny być traktowane jako dynamiczne. Dokładny sposób wykluczenia zależy od wtyczki, hostingu i CDN.'],
+      ['Czy problem może powodować bramka płatności?', 'Tak. Jeśli awaria występuje tylko dla jednej metody, sprawdź jej logi, konfigurację, status integracji, SSL i błędy JavaScript związane z daną bramką.'],
+    ],
+  },
 ];
 
 const distDir = new URL('../dist/', import.meta.url);
@@ -81,7 +107,7 @@ const organization = {
 };
 
 const indexCanonical = 'https://codefix.it/poradniki';
-const indexDescription = 'Praktyczne poradniki CodeFix.IT o WordPress: błędy 500, poczta i SMTP, awarie po aktualizacji oraz wydajność.';
+const indexDescription = 'Praktyczne poradniki CodeFix.IT o WordPress: błędy krytyczne i 500, WooCommerce checkout, poczta SMTP, awarie po aktualizacji i wydajność.';
 let indexHtml = withMeta(baseHtml, {
   title: 'Poradniki WordPress — diagnostyka i utrzymanie | CodeFix.IT',
   description: indexDescription,
@@ -114,8 +140,8 @@ for (const guide of guides) {
         '@type': 'Article',
         headline: guide.headline,
         description: guide.description,
-        datePublished: '2026-09-27',
-        dateModified: '2026-09-27',
+        datePublished: guide.publishedOn ?? '2026-09-27',
+        dateModified: guide.updatedOn ?? guide.publishedOn ?? '2026-09-27',
         mainEntityOfPage: canonical,
         url: canonical,
         author: { '@id': 'https://codefix.it/#organization' },

@@ -271,6 +271,141 @@ export const wordpressGuides: WordPressGuide[] = [
       },
     ],
   },
+  {
+    slug: 'blad-krytyczny-wordpress',
+    title: 'W witrynie wystąpił błąd krytyczny — jak odzyskać WordPress',
+    metaTitle: 'Błąd krytyczny WordPress — Recovery Mode i diagnostyka | CodeFix.IT',
+    description:
+      'WordPress pokazuje komunikat o błędzie krytycznym? Sprawdź Recovery Mode, logi PHP, wtyczki, motyw i ostatnie zmiany, zanim zaczniesz przywracać cały backup.',
+    publishedOn: '2026-09-30',
+    updatedOn: '2026-09-30',
+    readMinutes: 7,
+    intent: 'Błąd krytyczny / Recovery Mode',
+    serviceHref: '/naprawa-wordpress',
+    serviceLabel: 'Zgłoś błąd krytyczny WordPress',
+    intro:
+      'Komunikat „W witrynie wystąpił błąd krytyczny” zwykle oznacza, że WordPress przechwycił fatalny błąd PHP. Źródłem może być wtyczka, motyw, własny kod albo środowisko serwera. WordPress może uruchomić Recovery Mode, ale nawet wtedy warto ustalić przyczynę w logach zamiast ograniczyć się do przypadkowego wyłączania elementów.',
+    sections: [
+      {
+        heading: '1. Sprawdź wiadomość o Recovery Mode',
+        paragraphs: [
+          'WordPress może wysłać na adres administratora specjalny link do trybu odzyskiwania. W tej sesji wadliwa wtyczka lub motyw może zostać wstrzymany, dzięki czemu panel znów będzie dostępny.',
+          'Jeżeli wiadomość nie dotarła, sprawdź spam, ale nie zakładaj, że samo jej wysłanie zadziałało. Awaria może wystąpić zanim mechanizm poczty zostanie poprawnie załadowany.',
+        ],
+        checklist: [
+          'sprawdź skrzynkę administratora i Spam',
+          'nie publikuj linku Recovery Mode ani nie przesyłaj go osobom postronnym',
+          'zapisz nazwę komponentu wskazanego w komunikacie, jeśli WordPress ją podaje',
+        ],
+      },
+      {
+        heading: '2. Odczytaj log błędów zamiast zgadywać',
+        paragraphs: [
+          'Najbardziej przydatna informacja to typ błędu, plik i numer linii. Fatal error, TypeError, brak klasy lub funkcji i przekroczony limit pamięci wymagają innych działań.',
+          'Na produkcji nie wyświetlaj pełnych błędów PHP odwiedzającym. Używaj logów hostingu albo bezpiecznego debug.log i wyłącz publiczne wyświetlanie komunikatów.',
+        ],
+      },
+      {
+        heading: '3. Powiąż awarię z ostatnią zmianą',
+        paragraphs: [
+          'Jeżeli błąd pojawił się po aktualizacji wtyczki, motywu, PHP lub wdrożeniu kodu, zacznij od tego obszaru. To znacznie bezpieczniejsze niż wyłączanie wszystkich rozszerzeń bez planu.',
+          'Gdy panel nie działa, dostęp do plików lub hostingu pozwala tymczasowo odizolować wadliwy komponent. Najpierw jednak wykonaj kopię i zanotuj stan wyjściowy.',
+        ],
+      },
+      {
+        heading: '4. Po przywróceniu strony usuń przyczynę, nie tylko objaw',
+        paragraphs: [
+          'Samo wejście przez Recovery Mode albo cofnięcie jednej wersji może przywrócić serwis, ale trwała naprawa wymaga sprawdzenia kompatybilności i odtworzenia problemu w bezpiecznym środowisku.',
+          'Jeżeli awaria dotyczy sklepu lub formularzy, po naprawie wykonaj również test procesu biznesowego, a nie tylko test strony głównej.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: 'Czy błąd krytyczny oznacza, że strona została zhakowana?',
+        answer:
+          'Nie. Najczęściej oznacza fatalny błąd PHP lub konflikt kodu. Włamanie jest tylko jedną z wielu możliwych przyczyn i wymaga dodatkowych oznak oraz osobnej weryfikacji.',
+      },
+      {
+        question: 'Co zrobić, jeśli link Recovery Mode nie przychodzi?',
+        answer:
+          'Sprawdź log błędów i panel hostingu. Jeżeli panel WordPress jest niedostępny, diagnozę można prowadzić przez pliki, logi i narzędzia hostingu bez czekania na e-mail.',
+      },
+      {
+        question: 'Czy od razu przywracać cały backup?',
+        answer:
+          'Nie zawsze. Jeśli problem powoduje jeden komponent, bezpieczniejsze może być naprawienie lub cofnięcie tylko tego elementu. Pełny rollback może nadpisać nowsze dane.',
+      },
+    ],
+  },
+  {
+    slug: 'woocommerce-checkout-nie-dziala',
+    title: 'WooCommerce checkout nie działa — jak znaleźć przyczynę',
+    metaTitle: 'WooCommerce checkout nie działa? Diagnostyka krok po kroku | CodeFix.IT',
+    description:
+      'Checkout WooCommerce nie ładuje płatności, kręci się bez końca albo nie przechodzi dalej? Sprawdź cache, JavaScript, AJAX, bramkę płatności i konflikty.',
+    publishedOn: '2026-09-30',
+    updatedOn: '2026-09-30',
+    readMinutes: 8,
+    intent: 'WooCommerce / checkout',
+    serviceHref: '/naprawa-wordpress',
+    serviceLabel: 'Zgłoś problem z checkoutem WooCommerce',
+    intro:
+      'Awaria checkoutu bezpośrednio blokuje sprzedaż, dlatego diagnoza powinna być szybka, ale kontrolowana. Przyczyną może być JavaScript, AJAX, cache, bramka płatności, nieaktualny override szablonu, konflikt wtyczki albo błędna konfiguracja stron WooCommerce.',
+    sections: [
+      {
+        heading: '1. Ustal dokładny moment awarii checkoutu',
+        paragraphs: [
+          'Sprawdź, czy problem występuje przed załadowaniem formularza, po wyborze dostawy, po wyborze płatności czy dopiero po kliknięciu przycisku złożenia zamówienia. Każdy z tych momentów angażuje inny fragment procesu.',
+          'Przetestuj też tryb prywatny i drugą przeglądarkę. Jeżeli problem dotyczy tylko części użytkowników, cenna jest informacja o urządzeniu, metodzie płatności i komunikacie w konsoli.',
+        ],
+        checklist: [
+          'sprawdź checkout jako niezalogowany klient',
+          'przetestuj co najmniej jedną aktywną metodę płatności',
+          'sprawdź konsolę JavaScript i zakładkę Network',
+          'zanotuj błędy 4xx/5xx oraz niedokończone żądania AJAX',
+        ],
+      },
+      {
+        heading: '2. Wyklucz cache na koszyku i checkout',
+        paragraphs: [
+          'Koszyk i checkout zawierają dane zależne od sesji. Cache całej strony może podawać nieaktualny stan, błędne nonce albo dane innego etapu procesu.',
+          'Jeżeli korzystasz z wtyczki cache, cache serwerowego lub CDN, upewnij się, że dynamiczne ścieżki WooCommerce są wyłączone z cache zgodnie z konfiguracją używanej infrastruktury.',
+        ],
+      },
+      {
+        heading: '3. Sprawdź JavaScript, AJAX i zgodność motywu',
+        paragraphs: [
+          'Niekończący się spinner albo brak odświeżenia podsumowania często oznacza, że żądanie AJAX nie kończy się prawidłowo albo JavaScript przerwał działanie przez błąd.',
+          'Motyw i rozszerzenia mogą nadpisywać checkout lub ładować własne skrypty. Na stagingu warto przeprowadzić kontrolowany test konfliktu zamiast wyłączać wszystko na działającym sklepie.',
+        ],
+      },
+      {
+        heading: '4. Zweryfikuj bramkę płatności i logi WooCommerce',
+        paragraphs: [
+          'Jeżeli checkout działa do momentu wyboru konkretnej płatności, sprawdź logi tej bramki, webhooki, klucze API, tryb testowy/produkcyjny i wymagania SSL.',
+          'Po naprawie wykonaj pełne zamówienie testowe od produktu do potwierdzenia, a następnie sprawdź status zamówienia, e-mail i ewentualny webhook operatora płatności.',
+        ],
+      },
+    ],
+    faq: [
+      {
+        question: 'Dlaczego checkout WooCommerce kręci się bez końca?',
+        answer:
+          'Częstą przyczyną są błędy JavaScript, niedokończone żądania AJAX, konflikt wtyczki lub motywu, cache albo problem z konfiguracją URL i sesji.',
+      },
+      {
+        question: 'Czy można wyłączyć cache tylko dla checkoutu?',
+        answer:
+          'Tak. Koszyk i checkout powinny być traktowane jako dynamiczne. Dokładny sposób wykluczenia zależy od wtyczki, hostingu i CDN.',
+      },
+      {
+        question: 'Czy problem może powodować bramka płatności?',
+        answer:
+          'Tak. Jeśli awaria występuje tylko dla jednej metody, sprawdź jej logi, konfigurację, status integracji, SSL i błędy JavaScript związane z daną bramką.',
+      },
+    ],
+  },
 ];
 
 export const guideByPath = Object.fromEntries(
