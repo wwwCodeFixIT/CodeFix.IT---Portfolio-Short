@@ -124,6 +124,8 @@ for (const page of pages) {
         name: 'CodeFix.IT',
         alternateName: ['CodeFix IT', 'CodeFixIT'],
         url: 'https://codefix.it/',
+        logo: 'https://codefix.it/favicon.svg',
+        slogan: 'Diabeł tkwi w kodzie',
         email: 'wwwcodefixit@gmail.com',
         sameAs: ['https://github.com/wwwCodeFixIT'],
       },
