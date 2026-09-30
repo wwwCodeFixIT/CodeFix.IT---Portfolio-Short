@@ -1,3 +1,26 @@
+/* Stage 11D: skip off-screen rendering until sections approach the viewport. */
+@supports (content-visibility: auto) {
+  .homepage-v1 .cf-section,
+  .homepage-v1 .cf-revenue-strip,
+  .homepage-v1 .cf-footer {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 760px;
+  }
+
+  .homepage-v1 .cf-contact-section {
+    contain-intrinsic-size: auto 940px;
+  }
+}
+
+@media (max-width: 800px) {
+  /* Sticky backdrop blur is expensive on mobile GPUs; opaque fallback keeps contrast. */
+  .cf-header {
+    background: rgba(6, 6, 6, 0.97);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
 /* Homepage V1 — V3 sales polish and extended sections */
 
 .homepage-v1 {
