@@ -8,7 +8,7 @@ const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => new UR
 const serviceHeadings = {
   '/naprawa-wordpress': 'Naprawa WordPress w Warszawie i zdalnie w całej Polsce',
   '/opieka-wordpress': 'Opieka WordPress dla firm z Warszawy i całej Polski',
-  '/strony-wordpress': 'Strony WordPress dla firm w Warszawie i całej Polsce',
+  '/strony-wordpress': 'Strony internetowe dla firm w Warszawie — WordPress + ACF PRO',
 };
 
 const guideLinks = [
@@ -22,7 +22,7 @@ const guideLinks = [
 
 const serviceLinks = [
   ['/naprawa-wordpress', 'Naprawa WordPress'],
-  ['/strony-wordpress', 'Strony WordPress dla firm'],
+  ['/strony-wordpress', 'Strony internetowe Warszawa — WordPress dla firm'],
   ['/opieka-wordpress', 'Opieka WordPress'],
 ];
 
@@ -101,7 +101,7 @@ function relatedBlock(path) {
 
   if (path.startsWith('/realizacje/')) {
     return `
-      <p><a href="/strony-wordpress">Strony WordPress dla firm — zobacz zakres</a></p>
+      <p><a href="/strony-wordpress">Strony internetowe Warszawa — zobacz zakres wdrożenia</a></p>
       <p><a href="/">Wróć do CodeFix.IT</a></p>`;
   }
 
