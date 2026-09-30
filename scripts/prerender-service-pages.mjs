@@ -118,6 +118,7 @@ for (const page of pages) {
         '@type': 'Organization',
         '@id': 'https://codefix.it/#organization',
         name: 'CodeFix.IT',
+        alternateName: ['CodeFix IT', 'CodeFixIT'],
         url: 'https://codefix.it/',
         email: 'wwwcodefixit@gmail.com',
         sameAs: ['https://github.com/wwwCodeFixIT'],
