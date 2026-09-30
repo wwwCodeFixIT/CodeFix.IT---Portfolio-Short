@@ -43,6 +43,29 @@ function schemaFor(guide: WordPressGuide) {
         inLanguage: 'pl-PL',
       },
       {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'CodeFix.IT',
+            item: 'https://codefix.it/',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Poradniki WordPress',
+            item: 'https://codefix.it/poradniki',
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: guide.title,
+            item: url,
+          },
+        ],
+      },
+      {
         '@type': 'FAQPage',
         mainEntity: guide.faq.map((item) => ({
           '@type': 'Question',
@@ -143,6 +166,20 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
     .sort((a, b) => Number(b.serviceHref === guide.serviceHref) - Number(a.serviceHref === guide.serviceHref))
     .slice(0, 3);
 
+  function trackServiceCta() {
+    const analyticsWindow = window as Window & {
+      gtag?: (...args: unknown[]) => void;
+      codefixAnalyticsAllowed?: boolean;
+    };
+    if (!analyticsWindow.codefixAnalyticsAllowed) return;
+    analyticsWindow.gtag?.('event', 'service_cta_click', {
+      event_category: 'conversion_path',
+      source: 'guide',
+      guide_slug: guide.slug,
+      destination: guide.serviceHref,
+    });
+  }
+
   return (
     <div className="homepage-v1 guide-page">
       <header className="cf-header">
@@ -157,9 +194,13 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
 
       <main>
         <article className="cf-container guide-article">
-          <a className="guide-back" href="/poradniki">
-            <ArrowLeft size={15}/> Wszystkie poradniki
-          </a>
+          <nav className="guide-breadcrumb" aria-label="Okruszki">
+            <a href="/">CodeFix.IT</a>
+            <span aria-hidden="true">/</span>
+            <a href="/poradniki">Poradniki WordPress</a>
+            <span aria-hidden="true">/</span>
+            <span>{guide.intent}</span>
+          </nav>
 
           <header className="guide-article-header">
             <div className="guide-badges">
@@ -204,7 +245,7 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
               <h2>Nie chcesz diagnozować tego na produkcji samodzielnie?</h2>
               <p>Opisz objaw i podeślij URL. Najpierw ustalimy zakres, a dopiero potem zmianę.</p>
             </div>
-            <a className="cf-button cf-button-primary" href={guide.serviceHref}>
+            <a className="cf-button cf-button-primary" href={guide.serviceHref} onClick={trackServiceCta}>
               {guide.serviceLabel}<ArrowRight size={16}/>
             </a>
           </section>
