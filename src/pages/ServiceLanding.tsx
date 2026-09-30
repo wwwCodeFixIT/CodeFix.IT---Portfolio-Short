@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import {
-  ArrowLeft,
   ArrowRight,
   ArrowUpRight,
   CheckCircle2,
