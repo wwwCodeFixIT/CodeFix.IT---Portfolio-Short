@@ -15,6 +15,7 @@ import {
   Wrench,
 } from 'lucide-react';
 
+import { Brand } from '../components/Brand';
 import { projects } from '../data/projects';
 import { wordpressGuides } from '../data/wordpress-guides';
 import { captureSessionAttribution } from '../lib/attribution';
@@ -618,10 +619,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
     <div className="homepage-v1 service-landing">
       <header className="cf-header">
         <div className="cf-container cf-nav">
-          <a href="/" className="cf-brand" aria-label="CodeFix.IT — strona główna">
-            <span className="cf-brand-mark">&lt;/&gt;</span>
-            <span className="cf-brand-name">CODEFIX<strong>.IT</strong></span>
-          </a>
+          <Brand />
           <nav className="cf-nav-links service-nav-links" aria-label="Nawigacja usługi">
             <a href="#zakres">Zakres</a>
             <a href="#proces">Proces</a>
