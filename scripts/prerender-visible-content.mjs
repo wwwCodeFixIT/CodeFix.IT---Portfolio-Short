@@ -117,7 +117,9 @@ const style = `
 <style id="codefix-static-prerender-style">
   .cf-static-prerender{min-height:100vh;background:#060606;color:#e8e8eb;font-family:Inter,system-ui,sans-serif;padding:56px 24px}
   .cf-static-prerender-inner{max-width:1040px;margin:0 auto}
-  .cf-static-prerender .brand{font-weight:800;letter-spacing:.04em;color:#fff;text-decoration:none}
+  .cf-static-prerender .brand{display:inline-flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;color:#fff;text-decoration:none}
+  .cf-static-prerender .brand img{width:42px;height:42px;object-fit:contain}
+  .cf-static-prerender .brand-fix{color:#f12b3e}
   .cf-static-prerender .eyebrow{margin-top:48px;color:#ff686b;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.12em}
   .cf-static-prerender h1{max-width:880px;margin:14px 0 20px;font-size:clamp(38px,7vw,72px);line-height:1.02;letter-spacing:-.05em}
   .cf-static-prerender h2{margin-top:40px;font-size:22px}
@@ -137,7 +139,7 @@ for (const url of urls) {
   const body = `<div id="root" data-static-prerender="true">
     <main class="cf-static-prerender" data-seo-static-content="true">
       <div class="cf-static-prerender-inner">
-        <a class="brand" href="/">CODEFIX.IT</a>
+        <a class="brand" href="/" aria-label="CodeFix.IT — strona główna"><img src="/favicon.svg" width="42" height="42" alt=""><span>Code<span class="brand-fix">Fix</span>.IT</span></a>
         <p class="eyebrow">WordPress • Warszawa • cała Polska</p>
         <h1>${escapeHtml(heading)}</h1>
         <p>${escapeHtml(description)}</p>

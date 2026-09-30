@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Brand } from '../components/Brand';
 import { ArrowLeft, Mail, ShieldCheck } from 'lucide-react';
 import './PrivacyPolicy.css';
 
@@ -18,10 +19,7 @@ export function PrivacyPolicy() {
     <div className="homepage-v1 cf-privacy-page">
       <header className="cf-header">
         <div className="cf-container cf-privacy-nav">
-          <a href="/" className="cf-brand" aria-label="CodeFix.IT — strona główna">
-            <span className="cf-brand-mark">&lt;/&gt;</span>
-            <span className="cf-brand-name">CODEFIX<strong>.IT</strong></span>
-          </a>
+          <Brand />
           <a href="/" className="cf-privacy-back">
             <ArrowLeft size={16} aria-hidden="true" />
             Wróć na stronę

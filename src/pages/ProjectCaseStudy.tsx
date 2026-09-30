@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { Brand } from '../components/Brand';
 import type { Project } from '../data/projects';
 import './ProjectCaseStudy.css';
 
@@ -36,10 +37,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
     <div className="homepage-v1 cf-case-page">
       <header className="cf-header">
         <div className="cf-container cf-case-nav">
-          <a href="/" className="cf-brand" aria-label="CodeFix.IT — strona główna">
-            <span className="cf-brand-mark">&lt;/&gt;</span>
-            <span className="cf-brand-name">CODEFIX<strong>.IT</strong></span>
-          </a>
+          <Brand />
           <a href="/#work" className="cf-case-back">
             <ArrowLeft size={16} aria-hidden="true" />
             Wszystkie realizacje

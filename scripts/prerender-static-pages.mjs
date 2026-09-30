@@ -60,6 +60,8 @@ for (const page of pages) {
         '@id': 'https://codefix.it/#organization',
         name: 'CodeFix.IT',
         url: 'https://codefix.it/',
+        logo: 'https://codefix.it/favicon.svg',
+        slogan: 'Diabeł tkwi w kodzie',
         email: 'wwwcodefixit@gmail.com',
         sameAs: ['https://github.com/wwwCodeFixIT'],
       },

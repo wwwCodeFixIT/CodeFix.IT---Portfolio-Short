@@ -1,5 +1,17 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CodeFix.IT">
-  <rect width="64" height="64" rx="14" fill="#090909"/>
-  <rect x="1.5" y="1.5" width="61" height="61" rx="12.5" fill="none" stroke="#ef4444" stroke-width="3"/>
-  <text x="32" y="39" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="20" font-weight="700" fill="#ef4444">&lt;/&gt;</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
+  <title id="title">CodeFix.IT — diabelski znak kodu</title>
+  <defs>
+    <linearGradient id="red" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff3b46"/>
+      <stop offset="1" stop-color="#b70f1f"/>
+    </linearGradient>
+  </defs>
+  <path d="M16 18C11 12 11 7 14 4c1 5 4 8 8 10z" fill="url(#red)"/>
+  <path d="M48 18c5-6 5-11 2-14-1 5-4 8-8 10z" fill="url(#red)"/>
+  <path d="M24 21 14 32l10 11" fill="none" stroke="url(#red)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m40 21 10 11-10 11" fill="none" stroke="url(#red)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M39 15 25 49" fill="none" stroke="#f8fafc" stroke-width="6" stroke-linecap="round"/>
+  <path d="M25 48c4 7 14 8 21 3 3-2 5-4 6-7" fill="none" stroke="#ef233c" stroke-width="4" stroke-linecap="round"/>
+  <path d="m50 42 7 1-4 6" fill="#ef233c"/>
+  <path d="M26 33c-3-2-6-2-8 0 3 3 6 3 8 0Zm12 0c3-2 6-2 8 0-3 3-6 3-8 0Z" fill="#ff3949"/>
 </svg>

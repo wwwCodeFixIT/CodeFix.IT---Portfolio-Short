@@ -12,6 +12,7 @@ import {
   Sparkles,
   Wrench,
 } from 'lucide-react';
+import { Brand } from '../components/Brand';
 import { projects } from '../data/projects';
 import { captureSessionAttribution } from '../lib/attribution';
 import './HomepageV1.css';
@@ -238,12 +239,7 @@ export function HomepageV1() {
     <div className="homepage-v1">
       <header className="cf-header">
         <div className="cf-container cf-nav">
-          <a href="#top" className="cf-brand" aria-label="CodeFix.IT - strona główna">
-            <span className="cf-brand-mark">&lt;/&gt;</span>
-            <span className="cf-brand-name">
-              CODEFIX<strong>.IT</strong>
-            </span>
-          </a>
+          <Brand href="#top" />
 
           <nav className="cf-nav-links" aria-label="Główna nawigacja">
             <a href="#services">Usługi</a>
@@ -757,10 +753,7 @@ export function HomepageV1() {
       <footer className="cf-footer">
         <div className="cf-container cf-footer-main">
           <div className="cf-footer-brand">
-            <a href="#top" className="cf-brand" aria-label="CodeFix.IT — wróć na górę">
-              <span className="cf-brand-mark">&lt;/&gt;</span>
-              <span className="cf-brand-name">CODEFIX<strong>.IT</strong></span>
-            </a>
+            <Brand href="#top" tagline />
             <p>
               Strony firmowe WordPress + ACF PRO, naprawy istniejących stron
               i dalsza opieka techniczna.
@@ -793,7 +786,7 @@ export function HomepageV1() {
               Ustawienia analityki
             </button>
           </div>
-          <span className="cf-footer-code">Diabeł tkwi w kodzie. 😈</span>
+          <span className="cf-footer-code">Warszawa • zdalnie cała Polska</span>
         </div>
       </footer>
 
