@@ -12,7 +12,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check package.json tsconfig.app.json .prettierrc.json .github/workflows/ci.yml",
-    "seo:smoke": "node scripts/seo-production-smoke.mjs"
+    "seo:smoke": "node scripts/seo-production-smoke.mjs",
+    "build:budget": "node scripts/check-build-budgets.mjs"
   },
   "dependencies": {
     "clsx": "2.1.1",
