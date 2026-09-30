@@ -50,7 +50,7 @@ const services = [
   },
   {
     icon: Layers3,
-    title: 'Strona firmowa WordPress + ACF PRO',
+    title: 'Strony internetowe dla firm — WordPress + ACF PRO',
     description:
       'Nowoczesna strona firmy od podstaw: czytelna oferta, wersja mobilna, formularz, techniczne SEO i wygodna edycja treści z panelu WordPress.',
     meta: 'Brief • projekt • preview • wdrożenie',

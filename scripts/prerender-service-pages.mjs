@@ -64,11 +64,11 @@ const pages = [
   },
   {
     slug: 'strony-wordpress',
-    title: 'Strony WordPress Warszawa dla firm + ACF PRO | CodeFix.IT',
+    title: 'Strony internetowe Warszawa – WordPress dla firm | CodeFix.IT',
     description:
-      'Strony WordPress dla firm z Warszawy i całej Polski: ACF PRO, responsywny front-end, formularze, techniczne SEO i preview przed publikacją.',
-    serviceName: 'Strony firmowe WordPress + ACF PRO',
-    serviceType: 'Projekt i wdrożenie strony firmowej WordPress',
+      'Strony internetowe dla firm w Warszawie: WordPress + ACF PRO, szybki front-end, formularze, SEO techniczne i wygodna edycja treści. CodeFix.IT.',
+    serviceName: 'Strony internetowe dla firm — WordPress + ACF PRO',
+    serviceType: 'Projektowanie i wdrożenie stron internetowych WordPress',
     faq: [
       [
         'Czy dostanę gotowy motyw WordPress?',
@@ -81,6 +81,10 @@ const pages = [
       [
         'Czy wykonujesz także wersję mobilną?',
         'Tak. Responsywność jest częścią wdrożenia i strona jest przygotowywana również dla telefonów i tabletów.',
+      ],
+      [
+        'Ile kosztuje strona internetowa dla firmy?',
+        'Cena zależy od liczby podstron, projektu, treści, integracji i zakresu WordPress/ACF PRO. Po krótkim briefie CodeFix.IT podaje zakres i wycenę przed rozpoczęciem prac.',
       ],
       [
         'Czy mogę zobaczyć przykład techniczny?',

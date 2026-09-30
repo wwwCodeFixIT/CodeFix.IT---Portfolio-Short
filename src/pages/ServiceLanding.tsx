@@ -277,21 +277,21 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
   '/strony-wordpress': {
     path: '/strony-wordpress',
     service: 'CODEFIX_BUSINESS_SITE',
-    eyebrow: 'Strony firmowe WordPress + ACF PRO',
-    title: 'Strony WordPress dla firm w Warszawie',
-    titleAccent: 'z wygodną edycją treści.',
+    eyebrow: 'Strony internetowe Warszawa • WordPress + ACF PRO',
+    title: 'Strony internetowe dla firm w Warszawie',
+    titleAccent: 'WordPress + ACF PRO, szybkie i edytowalne.',
     description:
-      'Projektuję i wdrażam strony firmowe WordPress + ACF PRO dla firm z Warszawy i zdalnie z całej Polski. Dostajesz responsywny front-end, formularz kontaktowy, techniczne SEO i edytowalne treści bez grzebania w kodzie.',
-    metaTitle: 'Strony WordPress Warszawa dla firm + ACF PRO | CodeFix.IT',
+      'Tworzę strony internetowe dla firm w Warszawie i zdalnie w całej Polsce. Wdrażam je na WordPress + ACF PRO: responsywny front-end, formularze, techniczne SEO, Core Web Vitals i wygodna edycja treści bez grzebania w kodzie.',
+    metaTitle: 'Strony internetowe Warszawa – WordPress dla firm | CodeFix.IT',
     metaDescription:
-      'Strony WordPress dla firm z Warszawy i całej Polski: ACF PRO, responsywny front-end, formularze, techniczne SEO i preview przed publikacją.',
+      'Strony internetowe dla firm w Warszawie: WordPress + ACF PRO, szybki front-end, formularze, SEO techniczne i wygodna edycja treści. CodeFix.IT.',
     price: 'Wycena indywidualna',
     pricingNote:
       'Cena zależy od liczby podstron, zakresu projektu, treści, integracji i tego, czy startujemy od istniejącej strony.',
     cta: 'Wyceń stronę firmową',
     secondaryCta: 'Zobacz, co dostajesz',
     heroPoints: ['Warszawa + cała Polska', 'WordPress + ACF PRO', 'Mobile-first i Core Web Vitals'],
-    problemHeading: 'Dla firmy, która potrzebuje czegoś więcej niż gotowego szablonu.',
+    problemHeading: 'Strony internetowe dla firm, które mają generować kontakt — nie tylko wyglądać.',
     problems: [
       {
         title: 'Nowa strona od zera',
@@ -324,7 +324,7 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
           'Responsywny layout, optymalizacja zasobów i kontrola Core Web Vitals jako część wdrożenia.',
       },
     ],
-    scopeHeading: 'Standard nowej strony firmowej.',
+    scopeHeading: 'Co obejmuje profesjonalna strona internetowa dla firmy.',
     scopeIntro:
       'Zakres dopasowuję do firmy, ale poniższe elementy traktuję jako bazę dobrego wdrożenia, a nie płatne dodatki do każdej drobnej rzeczy.',
     scope: [
@@ -364,6 +364,11 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
         question: 'Czy wykonujesz także wersję mobilną?',
         answer:
           'Tak. Responsywność nie jest dodatkiem — strona jest projektowana i testowana również dla telefonów i tabletów.',
+      },
+      {
+        question: 'Ile kosztuje strona internetowa dla firmy?',
+        answer:
+          'Cena zależy od liczby podstron, projektu, treści, integracji i zakresu WordPress/ACF PRO. Po krótkim briefie podaję zakres i wycenę przed rozpoczęciem prac.',
       },
       {
         question: 'Czy mogę zobaczyć przykład techniczny?',
