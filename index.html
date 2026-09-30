@@ -134,10 +134,11 @@
               link_url: href
             });
           }
-          if (href === '#contact') {
+          if (href === '#contact' || href === '#kontakt') {
             window.gtag('event', 'contact_cta_click', {
               event_category: 'lead',
-              link_text: target.textContent ? target.textContent.trim() : ''
+              link_text: target.textContent ? target.textContent.trim() : '',
+              page_path: window.location.pathname
             });
           }
         });

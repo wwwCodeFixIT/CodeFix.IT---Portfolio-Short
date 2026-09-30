@@ -10,6 +10,7 @@ import {
 
 import type { WordPressGuide } from '../data/wordpress-guides';
 import { wordpressGuides } from '../data/wordpress-guides';
+import { markGuideToServiceJourney } from '../lib/conversion-journey';
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
 import './GuidePage.css';
@@ -167,6 +168,8 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
     .slice(0, 3);
 
   function trackServiceCta() {
+    markGuideToServiceJourney(guide.slug, guide.serviceHref);
+
     const analyticsWindow = window as Window & {
       gtag?: (...args: unknown[]) => void;
       codefixAnalyticsAllowed?: boolean;
@@ -174,8 +177,8 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
     if (!analyticsWindow.codefixAnalyticsAllowed) return;
     analyticsWindow.gtag?.('event', 'service_cta_click', {
       event_category: 'conversion_path',
-      source: 'guide',
-      guide_slug: guide.slug,
+      journey_source: 'GUIDE',
+      journey_guide: guide.slug,
       destination: guide.serviceHref,
     });
   }
@@ -188,7 +191,7 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
             <span className="cf-brand-mark">&lt;/&gt;</span>
             <span className="cf-brand-name">CODEFIX<strong>.IT</strong></span>
           </a>
-          <a href={guide.serviceHref} className="cf-nav-cta">{guide.serviceLabel}</a>
+          <a href={guide.serviceHref} className="cf-nav-cta" onClick={trackServiceCta}>{guide.serviceLabel}</a>
         </div>
       </header>
 
