@@ -1,3 +1,5 @@
+import { readFile } from 'node:fs/promises';
+
 const siteUrl = (process.env.SITE_URL || 'https://codefix.it').replace(/\/$/, '');
 const userAgent = 'CodeFixIT-SEO-Smoke/1.0 (+https://codefix.it/)';
 
@@ -41,25 +43,32 @@ async function checkRobots() {
 }
 
 async function sitemapUrls() {
-  const { response, body } = await request('/sitemap.xml');
-  if (response.status !== 200) fail(`sitemap.xml returned ${response.status}`);
+  const localSitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8');
+  const expected = [...localSitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1].trim());
+  if (expected.length === 0) fail('Repository sitemap contains no URLs');
 
-  const urls = [...body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1].trim());
-  if (urls.length === 0) fail('sitemap.xml contains no URLs');
+  let lastSeen = [];
+  for (let attempt = 1; attempt <= 12; attempt += 1) {
+    const { response, body } = await request('/sitemap.xml');
+    if (response.status !== 200) fail(`sitemap.xml returned ${response.status}`);
 
-  const required = [
-    `${siteUrl}/naprawa-wordpress`,
-    `${siteUrl}/strony-wordpress`,
-    `${siteUrl}/opieka-wordpress`,
-    `${siteUrl}/poradniki`,
-  ];
+    const urls = [...body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => match[1].trim());
+    lastSeen = urls;
+    const missing = expected.filter((url) => !urls.includes(url));
 
-  for (const url of required) {
-    if (!urls.includes(url)) fail(`sitemap.xml is missing ${url}`);
+    if (missing.length === 0) {
+      console.log(`✓ sitemap.xml matches repository (${urls.length} URLs)`);
+      return urls;
+    }
+
+    if (attempt < 12) {
+      console.log(`Production sitemap is still behind deploy (attempt ${attempt}/12); missing: ${missing.join(', ')}`);
+      await new Promise((resolve) => setTimeout(resolve, 15000));
+    }
   }
 
-  console.log(`✓ sitemap.xml (${urls.length} URLs)`);
-  return urls;
+  const missing = expected.filter((url) => !lastSeen.includes(url));
+  fail(`Production sitemap did not catch up with repository. Missing: ${missing.join(', ')}`);
 }
 
 async function checkIndexableUrl(url) {
