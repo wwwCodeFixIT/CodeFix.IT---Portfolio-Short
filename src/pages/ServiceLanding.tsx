@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import {
   ArrowRight,
@@ -18,6 +18,7 @@ import {
 import { projects } from '../data/projects';
 import { wordpressGuides } from '../data/wordpress-guides';
 import { captureSessionAttribution } from '../lib/attribution';
+import { clearConversionJourney, readConversionJourney } from '../lib/conversion-journey';
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
 import './ServiceLanding.css';
@@ -505,6 +506,8 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
   const [formMessage, setFormMessage] = useState('');
   const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
   const [attribution] = useState(captureSessionAttribution);
+  const [journey] = useState(readConversionJourney);
+  const formStartTracked = useRef(false);
 
   useEffect(() => {
     document.title = config.metaTitle;
@@ -526,6 +529,27 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
     schema.textContent = JSON.stringify(buildSchema(config));
   }, [config]);
 
+  function trackLeadEvent(eventName: string) {
+    const analyticsWindow = window as Window & {
+      gtag?: (...args: unknown[]) => void;
+      codefixAnalyticsAllowed?: boolean;
+    };
+    if (!analyticsWindow.codefixAnalyticsAllowed) return;
+    analyticsWindow.gtag?.('event', eventName, {
+      event_category: 'lead_funnel',
+      service: config.service,
+      landing_path: config.path,
+      journey_source: journey.journeySource || 'DIRECT',
+      journey_guide: journey.journeyGuide || '(none)',
+    });
+  }
+
+  function handleFormStart() {
+    if (formStartTracked.current) return;
+    formStartTracked.current = true;
+    trackLeadEvent('lead_form_start');
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const form = event.currentTarget;
@@ -533,6 +557,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
 
     setFormState('submitting');
     setFormMessage('');
+    trackLeadEvent('lead_form_submit_attempt');
 
     try {
       const response = await fetch(leadApiUrl, {
@@ -547,6 +572,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
           companyWebsite: data.get('companyWebsite'),
           startedAt: formStartedAt,
           ...attribution,
+          ...journey,
         }),
       });
 
@@ -563,14 +589,18 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
           lead_source: 'service_landing',
           service: config.service,
           landing_path: config.path,
+          journey_source: journey.journeySource || 'DIRECT',
+          journey_guide: journey.journeyGuide || '(none)',
         });
       }
 
       form.reset();
+      clearConversionJourney();
       setFormStartedAt(Date.now());
       setFormState('success');
       setFormMessage('Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiem po krótkiej analizie tematu.');
     } catch (error) {
+      trackLeadEvent('lead_form_error');
       setFormState('error');
       setFormMessage(error instanceof Error ? error.message : 'Nie udało się wysłać formularza.');
     }
@@ -840,7 +870,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
               </div>
 
               <div className="cf-contact-action">
-                <form className="cf-lead-form" onSubmit={handleSubmit}>
+                <form className="cf-lead-form" onSubmit={handleSubmit} onFocusCapture={handleFormStart}>
                   <div className="cf-form-row">
                     <label>
                       <span>Imię / firma</span>
