@@ -406,6 +406,8 @@ function buildSchema(config: ServiceLandingConfig) {
         '@id': 'https://codefix.it/#organization',
         name: 'CodeFix.IT',
         url: 'https://codefix.it/',
+        logo: 'https://codefix.it/favicon.svg',
+        slogan: 'Diabeł tkwi w kodzie',
         email: contactEmail,
       },
       {
