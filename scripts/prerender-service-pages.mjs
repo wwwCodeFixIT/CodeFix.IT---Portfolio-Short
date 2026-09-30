@@ -4,9 +4,9 @@ import { join } from 'node:path';
 const pages = [
   {
     slug: 'naprawa-wordpress',
-    title: 'Naprawa WordPress – błędy, formularze, WooCommerce | CodeFix.IT',
+    title: 'Naprawa WordPress Warszawa – błędy i WooCommerce | CodeFix.IT',
     description:
-      'Naprawa błędów WordPress, formularzy, WooCommerce, CSS i problemów po aktualizacjach. Quick Fix od 390 zł, zakres potwierdzany przed startem.',
+      'Naprawa WordPress w Warszawie i zdalnie w całej Polsce: błędy, formularze, WooCommerce, CSS i awarie po aktualizacjach. Quick Fix od 390 zł.',
     serviceName: 'WordPress Quick Fix',
     serviceType: 'Diagnostyka i naprawa WordPress',
     faq: [
@@ -26,13 +26,17 @@ const pages = [
         'Co jeśli problem okaże się większy?',
         'Zakres nie jest rozszerzany bez uzgodnienia. Po diagnozie otrzymujesz informację, co trzeba zrobić i ile będzie kosztował kolejny etap.',
       ],
+      [
+        'Czy naprawiasz WordPress tylko w Warszawie?',
+        'Nie. Dla firm z Warszawy mogę działać lokalnie, a większość napraw WordPress realizuję zdalnie dla klientów z całej Polski, po bezpiecznym przekazaniu potrzebnych dostępów.',
+      ],
     ],
   },
   {
     slug: 'opieka-wordpress',
-    title: 'Opieka WordPress – aktualizacje, backupy i rozwój | CodeFix.IT',
+    title: 'Opieka WordPress Warszawa – aktualizacje i backupy | CodeFix.IT',
     description:
-      'Stała opieka nad WordPressem od 300 zł/mies.: aktualizacje, backupy, drobne poprawki i rozwój strony w uzgodnionym zakresie.',
+      'Opieka WordPress w Warszawie i zdalnie w całej Polsce od 300 zł/mies.: aktualizacje, backupy, drobne poprawki i rozwój strony.',
     serviceName: 'Opieka i rozwój WordPress',
     serviceType: 'Stała opieka techniczna WordPress',
     faq: [
@@ -52,13 +56,17 @@ const pages = [
         'Czy mogę zrezygnować ze stałej opieki?',
         'Tak. Warunki współpracy i okres rozliczeniowy są ustalane przed startem.',
       ],
+      [
+        'Czy opieka WordPress jest dostępna poza Warszawą?',
+        'Tak. Stała opieka jest realizowana zdalnie, dlatego CodeFix.IT może obsługiwać firmy w Warszawie i w całej Polsce.',
+      ],
     ],
   },
   {
     slug: 'strony-wordpress',
-    title: 'Strony WordPress dla firm + ACF PRO | CodeFix.IT',
+    title: 'Strony WordPress Warszawa dla firm + ACF PRO | CodeFix.IT',
     description:
-      'Strony firmowe WordPress + ACF PRO: responsywny front-end, formularze, techniczne SEO, edytowalne sekcje i preview przed publikacją.',
+      'Strony WordPress dla firm z Warszawy i całej Polski: ACF PRO, responsywny front-end, formularze, techniczne SEO i preview przed publikacją.',
     serviceName: 'Strony firmowe WordPress + ACF PRO',
     serviceType: 'Projekt i wdrożenie strony firmowej WordPress',
     faq: [
@@ -77,6 +85,10 @@ const pages = [
       [
         'Czy mogę zobaczyć przykład techniczny?',
         'Tak. Na demo.codefix.it działa własne demo WordPress + ACF PRO CodeFix.IT, oznaczone jako demo techniczne, a nie realizacja klienta.',
+      ],
+      [
+        'Czy tworzysz strony tylko dla firm z Warszawy?',
+        'Nie. Warszawa jest rynkiem lokalnym CodeFix.IT, ale projekt i wdrożenie mogą być prowadzone zdalnie dla firm z całej Polski.',
       ],
     ],
   },
@@ -117,6 +129,15 @@ for (const page of pages) {
         url: canonical,
         serviceType: page.serviceType,
         description: page.description,
+        areaServed: [
+          { '@type': 'City', name: 'Warszawa' },
+          { '@type': 'Country', name: 'Polska' },
+        ],
+        availableChannel: {
+          '@type': 'ServiceChannel',
+          serviceUrl: canonical,
+          availableLanguage: ['pl'],
+        },
       },
       {
         '@type': 'FAQPage',
