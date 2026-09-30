@@ -272,7 +272,7 @@ export function HomepageV1() {
             <p className="cf-stack-label">WordPress • ACF PRO • WooCommerce • Front-end</p>
 
             <h1 className="cf-title">
-              WordPress Warszawa.
+              CodeFix.IT — WordPress Warszawa.
               <span className="cf-title-muted">Naprawa, strony firmowe i opieka.</span>
             </h1>
 
