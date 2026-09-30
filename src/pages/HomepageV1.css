@@ -72,31 +72,56 @@
   justify-self: start;
   display: inline-flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
+  min-width: 0;
   color: var(--text);
   text-decoration: none;
 }
 
-.cf-brand-mark {
-  width: 38px;
-  height: 38px;
+.cf-brand-logo {
+  width: 44px;
+  height: 44px;
+  flex: 0 0 auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 10px rgba(239, 35, 60, 0.18));
+}
+
+.cf-brand-copy {
+  min-width: 0;
   display: grid;
-  place-items: center;
-  border-radius: 11px;
-  border: 1px solid rgba(239, 68, 68, 0.28);
-  background: rgba(239, 68, 68, 0.08);
-  color: #ff6b6b;
-  font: 700 13px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  gap: 4px;
 }
 
 .cf-brand-name {
-  font-size: 13px;
+  color: #f4f4f5;
+  font-size: 15px;
   font-weight: 800;
-  letter-spacing: 0.2em;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
 }
 
 .cf-brand-name strong {
-  color: var(--red);
+  color: #f12b3e;
+}
+
+.cf-brand-name > span {
+  color: #f4f4f5;
+}
+
+.cf-brand-tagline {
+  color: #777780;
+  font-size: 9px;
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.cf-brand--tagline .cf-brand-logo {
+  width: 48px;
+  height: 48px;
 }
 
 .cf-nav-links {
@@ -564,8 +589,17 @@
     padding-inline: 13px;
   }
 
+  .cf-brand-logo {
+    width: 38px;
+    height: 38px;
+  }
+
   .cf-brand-name {
-    font-size: 12px;
+    font-size: 14px;
+  }
+
+  .cf-brand-tagline {
+    font-size: 8px;
   }
 
   .cf-hero {
