@@ -33,7 +33,10 @@ async function resolveRoute(path: string): Promise<ReactNode> {
   }
 
   if (servicePaths.has(path)) {
-    const { ServiceLanding, serviceLandings } = await import('./pages/ServiceLanding');
+    const [{ ServiceLanding }, { serviceLandings }] = await Promise.all([
+      import('./pages/ServiceLanding'),
+      import('./data/service-landings'),
+    ]);
     const config = serviceLandings[path];
 
     if (config) return <ServiceLanding config={config} />;
