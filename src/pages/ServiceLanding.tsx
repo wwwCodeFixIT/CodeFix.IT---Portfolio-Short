@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import type { FormEvent } from 'react';
 import {
-  ArrowLeft,
   ArrowRight,
   ArrowUpRight,
   CheckCircle2,
   ChevronDown,
   CircleGauge,
   FileCode2,
+  FileText,
   LifeBuoy,
   MessageSquareText,
   ShieldCheck,
@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 
 import { projects } from '../data/projects';
+import { wordpressGuides } from '../data/wordpress-guides';
 import { captureSessionAttribution } from '../lib/attribution';
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
@@ -418,6 +419,23 @@ function buildSchema(config: ServiceLandingConfig) {
         },
       },
       {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'CodeFix.IT',
+            item: 'https://codefix.it/',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: config.eyebrow,
+            item: `https://codefix.it${config.path}`,
+          },
+        ],
+      },
+      {
         '@type': 'FAQPage',
         mainEntity: config.faq.map((item) => ({
           '@type': 'Question',
@@ -559,6 +577,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
   }
 
   const related = Object.values(serviceLandings).filter((item) => item.path !== config.path);
+  const relatedGuides = wordpressGuides.filter((item) => item.serviceHref === config.path).slice(0, 3);
 
   return (
     <div className="homepage-v1 service-landing">
@@ -581,10 +600,11 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
       <main>
         <section className="cf-container service-hero">
           <div className="service-hero-copy">
-            <a href="/#services" className="service-back-link">
-              <ArrowLeft size={15} aria-hidden="true" />
-              Wszystkie usługi
-            </a>
+            <nav className="service-breadcrumb" aria-label="Okruszki">
+              <a href="/">CodeFix.IT</a>
+              <span aria-hidden="true">/</span>
+              <span>{config.eyebrow}</span>
+            </nav>
             <p className="cf-section-kicker">{config.eyebrow}</p>
             <h1>
               {config.title}
@@ -726,6 +746,36 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
             </div>
           </div>
         </section>
+
+        {relatedGuides.length > 0 && (
+          <section className="cf-section cf-section-bordered service-guides-section" aria-labelledby="service-guides-title">
+            <div className="cf-container">
+              <div className="cf-section-head-row">
+                <div>
+                  <p className="cf-section-kicker">Baza wiedzy</p>
+                  <h2 id="service-guides-title" className="cf-section-heading">Poradniki powiązane z tą usługą.</h2>
+                </div>
+                <p className="cf-section-sidecopy">
+                  Jeśli chcesz najpierw zrozumieć problem, zacznij od konkretnej diagnostyki. Każdy poradnik prowadzi z powrotem do właściwej usługi.
+                </p>
+              </div>
+              <div className="service-guides-grid">
+                {relatedGuides.map((guide) => (
+                  <a key={guide.slug} href={`/poradniki/${guide.slug}`} className="service-guide-card">
+                    <FileText size={18} aria-hidden="true" />
+                    <span>{guide.intent}</span>
+                    <strong>{guide.title}</strong>
+                    <p>{guide.description}</p>
+                    <div>
+                      Czytaj poradnik
+                      <ArrowRight size={14} aria-hidden="true" />
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
+        )}
 
         <section id="faq" className="cf-section cf-section-bordered">
           <div className="cf-container">

@@ -117,6 +117,13 @@ let indexHtml = withMeta(baseHtml, {
     '@graph': [
       organization,
       {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'CodeFix.IT', item: 'https://codefix.it/' },
+          { '@type': 'ListItem', position: 2, name: 'Poradniki WordPress', item: indexCanonical },
+        ],
+      },
+      {
         '@type': 'CollectionPage',
         name: 'Poradniki WordPress',
         url: indexCanonical,
@@ -147,6 +154,14 @@ for (const guide of guides) {
         author: { '@id': 'https://codefix.it/#organization' },
         publisher: { '@id': 'https://codefix.it/#organization' },
         inLanguage: 'pl-PL',
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'CodeFix.IT', item: 'https://codefix.it/' },
+          { '@type': 'ListItem', position: 2, name: 'Poradniki WordPress', item: 'https://codefix.it/poradniki' },
+          { '@type': 'ListItem', position: 3, name: guide.headline, item: canonical },
+        ],
       },
       {
         '@type': 'FAQPage',

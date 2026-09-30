@@ -140,6 +140,13 @@ for (const page of pages) {
         },
       },
       {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'CodeFix.IT', item: 'https://codefix.it/' },
+          { '@type': 'ListItem', position: 2, name: page.serviceName, item: canonical },
+        ],
+      },
+      {
         '@type': 'FAQPage',
         mainEntity: page.faq.map(([question, answer]) => ({
           '@type': 'Question',
