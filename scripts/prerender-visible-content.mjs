@@ -50,7 +50,7 @@ function links(items) {
 }
 
 function pageHeading(path, title) {
-  if (path === '/') return 'Strony WordPress dla firm, naprawa i opieka techniczna';
+  if (path === '/') return 'WordPress Warszawa — naprawa, strony firmowe i opieka';
   if (serviceHeadings[path]) return serviceHeadings[path];
   if (path === '/poradniki') return 'Poradniki WordPress — diagnostyka i utrzymanie';
   return title.replace(/\s*[|–—-]\s*CodeFix\.IT.*$/i, '').trim() || 'CodeFix.IT';
