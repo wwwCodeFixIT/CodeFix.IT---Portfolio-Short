@@ -1,230 +1,55 @@
-# CodeFix.IT - Profesjonalne Środowisko Technologiczne
+# CodeFix.IT
 
-Nowoczesna aplikacja webowa będąca profesjonalną stroną wizytówką i portfolio dla marki CodeFix.IT, zbudowana w React z rozbudowanym ekosystemem integracji.
+**WordPress dla firm — naprawa, nowe strony i stała opieka techniczna.**
 
-## 🚀 Szybki start
+🌐 [codefix.it](https://codefix.it/)  
+📍 Warszawa + zdalnie cała Polska
 
-### Uruchomienie
+CodeFix.IT pomaga firmom utrzymać i rozwijać strony WordPress: od napraw pojedynczych błędów, przez nowe strony firmowe z ACF PRO, po stałą opiekę techniczną.
+
+## Usługi
+
+- [Naprawa WordPress](https://codefix.it/naprawa-wordpress) — błędy, formularze, WooCommerce, problemy po aktualizacjach i awarie.
+- [Strony WordPress dla firm](https://codefix.it/strony-wordpress) — nowe wdrożenia z ACF PRO, responsywnym front-endem, formularzem i technicznym SEO.
+- [Opieka WordPress](https://codefix.it/opieka-wordpress) — aktualizacje, backupy, drobne poprawki i dalszy rozwój.
+
+## Wybrane realizacje
+
+- [EM Air System](https://codefix.it/realizacje/em-air-system)
+- [Rzeczoznawca Marcin Dudek](https://codefix.it/realizacje/rzeczoznawca-marcin-dudek)
+- [Kancelaria Adwokacka Witkowska](https://codefix.it/realizacje/kancelaria-adwokacka-witkowska)
+
+## Baza wiedzy
+
+Praktyczne materiały diagnostyczne są dostępne w sekcji [Poradniki WordPress](https://codefix.it/poradniki), m.in. o błędach 500, błędach krytycznych, problemach po aktualizacji, niedziałającym checkout WooCommerce i poczcie WordPress.
+
+## Stack projektu
+
+React 19, Vite 7, TypeScript, Tailwind CSS, statyczny prerender HTML, Cloudflare Pages, GitHub Actions, techniczne SEO i monitoring produkcyjny.
+
+## Lokalnie
 
 ```bash
 npm install
 npm run dev
 ```
 
-### Build produkcyjny
+Build produkcyjny:
 
 ```bash
 npm run build
 ```
 
-## ⚙️ Konfiguracja
+Kontrole jakości:
 
-### Metoda 1: Setup Wizard (Zalecane)
-
-Po pierwszym uruchomieniu aplikacji automatycznie pojawi się Setup Wizard, który przeprowadzi Cię przez proces konfiguracji.
-
-Możesz też uruchomić go ręcznie:
-- Naciśnij `⌘ + Shift + S` (Mac) lub `Ctrl + Shift + S` (Windows)
-
-### Metoda 2: Panel Ustawień
-
-1. Naciśnij `⌘ + ,` (Mac) lub `Ctrl + ,` (Windows)
-2. Lub kliknij ikonę ⚙️ w nawigacji
-
-### Metoda 3: Edycja pliku konfiguracji
-
-Edytuj `src/context/SettingsContext.tsx`:
-
-```typescript
-const defaultSettings: AppSettings = {
-  github: {
-    username: 'TWOJA_NAZWA_UŻYTKOWNIKA',
-    token: 'ghp_xxxxxxxxxxxxx', // opcjonalne
-  },
-  contact: {
-    email: 'kontakt@twojafirma.pl',
-    phone: '+48 123 456 789',
-    address: 'Warszawa, Polska',
-  },
-  company: {
-    name: 'Twoja Firma',
-    foundedYear: 2020,
-    description: 'Opis Twojej firmy',
-  },
-  // ...
-};
+```bash
+npm run typecheck
+npm run lint
+npm run format:check
+npm run seo:smoke
 ```
-
-## 🔗 Integracje
-
-### GitHub API
-
-Połącz swoje konto GitHub, aby wyświetlać:
-- Statystyki repozytoriów (gwiazdki, forki)
-- Contribution graph (365 dni)
-- Top języki programowania
-- Streaks (serie commitów)
-
-**Konfiguracja:**
-1. Otwórz Ustawienia (`⌘ + ,`)
-2. Zakładka "GitHub"
-3. Wpisz swoją nazwę użytkownika
-4. Opcjonalnie: dodaj Personal Access Token
-
-**Uzyskanie tokena:**
-1. Przejdź do https://github.com/settings/tokens
-2. Kliknij "Generate new token (classic)"
-3. Wybierz uprawnienia: `public_repo`, `read:user`
-4. Skopiuj token
-
-### Monitoring usług
-
-System sprawdza dostępność skonfigurowanych endpointów:
-- Czas odpowiedzi (response time)
-- Historia uptime (90 dni)
-- Powiadomienia o awariach
-
-**Dodawanie usług:**
-
-Edytuj `src/context/SettingsContext.tsx`:
-
-```typescript
-monitoring: {
-  enabled: true,
-  checkInterval: 60000, // co 1 minutę
-  services: [
-    {
-      id: 'website',
-      name: 'Strona główna',
-      url: 'https://twojastrona.pl',
-      description: 'Główna strona'
-    },
-    {
-      id: 'api',
-      name: 'API',
-      url: 'https://api.twojastrona.pl/health',
-      description: 'Backend API'
-    },
-  ],
-},
-```
-
-### Analytics
-
-Lokalne śledzenie odwiedzin bez zewnętrznych serwisów:
-- Page views
-- Czas na stronie
-- Typ urządzenia
-- Źródło ruchu
-- Interakcje
-
-Dane przechowywane lokalnie w przeglądarce (localStorage).
-
-## ⌨️ Skróty klawiszowe
-
-| Skrót | Akcja |
-|-------|-------|
-| `⌘ + K` | Command Palette |
-| `⌘ + ,` | Ustawienia |
-| `⌘ + ⇧ + S` | Setup Wizard |
-| `?` | Lista skrótów |
-| `G + H` | Idź do Hero |
-| `G + S` | Idź do Usług |
-| `G + P` | Idź do Portfolio |
-| `G + C` | Idź do Kontaktu |
-| `Esc` | Zamknij modal |
-
-## 📂 Struktura projektu
-
-```
-src/
-├── components/           # Komponenty UI
-│   ├── Hero.tsx         # Sekcja główna
-│   ├── Services.tsx     # Usługi
-│   ├── Portfolio.tsx    # Portfolio z modalem
-│   ├── GitHubStats.tsx  # Statystyki GitHub
-│   ├── StatusPage.tsx   # Monitoring usług
-│   ├── SetupWizard.tsx  # Kreator konfiguracji
-│   ├── SettingsPanel.tsx # Panel ustawień
-│   └── ...
-├── context/
-│   └── SettingsContext.tsx  # Globalny stan ustawień
-├── contexts/
-│   ├── ThemeContext.tsx     # Dark/Light mode
-│   └── NotificationContext.tsx
-├── hooks/
-│   ├── useGitHubStats.ts    # Hook do GitHub API
-│   ├── useServiceStatus.ts  # Hook do monitoringu
-│   └── useAnalytics.ts      # Hook do analytics
-└── config/
-    └── settings.ts          # Stara konfiguracja (deprecated)
-```
-
-## 🎨 Personalizacja
-
-### Kolory
-
-Edytuj `tailwind.config.js` lub użyj zmiennych CSS w `src/index.css`:
-
-```css
-:root {
-  --color-primary: #dc2626; /* Czerwony */
-  --color-background: #0a0a0a; /* Czarny */
-}
-```
-
-### Typografia
-
-Domyślnie używany jest font Inter. Zmień w `index.html`:
-
-```html
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-```
-
-## 🔒 Prywatność
-
-- Wszystkie dane przechowywane lokalnie w przeglądarce
-- Brak śledzenia zewnętrznego (chyba że dodasz GA4)
-- Tokeny GitHub przechowywane tylko lokalnie
-- Brak cookies trzecich stron
-
-## 📝 Licencja
-
-MIT License
 
 ---
 
-Zbudowane z ❤️ przez CodeFix.IT
-
-
-## WordPress Quick Fix — pozyskiwanie zleceń (PR portfolio)
-
-Aktualną stronę publiczną renderuje `src/pages/HomepageV1.tsx`. Nowa pierwsza
-karta usług WordPress Quick Fix ma cenę orientacyjną **od 390 zł netto** za
-diagnostykę i naprawę jednego uzgodnionego problemu oraz test po naprawie.
-To nie jest gwarantowana cena brutto ani automatyczna umowa. Ostateczny zakres,
-kwotę brutto i warunki Useme ustalamy osobno z klientem.
-
-CTA w hero i przycisk Quick Fix w katalogu przenoszą do istniejącego
-`#contact` i ustawiają `service=WORDPRESS_QUICK_FIX` w kontrolowanym polu
-formularza. Nie tworzymy drugiego formularza ani publicznego klucza API.
-Obecny endpoint `https://app.codefix.it/api/public/leads` zapisuje lead ze
-źródłem `WEBSITE_FORM`, a **dokładny znacznik kampanii/usługi**
-`WORDPRESS_QUICK_FIX` zapisuje w `activities.metadata.service` przy
-notatce do leada oraz w powiadomieniu e-mail. Nie wymaga zmian schematu CRM.
-
-Test na wersji Preview:
-1. Z hero kliknij „Zgłoś problem ze stroną”; sprawdź przewinięcie do
-   formularza oraz wybraną usługę Quick Fix (także na telefonie).
-2. Sprawdź, że wybór innego tematu jest nadal możliwy, a na innych kartach
-   usług zaznacza się ich odpowiedni temat.
-3. Wyślij tylko własne testowe zapytanie (ze świadomie testowym opisem);
-   w CRM powinien powstać lead `WEBSITE_FORM` z notatką, gdzie
-   `metadata.service = WORDPRESS_QUICK_FIX`, a powiadomienie powinno
-   zawierać tę usługę. Nie przesyłaj prawdziwych danych klientów w teście.
-4. Potwierdź, że formularz zachowuje błędy i stan powodzenia, a po
-   pomyślnym wysłaniu resetuje wybór tematu.
-
-Po ręcznej akceptacji i zielonym CI można scalić do `main` — Cloudflare
-Pages wystawi produkcję. Zmiana nie modyfikuje historii realizacji,
-procesu ofert, uprawnień ani rozliczeń Useme.
+**CodeFix.IT** — [codefix.it](https://codefix.it/)  
+*Diabeł tkwi w kodzie.* 😈
