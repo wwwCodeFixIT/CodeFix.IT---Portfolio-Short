@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 
 import type { WordPressGuide } from '../data/wordpress-guides';
+import { Brand } from '../components/Brand';
 import { wordpressGuides } from '../data/wordpress-guides';
 import { markGuideToServiceJourney } from '../lib/conversion-journey';
 import './HomepageV1.css';
@@ -91,10 +92,7 @@ export function GuidesIndex() {
     <div className="homepage-v1 guide-page">
       <header className="cf-header">
         <div className="cf-container cf-nav">
-          <a href="/" className="cf-brand" aria-label="CodeFix.IT — strona główna">
-            <span className="cf-brand-mark">&lt;/&gt;</span>
-            <span className="cf-brand-name">CODEFIX<strong>.IT</strong></span>
-          </a>
+          <Brand />
           <a href="/naprawa-wordpress" className="cf-nav-cta">Naprawa WordPress</a>
         </div>
       </header>
@@ -187,10 +185,7 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
     <div className="homepage-v1 guide-page">
       <header className="cf-header">
         <div className="cf-container cf-nav">
-          <a href="/" className="cf-brand" aria-label="CodeFix.IT — strona główna">
-            <span className="cf-brand-mark">&lt;/&gt;</span>
-            <span className="cf-brand-name">CODEFIX<strong>.IT</strong></span>
-          </a>
+          <Brand />
           <a href={guide.serviceHref} className="cf-nav-cta" onClick={trackServiceCta}>{guide.serviceLabel}</a>
         </div>
       </header>
