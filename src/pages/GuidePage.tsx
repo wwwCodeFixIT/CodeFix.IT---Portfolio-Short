@@ -31,7 +31,7 @@ function schemaFor(guide: WordPressGuide) {
         '@id': 'https://codefix.it/#organization',
         name: 'CodeFix.IT',
         url: 'https://codefix.it/',
-        logo: 'https://codefix.it/favicon.svg',
+        logo: 'https://codefix.it/brand/codefix-mark.png',
         slogan: 'Diabeł tkwi w kodzie',
       },
       {
