@@ -9,15 +9,27 @@ export function Brand({ href = '/', tagline = false, className = '' }: BrandProp
 
   return (
     <a href={href} className={classes} aria-label="CodeFix.IT — strona główna">
-      <img
-        className="cf-brand-logo"
-        src="/brand/codefix-mark.png"
-        width="48"
-        height="48"
-        alt=""
-        aria-hidden="true"
-        decoding="async"
-      />
+      <span className="cf-brand-mark" aria-hidden="true">
+        <img
+          className="cf-brand-logo"
+          src="/brand/codefix-mark.png"
+          width="96"
+          height="96"
+          alt=""
+          decoding="sync"
+          loading="eager"
+          fetchPriority="high"
+          style={{
+            display: 'block',
+            width: '100%',
+            height: '100%',
+            maxWidth: 'none',
+            opacity: 1,
+            visibility: 'visible',
+            objectFit: 'contain',
+          }}
+        />
+      </span>
       <span className="cf-brand-copy">
         <span className="cf-brand-name">
           Code<strong>Fix</strong><span>.IT</span>
