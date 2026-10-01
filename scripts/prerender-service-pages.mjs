@@ -6,7 +6,7 @@ const pages = [
     slug: 'naprawa-wordpress',
     title: 'Naprawa WordPress – błędy, formularze, WooCommerce | CodeFix.IT',
     description:
-      'Naprawa WordPress zdalnie w całej Polsce: błędy, formularze, WooCommerce, CSS i awarie po aktualizacjach. Quick Fix od 390 zł.',
+      'Naprawa i pomoc WordPress zdalnie w całej Polsce: błędy, formularze, WooCommerce, CSS i awarie po aktualizacjach. Quick Fix od 390 zł.',
     serviceName: 'Naprawa WordPress — Quick Fix',
     serviceType: 'Diagnostyka i naprawa WordPress',
     faq: [
@@ -34,9 +34,9 @@ const pages = [
   },
   {
     slug: 'opieka-wordpress',
-    title: 'Opieka WordPress – aktualizacje, backupy i rozwój | CodeFix.IT',
+    title: 'Opieka WordPress – administracja, backupy i rozwój | CodeFix.IT',
     description:
-      'Opieka WordPress zdalnie w całej Polsce od 300 zł/mies.: aktualizacje, backupy, drobne poprawki i rozwój strony.',
+      'Opieka i administracja WordPress od 300 zł/mies.: aktualizacje, backupy, wsparcie techniczne, drobne poprawki i rozwój strony.',
     serviceName: 'Opieka i rozwój WordPress',
     serviceType: 'Stała opieka techniczna WordPress',
     faq: [
@@ -64,9 +64,9 @@ const pages = [
   },
   {
     slug: 'strony-wordpress',
-    title: 'Strony internetowe dla firm – WordPress + ACF PRO | CodeFix.IT',
+    title: 'Strony WordPress dla firm – projekt i wdrożenie | CodeFix.IT',
     description:
-      'Strony internetowe dla firm w całej Polsce: WordPress + ACF PRO, szybki front-end, formularze, SEO techniczne i wygodna edycja treści. CodeFix.IT.',
+      'Tworzenie stron WordPress dla firm w całej Polsce: ACF PRO, szybki front-end, formularze, SEO techniczne i wygodna edycja treści.',
     serviceName: 'Strony internetowe dla firm — WordPress + ACF PRO',
     serviceType: 'Projektowanie i wdrożenie stron internetowych WordPress',
     faq: [
