@@ -4,9 +4,9 @@ import { join } from 'node:path';
 const pages = [
   {
     slug: 'naprawa-wordpress',
-    title: 'Naprawa WordPress Warszawa – błędy i WooCommerce | CodeFix.IT',
+    title: 'Naprawa WordPress – błędy i WooCommerce | CodeFix.IT',
     description:
-      'Naprawa WordPress w Warszawie i zdalnie w całej Polsce: błędy, formularze, WooCommerce, CSS i awarie po aktualizacjach. Quick Fix od 390 zł.',
+      'Naprawa WordPress zdalnie w całej Polsce: błędy, formularze, WooCommerce, CSS i awarie po aktualizacjach. Quick Fix od 390 zł.',
     serviceName: 'WordPress Quick Fix',
     serviceType: 'Diagnostyka i naprawa WordPress',
     faq: [
@@ -27,16 +27,16 @@ const pages = [
         'Zakres nie jest rozszerzany bez uzgodnienia. Po diagnozie otrzymujesz informację, co trzeba zrobić i ile będzie kosztował kolejny etap.',
       ],
       [
-        'Czy naprawiasz WordPress tylko w Warszawie?',
-        'Nie. Dla firm z Warszawy mogę działać lokalnie, a większość napraw WordPress realizuję zdalnie dla klientów z całej Polski, po bezpiecznym przekazaniu potrzebnych dostępów.',
+        'Czy realizujesz naprawy WordPress w całej Polsce?',
+        'Tak. Naprawy WordPress realizuję zdalnie dla firm z całej Polski, po bezpiecznym przekazaniu potrzebnych dostępów, jeśli są wymagane.',
       ],
     ],
   },
   {
     slug: 'opieka-wordpress',
-    title: 'Opieka WordPress Warszawa – aktualizacje i backupy | CodeFix.IT',
+    title: 'Opieka WordPress – aktualizacje i backupy | CodeFix.IT',
     description:
-      'Opieka WordPress w Warszawie i zdalnie w całej Polsce od 300 zł/mies.: aktualizacje, backupy, drobne poprawki i rozwój strony.',
+      'Opieka WordPress zdalnie w całej Polsce od 300 zł/mies.: aktualizacje, backupy, drobne poprawki i rozwój strony.',
     serviceName: 'Opieka i rozwój WordPress',
     serviceType: 'Stała opieka techniczna WordPress',
     faq: [
@@ -57,16 +57,16 @@ const pages = [
         'Tak. Warunki współpracy i okres rozliczeniowy są ustalane przed startem.',
       ],
       [
-        'Czy opieka WordPress jest dostępna poza Warszawą?',
-        'Tak. Stała opieka jest realizowana zdalnie, dlatego CodeFix.IT może obsługiwać firmy w Warszawie i w całej Polsce.',
+        'Czy opieka WordPress jest dostępna w całej Polsce?',
+        'Tak. Stała opieka jest realizowana zdalnie dla firm z całej Polski.',
       ],
     ],
   },
   {
     slug: 'strony-wordpress',
-    title: 'Strony internetowe Warszawa – WordPress dla firm | CodeFix.IT',
+    title: 'Strony internetowe dla firm – WordPress + ACF PRO | CodeFix.IT',
     description:
-      'Strony internetowe dla firm w Warszawie: WordPress + ACF PRO, szybki front-end, formularze, SEO techniczne i wygodna edycja treści. CodeFix.IT.',
+      'Strony internetowe dla firm w całej Polsce: WordPress + ACF PRO, szybki front-end, formularze, SEO techniczne i wygodna edycja treści. CodeFix.IT.',
     serviceName: 'Strony internetowe dla firm — WordPress + ACF PRO',
     serviceType: 'Projektowanie i wdrożenie stron internetowych WordPress',
     faq: [
@@ -91,8 +91,8 @@ const pages = [
         'Tak. Na demo.codefix.it działa własne demo WordPress + ACF PRO CodeFix.IT, oznaczone jako demo techniczne, a nie realizacja klienta.',
       ],
       [
-        'Czy tworzysz strony tylko dla firm z Warszawy?',
-        'Nie. Warszawa jest rynkiem lokalnym CodeFix.IT, ale projekt i wdrożenie mogą być prowadzone zdalnie dla firm z całej Polski.',
+        'Czy tworzysz strony dla firm z całej Polski?',
+        'Tak. Projekt i wdrożenie mogą być prowadzone zdalnie dla firm z całej Polski.',
       ],
     ],
   },
@@ -124,7 +124,7 @@ for (const page of pages) {
         name: 'CodeFix.IT',
         alternateName: ['CodeFix IT', 'CodeFixIT'],
         url: 'https://codefix.it/',
-        logo: 'https://codefix.it/favicon.svg',
+        logo: 'https://codefix.it/brand/codefix-mark.png',
         slogan: 'Diabeł tkwi w kodzie',
         email: 'wwwcodefixit@gmail.com',
         sameAs: ['https://github.com/wwwCodeFixIT'],
@@ -136,10 +136,7 @@ for (const page of pages) {
         url: canonical,
         serviceType: page.serviceType,
         description: page.description,
-        areaServed: [
-          { '@type': 'City', name: 'Warszawa' },
-          { '@type': 'Country', name: 'Polska' },
-        ],
+        areaServed: [{ '@type': 'Country', name: 'Polska' }],
         availableChannel: {
           '@type': 'ServiceChannel',
           serviceUrl: canonical,
