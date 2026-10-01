@@ -122,12 +122,18 @@ function relatedBlock(path) {
         </ul>
         <p><a href="/naprawa-wordpress/#kontakt">Zgłoś problem WordPress</a></p>
       </section>
-      <section><h2>Najczęstsze problemy WordPress</h2><ul>${links(guideLinks)}</ul></section>`;
+      <section><h2>Najczęstsze problemy WordPress</h2><ul>${links(quickFixGuideLinks)}</ul></section>`;
   }
 
-  if (path === '/opieka-wordpress' || path === '/strony-wordpress') {
+  if (path === '/opieka-wordpress') {
     return `
-      <section><h2>Powiązane materiały</h2><ul>${links(guideLinks.slice(0, 4))}</ul></section>
+      <section><h2>Powiązane materiały o opiece WordPress</h2><ul>${links(careGuideLinks)}</ul></section>
+      <p><a href="/#contact">Skontaktuj się z CodeFix.IT</a></p>`;
+  }
+
+  if (path === '/strony-wordpress') {
+    return `
+      <section><h2>Poradniki o stronach WordPress dla firm</h2><ul>${links(businessSiteGuideLinks)}</ul></section>
       <p><a href="/#contact">Skontaktuj się z CodeFix.IT</a></p>`;
   }
 
@@ -136,8 +142,10 @@ function relatedBlock(path) {
   }
 
   if (path.startsWith('/poradniki/')) {
+    const [serviceHref, serviceLabel] =
+      guideServiceLinks[path] ?? ['/naprawa-wordpress/', 'Naprawa WordPress — zobacz zakres usługi'];
     return `
-      <p><a href="/naprawa-wordpress/">Naprawa WordPress — zobacz zakres usługi</a></p>
+      <p><a href="${serviceHref}">${escapeHtml(serviceLabel)}</a></p>
       <p><a href="/poradniki/">Wszystkie poradniki WordPress</a></p>`;
   }
 
