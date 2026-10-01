@@ -1572,3 +1572,181 @@
   outline-offset: 4px;
   border-radius: 6px;
 }
+
+
+/* Stage 12C — homepage conversion paths */
+.cf-hero-paths {
+  position: relative;
+  width: min(100%, 540px);
+  justify-self: end;
+  padding: 28px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 90% 0%, rgba(239, 68, 68, 0.13), transparent 34%),
+    linear-gradient(180deg, rgba(19, 19, 21, 0.98), rgba(9, 9, 10, 0.98));
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.42);
+}
+
+.cf-hero-paths::after {
+  content: '';
+  position: absolute;
+  inset: auto -60px -100px auto;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(220, 38, 38, 0.08);
+  filter: blur(40px);
+  pointer-events: none;
+}
+
+.cf-hero-paths h2 {
+  position: relative;
+  z-index: 1;
+  max-width: 390px;
+  margin: 8px 0 22px;
+  color: #f5f5f6;
+  font-size: clamp(23px, 2.6vw, 31px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.cf-hero-path-list {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 10px;
+}
+
+.cf-hero-path {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 78px;
+  padding: 14px 15px;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.025);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.cf-hero-path:hover {
+  border-color: rgba(239, 68, 68, 0.32);
+  background: rgba(239, 68, 68, 0.055);
+  transform: translateY(-1px);
+}
+
+.cf-hero-path:focus-visible {
+  outline: 3px solid #ff9a9e;
+  outline-offset: 3px;
+}
+
+.cf-hero-path-icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  border-radius: 11px;
+  background: rgba(239, 68, 68, 0.075);
+  color: #ff666d;
+}
+
+.cf-hero-path-copy {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.cf-hero-path-copy strong {
+  color: #efeff1;
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.cf-hero-path-copy small {
+  overflow: hidden;
+  color: #818189;
+  font-size: 10px;
+  line-height: 1.35;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cf-hero-path-price {
+  color: #b8b8be;
+  font-size: 10px;
+  font-weight: 750;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.cf-hero-path > svg {
+  color: #686870;
+}
+
+.cf-hero-path-help {
+  position: relative;
+  z-index: 1;
+  margin: 18px 2px 0;
+  color: #74747c;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.cf-home-form-reassurance {
+  margin: 2px 0 0;
+  padding: 11px 13px;
+  border: 1px solid rgba(84, 210, 155, 0.14);
+  border-radius: 10px;
+  background: rgba(84, 210, 155, 0.04);
+  color: #9a9aa2;
+  font-size: 10px;
+  line-height: 1.55;
+}
+
+@media (max-width: 980px) {
+  .cf-hero-paths {
+    justify-self: stretch;
+    width: min(100%, 680px);
+  }
+}
+
+@media (max-width: 560px) {
+  .cf-hero-paths {
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  .cf-hero-path {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    min-height: 76px;
+  }
+
+  .cf-hero-path-price {
+    grid-column: 2;
+    justify-self: start;
+  }
+
+  .cf-hero-path > svg {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+  }
+
+  .cf-hero-path-copy small {
+    white-space: normal;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cf-hero-path {
+    transition: none;
+  }
+}
