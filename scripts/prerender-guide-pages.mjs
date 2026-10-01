@@ -149,9 +149,9 @@ const organization = {
 };
 
 const indexCanonical = 'https://codefix.it/poradniki/';
-const indexDescription = 'Praktyczne poradniki CodeFix.IT o WordPress: błędy krytyczne i 500, WooCommerce checkout, poczta SMTP, awarie po aktualizacji i wydajność.';
+const indexDescription = 'Poradniki CodeFix.IT o WordPress: naprawa błędów, WooCommerce, wydajność, opieka techniczna oraz koszty napraw i stron dla firm.';
 let indexHtml = withMeta(baseHtml, {
-  title: 'Poradniki WordPress — diagnostyka i utrzymanie | CodeFix.IT',
+  title: 'Poradniki WordPress — naprawa, opieka i wyceny | CodeFix.IT',
   description: indexDescription,
   canonical: indexCanonical,
   schema: {
@@ -167,10 +167,16 @@ let indexHtml = withMeta(baseHtml, {
       },
       {
         '@type': 'CollectionPage',
-        name: 'Poradniki WordPress',
+        name: 'Poradniki WordPress — naprawa, opieka i wyceny',
         url: indexCanonical,
         description: indexDescription,
         inLanguage: 'pl-PL',
+        hasPart: guides.map((guide) => ({
+          '@type': 'Article',
+          '@id': `https://codefix.it/poradniki/${guide.slug}/`,
+          name: guide.headline,
+          url: `https://codefix.it/poradniki/${guide.slug}/`,
+        })),
       },
     ],
   },
