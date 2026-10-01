@@ -43,7 +43,7 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
       'Formularz nie wysyła? Aktualizacja zepsuła stronę? WooCommerce albo layout przestał działać? Podeślij URL i objaw. Na start bez loginu. Jeśli temat mieści się w Quick Fixie, dostaniesz zakres i cenę przed rozpoczęciem prac.',
     metaTitle: 'Naprawa WordPress – błędy, formularze, WooCommerce | CodeFix.IT',
     metaDescription:
-      'Naprawa WordPress zdalnie w całej Polsce: błędy, formularze, WooCommerce, CSS i awarie po aktualizacjach. Quick Fix od 390 zł.',
+      'Naprawa i pomoc WordPress zdalnie w całej Polsce: błędy, formularze, WooCommerce, CSS i awarie po aktualizacjach. Quick Fix od 390 zł.',
     price: 'Od 390 zł',
     pricingNote:
       'Cena orientacyjna dla jednego, jasno zdefiniowanego problemu. Po diagnozie potwierdzam zakres i kwotę przed rozpoczęciem prac.',
@@ -71,7 +71,7 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
     ],
     ctaMicrocopy: 'Wysłanie zgłoszenia nie zobowiązuje do rozpoczęcia prac. Najpierw potwierdzam zakres i cenę.',
     stickyCta: 'Zgłoś problem • od 390 zł',
-    problemHeading: 'Typowe problemy, które da się zamknąć jako Quick Fix.',
+    problemHeading: 'Pomoc i naprawa WordPress przy typowych problemach technicznych.',
     problems: [
       {
         title: 'Błąd po aktualizacji',
@@ -170,16 +170,16 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
     titleAccent: 'zdalnie w całej Polsce.',
     description:
       'Aktualizacje, backupy, drobne poprawki i rozwój istniejącej strony w uzgodnionym miesięcznym zakresie. Obsługuję firmy zdalnie w całej Polsce jako stały techniczny punkt kontaktu.',
-    metaTitle: 'Opieka WordPress – aktualizacje, backupy i rozwój | CodeFix.IT',
+    metaTitle: 'Opieka WordPress – administracja, backupy i rozwój | CodeFix.IT',
     metaDescription:
-      'Opieka WordPress zdalnie w całej Polsce od 300 zł/mies.: aktualizacje, backupy, drobne poprawki i rozwój strony.',
+      'Opieka i administracja WordPress od 300 zł/mies.: aktualizacje, backupy, wsparcie techniczne, drobne poprawki i rozwój strony.',
     price: 'Od 300 zł / mies.',
     pricingNote:
       'Zakres abonamentu zależy od liczby stron, częstotliwości zmian, hostingu i oczekiwanego czasu reakcji.',
     cta: 'Zapytaj o opiekę',
     secondaryCta: 'Zobacz zakres opieki',
     heroPoints: ['Zdalnie w całej Polsce', 'Backupy i aktualizacje', 'Drobne poprawki i rozwój'],
-    problemHeading: 'Kiedy stała opieka ma więcej sensu niż pojedyncze zlecenia.',
+    problemHeading: 'Kiedy opieka, administracja i wsparcie techniczne WordPress mają sens.',
     problems: [
       {
         title: 'Strona wymaga regularnych aktualizacji',
@@ -279,16 +279,16 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
     titleAccent: 'WordPress + ACF PRO, szybkie i edytowalne.',
     description:
       'Tworzę strony internetowe dla firm zdalnie w całej Polsce. Wdrażam je na WordPress + ACF PRO: responsywny front-end, formularze, techniczne SEO, Core Web Vitals i wygodna edycja treści bez grzebania w kodzie.',
-    metaTitle: 'Strony internetowe dla firm – WordPress + ACF PRO | CodeFix.IT',
+    metaTitle: 'Strony WordPress dla firm – projekt i wdrożenie | CodeFix.IT',
     metaDescription:
-      'Strony internetowe dla firm w całej Polsce: WordPress + ACF PRO, szybki front-end, formularze, SEO techniczne i wygodna edycja treści. CodeFix.IT.',
+      'Tworzenie stron WordPress dla firm w całej Polsce: ACF PRO, szybki front-end, formularze, SEO techniczne i wygodna edycja treści.',
     price: 'Wycena indywidualna',
     pricingNote:
       'Cena zależy od liczby podstron, zakresu projektu, treści, integracji i tego, czy startujemy od istniejącej strony.',
     cta: 'Wyceń stronę firmową',
     secondaryCta: 'Zobacz, co dostajesz',
     heroPoints: ['Zdalnie w całej Polsce', 'WordPress + ACF PRO', 'Mobile-first i Core Web Vitals'],
-    problemHeading: 'Strony internetowe dla firm, które mają generować kontakt — nie tylko wyglądać.',
+    problemHeading: 'Tworzenie stron WordPress dla firm, które mają generować kontakt — nie tylko wyglądać.',
     problems: [
       {
         title: 'Nowa strona od zera',
