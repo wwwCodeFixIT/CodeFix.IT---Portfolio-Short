@@ -72,6 +72,45 @@ const guides = [
       ['Czy problem może powodować bramka płatności?', 'Tak. Jeśli awaria występuje tylko dla jednej metody, sprawdź jej logi, konfigurację, status integracji, SSL i błędy JavaScript związane z daną bramką.'],
     ],
   },
+  {
+    slug: 'ile-kosztuje-naprawa-wordpress',
+    title: 'Ile kosztuje naprawa WordPress? Cena i zakres | CodeFix.IT',
+    description: 'Ile kosztuje naprawa WordPress? Zobacz, co wpływa na wycenę błędu, kiedy wystarczy Quick Fix od 390 zł i kiedy potrzebny jest większy zakres.',
+    headline: 'Ile kosztuje naprawa WordPress i od czego zależy cena?',
+    publishedOn: '2026-10-01',
+    updatedOn: '2026-10-01',
+    faq: [
+      ['Czy każda naprawa WordPress kosztuje 390 zł?', 'Nie. 390 zł to cena startowa dla małego, jasno zdefiniowanego problemu. Większy zakres jest wyceniany osobno przed rozpoczęciem prac.'],
+      ['Czy diagnoza może wykazać większy zakres?', 'Tak. W takim przypadku zakres nie jest rozszerzany automatycznie — najpierw dostajesz opis problemu i propozycję kolejnego etapu.'],
+      ['Czy do wyceny potrzebny jest od razu dostęp do panelu?', 'Nie zawsze. Przy wielu problemach pierwszą ocenę można zrobić na podstawie publicznego URL i opisu objawu.'],
+    ],
+  },
+  {
+    slug: 'ile-kosztuje-opieka-wordpress',
+    title: 'Ile kosztuje opieka WordPress? Abonament i zakres | CodeFix.IT',
+    description: 'Opieka WordPress od 300 zł miesięcznie w CodeFix.IT. Zobacz, co wpływa na zakres abonamentu: aktualizacje, backupy, poprawki, rozwój i czas reakcji.',
+    headline: 'Ile kosztuje opieka WordPress i co powinno być w abonamencie?',
+    publishedOn: '2026-10-01',
+    updatedOn: '2026-10-01',
+    faq: [
+      ['Czy opieka WordPress w CodeFix.IT zaczyna się od 300 zł miesięcznie?', 'Tak. To cena startowa dla prostego zakresu. Dokładny abonament zależy od środowiska strony i potrzebnej liczby prac.'],
+      ['Czy większe funkcje mogą być w abonamencie?', 'Drobne zmiany mogą mieścić się w uzgodnionym pakiecie. Większe wdrożenia są wyceniane osobno.'],
+      ['Czy trzeba podpisywać długą umowę?', 'Warunki i okres rozliczeniowy są ustalane przed startem. Najważniejsze jest jasne określenie zakresu, kosztu i zasad rezygnacji.'],
+    ],
+  },
+  {
+    slug: 'ile-kosztuje-strona-wordpress-dla-firmy',
+    title: 'Ile kosztuje strona WordPress dla firmy? Wycena | CodeFix.IT',
+    description: 'Cena strony WordPress dla firmy zależy od liczby podstron, projektu, treści i integracji. Zobacz, co obejmuje wycena CodeFix.IT i jak przygotować brief.',
+    headline: 'Ile kosztuje strona WordPress dla firmy i co wpływa na wycenę?',
+    publishedOn: '2026-10-01',
+    updatedOn: '2026-10-01',
+    faq: [
+      ['Czy CodeFix.IT ma stały cennik stron firmowych?', 'Nie. Cena jest ustalana po zakresie, ponieważ liczba podstron, materiały i integracje potrafią znacząco zmienić ilość pracy.'],
+      ['Czy WordPress i ACF PRO są częścią wdrożenia?', 'Tak, jeśli taki zakres został uzgodniony. ACF PRO służy do przygotowania edytowalnych sekcji i pól.'],
+      ['Czy mogę najpierw dostać wycenę bez zobowiązania?', 'Tak. Krótki brief służy do ustalenia zakresu i ceny przed rozpoczęciem projektu.'],
+    ],
+  }
 ];
 
 const distDir = new URL('../dist/', import.meta.url);

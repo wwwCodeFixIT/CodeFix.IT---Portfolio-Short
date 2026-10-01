@@ -18,7 +18,41 @@ const guideLinks = [
   ['/poradniki/wolny-wordpress-co-sprawdzic/', 'Wolny WordPress'],
   ['/poradniki/blad-krytyczny-wordpress/', 'Błąd krytyczny WordPress'],
   ['/poradniki/woocommerce-checkout-nie-dziala/', 'WooCommerce checkout nie działa'],
+  ['/poradniki/ile-kosztuje-naprawa-wordpress/', 'Ile kosztuje naprawa WordPress'],
+  ['/poradniki/ile-kosztuje-opieka-wordpress/', 'Ile kosztuje opieka WordPress'],
+  ['/poradniki/ile-kosztuje-strona-wordpress-dla-firmy/', 'Ile kosztuje strona WordPress dla firmy'],
 ];
+
+const quickFixGuideLinks = guideLinks.filter(([href]) =>
+  [
+    '/poradniki/wordpress-nie-wysyla-maili/',
+    '/poradniki/blad-500-wordpress/',
+    '/poradniki/wordpress-zepsul-sie-po-aktualizacji/',
+    '/poradniki/blad-krytyczny-wordpress/',
+    '/poradniki/woocommerce-checkout-nie-dziala/',
+    '/poradniki/ile-kosztuje-naprawa-wordpress/',
+  ].includes(href),
+);
+
+const careGuideLinks = guideLinks.filter(([href]) =>
+  ['/poradniki/wolny-wordpress-co-sprawdzic/', '/poradniki/ile-kosztuje-opieka-wordpress/'].includes(href),
+);
+
+const businessSiteGuideLinks = guideLinks.filter(([href]) =>
+  ['/poradniki/ile-kosztuje-strona-wordpress-dla-firmy/'].includes(href),
+);
+
+const guideServiceLinks = {
+  '/poradniki/wordpress-nie-wysyla-maili': ['/naprawa-wordpress/', 'Naprawa WordPress — zobacz zakres usługi'],
+  '/poradniki/blad-500-wordpress': ['/naprawa-wordpress/', 'Naprawa WordPress — zobacz zakres usługi'],
+  '/poradniki/wordpress-zepsul-sie-po-aktualizacji': ['/naprawa-wordpress/', 'Naprawa WordPress — zobacz zakres usługi'],
+  '/poradniki/wolny-wordpress-co-sprawdzic': ['/opieka-wordpress/', 'Opieka WordPress — zobacz zakres usługi'],
+  '/poradniki/blad-krytyczny-wordpress': ['/naprawa-wordpress/', 'Naprawa WordPress — zobacz zakres usługi'],
+  '/poradniki/woocommerce-checkout-nie-dziala': ['/naprawa-wordpress/', 'Naprawa WordPress — zobacz zakres usługi'],
+  '/poradniki/ile-kosztuje-naprawa-wordpress': ['/naprawa-wordpress/', 'Naprawa WordPress — cena i zakres'],
+  '/poradniki/ile-kosztuje-opieka-wordpress': ['/opieka-wordpress/', 'Opieka WordPress — abonament i zakres'],
+  '/poradniki/ile-kosztuje-strona-wordpress-dla-firmy': ['/strony-wordpress/', 'Strony WordPress dla firm — wycena'],
+};
 
 const serviceLinks = [
   ['/naprawa-wordpress/', 'Naprawa WordPress — błędy, formularze i WooCommerce'],
@@ -88,12 +122,18 @@ function relatedBlock(path) {
         </ul>
         <p><a href="/naprawa-wordpress/#kontakt">Zgłoś problem WordPress</a></p>
       </section>
-      <section><h2>Najczęstsze problemy WordPress</h2><ul>${links(guideLinks)}</ul></section>`;
+      <section><h2>Najczęstsze problemy WordPress</h2><ul>${links(quickFixGuideLinks)}</ul></section>`;
   }
 
-  if (path === '/opieka-wordpress' || path === '/strony-wordpress') {
+  if (path === '/opieka-wordpress') {
     return `
-      <section><h2>Powiązane materiały</h2><ul>${links(guideLinks.slice(0, 4))}</ul></section>
+      <section><h2>Powiązane materiały o opiece WordPress</h2><ul>${links(careGuideLinks)}</ul></section>
+      <p><a href="/#contact">Skontaktuj się z CodeFix.IT</a></p>`;
+  }
+
+  if (path === '/strony-wordpress') {
+    return `
+      <section><h2>Poradniki o stronach WordPress dla firm</h2><ul>${links(businessSiteGuideLinks)}</ul></section>
       <p><a href="/#contact">Skontaktuj się z CodeFix.IT</a></p>`;
   }
 
@@ -102,8 +142,10 @@ function relatedBlock(path) {
   }
 
   if (path.startsWith('/poradniki/')) {
+    const [serviceHref, serviceLabel] =
+      guideServiceLinks[path] ?? ['/naprawa-wordpress/', 'Naprawa WordPress — zobacz zakres usługi'];
     return `
-      <p><a href="/naprawa-wordpress/">Naprawa WordPress — zobacz zakres usługi</a></p>
+      <p><a href="${serviceHref}">${escapeHtml(serviceLabel)}</a></p>
       <p><a href="/poradniki/">Wszystkie poradniki WordPress</a></p>`;
   }
 
