@@ -15,6 +15,7 @@ import {
 import { Brand } from '../components/Brand';
 import { projects } from '../data/projects';
 import { captureSessionAttribution } from '../lib/attribution';
+import { measureAcceptedLead, openMeasurementSettings } from '../lib/measurement';
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
 
@@ -200,9 +201,15 @@ export function HomepageV1() {
     const value = (window as Window & { codefixConsentChoice?: string | null }).codefixConsentChoice;
     return value === 'accepted' || value === 'rejected' ? value : null;
   });
-  const [showConsent, setShowConsent] = useState(() => {
-    return !(window as Window & { codefixConsentChoice?: string | null }).codefixConsentChoice;
-  });
+
+  useEffect(() => {
+    function updateConsentChoice() {
+      const value = (window as Window & { codefixConsentChoice?: string | null }).codefixConsentChoice;
+      setConsentChoice(value === 'accepted' || value === 'rejected' ? value : null);
+    }
+    window.addEventListener('codefix:measurement-consent-changed', updateConsentChoice);
+    return () => window.removeEventListener('codefix:measurement-consent-changed', updateConsentChoice);
+  }, []);
 
   useEffect(() => {
     const section = contactSectionRef.current;
@@ -227,14 +234,6 @@ export function HomepageV1() {
     observer.observe(section);
     return () => observer.disconnect();
   }, [consentChoice, selectedService, trackHomepageEvent]);
-
-  function saveConsent(choice: 'accepted' | 'rejected') {
-    (window as Window & {
-      codefixSetAnalyticsConsent?: (choice: 'accepted' | 'rejected') => void;
-    }).codefixSetAnalyticsConsent?.(choice);
-    setConsentChoice(choice);
-    setShowConsent(false);
-  }
 
 
   const submitButtonLabel =
@@ -294,6 +293,8 @@ export function HomepageV1() {
         throw new Error(result.error || 'Nie udało się wysłać formularza.');
       }
 
+      measureAcceptedLead();
+
       const analyticsWindow = window as Window & {
         gtag?: (...args: unknown[]) => void;
         codefixAnalyticsAllowed?: boolean;
@@ -321,7 +322,7 @@ export function HomepageV1() {
   }
 
   return (
-    <div className={`homepage-v1${!showConsent ? ' has-mobile-cta' : ''}`}>
+    <div className="homepage-v1 has-mobile-cta">
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand href="#top" />
@@ -940,16 +941,15 @@ export function HomepageV1() {
           <span>© 2026 CodeFix.IT</span>
           <div className="cf-footer-legal">
             <a href="/polityka-prywatnosci">Polityka prywatności</a>
-            <button className="cf-consent-settings" type="button" onClick={() => setShowConsent(true)}>
-              Ustawienia analityki
+            <button className="cf-consent-settings" type="button" onClick={openMeasurementSettings}>
+              Ustawienia prywatności
             </button>
           </div>
           <span className="cf-footer-code">Zdalnie • cała Polska</span>
         </div>
       </footer>
 
-      {!showConsent && (
-        <a
+      <a
           href="#contact"
           className="cf-mobile-sticky-cta"
           onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'sticky_mobile' })}
@@ -960,49 +960,7 @@ export function HomepageV1() {
             <small>Odpowiedź zwykle do 1 dnia roboczego</small>
           </span>
           <ArrowRight size={18} aria-hidden="true" />
-        </a>
-      )}
-
-      {showConsent && (
-        <section
-          className="cf-consent-banner"
-          role="dialog"
-          aria-modal="false"
-          aria-labelledby="cf-consent-title"
-          aria-describedby="cf-consent-description"
-        >
-          <div className="cf-consent-copy">
-            <p className="cf-section-kicker">Prywatność • CodeFix.IT</p>
-            <h2 id="cf-consent-title">Czy zgadzasz się na analitykę?</h2>
-            <p id="cf-consent-description">
-              Używam Google Analytics do pomiaru odwiedzin i zgłoszeń. Jeśli wyrazisz zgodę,
-              Google może zapisywać i odczytywać identyfikatory analityczne na Twoim urządzeniu.
-              Odrzucenie nie ogranicza korzystania ze strony ani wysłania formularza.
-            </p>
-            {consentChoice && (
-              <p className="cf-consent-current">
-                Obecne ustawienie: {consentChoice === 'accepted' ? 'analityka włączona' : 'analityka wyłączona'}.
-              </p>
-            )}
-          </div>
-          <div className="cf-consent-actions">
-            <button
-              type="button"
-              className="cf-button cf-button-secondary"
-              onClick={() => saveConsent('rejected')}
-            >
-              Odrzucam
-            </button>
-            <button
-              type="button"
-              className="cf-button cf-button-primary"
-              onClick={() => saveConsent('accepted')}
-            >
-              Akceptuję analitykę
-            </button>
-          </div>
-        </section>
-      )}
+      </a>
     </div>
   );
 }

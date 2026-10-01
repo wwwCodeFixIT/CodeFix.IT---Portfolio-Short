@@ -92,7 +92,7 @@
           });
         }
 
-        window.codefixSetAnalyticsConsent = function (nextChoice) {
+        window.codefixSetAnalyticsConsent = function (nextChoice, deferReload) {
           if (nextChoice !== 'accepted' && nextChoice !== 'rejected') return;
           var wasInitialized = initialized;
           window.codefixConsentChoice = nextChoice;
@@ -111,7 +111,7 @@
           window.gtag('consent', 'update', { analytics_storage: 'denied' });
           clearAnalyticsCookies();
           // A loaded third-party script cannot be unloaded; reload without it on withdrawal.
-          if (wasInitialized) window.location.reload();
+          if (wasInitialized && !deferReload) window.location.reload();
         };
 
         if (choice === 'accepted') startAnalytics();
@@ -136,6 +136,104 @@
             });
           }
         });
+      })();
+    </script>
+
+    <!-- OpenAI ad measurement has its own opt-in, independent of Analytics. -->
+    <script>
+      (function () {
+        var storageKey = 'codefix_ad_measurement_consent_v1';
+        var choice = null;
+        var initialized = false;
+        var productionHost = window.location.hostname === 'codefix.it' ||
+          window.location.hostname === 'www.codefix.it';
+        try {
+          var stored = window.localStorage.getItem(storageKey);
+          if (stored === 'accepted' || stored === 'rejected') choice = stored;
+        } catch (error) {
+          // A session-only choice also works when storage is unavailable.
+        }
+        window.codefixAdConsentChoice = choice;
+        window.codefixAdMeasurementAllowed = false;
+
+        function startAdMeasurement() {
+          if (!productionHost) return;
+          if (!initialized) {
+            initialized = true;
+            if (!window.oaiq) {
+              var queue = function () { queue.q.push(arguments); };
+              queue.q = [];
+              window.oaiq = queue;
+            }
+            window.oaiq('consent', false);
+            window.oaiq('init', { pixelId: '3doyPe63rTnHQdmZKh8yx3' });
+            window.oaiq('consent', true);
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://bzrcdn.openai.com/sdk/oaiq.min.js';
+            document.head.appendChild(script);
+          } else {
+            window.oaiq('consent', true);
+          }
+          window.codefixAdMeasurementAllowed = true;
+        }
+
+        function clearAdCookies() {
+          ['__oppref', '__obref'].forEach(function (name) {
+            ['', 'codefix.it', '.codefix.it'].forEach(function (domain) {
+              document.cookie = name + '=; Max-Age=0; Path=/; SameSite=Lax' +
+                (domain ? '; Domain=' + domain : '');
+            });
+          });
+        }
+
+        window.codefixSetAdMeasurementConsent = function (nextChoice, deferReload) {
+          if (nextChoice !== 'accepted' && nextChoice !== 'rejected') return;
+          window.codefixAdConsentChoice = nextChoice;
+          try {
+            window.localStorage.setItem(storageKey, nextChoice);
+          } catch (error) {
+            // Persist for this page only when storage is unavailable.
+          }
+          if (nextChoice === 'accepted') {
+            startAdMeasurement();
+            return;
+          }
+          window.codefixAdMeasurementAllowed = false;
+          if (window.oaiq) {
+            // Discard pending conversions before a queued SDK load can replay them.
+            if (Array.isArray(window.oaiq.q)) {
+              window.oaiq.q = window.oaiq.q.filter(function (args) {
+                return args[0] !== 'measure';
+              });
+            }
+            try { window.oaiq('consent', false); } catch (error) {
+              // An unavailable measurement library must not block privacy controls.
+            }
+          }
+          clearAdCookies();
+          if (initialized && !deferReload) window.location.reload();
+        };
+
+        window.codefixSetMeasurementConsent = function (preferences) {
+          if (!preferences || typeof preferences.analytics !== 'boolean' ||
+              typeof preferences.ads !== 'boolean') return;
+          var reload = (window.codefixAnalyticsAllowed && !preferences.analytics) ||
+            (initialized && !preferences.ads);
+          window.codefixSetAdMeasurementConsent(preferences.ads ? 'accepted' : 'rejected', true);
+          window.codefixSetAnalyticsConsent(preferences.analytics ? 'accepted' : 'rejected', true);
+          window.dispatchEvent(new Event('codefix:measurement-consent-changed'));
+          if (reload) window.location.reload();
+        };
+
+        window.addEventListener('storage', function (event) {
+          if (event.key === storageKey) {
+            window.codefixSetAdMeasurementConsent(event.newValue === 'accepted' ? 'accepted' : 'rejected');
+          }
+        });
+
+        if (choice === 'accepted') startAdMeasurement();
+        if (choice === 'rejected') clearAdCookies();
       })();
     </script>
 

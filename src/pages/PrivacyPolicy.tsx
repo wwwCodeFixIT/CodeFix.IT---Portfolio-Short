@@ -35,7 +35,7 @@ export function PrivacyPolicy() {
             Poniżej wyjaśniam, jakie dane są przetwarzane przez codefix.it,
             po co są potrzebne i jakie masz prawa.
           </p>
-          <span>Ostatnia aktualizacja: 26 września 2026 r.</span>
+          <span>Ostatnia aktualizacja: 1 października 2026 r.</span>
         </div>
 
         <div className="cf-privacy-grid">
@@ -43,8 +43,8 @@ export function PrivacyPolicy() {
             <ShieldCheck size={24} aria-hidden="true" />
             <h2>Najważniejsze w skrócie</h2>
             <p>
-              Formularz służy wyłącznie do obsługi zapytania. Google Analytics
-              uruchamia się dopiero po zgodzie. Nie sprzedaję danych osobowych.
+              Formularz służy do obsługi zapytania. Analityka Google i pomiar reklam
+              OpenAI mają osobne, dobrowolne zgody. Nie sprzedaję danych osobowych.
             </p>
             <a href={`mailto:${contactEmail}`}>
               <Mail size={15} aria-hidden="true" />
@@ -85,17 +85,32 @@ export function PrivacyPolicy() {
                 żądanie przed zawarciem umowy albo obsługi dalszej współpracy.
                 W zakresie bezpieczeństwa, historii ustaleń i podstawowej atrybucji
                 źródła zgłoszenia podstawą jest uzasadniony interes administratora.
-                Analityka Google jest uruchamiana wyłącznie po Twojej zgodzie.
+                Analityka Google i pomiar reklam OpenAI są uruchamiane wyłącznie
+                po wyrażeniu odpowiedniej zgody.
               </p>
             </section>
 
             <section>
-              <h2>4. Analityka i pamięć zgody</h2>
+              <h2>4. Analityka, pomiar reklam i pamięć zgody</h2>
               <p>
-                Serwis korzysta z Google Analytics 4 dopiero po wybraniu opcji
-                „Akceptuję analitykę”. Do zapamiętania decyzji używany jest lokalny
-                zapis w przeglądarce. Po odrzuceniu zgody skrypt analityczny nie jest
-                ładowany. Ustawienie możesz później zmienić z poziomu stopki strony.
+                Google Analytics 4 mierzy odwiedziny i wysłane zapytania po zgodzie
+                na analitykę. Osobna zgoda na pomiar reklam uruchamia Pixel OpenAI,
+                który pozwala powiązać wysłanie zapytania z reklamą w ChatGPT.
+                Wcześniejsza zgoda na samą analitykę nie uruchamia pomiaru reklam.
+              </p>
+              <p>
+                Decyzje są zapamiętywane lokalnie w przeglądarce. Każdy z pomiarów
+                możesz zmienić w „Ustawieniach prywatności” dostępnych na stronie.
+                Skrypt danego dostawcy jest ładowany dopiero po odpowiedniej zgodzie.
+                Odrzucenie nie ogranicza formularza ani korzystania ze strony.
+              </p>
+              <p>
+                Pixel używa identyfikatora przeglądarki w cookie __obref (do 365 dni)
+                oraz identyfikatora przypisania kliknięcia w __oppref (do 30 dni).
+                Wycofanie zgody usuwa te cookies. Przy włączonym automatycznym
+                dopasowaniu Pixel może także przetwarzać kryptograficzne skróty
+                obsługiwanych danych kontaktowych z formularza; surowe dane
+                kontaktowe nie są wysyłane w ramach tego dopasowania.
               </p>
             </section>
 
@@ -106,6 +121,7 @@ export function PrivacyPolicy() {
                 do działania serwisu, CRM i poczty transakcyjnej, w szczególności
                 usług hostingowych i chmurowych. Dane analityczne trafiają do Google
                 wyłącznie po wyrażeniu zgody.
+                Dane pomiaru reklam trafiają do OpenAI po osobnej zgodzie.
               </p>
             </section>
 
@@ -126,7 +142,7 @@ export function PrivacyPolicy() {
                 usunięcie, ograniczenie przetwarzania lub — gdy ma to zastosowanie —
                 przeniesienie danych. Możesz również sprzeciwić się przetwarzaniu
                 opartemu na uzasadnionym interesie oraz w dowolnym momencie wycofać
-                zgodę na analitykę.
+                zgodę na analitykę lub pomiar reklam.
               </p>
               <p>
                 Jeżeli uważasz, że dane są przetwarzane nieprawidłowo, przysługuje

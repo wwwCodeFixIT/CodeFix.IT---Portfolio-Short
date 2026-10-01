@@ -1,5 +1,6 @@
 import { StrictMode, type ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
+import { MeasurementConsent } from './components/MeasurementConsent';
 import './index.css';
 
 const servicePaths = new Set(['/naprawa-wordpress', '/opieka-wordpress', '/strony-wordpress']);
@@ -78,7 +79,12 @@ async function bootstrap() {
       delete root.dataset.staticPrerender;
     }
 
-    createRoot(root).render(<StrictMode>{route}</StrictMode>);
+    createRoot(root).render(
+      <StrictMode>
+        {route}
+        <MeasurementConsent servicePage={servicePaths.has(path)} />
+      </StrictMode>,
+    );
   } catch (error) {
     console.error('CodeFix.IT bootstrap failed:', error);
 
