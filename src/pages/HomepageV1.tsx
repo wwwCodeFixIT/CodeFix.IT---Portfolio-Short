@@ -335,7 +335,7 @@ export function HomepageV1() {
             <a href="#work">Realizacje</a>
             <a href="#process">Proces</a>
             <a href="#faq">FAQ</a>
-            <a href="/poradniki">Poradniki</a>
+            <a href="/poradniki/">Poradniki</a>
             <a href="#contact">Kontakt</a>
           </nav>
 
@@ -927,7 +927,7 @@ export function HomepageV1() {
             <a href="#work">Realizacje</a>
             <a href="#process">Proces</a>
             <a href="#faq">FAQ</a>
-            <a href="/poradniki">Poradniki</a>
+            <a href="/poradniki/">Poradniki</a>
             <a href="#contact">Kontakt</a>
           </nav>
 
