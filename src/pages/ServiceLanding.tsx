@@ -152,6 +152,8 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
   const [attribution] = useState(captureSessionAttribution);
   const [journey] = useState(readConversionJourney);
   const formStartTracked = useRef(false);
+  const formViewTracked = useRef(false);
+  const contactSectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     document.title = config.metaTitle;
@@ -173,7 +175,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
     schema.textContent = JSON.stringify(buildSchema(config));
   }, [config]);
 
-  function trackLeadEvent(eventName: string) {
+  function trackLeadEvent(eventName: string, extra: Record<string, string> = {}) {
     const analyticsWindow = window as Window & {
       gtag?: (...args: unknown[]) => void;
       codefixAnalyticsAllowed?: boolean;
@@ -185,7 +187,34 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
       landing_path: config.path,
       journey_source: journey.journeySource || 'DIRECT',
       journey_guide: journey.journeyGuide || '(none)',
+      ...extra,
     });
+  }
+
+  useEffect(() => {
+    const section = contactSectionRef.current;
+    if (!section || formViewTracked.current || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting || formViewTracked.current) return;
+
+        const analyticsWindow = window as Window & { codefixAnalyticsAllowed?: boolean };
+        if (!analyticsWindow.codefixAnalyticsAllowed) return;
+
+        formViewTracked.current = true;
+        trackLeadEvent('lead_form_view');
+        observer.disconnect();
+      },
+      { threshold: 0.25 },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [config.path, config.service, journey.journeyGuide, journey.journeySource]);
+
+  function trackCtaClick(placement: string) {
+    trackLeadEvent('lead_cta_click', { cta_placement: placement });
   }
 
   function handleFormStart() {
@@ -254,7 +283,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
   const relatedGuides = wordpressGuides.filter((item) => item.serviceHref === config.path).slice(0, 3);
 
   return (
-    <div className="homepage-v1 service-landing">
+    <div className={`homepage-v1 service-landing${config.stickyCta ? ' has-sticky-service-cta' : ''}`}>
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand />
@@ -264,7 +293,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
             <a href="#faq">FAQ</a>
             <a href="#kontakt">Kontakt</a>
           </nav>
-          <a href="#kontakt" className="cf-nav-cta">{config.cta}</a>
+          <a href="#kontakt" className="cf-nav-cta" onClick={() => trackCtaClick('nav')}>{config.cta}</a>
         </div>
       </header>
 
@@ -284,7 +313,11 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
             <p className="service-hero-lead">{config.description}</p>
 
             <div className="cf-actions">
-              <a href="#kontakt" className="cf-button cf-button-primary">
+              <a
+                href="#kontakt"
+                className="cf-button cf-button-primary"
+                onClick={() => trackCtaClick('hero')}
+              >
                 {config.cta}
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
@@ -316,7 +349,21 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
             <span>Start</span>
             <strong>{config.price}</strong>
             <p>{config.pricingNote}</p>
-            <a href="#kontakt" className="cf-button cf-button-primary">
+            {config.offerPoints && (
+              <ul className="service-offer-points">
+                {config.offerPoints.map((item) => (
+                  <li key={item}>
+                    <CheckCircle2 size={15} aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <a
+              href="#kontakt"
+              className="cf-button cf-button-primary"
+              onClick={() => trackCtaClick('offer_card')}
+            >
               Omów zakres
               <ArrowRight size={16} aria-hidden="true" />
             </a>
@@ -328,6 +375,22 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
             )}
           </aside>
         </section>
+
+        {config.reassurance && (
+          <section className="service-reassurance" aria-label="Jak wygląda start współpracy">
+            <div className="cf-container service-reassurance-grid">
+              {config.reassurance.map((item) => (
+                <article key={item.title}>
+                  <CheckCircle2 size={17} aria-hidden="true" />
+                  <div>
+                    <strong>{item.title}</strong>
+                    <p>{item.description}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className="cf-section cf-section-bordered service-problems-section">
           <div className="cf-container">
@@ -418,6 +481,112 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
           </div>
         </section>
 
+        <section
+          id="kontakt"
+          ref={contactSectionRef}
+          className="cf-section cf-contact-section service-contact-section"
+        >
+          <div className="cf-container">
+            <div className="cf-contact-panel">
+              <div className="cf-contact-copy">
+                <div className="cf-contact-icon" aria-hidden="true">
+                  <Sparkles size={20} />
+                </div>
+                <p className="cf-section-kicker">Kontakt</p>
+                <h2>{config.contactHeading}</h2>
+                <p>{config.contactCopy}</p>
+                <div className="cf-contact-tags">
+                  <span><ShieldCheck size={14} /> Zakres przed startem</span>
+                  <span><MessageSquareText size={14} /> Bezpośredni kontakt</span>
+                  <span><CheckCircle2 size={14} /> Zgłoszenie trafia do CRM</span>
+                </div>
+              </div>
+
+              <div className="cf-contact-action">
+                <form className="cf-lead-form" onSubmit={handleSubmit} onFocusCapture={handleFormStart}>
+                  <div className="cf-form-row">
+                    <label>
+                      <span>Imię / firma</span>
+                      <input name="name" type="text" autoComplete="name" minLength={2} maxLength={120} required />
+                    </label>
+                    <label>
+                      <span>E-mail</span>
+                      <input name="email" type="email" autoComplete="email" maxLength={254} required />
+                    </label>
+                  </div>
+
+                  <p className="service-form-topic">
+                    Temat: <strong>{config.eyebrow}</strong>
+                  </p>
+
+                  <label>
+                    <span>Adres strony {config.pageUrlRequired ? '' : <small>opcjonalnie</small>}</span>
+                    <input
+                      name="pageUrl"
+                      type="url"
+                      inputMode="url"
+                      placeholder="https://twojastrona.pl"
+                      maxLength={500}
+                      required={config.pageUrlRequired}
+                    />
+                  </label>
+
+                  <label>
+                    <span>Opisz temat</span>
+                    <textarea
+                      name="message"
+                      rows={6}
+                      minLength={10}
+                      maxLength={4000}
+                      placeholder={config.messagePlaceholder}
+                      required
+                    />
+                  </label>
+
+                  <label className="cf-form-honeypot" aria-hidden="true">
+                    <span>Strona firmy</span>
+                    <input name="companyWebsite" type="text" tabIndex={-1} autoComplete="off" />
+                  </label>
+
+                  <button
+                    type="submit"
+                    className="cf-button cf-button-primary cf-contact-button"
+                    disabled={formState === 'submitting'}
+                  >
+                    {formState === 'submitting' ? 'Wysyłam…' : config.cta}
+                    {formState !== 'submitting' && <ArrowRight size={17} aria-hidden="true" />}
+                  </button>
+
+                  {config.ctaMicrocopy && (
+                    <p className="service-form-microcopy">
+                      <ShieldCheck size={14} aria-hidden="true" />
+                      <span>{config.ctaMicrocopy}</span>
+                    </p>
+                  )}
+
+                  <p className="cf-form-privacy">
+                    Wysyłając formularz, przekazujesz dane potrzebne do obsługi zapytania.
+                    Szczegóły znajdziesz w <a href="/polityka-prywatnosci">polityce prywatności</a>.
+                  </p>
+
+                  {formMessage && (
+                    <p
+                      className={`cf-form-feedback ${formState === 'success' ? 'is-success' : 'is-error'}`}
+                      role="status"
+                    >
+                      {formMessage}
+                    </p>
+                  )}
+                </form>
+
+                <p className="cf-contact-fallback">
+                  Wolisz e-mail? <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {relatedGuides.length > 0 && (
           <section className="cf-section cf-section-bordered service-guides-section" aria-labelledby="service-guides-title">
             <div className="cf-container">
@@ -493,100 +662,6 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
           </div>
         </section>
 
-        <section id="kontakt" className="cf-section cf-contact-section service-contact-section">
-          <div className="cf-container">
-            <div className="cf-contact-panel">
-              <div className="cf-contact-copy">
-                <div className="cf-contact-icon" aria-hidden="true">
-                  <Sparkles size={20} />
-                </div>
-                <p className="cf-section-kicker">Kontakt</p>
-                <h2>{config.contactHeading}</h2>
-                <p>{config.contactCopy}</p>
-                <div className="cf-contact-tags">
-                  <span><ShieldCheck size={14} /> Zakres przed startem</span>
-                  <span><MessageSquareText size={14} /> Bezpośredni kontakt</span>
-                  <span><CheckCircle2 size={14} /> Zgłoszenie trafia do CRM</span>
-                </div>
-              </div>
-
-              <div className="cf-contact-action">
-                <form className="cf-lead-form" onSubmit={handleSubmit} onFocusCapture={handleFormStart}>
-                  <div className="cf-form-row">
-                    <label>
-                      <span>Imię / firma</span>
-                      <input name="name" type="text" autoComplete="name" minLength={2} maxLength={120} required />
-                    </label>
-                    <label>
-                      <span>E-mail</span>
-                      <input name="email" type="email" autoComplete="email" maxLength={254} required />
-                    </label>
-                  </div>
-
-                  <p className="service-form-topic">
-                    Temat: <strong>{config.eyebrow}</strong>
-                  </p>
-
-                  <label>
-                    <span>Adres strony {config.pageUrlRequired ? '' : <small>opcjonalnie</small>}</span>
-                    <input
-                      name="pageUrl"
-                      type="url"
-                      inputMode="url"
-                      placeholder="https://twojastrona.pl"
-                      maxLength={500}
-                      required={config.pageUrlRequired}
-                    />
-                  </label>
-
-                  <label>
-                    <span>Opisz temat</span>
-                    <textarea
-                      name="message"
-                      rows={6}
-                      minLength={10}
-                      maxLength={4000}
-                      placeholder={config.messagePlaceholder}
-                      required
-                    />
-                  </label>
-
-                  <label className="cf-form-honeypot" aria-hidden="true">
-                    <span>Strona firmy</span>
-                    <input name="companyWebsite" type="text" tabIndex={-1} autoComplete="off" />
-                  </label>
-
-                  <button
-                    type="submit"
-                    className="cf-button cf-button-primary cf-contact-button"
-                    disabled={formState === 'submitting'}
-                  >
-                    {formState === 'submitting' ? 'Wysyłam…' : config.cta}
-                    {formState !== 'submitting' && <ArrowRight size={17} aria-hidden="true" />}
-                  </button>
-
-                  <p className="cf-form-privacy">
-                    Wysyłając formularz, przekazujesz dane potrzebne do obsługi zapytania.
-                    Szczegóły znajdziesz w <a href="/polityka-prywatnosci">polityce prywatności</a>.
-                  </p>
-
-                  {formMessage && (
-                    <p
-                      className={`cf-form-feedback ${formState === 'success' ? 'is-success' : 'is-error'}`}
-                      role="status"
-                    >
-                      {formMessage}
-                    </p>
-                  )}
-                </form>
-
-                <p className="cf-contact-fallback">
-                  Wolisz e-mail? <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
 
       <footer className="cf-footer">
@@ -596,6 +671,17 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
           <span className="cf-footer-code">Diabeł tkwi w kodzie. 😈</span>
         </div>
       </footer>
+
+      {config.stickyCta && (
+        <a
+          href="#kontakt"
+          className="service-sticky-cta"
+          onClick={() => trackCtaClick('sticky_mobile')}
+        >
+          <span>{config.stickyCta}</span>
+          <ArrowRight size={16} aria-hidden="true" />
+        </a>
+      )}
 
       <ServiceConsentBanner />
     </div>
