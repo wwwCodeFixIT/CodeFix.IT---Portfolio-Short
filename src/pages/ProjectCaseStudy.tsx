@@ -90,6 +90,51 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
           </aside>
         </section>
 
+        <section className="cf-case-verification" aria-labelledby="cf-case-verification-title">
+          <div className="cf-container">
+            <p className="cf-section-kicker">Weryfikowalne fakty</p>
+            <h2 id="cf-case-verification-title" className="cf-case-verification-title">
+              Co możesz sprawdzić bez proszenia mnie o „case study PDF”.
+            </h2>
+
+            <div className="cf-case-verification-grid">
+              <a
+                href={project.demoUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="cf-case-verification-item cf-case-verification-link"
+              >
+                <span>Strona online</span>
+                <strong>Publiczny adres projektu</strong>
+                <small>Otwórz działającą stronę klienta</small>
+                <ArrowUpRight size={16} aria-hidden="true" />
+              </a>
+
+              <div className="cf-case-verification-item">
+                <span>Zakres</span>
+                <strong>{project.scope.length} opisanych elementów</strong>
+                <small>Zakres realizacji rozpisany punkt po punkcie</small>
+              </div>
+
+              <div className="cf-case-verification-item">
+                <span>Stack</span>
+                <strong>{project.technologies.length} technologii</strong>
+                <small>Technologie użyte w konkretnym wdrożeniu</small>
+              </div>
+
+              <div className="cf-case-verification-item">
+                <span>Realizacja</span>
+                <strong>{project.year}</strong>
+                <small>
+                  {project.collaboration
+                    ? `Współpraca z ${project.collaboration}`
+                    : 'Projekt opisany na podstawie faktycznego zakresu prac'}
+                </small>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section className="cf-case-section">
           <div className="cf-container cf-case-layout">
             <article className="cf-case-story">
