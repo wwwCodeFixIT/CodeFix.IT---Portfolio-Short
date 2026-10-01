@@ -105,7 +105,7 @@ const organization = {
   name: 'CodeFix.IT',
   alternateName: ['CodeFix IT', 'CodeFixIT'],
   url: 'https://codefix.it/',
-  logo: 'https://codefix.it/favicon.svg',
+  logo: 'https://codefix.it/brand/codefix-mark.png',
   slogan: 'Diabeł tkwi w kodzie',
 };
 
