@@ -51,7 +51,7 @@ function replaceTag(html, pattern, replacement, label) {
 }
 
 for (const page of pages) {
-  const canonical = `https://codefix.it/${page.path}`;
+  const canonical = `https://codefix.it/${page.path}/`;
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [

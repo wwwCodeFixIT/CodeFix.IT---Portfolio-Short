@@ -12,18 +12,18 @@ const serviceHeadings = {
 };
 
 const guideLinks = [
-  ['/poradniki/wordpress-nie-wysyla-maili', 'WordPress nie wysyła maili'],
-  ['/poradniki/blad-500-wordpress', 'Błąd 500 WordPress'],
-  ['/poradniki/wordpress-zepsul-sie-po-aktualizacji', 'WordPress zepsuł się po aktualizacji'],
-  ['/poradniki/wolny-wordpress-co-sprawdzic', 'Wolny WordPress'],
-  ['/poradniki/blad-krytyczny-wordpress', 'Błąd krytyczny WordPress'],
-  ['/poradniki/woocommerce-checkout-nie-dziala', 'WooCommerce checkout nie działa'],
+  ['/poradniki/wordpress-nie-wysyla-maili/', 'WordPress nie wysyła maili'],
+  ['/poradniki/blad-500-wordpress/', 'Błąd 500 WordPress'],
+  ['/poradniki/wordpress-zepsul-sie-po-aktualizacji/', 'WordPress zepsuł się po aktualizacji'],
+  ['/poradniki/wolny-wordpress-co-sprawdzic/', 'Wolny WordPress'],
+  ['/poradniki/blad-krytyczny-wordpress/', 'Błąd krytyczny WordPress'],
+  ['/poradniki/woocommerce-checkout-nie-dziala/', 'WooCommerce checkout nie działa'],
 ];
 
 const serviceLinks = [
-  ['/naprawa-wordpress', 'Naprawa WordPress — błędy, formularze i WooCommerce'],
-  ['/strony-wordpress', 'Strony internetowe dla firm — WordPress + ACF PRO'],
-  ['/opieka-wordpress', 'Opieka WordPress — aktualizacje, backupy i rozwój'],
+  ['/naprawa-wordpress/', 'Naprawa WordPress — błędy, formularze i WooCommerce'],
+  ['/strony-wordpress/', 'Strony internetowe dla firm — WordPress + ACF PRO'],
+  ['/opieka-wordpress/', 'Opieka WordPress — aktualizacje, backupy i rozwój'],
 ];
 
 function escapeHtml(value) {
@@ -70,9 +70,9 @@ function relatedBlock(path) {
       <section>
         <h2>Wybrane realizacje</h2>
         <ul>
-          <li><a href="/realizacje/em-air-system">EM Air System — realizacja WordPress</a></li>
-          <li><a href="/realizacje/rzeczoznawca-marcin-dudek">Rzeczoznawca Marcin Dudek — realizacja WordPress</a></li>
-          <li><a href="/realizacje/kancelaria-adwokacka-witkowska">Kancelaria Adwokacka Witkowska — realizacja WordPress</a></li>
+          <li><a href="/realizacje/em-air-system/">EM Air System — realizacja WordPress</a></li>
+          <li><a href="/realizacje/rzeczoznawca-marcin-dudek/">Rzeczoznawca Marcin Dudek — realizacja WordPress</a></li>
+          <li><a href="/realizacje/kancelaria-adwokacka-witkowska/">Kancelaria Adwokacka Witkowska — realizacja WordPress</a></li>
         </ul>
       </section>`;
   }
@@ -86,7 +86,7 @@ function relatedBlock(path) {
           <li>Zakres i cena są potwierdzane przed rozpoczęciem pracy.</li>
           <li>Jeśli problem okaże się większy, zlecenie nie jest rozszerzane bez akceptacji.</li>
         </ul>
-        <p><a href="/naprawa-wordpress#kontakt">Zgłoś problem WordPress</a></p>
+        <p><a href="/naprawa-wordpress/#kontakt">Zgłoś problem WordPress</a></p>
       </section>
       <section><h2>Najczęstsze problemy WordPress</h2><ul>${links(guideLinks)}</ul></section>`;
   }
@@ -103,13 +103,13 @@ function relatedBlock(path) {
 
   if (path.startsWith('/poradniki/')) {
     return `
-      <p><a href="/naprawa-wordpress">Naprawa WordPress — zobacz zakres usługi</a></p>
-      <p><a href="/poradniki">Wszystkie poradniki WordPress</a></p>`;
+      <p><a href="/naprawa-wordpress/">Naprawa WordPress — zobacz zakres usługi</a></p>
+      <p><a href="/poradniki/">Wszystkie poradniki WordPress</a></p>`;
   }
 
   if (path.startsWith('/realizacje/')) {
     return `
-      <p><a href="/strony-wordpress">Strony internetowe dla firm — zobacz zakres wdrożenia</a></p>
+      <p><a href="/strony-wordpress/">Strony internetowe dla firm — zobacz zakres wdrożenia</a></p>
       <p><a href="/">Wróć do CodeFix.IT</a></p>`;
   }
 
