@@ -11,9 +11,9 @@ export function Brand({ href = '/', tagline = false, className = '' }: BrandProp
     <a href={href} className={classes} aria-label="CodeFix.IT — strona główna">
       <img
         className="cf-brand-logo"
-        src="/favicon.svg"
-        width="44"
-        height="44"
+        src="/brand/codefix-mark.png"
+        width="48"
+        height="48"
         alt=""
         aria-hidden="true"
         decoding="async"
