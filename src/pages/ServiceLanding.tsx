@@ -52,14 +52,14 @@ function buildSchema(config: ServiceLandingConfig) {
         '@id': `https://codefix.it${config.path}#service`,
         name: config.title,
         provider: { '@id': 'https://codefix.it/#organization' },
-        url: `https://codefix.it${config.path}`,
+        url: `https://codefix.it${config.path}/`,
         serviceType: config.eyebrow,
         description: config.metaDescription,
-        mainEntityOfPage: `https://codefix.it${config.path}`,
+        mainEntityOfPage: `https://codefix.it${config.path}/`,
         areaServed: [{ '@type': 'Country', name: 'Polska' }],
         availableChannel: {
           '@type': 'ServiceChannel',
-          serviceUrl: `https://codefix.it${config.path}`,
+          serviceUrl: `https://codefix.it${config.path}/`,
           availableLanguage: ['pl'],
         },
       },
@@ -76,7 +76,7 @@ function buildSchema(config: ServiceLandingConfig) {
             '@type': 'ListItem',
             position: 2,
             name: config.title,
-            item: `https://codefix.it${config.path}`,
+            item: `https://codefix.it${config.path}/`,
           },
         ],
       },
@@ -105,8 +105,8 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
   useEffect(() => {
     document.title = config.metaTitle;
     setMeta('meta[name="description"]', 'content', config.metaDescription);
-    setMeta('link[rel="canonical"]', 'href', `https://codefix.it${config.path}`);
-    setMeta('meta[property="og:url"]', 'content', `https://codefix.it${config.path}`);
+    setMeta('link[rel="canonical"]', 'href', `https://codefix.it${config.path}/`);
+    setMeta('meta[property="og:url"]', 'content', `https://codefix.it${config.path}/`);
     setMeta('meta[property="og:title"]', 'content', config.metaTitle);
     setMeta('meta[property="og:description"]', 'content', config.metaDescription);
     setMeta('meta[name="twitter:title"]', 'content', config.metaTitle);
@@ -423,7 +423,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
                       <small key={technology}>{technology}</small>
                     ))}
                   </div>
-                  <a href={`/realizacje/${project.slug}`}>
+                  <a href={`/realizacje/${project.slug}/`}>
                     Zobacz zakres realizacji
                     <ArrowRight size={15} aria-hidden="true" />
                   </a>
@@ -518,7 +518,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
 
                   <p className="cf-form-privacy">
                     Wysyłając formularz, przekazujesz dane potrzebne do obsługi zapytania.
-                    Szczegóły znajdziesz w <a href="/polityka-prywatnosci">polityce prywatności</a>.
+                    Szczegóły znajdziesz w <a href="/polityka-prywatnosci/">polityce prywatności</a>.
                   </p>
 
                   {formMessage && (
@@ -553,7 +553,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
               </div>
               <div className="service-guides-grid">
                 {relatedGuides.map((guide) => (
-                  <a key={guide.slug} href={`/poradniki/${guide.slug}`} className="service-guide-card">
+                  <a key={guide.slug} href={`/poradniki/${guide.slug}/`} className="service-guide-card">
                     <FileText size={18} aria-hidden="true" />
                     <span>{guide.intent}</span>
                     <strong>{guide.title}</strong>
@@ -600,7 +600,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
             <h2 id="related-services-title" className="cf-section-heading">Pozostałe usługi WordPress.</h2>
             <div className="service-related-grid">
               {related.map((item) => (
-                <a key={item.path} href={item.path} className="service-related-card">
+                <a key={item.path} href={`${item.path}/`} className="service-related-card">
                   <span>{item.price}</span>
                   <strong>{item.eyebrow}</strong>
                   <p>{item.metaDescription}</p>
@@ -619,7 +619,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
       <footer className="cf-footer">
         <div className="cf-container cf-footer-bottom">
           <span>© 2026 CodeFix.IT</span>
-          <a href="/polityka-prywatnosci">Polityka prywatności</a>
+          <a href="/polityka-prywatnosci/">Polityka prywatności</a>
           <span className="cf-footer-code">Diabeł tkwi w kodzie. 😈</span>
         </div>
       </footer>
