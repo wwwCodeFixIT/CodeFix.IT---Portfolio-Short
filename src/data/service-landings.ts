@@ -41,7 +41,7 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
     titleAccent: 'Od 390 zł — zdalnie w całej Polsce.',
     description:
       'Formularz nie wysyła? Aktualizacja zepsuła stronę? WooCommerce albo layout przestał działać? Podeślij URL i objaw. Na start bez loginu. Jeśli temat mieści się w Quick Fixie, dostaniesz zakres i cenę przed rozpoczęciem prac.',
-    metaTitle: 'Naprawa WordPress – błędy i WooCommerce | CodeFix.IT',
+    metaTitle: 'Naprawa WordPress – błędy, formularze, WooCommerce | CodeFix.IT',
     metaDescription:
       'Naprawa WordPress zdalnie w całej Polsce: błędy, formularze, WooCommerce, CSS i awarie po aktualizacjach. Quick Fix od 390 zł.',
     price: 'Od 390 zł',
@@ -170,7 +170,7 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
     titleAccent: 'zdalnie w całej Polsce.',
     description:
       'Aktualizacje, backupy, drobne poprawki i rozwój istniejącej strony w uzgodnionym miesięcznym zakresie. Obsługuję firmy zdalnie w całej Polsce jako stały techniczny punkt kontaktu.',
-    metaTitle: 'Opieka WordPress – aktualizacje i backupy | CodeFix.IT',
+    metaTitle: 'Opieka WordPress – aktualizacje, backupy i rozwój | CodeFix.IT',
     metaDescription:
       'Opieka WordPress zdalnie w całej Polsce od 300 zł/mies.: aktualizacje, backupy, drobne poprawki i rozwój strony.',
     price: 'Od 300 zł / mies.',
