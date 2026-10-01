@@ -42,7 +42,7 @@ function buildSchema(config: ServiceLandingConfig) {
         '@id': 'https://codefix.it/#organization',
         name: 'CodeFix.IT',
         url: 'https://codefix.it/',
-        logo: 'https://codefix.it/favicon.svg',
+        logo: 'https://codefix.it/brand/codefix-mark.png',
         slogan: 'Diabeł tkwi w kodzie',
         email: contactEmail,
       },
@@ -53,10 +53,7 @@ function buildSchema(config: ServiceLandingConfig) {
         url: `https://codefix.it${config.path}`,
         serviceType: config.eyebrow,
         description: config.metaDescription,
-        areaServed: [
-          { '@type': 'City', name: 'Warszawa' },
-          { '@type': 'Country', name: 'Polska' },
-        ],
+        areaServed: [{ '@type': 'Country', name: 'Polska' }],
         availableChannel: {
           '@type': 'ServiceChannel',
           serviceUrl: `https://codefix.it${config.path}`,

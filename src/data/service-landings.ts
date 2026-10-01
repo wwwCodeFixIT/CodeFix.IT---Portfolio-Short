@@ -38,12 +38,12 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
     service: 'WORDPRESS_QUICK_FIX',
     eyebrow: 'WordPress Quick Fix',
     title: 'Naprawa WordPress. Jeden problem, konkretny zakres.',
-    titleAccent: 'Od 390 zł — Warszawa i zdalnie cała Polska.',
+    titleAccent: 'Od 390 zł — zdalnie w całej Polsce.',
     description:
       'Formularz nie wysyła? Aktualizacja zepsuła stronę? WooCommerce albo layout przestał działać? Podeślij URL i objaw. Na start bez loginu. Jeśli temat mieści się w Quick Fixie, dostaniesz zakres i cenę przed rozpoczęciem prac.',
-    metaTitle: 'Naprawa WordPress Warszawa – błędy i WooCommerce | CodeFix.IT',
+    metaTitle: 'Naprawa WordPress – błędy i WooCommerce | CodeFix.IT',
     metaDescription:
-      'Naprawa WordPress w Warszawie i zdalnie w całej Polsce: błędy, formularze, WooCommerce, CSS i awarie po aktualizacjach. Quick Fix od 390 zł.',
+      'Naprawa WordPress zdalnie w całej Polsce: błędy, formularze, WooCommerce, CSS i awarie po aktualizacjach. Quick Fix od 390 zł.',
     price: 'Od 390 zł',
     pricingNote:
       'Cena orientacyjna dla jednego, jasno zdefiniowanego problemu. Po diagnozie potwierdzam zakres i kwotę przed rozpoczęciem prac.',
@@ -150,9 +150,9 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
           'Nie rozszerzam zakresu bez uzgodnienia. Zatrzymuję się po diagnozie i przedstawiam, co trzeba zrobić oraz ile będzie kosztował kolejny etap.',
       },
       {
-        question: 'Czy naprawiasz WordPress tylko w Warszawie?',
+        question: 'Czy realizujesz naprawy WordPress w całej Polsce?',
         answer:
-          'Nie. Dla firm z Warszawy mogę działać lokalnie, a większość napraw WordPress realizuję zdalnie dla klientów z całej Polski, po bezpiecznym przekazaniu potrzebnych dostępów.',
+          'Tak. Naprawy WordPress realizuję zdalnie dla firm z całej Polski, po bezpiecznym przekazaniu potrzebnych dostępów, jeśli są wymagane.',
       },
     ],
     contactHeading: 'Opisz jeden problem. Zacznijmy od diagnozy.',
@@ -166,19 +166,19 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
     path: '/opieka-wordpress',
     service: 'WORDPRESS_CARE',
     eyebrow: 'Opieka i rozwój WordPress',
-    title: 'Opieka WordPress dla firm z Warszawy',
-    titleAccent: 'i klientów z całej Polski.',
+    title: 'Opieka WordPress dla firm',
+    titleAccent: 'zdalnie w całej Polsce.',
     description:
-      'Aktualizacje, backupy, drobne poprawki i rozwój istniejącej strony w uzgodnionym miesięcznym zakresie. Obsługuję firmy z Warszawy i zdalnie z całej Polski, jako stały techniczny punkt kontaktu.',
-    metaTitle: 'Opieka WordPress Warszawa – aktualizacje i backupy | CodeFix.IT',
+      'Aktualizacje, backupy, drobne poprawki i rozwój istniejącej strony w uzgodnionym miesięcznym zakresie. Obsługuję firmy zdalnie w całej Polsce jako stały techniczny punkt kontaktu.',
+    metaTitle: 'Opieka WordPress – aktualizacje i backupy | CodeFix.IT',
     metaDescription:
-      'Opieka WordPress w Warszawie i zdalnie w całej Polsce od 300 zł/mies.: aktualizacje, backupy, drobne poprawki i rozwój strony.',
+      'Opieka WordPress zdalnie w całej Polsce od 300 zł/mies.: aktualizacje, backupy, drobne poprawki i rozwój strony.',
     price: 'Od 300 zł / mies.',
     pricingNote:
       'Zakres abonamentu zależy od liczby stron, częstotliwości zmian, hostingu i oczekiwanego czasu reakcji.',
     cta: 'Zapytaj o opiekę',
     secondaryCta: 'Zobacz zakres opieki',
-    heroPoints: ['Warszawa + cała Polska', 'Backupy i aktualizacje', 'Drobne poprawki i rozwój'],
+    heroPoints: ['Zdalnie w całej Polsce', 'Backupy i aktualizacje', 'Drobne poprawki i rozwój'],
     problemHeading: 'Kiedy stała opieka ma więcej sensu niż pojedyncze zlecenia.',
     problems: [
       {
@@ -259,9 +259,9 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
           'Tak. Warunki współpracy i okres rozliczeniowy ustalamy przed startem, bez ukrywania zakresu czy kosztów.',
       },
       {
-        question: 'Czy opieka WordPress jest dostępna poza Warszawą?',
+        question: 'Czy opieka WordPress jest dostępna w całej Polsce?',
         answer:
-          'Tak. Stała opieka jest realizowana zdalnie, dlatego mogę obsługiwać firmy w Warszawie i w całej Polsce. Dostępy, zakres zmian i sposób zgłoszeń ustalamy przed rozpoczęciem współpracy.',
+          'Tak. Stała opieka jest realizowana zdalnie dla firm z całej Polski. Dostępy, zakres zmian i sposób zgłoszeń ustalamy przed rozpoczęciem współpracy.',
       },
     ],
     contactHeading: 'Pokaż obecną stronę i napisz, czego zwykle potrzebujesz.',
@@ -274,20 +274,20 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
   '/strony-wordpress': {
     path: '/strony-wordpress',
     service: 'CODEFIX_BUSINESS_SITE',
-    eyebrow: 'Strony internetowe Warszawa • WordPress + ACF PRO',
-    title: 'Strony internetowe dla firm w Warszawie',
+    eyebrow: 'Strony internetowe dla firm • WordPress + ACF PRO',
+    title: 'Strony internetowe dla firm',
     titleAccent: 'WordPress + ACF PRO, szybkie i edytowalne.',
     description:
-      'Tworzę strony internetowe dla firm w Warszawie i zdalnie w całej Polsce. Wdrażam je na WordPress + ACF PRO: responsywny front-end, formularze, techniczne SEO, Core Web Vitals i wygodna edycja treści bez grzebania w kodzie.',
-    metaTitle: 'Strony internetowe Warszawa – WordPress dla firm | CodeFix.IT',
+      'Tworzę strony internetowe dla firm zdalnie w całej Polsce. Wdrażam je na WordPress + ACF PRO: responsywny front-end, formularze, techniczne SEO, Core Web Vitals i wygodna edycja treści bez grzebania w kodzie.',
+    metaTitle: 'Strony internetowe dla firm – WordPress + ACF PRO | CodeFix.IT',
     metaDescription:
-      'Strony internetowe dla firm w Warszawie: WordPress + ACF PRO, szybki front-end, formularze, SEO techniczne i wygodna edycja treści. CodeFix.IT.',
+      'Strony internetowe dla firm w całej Polsce: WordPress + ACF PRO, szybki front-end, formularze, SEO techniczne i wygodna edycja treści. CodeFix.IT.',
     price: 'Wycena indywidualna',
     pricingNote:
       'Cena zależy od liczby podstron, zakresu projektu, treści, integracji i tego, czy startujemy od istniejącej strony.',
     cta: 'Wyceń stronę firmową',
     secondaryCta: 'Zobacz, co dostajesz',
-    heroPoints: ['Warszawa + cała Polska', 'WordPress + ACF PRO', 'Mobile-first i Core Web Vitals'],
+    heroPoints: ['Zdalnie w całej Polsce', 'WordPress + ACF PRO', 'Mobile-first i Core Web Vitals'],
     problemHeading: 'Strony internetowe dla firm, które mają generować kontakt — nie tylko wyglądać.',
     problems: [
       {
@@ -373,9 +373,9 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
           'Tak. Na demo.codefix.it działa moje własne demo WordPress + ACF PRO. Jest oznaczone jako demo techniczne, a nie realizacja klienta.',
       },
       {
-        question: 'Czy tworzysz strony tylko dla firm z Warszawy?',
+        question: 'Czy tworzysz strony dla firm z całej Polski?',
         answer:
-          'Nie. Warszawa jest moim rynkiem lokalnym, ale projekt i wdrożenie mogą być prowadzone w pełni zdalnie dla firm z całej Polski. Kontakt, preview i akceptacja zmian odbywają się online.',
+          'Tak. Projekt i wdrożenie mogą być prowadzone w pełni zdalnie dla firm z całej Polski. Kontakt, preview i akceptacja zmian odbywają się online.',
       },
     ],
     contactHeading: 'Opisz firmę i stronę, której potrzebujesz.',

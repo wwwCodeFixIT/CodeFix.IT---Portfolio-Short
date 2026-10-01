@@ -7,8 +7,8 @@ const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => new UR
 
 const serviceHeadings = {
   '/naprawa-wordpress': 'Naprawa WordPress — jeden problem, konkretny zakres od 390 zł',
-  '/opieka-wordpress': 'Opieka WordPress dla firm z Warszawy i całej Polski',
-  '/strony-wordpress': 'Strony internetowe dla firm w Warszawie — WordPress + ACF PRO',
+  '/opieka-wordpress': 'Opieka WordPress dla firm zdalnie w całej Polsce',
+  '/strony-wordpress': 'Strony internetowe dla firm — WordPress + ACF PRO',
 };
 
 const guideLinks = [
@@ -22,7 +22,7 @@ const guideLinks = [
 
 const serviceLinks = [
   ['/naprawa-wordpress', 'Naprawa WordPress'],
-  ['/strony-wordpress', 'Strony internetowe Warszawa — WordPress dla firm'],
+  ['/strony-wordpress', 'Strony internetowe dla firm — WordPress + ACF PRO'],
   ['/opieka-wordpress', 'Opieka WordPress'],
 ];
 
@@ -50,7 +50,7 @@ function links(items) {
 }
 
 function pageHeading(path, title) {
-  if (path === '/') return 'CodeFix.IT — WordPress Warszawa: strony, naprawa i opieka';
+  if (path === '/') return 'CodeFix.IT — WordPress dla firm: naprawa, opieka i strony';
   if (serviceHeadings[path]) return serviceHeadings[path];
   if (path === '/poradniki') return 'Poradniki WordPress — diagnostyka i utrzymanie';
   return title.replace(/\s*[|–—-]\s*CodeFix\.IT.*$/i, '').trim() || 'CodeFix.IT';
@@ -109,7 +109,7 @@ function relatedBlock(path) {
 
   if (path.startsWith('/realizacje/')) {
     return `
-      <p><a href="/strony-wordpress">Strony internetowe Warszawa — zobacz zakres wdrożenia</a></p>
+      <p><a href="/strony-wordpress">Strony internetowe dla firm — zobacz zakres wdrożenia</a></p>
       <p><a href="/">Wróć do CodeFix.IT</a></p>`;
   }
 
@@ -147,8 +147,8 @@ for (const url of urls) {
   const body = `<div id="root" data-static-prerender="true">
     <main class="cf-static-prerender" data-seo-static-content="true">
       <div class="cf-static-prerender-inner">
-        <a class="brand" href="/" aria-label="CodeFix.IT — strona główna"><img src="/favicon.svg" width="42" height="42" alt=""><span>Code<span class="brand-fix">Fix</span>.IT</span></a>
-        <p class="eyebrow">WordPress • Warszawa • cała Polska</p>
+        <a class="brand" href="/" aria-label="CodeFix.IT — strona główna"><img src="/brand/codefix-mark.png" width="48" height="48" alt=""><span>Code<span class="brand-fix">Fix</span>.IT</span></a>
+        <p class="eyebrow">WordPress • zdalnie • cała Polska</p>
         <h1>${escapeHtml(heading)}</h1>
         <p>${escapeHtml(description)}</p>
         ${relatedBlock(path)}
