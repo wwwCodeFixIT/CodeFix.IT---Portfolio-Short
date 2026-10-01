@@ -48,7 +48,7 @@ const services = [
     price: 'Od 390 zł',
     service: quickFixService,
     cta: 'Zgłoś problem WordPress',
-    detailsHref: '/naprawa-wordpress',
+    detailsHref: '/naprawa-wordpress/',
     detailsLabel: 'Naprawa WordPress — pełny zakres',
   },
   {
@@ -60,7 +60,7 @@ const services = [
     price: 'Wycena indywidualna',
     service: businessSiteService,
     cta: 'Wyceń stronę firmową',
-    detailsHref: '/strony-wordpress',
+    detailsHref: '/strony-wordpress/',
     detailsLabel: 'Strony WordPress dla firm — pełny zakres',
   },
   {
@@ -72,7 +72,7 @@ const services = [
     price: 'Od 300 zł / mies.',
     service: careService,
     cta: 'Zapytaj o opiekę',
-    detailsHref: '/opieka-wordpress',
+    detailsHref: '/opieka-wordpress/',
     detailsLabel: 'Opieka WordPress — pełny zakres',
   },
 ];
@@ -647,7 +647,7 @@ export function HomepageV1() {
 
                   <div className="cf-project-actions">
                     <a
-                      href={`/realizacje/${project.slug}`}
+                      href={`/realizacje/${project.slug}/`}
                       className="cf-project-link"
                     >
                       Zobacz case study
@@ -880,7 +880,7 @@ export function HomepageV1() {
 
                   <p className="cf-form-privacy">
                     Wysyłając formularz, przekazujesz dane potrzebne do obsługi zapytania.
-                    Szczegóły znajdziesz w <a href="/polityka-prywatnosci">polityce prywatności</a>.
+                    Szczegóły znajdziesz w <a href="/polityka-prywatnosci/">polityce prywatności</a>.
                   </p>
 
                   {formMessage && (
@@ -943,7 +943,7 @@ export function HomepageV1() {
         <div className="cf-container cf-footer-bottom">
           <span>© 2026 CodeFix.IT</span>
           <div className="cf-footer-legal">
-            <a href="/polityka-prywatnosci">Polityka prywatności</a>
+            <a href="/polityka-prywatnosci/">Polityka prywatności</a>
             <button className="cf-consent-settings" type="button" onClick={openMeasurementSettings}>
               Ustawienia prywatności
             </button>
