@@ -147,6 +147,8 @@ const faqItems = [
 ];
 
 const featuredProjects = projects.slice(0, 3);
+const publicProjectCount = featuredProjects.filter((project) => Boolean(project.demoUrl)).length;
+const agencyCollaborationCount = featuredProjects.filter((project) => Boolean(project.collaboration)).length;
 const contactEmail = 'wwwcodefixit@gmail.com';
 const contactHref = `mailto:${contactEmail}?subject=${encodeURIComponent('Zapytanie ze strony CodeFix.IT')}`;
 const leadApiUrl = 'https://app.codefix.it/api/public/leads';
@@ -514,8 +516,27 @@ export function HomepageV1() {
                 <h2 className="cf-section-heading">Przykłady stron i wdrożeń, przy których pracowałem.</h2>
               </div>
               <p className="cf-section-sidecopy">
-                Zakres techniczny i użyte technologie — bez obiecywania wyników, których nie da się uczciwie zagwarantować.
+                Każdy case prowadzi do działającej strony i opisuje konkretny zakres prac, technologie oraz sposób realizacji.
               </p>
+            </div>
+
+            <div className="cf-proof-facts" aria-label="Weryfikowalne informacje o realizacjach">
+              <div className="cf-proof-fact">
+                <strong>{featuredProjects.length}</strong>
+                <span>opisane realizacje</span>
+              </div>
+              <div className="cf-proof-fact">
+                <strong>{publicProjectCount}/{featuredProjects.length}</strong>
+                <span>case studies z publicznym adresem strony</span>
+              </div>
+              <div className="cf-proof-fact">
+                <strong>WordPress + ACF PRO</strong>
+                <span>w każdym pokazanym wdrożeniu</span>
+              </div>
+              <div className="cf-proof-fact">
+                <strong>{agencyCollaborationCount > 0 ? 'Tak' : '—'}</strong>
+                <span>współpraca agencyjna opisana w portfolio</span>
+              </div>
             </div>
 
             <div className="cf-projects-grid">
@@ -553,6 +574,23 @@ export function HomepageV1() {
                     {project.technologies.slice(0, 4).map((technology) => (
                       <span key={technology}>{technology}</span>
                     ))}
+                  </div>
+
+                  <div className="cf-project-proof">
+                    <p className="cf-project-proof-label">Zakres wykonany</p>
+                    <ul className="cf-project-scope-preview">
+                      {project.scope.slice(0, 3).map((item) => (
+                        <li key={item}>
+                          <CheckCircle2 size={14} aria-hidden="true" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    {project.collaboration && (
+                      <p className="cf-project-collaboration">
+                        Współpraca: <strong>{project.collaboration}</strong>
+                      </p>
+                    )}
                   </div>
 
                   <div className="cf-project-actions">
