@@ -232,7 +232,10 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
   }
 
   const related = Object.values(serviceLandings).filter((item) => item.path !== config.path);
-  const relatedGuides = wordpressGuides.filter((item) => item.serviceHref === config.path).slice(0, 3);
+  const relatedGuides = wordpressGuides
+    .filter((item) => item.serviceHref === config.path)
+    .sort((a, b) => Number(b.slug.startsWith('ile-kosztuje-')) - Number(a.slug.startsWith('ile-kosztuje-')))
+    .slice(0, 3);
 
   return (
     <div className={`homepage-v1 service-landing${config.stickyCta ? ' has-sticky-service-cta' : ''}`}>
