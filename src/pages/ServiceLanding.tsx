@@ -48,11 +48,13 @@ function buildSchema(config: ServiceLandingConfig) {
       },
       {
         '@type': 'Service',
-        name: config.eyebrow,
+        '@id': `https://codefix.it${config.path}#service`,
+        name: config.title,
         provider: { '@id': 'https://codefix.it/#organization' },
         url: `https://codefix.it${config.path}`,
         serviceType: config.eyebrow,
         description: config.metaDescription,
+        mainEntityOfPage: `https://codefix.it${config.path}`,
         areaServed: [{ '@type': 'Country', name: 'Polska' }],
         availableChannel: {
           '@type': 'ServiceChannel',
@@ -72,7 +74,7 @@ function buildSchema(config: ServiceLandingConfig) {
           {
             '@type': 'ListItem',
             position: 2,
-            name: config.eyebrow,
+            name: config.title,
             item: `https://codefix.it${config.path}`,
           },
         ],
@@ -653,7 +655,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
                   <strong>{item.eyebrow}</strong>
                   <p>{item.metaDescription}</p>
                   <div>
-                    Zobacz usługę
+                    Zobacz usługę: {item.title}
                     <ArrowRight size={14} aria-hidden="true" />
                   </div>
                 </a>
