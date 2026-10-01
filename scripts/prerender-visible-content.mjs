@@ -6,24 +6,24 @@ const sitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url)
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => new URL(match[1].trim()));
 
 const serviceHeadings = {
-  '/naprawa-wordpress': 'Naprawa WordPress — jeden problem, konkretny zakres od 390 zł',
-  '/opieka-wordpress': 'Opieka WordPress dla firm zdalnie w całej Polsce',
-  '/strony-wordpress': 'Strony internetowe dla firm — WordPress + ACF PRO',
+  '/naprawa-wordpress/': 'Naprawa WordPress — jeden problem, konkretny zakres od 390 zł',
+  '/opieka-wordpress/': 'Opieka WordPress dla firm zdalnie w całej Polsce',
+  '/strony-wordpress/': 'Strony internetowe dla firm — WordPress + ACF PRO',
 };
 
 const guideLinks = [
-  ['/poradniki/wordpress-nie-wysyla-maili', 'WordPress nie wysyła maili'],
-  ['/poradniki/blad-500-wordpress', 'Błąd 500 WordPress'],
-  ['/poradniki/wordpress-zepsul-sie-po-aktualizacji', 'WordPress zepsuł się po aktualizacji'],
-  ['/poradniki/wolny-wordpress-co-sprawdzic', 'Wolny WordPress'],
-  ['/poradniki/blad-krytyczny-wordpress', 'Błąd krytyczny WordPress'],
-  ['/poradniki/woocommerce-checkout-nie-dziala', 'WooCommerce checkout nie działa'],
+  ['/poradniki/wordpress-nie-wysyla-maili/', 'WordPress nie wysyła maili'],
+  ['/poradniki/blad-500-wordpress/', 'Błąd 500 WordPress'],
+  ['/poradniki/wordpress-zepsul-sie-po-aktualizacji/', 'WordPress zepsuł się po aktualizacji'],
+  ['/poradniki/wolny-wordpress-co-sprawdzic/', 'Wolny WordPress'],
+  ['/poradniki/blad-krytyczny-wordpress/', 'Błąd krytyczny WordPress'],
+  ['/poradniki/woocommerce-checkout-nie-dziala/', 'WooCommerce checkout nie działa'],
 ];
 
 const serviceLinks = [
-  ['/naprawa-wordpress', 'Naprawa WordPress — błędy, formularze i WooCommerce'],
-  ['/strony-wordpress', 'Strony internetowe dla firm — WordPress + ACF PRO'],
-  ['/opieka-wordpress', 'Opieka WordPress — aktualizacje, backupy i rozwój'],
+  ['/naprawa-wordpress/', 'Naprawa WordPress — błędy, formularze i WooCommerce'],
+  ['/strony-wordpress/', 'Strony internetowe dla firm — WordPress + ACF PRO'],
+  ['/opieka-wordpress/', 'Opieka WordPress — aktualizacje, backupy i rozwój'],
 ];
 
 function escapeHtml(value) {
@@ -77,7 +77,7 @@ function relatedBlock(path) {
       </section>`;
   }
 
-  if (path === '/naprawa-wordpress') {
+  if (path === '/naprawa-wordpress/') {
     return `
       <section>
         <h2>Quick Fix od 390 zł — jak wygląda start</h2>
