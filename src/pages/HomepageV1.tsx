@@ -462,7 +462,7 @@ export function HomepageV1() {
             </p>
             <a
               href="#agencies"
-              className="cf-hero-agency-link"
+              className="cf-mini-audit-link cf-hero-agency-link"
               onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'hero_agency_link' })}
             >
               Jesteś agencją? Zobacz współpracę white-label
@@ -531,7 +531,7 @@ export function HomepageV1() {
         </section>
 
         <section id="agencies" className="cf-agency-strip" aria-labelledby="cf-agency-title">
-          <div className="cf-container cf-agency-strip-inner">
+          <div className="cf-container cf-revenue-strip-inner cf-agency-strip-inner">
             <div className="cf-agency-copy">
               <p className="cf-section-kicker">Dla agencji / white-label</p>
               <h2 id="cf-agency-title">Masz overflow WordPress? Mogę przejąć część kolejki.</h2>
@@ -539,7 +539,7 @@ export function HomepageV1() {
                 WordPress, ACF PRO, WooCommerce, poprawki front-endowe i mniejsze integracje.
                 Mogę pracować na stagingu i Git, według Waszych standardów oraz bez kontaktu z klientem końcowym.
               </p>
-              <div className="cf-agency-tags" aria-label="Zakres współpracy agencyjnej">
+              <div className="cf-revenue-proof cf-agency-tags" aria-label="Zakres współpracy agencyjnej">
                 <span>WordPress + ACF PRO</span>
                 <span>WooCommerce</span>
                 <span>Git / staging / preview</span>
@@ -547,7 +547,7 @@ export function HomepageV1() {
               </div>
             </div>
 
-            <div className="cf-agency-actions">
+            <div className="cf-revenue-action cf-agency-actions">
               <a
                 href="#contact"
                 className="cf-button cf-button-primary"
