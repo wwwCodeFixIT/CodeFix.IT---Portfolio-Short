@@ -48,7 +48,7 @@ export function MeasurementConsent({ servicePage = false }: { servicePage?: bool
       <h2 id="cf-measurement-title">Ty wybierasz, co mierzymy</h2>
       <p id="cf-measurement-description">
         Możesz osobno włączyć analitykę strony i pomiar reklam. Formularz działa przy każdym wyborze.
-        Szczegóły znajdziesz w <a href="/polityka-prywatnosci">polityce prywatności</a>.
+        Szczegóły znajdziesz w <a href="/polityka-prywatnosci/">polityce prywatności</a>.
       </p>
       <fieldset className="cf-measurement-options">
         <legend>Opcjonalne pomiary</legend>
