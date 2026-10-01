@@ -6,7 +6,7 @@ const sitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url)
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => new URL(match[1].trim()));
 
 const serviceHeadings = {
-  '/naprawa-wordpress': 'Naprawa WordPress w Warszawie i zdalnie w całej Polsce',
+  '/naprawa-wordpress': 'Naprawa WordPress — jeden problem, konkretny zakres od 390 zł',
   '/opieka-wordpress': 'Opieka WordPress dla firm z Warszawy i całej Polski',
   '/strony-wordpress': 'Strony internetowe dla firm w Warszawie — WordPress + ACF PRO',
 };
@@ -79,8 +79,16 @@ function relatedBlock(path) {
 
   if (path === '/naprawa-wordpress') {
     return `
-      <section><h2>Najczęstsze problemy WordPress</h2><ul>${links(guideLinks)}</ul></section>
-      <p><a href="/#contact">Wyślij zapytanie o naprawę WordPress</a></p>`;
+      <section>
+        <h2>Quick Fix od 390 zł — jak wygląda start</h2>
+        <ul>
+          <li>Na początek wystarczy publiczny URL i opis objawu — bez wysyłania hasła.</li>
+          <li>Zakres i cena są potwierdzane przed rozpoczęciem pracy.</li>
+          <li>Jeśli problem okaże się większy, zlecenie nie jest rozszerzane bez akceptacji.</li>
+        </ul>
+        <p><a href="/naprawa-wordpress#kontakt">Zgłoś problem WordPress</a></p>
+      </section>
+      <section><h2>Najczęstsze problemy WordPress</h2><ul>${links(guideLinks)}</ul></section>`;
   }
 
   if (path === '/opieka-wordpress' || path === '/strony-wordpress') {
@@ -115,7 +123,7 @@ function outputPath(pathname) {
 
 const style = `
 <style id="codefix-static-prerender-style">
-  .cf-static-prerender{min-height:100vh;background:#060606;color:#e8e8eb;font-family:Inter,system-ui,sans-serif;padding:56px 24px}
+  .cf-static-prerender{min-height:100vh;background:#060606;color:#e8e8eb;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:56px 24px}
   .cf-static-prerender-inner{max-width:1040px;margin:0 auto}
   .cf-static-prerender .brand{display:inline-flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;color:#fff;text-decoration:none}
   .cf-static-prerender .brand img{width:42px;height:42px;object-fit:contain}

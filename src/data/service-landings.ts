@@ -14,6 +14,10 @@ export type ServiceLandingConfig = {
   cta: string;
   secondaryCta: string;
   heroPoints: string[];
+  offerPoints?: string[];
+  reassurance?: { title: string; description: string }[];
+  ctaMicrocopy?: string;
+  stickyCta?: string;
   problemHeading: string;
   problems: { title: string; description: string }[];
   scopeHeading: string;
@@ -33,10 +37,10 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
     path: '/naprawa-wordpress',
     service: 'WORDPRESS_QUICK_FIX',
     eyebrow: 'WordPress Quick Fix',
-    title: 'Naprawa WordPress w Warszawie',
-    titleAccent: 'i zdalnie w całej Polsce.',
+    title: 'Naprawa WordPress. Jeden problem, konkretny zakres.',
+    titleAccent: 'Od 390 zł — Warszawa i zdalnie cała Polska.',
     description:
-      'Masz konkretny błąd po aktualizacji, niedziałający formularz, problem z WooCommerce albo rozsypany widok? Pomagam firmom z Warszawy i zdalnie w całej Polsce: najpierw diagnoza, potem zamknięty zakres naprawy i test efektu.',
+      'Formularz nie wysyła? Aktualizacja zepsuła stronę? WooCommerce albo layout przestał działać? Podeślij URL i objaw. Na start bez loginu. Jeśli temat mieści się w Quick Fixie, dostaniesz zakres i cenę przed rozpoczęciem prac.',
     metaTitle: 'Naprawa WordPress Warszawa – błędy i WooCommerce | CodeFix.IT',
     metaDescription:
       'Naprawa WordPress w Warszawie i zdalnie w całej Polsce: błędy, formularze, WooCommerce, CSS i awarie po aktualizacjach. Quick Fix od 390 zł.',
@@ -45,7 +49,28 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
       'Cena orientacyjna dla jednego, jasno zdefiniowanego problemu. Po diagnozie potwierdzam zakres i kwotę przed rozpoczęciem prac.',
     cta: 'Zgłoś problem WordPress',
     secondaryCta: 'Zobacz przykładowy zakres',
-    heroPoints: ['Warszawa + zdalnie cała Polska', 'Diagnoza przed zmianą', 'Test po wdrożeniu'],
+    heroPoints: ['Bez loginu na start', 'Cena przed rozpoczęciem', 'Test po naprawie'],
+    offerPoints: [
+      'Diagnoza konkretnego objawu.',
+      'Jedna uzgodniona naprawa lub mały zestaw ściśle powiązanych zmian.',
+      'Test po wdrożeniu i krótka informacja, co zostało zmienione.',
+    ],
+    reassurance: [
+      {
+        title: 'Na start tylko URL + objaw',
+        description: 'Nie potrzebuję hasła do WordPressa, żeby ocenić publicznie widoczny problem i ustalić następny krok.',
+      },
+      {
+        title: 'Cena przed rozpoczęciem',
+        description: 'Najpierw potwierdzam, czy temat mieści się w Quick Fixie. Dopiero po akceptacji zaczynam pracę.',
+      },
+      {
+        title: 'Większy problem? Zatrzymuję zakres',
+        description: 'Jeśli diagnoza pokaże większą awarię, nie rozszerzam zlecenia automatycznie — dostajesz osobną propozycję.',
+      },
+    ],
+    ctaMicrocopy: 'Wysłanie zgłoszenia nie zobowiązuje do rozpoczęcia prac. Najpierw potwierdzam zakres i cenę.',
+    stickyCta: 'Zgłoś problem • od 390 zł',
     problemHeading: 'Typowe problemy, które da się zamknąć jako Quick Fix.',
     problems: [
       {
