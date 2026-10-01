@@ -86,7 +86,7 @@ function links(items) {
 function pageHeading(path, title) {
   if (path === '/') return 'CodeFix.IT — WordPress dla firm: naprawa, opieka i strony';
   if (serviceHeadings[path]) return serviceHeadings[path];
-  if (path === '/poradniki') return 'Poradniki WordPress — diagnostyka i utrzymanie';
+  if (path === '/poradniki') return 'Poradniki WordPress — naprawa, opieka i wyceny';
   return title.replace(/\s*[|–—-]\s*CodeFix\.IT.*$/i, '').trim() || 'CodeFix.IT';
 }
 
@@ -138,7 +138,22 @@ function relatedBlock(path) {
   }
 
   if (path === '/poradniki') {
-    return `<section><h2>Wszystkie poradniki</h2><ul>${links(guideLinks)}</ul></section>`;
+    return `
+      <section>
+        <h2>Naprawa i awarie WordPress</h2>
+        <ul>${links(quickFixGuideLinks)}</ul>
+        <p><a href="/naprawa-wordpress/">Naprawa WordPress — zobacz zakres usługi</a></p>
+      </section>
+      <section>
+        <h2>Opieka i wydajność WordPress</h2>
+        <ul>${links(careGuideLinks)}</ul>
+        <p><a href="/opieka-wordpress/">Opieka WordPress — abonament i zakres</a></p>
+      </section>
+      <section>
+        <h2>Strony WordPress dla firm</h2>
+        <ul>${links(businessSiteGuideLinks)}</ul>
+        <p><a href="/strony-wordpress/">Strony WordPress dla firm — wycena i wdrożenie</a></p>
+      </section>`;
   }
 
   if (path.startsWith('/poradniki/')) {
