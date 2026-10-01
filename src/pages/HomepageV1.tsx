@@ -48,6 +48,7 @@ const services = [
     service: quickFixService,
     cta: 'Zgłoś problem WordPress',
     detailsHref: '/naprawa-wordpress',
+    detailsLabel: 'Naprawa WordPress — pełny zakres',
   },
   {
     icon: Layers3,
@@ -59,6 +60,7 @@ const services = [
     service: businessSiteService,
     cta: 'Wyceń stronę firmową',
     detailsHref: '/strony-wordpress',
+    detailsLabel: 'Strony WordPress dla firm — pełny zakres',
   },
   {
     icon: MessageSquareText,
@@ -70,6 +72,7 @@ const services = [
     service: careService,
     cta: 'Zapytaj o opiekę',
     detailsHref: '/opieka-wordpress',
+    detailsLabel: 'Opieka WordPress — pełny zakres',
   },
 ];
 
@@ -467,7 +470,7 @@ export function HomepageV1() {
             </div>
 
             <div className="cf-services-grid">
-              {services.map(({ icon: Icon, title, description, meta, price, service, cta, detailsHref }) => (
+              {services.map(({ icon: Icon, title, description, meta, price, service, cta, detailsHref, detailsLabel }) => (
                 <article key={title}
                   className={`cf-service-card${service === quickFixService ? ' cf-service-card-featured' : ''}`}>
                   {service === businessSiteService && (
@@ -486,7 +489,7 @@ export function HomepageV1() {
                   <p className="cf-service-meta">{meta}</p>
                   <div className="cf-service-card-actions">
                     <a href={detailsHref} className="cf-card-link cf-card-link-secondary">
-                      Zobacz pełny zakres
+                      {detailsLabel}
                       <ArrowRight size={15} aria-hidden="true" />
                     </a>
                     <a href="#contact" className="cf-card-link"
