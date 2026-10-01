@@ -130,9 +130,9 @@ const faqItems = [
       'Na nowe zapytania odpowiadam zwykle w ciągu jednego dnia roboczego. Przy pilnej awarii najlepiej od razu podać adres strony i krótko opisać objaw.',
   },
   {
-    question: 'Czy obsługujesz firmy tylko z Warszawy?',
+    question: 'Czy obsługujesz firmy z całej Polski?',
     answer:
-      'Nie. Warszawa jest moim rynkiem lokalnym, ale naprawy, nowe wdrożenia i opiekę WordPress realizuję również zdalnie dla firm z całej Polski.',
+      'Tak. Naprawy, nowe wdrożenia i opiekę WordPress realizuję zdalnie dla firm z całej Polski.',
   },
   {
     question: 'Czy oferujesz opiekę po wdrożeniu?',
@@ -262,18 +262,18 @@ export function HomepageV1() {
           <div className="cf-hero-copy">
             <div className="cf-eyebrow">
               <span className="cf-eyebrow-dot" />
-              WordPress Warszawa • zdalnie cała Polska
+              WordPress dla firm • zdalnie cała Polska
             </div>
 
             <p className="cf-stack-label">WordPress • ACF PRO • WooCommerce • Front-end</p>
 
             <h1 className="cf-title">
-              CodeFix.IT — WordPress Warszawa.
+              CodeFix.IT — WordPress dla firm.
               <span className="cf-title-muted">Naprawa, strony firmowe i opieka.</span>
             </h1>
 
             <p className="cf-lead">
-              Pomagam firmom z Warszawy i zdalnie z całej Polski: naprawiam istniejące strony WordPress,
+              Pomagam firmom z całej Polski zdalnie: naprawiam istniejące strony WordPress,
               tworzę nowe wdrożenia z ACF PRO i przejmuję stałą opiekę techniczną. Zakres i cenę potwierdzam przed rozpoczęciem prac.
             </p>
 
@@ -786,7 +786,7 @@ export function HomepageV1() {
               Ustawienia analityki
             </button>
           </div>
-          <span className="cf-footer-code">Warszawa • zdalnie cała Polska</span>
+          <span className="cf-footer-code">Zdalnie • cała Polska</span>
         </div>
       </footer>
 
