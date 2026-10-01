@@ -21,9 +21,9 @@ const guideLinks = [
 ];
 
 const serviceLinks = [
-  ['/naprawa-wordpress', 'Naprawa WordPress'],
+  ['/naprawa-wordpress', 'Naprawa WordPress — błędy, formularze i WooCommerce'],
   ['/strony-wordpress', 'Strony internetowe dla firm — WordPress + ACF PRO'],
-  ['/opieka-wordpress', 'Opieka WordPress'],
+  ['/opieka-wordpress', 'Opieka WordPress — aktualizacje, backupy i rozwój'],
 ];
 
 function escapeHtml(value) {
