@@ -21,6 +21,33 @@ function setMeta(selector: string, attribute: string, value: string) {
   if (element) element.setAttribute(attribute, value);
 }
 
+const guideGroups = [
+  {
+    id: 'naprawa',
+    kicker: 'NAPRAWA I AWARIE',
+    title: 'Diagnoza i naprawa WordPress',
+    description: 'Błędy 500, awarie po aktualizacjach, formularze, checkout WooCommerce i problemy krytyczne — w kolejności, która ogranicza zgadywanie na produkcji.',
+    serviceHref: '/naprawa-wordpress',
+    serviceLabel: 'Zobacz usługę naprawy WordPress',
+  },
+  {
+    id: 'opieka',
+    kicker: 'OPIEKA I WYDAJNOŚĆ',
+    title: 'Opieka, wydajność i utrzymanie',
+    description: 'Materiały o stabilności, wydajności, backupach i kosztach stałej opieki nad WordPressem.',
+    serviceHref: '/opieka-wordpress',
+    serviceLabel: 'Zobacz opiekę WordPress',
+  },
+  {
+    id: 'strony',
+    kicker: 'STRONY DLA FIRM',
+    title: 'Strony WordPress i wycena wdrożenia',
+    description: 'Co wpływa na koszt strony firmowej, jak przygotować zakres i czego oczekiwać od wdrożenia WordPress + ACF PRO.',
+    serviceHref: '/strony-wordpress',
+    serviceLabel: 'Zobacz strony WordPress dla firm',
+  },
+] as const;
+
 function schemaFor(guide: WordPressGuide) {
   const url = `https://codefix.it/poradniki/${guide.slug}/`;
   return {
@@ -83,11 +110,16 @@ function schemaFor(guide: WordPressGuide) {
 
 export function GuidesIndex() {
   useEffect(() => {
-    document.title = 'Poradniki WordPress — diagnostyka i utrzymanie | CodeFix.IT';
+    document.title = 'Poradniki WordPress — naprawa, opieka i wyceny | CodeFix.IT';
     const description =
-      'Praktyczne poradniki CodeFix.IT o WordPress: błędy krytyczne i 500, WooCommerce checkout, poczta SMTP, awarie po aktualizacji i wydajność.';
+      'Poradniki CodeFix.IT o WordPress: naprawa błędów, WooCommerce, wydajność, opieka techniczna oraz koszty napraw i stron dla firm.';
     setMeta('meta[name="description"]', 'content', description);
     setMeta('link[rel="canonical"]', 'href', 'https://codefix.it/poradniki/');
+    setMeta('meta[property="og:url"]', 'content', 'https://codefix.it/poradniki/');
+    setMeta('meta[property="og:title"]', 'content', document.title);
+    setMeta('meta[property="og:description"]', 'content', description);
+    setMeta('meta[name="twitter:title"]', 'content', document.title);
+    setMeta('meta[name="twitter:description"]', 'content', description);
   }, []);
 
   return (
@@ -95,7 +127,7 @@ export function GuidesIndex() {
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand />
-          <a href="/naprawa-wordpress/" className="cf-nav-cta">Naprawa WordPress</a>
+          <a href="/#services" className="cf-nav-cta">Usługi WordPress</a>
         </div>
       </header>
 
@@ -105,28 +137,57 @@ export function GuidesIndex() {
             <ArrowLeft size={15} /> Strona główna
           </a>
           <p className="cf-section-kicker">PORADNIKI / WORDPRESS</p>
-          <h1>Najpierw diagnoza.<br/><span>Potem naprawa.</span></h1>
+          <h1>Poradniki WordPress.<br/><span>Naprawa, opieka i wyceny.</span></h1>
           <p>
-            Konkretne checklisty dla najczęstszych problemów WordPress. Bez obietnic „jednego magicznego pluginu”
-            i bez udawania, że każdy błąd ma tę samą przyczynę.
+            Praktyczne materiały dla firm i właścicieli stron: od diagnozy błędów i WooCommerce,
+            przez wydajność i utrzymanie, po koszt naprawy, abonamentu oraz nowej strony WordPress.
           </p>
+
+          <nav className="guide-index-nav" aria-label="Kategorie poradników">
+            {guideGroups.map((group) => (
+              <a href={`#${group.id}`} key={group.id}>
+                {group.title}
+              </a>
+            ))}
+          </nav>
         </section>
 
-        <section className="cf-container guide-index-grid" aria-label="Poradniki WordPress">
-          {wordpressGuides.map((guide) => (
-            <article className="guide-card" key={guide.slug}>
-              <div className="guide-card-meta">
-                <span>{guide.intent}</span>
-                <span><Clock3 size={13}/> {guide.readMinutes} min</span>
-              </div>
-              <h2>{guide.title}</h2>
-              <p>{guide.description}</p>
-              <a href={`/poradniki/${guide.slug}/`}>
-                Czytaj poradnik <ArrowRight size={15}/>
-              </a>
-            </article>
-          ))}
-        </section>
+        <div className="cf-container guide-index-sections">
+          {guideGroups.map((group) => {
+            const guides = wordpressGuides.filter((guide) => guide.serviceHref === group.serviceHref);
+
+            return (
+              <section className="guide-index-group" id={group.id} key={group.id} aria-labelledby={`${group.id}-title`}>
+                <div className="guide-index-group-head">
+                  <div>
+                    <p className="cf-section-kicker">{group.kicker}</p>
+                    <h2 id={`${group.id}-title`}>{group.title}</h2>
+                    <p>{group.description}</p>
+                  </div>
+                  <a href={`${group.serviceHref}/`} className="guide-index-service-link">
+                    {group.serviceLabel} <ArrowRight size={15} />
+                  </a>
+                </div>
+
+                <div className="guide-index-grid">
+                  {guides.map((guide) => (
+                    <article className="guide-card" key={guide.slug}>
+                      <div className="guide-card-meta">
+                        <span>{guide.intent}</span>
+                        <span><Clock3 size={13}/> {guide.readMinutes} min</span>
+                      </div>
+                      <h3>{guide.title}</h3>
+                      <p>{guide.description}</p>
+                      <a href={`/poradniki/${guide.slug}/`}>
+                        Czytaj poradnik <ArrowRight size={15}/>
+                      </a>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            );
+          })}
+        </div>
       </main>
 
       <footer className="cf-footer">
