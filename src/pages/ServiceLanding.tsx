@@ -49,7 +49,7 @@ function buildSchema(config: ServiceLandingConfig) {
       },
       {
         '@type': 'Service',
-        '@id': `https://codefix.it${config.path}#service`,
+        '@id': `https://codefix.it${config.path}/#service`,
         name: config.title,
         provider: { '@id': 'https://codefix.it/#organization' },
         url: `https://codefix.it${config.path}/`,
