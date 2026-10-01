@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import {
   ArrowRight,
@@ -157,11 +157,40 @@ export function HomepageV1() {
   const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
   const [selectedService, setSelectedService] = useState(initialServiceFromUrl);
   const [attribution] = useState(captureSessionAttribution);
+  const formStartTracked = useRef(false);
 
-  function chooseService(service: string) {
+  function trackHomepageEvent(eventName: string, parameters: Record<string, string> = {}) {
+    const analyticsWindow = window as Window & {
+      gtag?: (...args: unknown[]) => void;
+      codefixAnalyticsAllowed?: boolean;
+    };
+    if (!analyticsWindow.codefixAnalyticsAllowed) return;
+    analyticsWindow.gtag?.('event', eventName, {
+      event_category: 'homepage_funnel',
+      page_path: '/',
+      ...parameters,
+    });
+  }
+
+  function chooseService(service: string, placement?: string) {
     setSelectedService(service);
     setFormMessage('');
     setFormState('idle');
+
+    if (placement) {
+      trackHomepageEvent('homepage_service_choice', {
+        service,
+        placement,
+      });
+    }
+  }
+
+  function handleFormStart() {
+    if (formStartTracked.current) return;
+    formStartTracked.current = true;
+    trackHomepageEvent('lead_form_start', {
+      service: selectedService || 'not_selected',
+    });
   }
   const [consentChoice, setConsentChoice] = useState<'accepted' | 'rejected' | null>(() => {
     const value = (window as Window & { codefixConsentChoice?: string | null }).codefixConsentChoice;
@@ -189,6 +218,9 @@ export function HomepageV1() {
 
     setFormState('submitting');
     setFormMessage('');
+    trackHomepageEvent('lead_form_submit_attempt', {
+      service: service || 'not_selected',
+    });
 
     try {
       const response = await fetch(leadApiUrl, {
@@ -229,6 +261,9 @@ export function HomepageV1() {
       setFormState('success');
       setFormMessage('Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiem po krótkiej analizie tematu.');
     } catch (error) {
+      trackHomepageEvent('lead_form_error', {
+        service: service || 'not_selected',
+      });
       const message = error instanceof Error ? error.message : 'Nie udało się wysłać formularza.';
       setFormState('error');
       setFormMessage(message);
@@ -248,11 +283,14 @@ export function HomepageV1() {
             <a href="#faq">FAQ</a>
             <a href="/poradniki">Poradniki</a>
             <a href="#contact">Kontakt</a>
-            <a href="/polityka-prywatnosci">Prywatność</a>
           </nav>
 
-          <a href="#contact" className="cf-nav-cta">
-            Zapytaj o wycenę
+          <a
+            href="#contact"
+            className="cf-nav-cta"
+            onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'nav' })}
+          >
+            Opisz temat
           </a>
         </div>
       </header>
@@ -265,26 +303,26 @@ export function HomepageV1() {
               WordPress dla firm • zdalnie cała Polska
             </div>
 
-            <p className="cf-stack-label">WordPress • ACF PRO • WooCommerce • Front-end</p>
+            <p className="cf-stack-label">Naprawa • nowe strony • opieka WordPress</p>
 
             <h1 className="cf-title">
               CodeFix.IT — WordPress dla firm.
-              <span className="cf-title-muted">Naprawa, strony firmowe i opieka.</span>
+              <span className="cf-title-muted">Naprawiam, buduję i przejmuję opiekę.</span>
             </h1>
 
             <p className="cf-lead">
-              Pomagam firmom z całej Polski zdalnie: naprawiam istniejące strony WordPress,
-              tworzę nowe wdrożenia z ACF PRO i przejmuję stałą opiekę techniczną. Zakres i cenę potwierdzam przed rozpoczęciem prac.
+              Masz awarię, potrzebujesz nowej strony albo chcesz przestać samodzielnie pilnować WordPressa?
+              Pomagam zdalnie firmom z całej Polski. Najpierw ustalamy problem i zakres, a cenę potwierdzam przed rozpoczęciem prac.
             </p>
 
             <div className="cf-actions">
               <a href="#contact" className="cf-button cf-button-primary"
-                onClick={() => chooseService(quickFixService)}>
+                onClick={() => chooseService(quickFixService, 'hero_primary')}>
                 Zgłoś problem WordPress
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
               <a href="#contact" className="cf-button cf-button-secondary"
-                onClick={() => chooseService(businessSiteService)}>
+                onClick={() => chooseService(businessSiteService, 'hero_secondary')}>
                 Wyceń stronę firmową
               </a>
             </div>
@@ -300,65 +338,68 @@ export function HomepageV1() {
               </span>
               <span className="cf-proof-item">
                 <CheckCircle2 size={15} aria-hidden="true" />
-                Odpowiedź zwykle do 1 dnia roboczego
+                Zdalnie w całej Polsce
               </span>
             </div>
             <a href="#contact" className="cf-mini-audit-link"
-              onClick={() => chooseService(miniAuditService)}>
+              onClick={() => chooseService(miniAuditService, 'hero_mini_audit')}>
               Masz już stronę? Wyślij URL — sprawdzę 3 techniczne punkty
               <ArrowRight size={15} aria-hidden="true" />
             </a>
           </div>
 
-          <div className="cf-terminal-wrap">
-            <div className="cf-terminal cf-terminal-polished">
-              <div className="cf-terminal-bar">
-                <span className="cf-dot cf-dot-red" />
-                <span className="cf-dot cf-dot-yellow" />
-                <span className="cf-dot cf-dot-green" />
-                <span className="cf-terminal-title">codefix.it / diagnose</span>
-              </div>
+          <aside className="cf-hero-paths" aria-labelledby="cf-hero-paths-title">
+            <p className="cf-section-kicker">Od czego zaczynamy?</p>
+            <h2 id="cf-hero-paths-title">Wybierz sytuację, która jest najbliżej Twojej.</h2>
 
-              <div className="cf-terminal-body">
-                <div className="cf-command">$ plan --project client-site</div>
-                <p className="cf-terminal-copy">Przygotowanie wdrożenia...</p>
+            <div className="cf-hero-path-list">
+              <a
+                href="#contact"
+                className="cf-hero-path"
+                onClick={() => chooseService(quickFixService, 'hero_path_quickfix')}
+              >
+                <span className="cf-hero-path-icon"><Wrench size={19} aria-hidden="true" /></span>
+                <span className="cf-hero-path-copy">
+                  <strong>Coś nie działa</strong>
+                  <small>Błąd, formularz, WooCommerce, aktualizacja</small>
+                </span>
+                <span className="cf-hero-path-price">od 390 zł</span>
+                <ArrowRight size={17} aria-hidden="true" />
+              </a>
 
-                <div className="cf-diagnostic-list">
-                  <div className="cf-diagnostic-row">
-                    <span>Zakres</span>
-                    <span className="cf-status-green">ustalony ✓</span>
-                  </div>
-                  <div className="cf-diagnostic-row">
-                    <span>Preview</span>
-                    <span className="cf-status-yellow">przed publikacją</span>
-                  </div>
-                  <div className="cf-diagnostic-row">
-                    <span>WordPress + ACF</span>
-                    <span className="cf-status-green">edytowalne ✓</span>
-                  </div>
-                </div>
+              <a
+                href="#contact"
+                className="cf-hero-path"
+                onClick={() => chooseService(businessSiteService, 'hero_path_business_site')}
+              >
+                <span className="cf-hero-path-icon"><Layers3 size={19} aria-hidden="true" /></span>
+                <span className="cf-hero-path-copy">
+                  <strong>Potrzebuję nowej strony</strong>
+                  <small>WordPress + ACF PRO, mobile, SEO techniczne</small>
+                </span>
+                <span className="cf-hero-path-price">wycena</span>
+                <ArrowRight size={17} aria-hidden="true" />
+              </a>
 
-                <p className="cf-terminal-result">
-                  <strong>→</strong> najpierw widzisz efekt, potem publikujemy.
-                </p>
-              </div>
+              <a
+                href="#contact"
+                className="cf-hero-path"
+                onClick={() => chooseService(careService, 'hero_path_care')}
+              >
+                <span className="cf-hero-path-icon"><MessageSquareText size={19} aria-hidden="true" /></span>
+                <span className="cf-hero-path-copy">
+                  <strong>Chcę stałej opieki</strong>
+                  <small>Aktualizacje, backupy, poprawki i rozwój</small>
+                </span>
+                <span className="cf-hero-path-price">od 300 zł/mies.</span>
+                <ArrowRight size={17} aria-hidden="true" />
+              </a>
             </div>
 
-            <div className="cf-metrics" aria-label="Standard techniczny">
-              <div className="cf-metric">
-                <strong>Preview</strong>
-                <span>przed produkcją</span>
-              </div>
-              <div className="cf-metric">
-                <strong>CI/CD</strong>
-                <span>automatyczne checki</span>
-              </div>
-              <div className="cf-metric">
-                <strong>CWV</strong>
-                <span>performance first</span>
-              </div>
-            </div>
-          </div>
+            <p className="cf-hero-path-help">
+              Nie wiesz, co wybrać? Podeślij URL i opisz objaw — dobiorę najkrótszą sensowną ścieżkę.
+            </p>
+          </aside>
         </section>
 
         <section id="services" className="cf-section cf-section-bordered">
@@ -399,7 +440,7 @@ export function HomepageV1() {
                       <ArrowRight size={15} aria-hidden="true" />
                     </a>
                     <a href="#contact" className="cf-card-link"
-                      onClick={() => chooseService(service)}>
+                      onClick={() => chooseService(service, 'service_card')}>
                       {cta ?? 'Omów zakres'}
                       <ArrowRight size={15} aria-hidden="true" />
                     </a>
@@ -457,7 +498,7 @@ export function HomepageV1() {
                 <span>krótka odpowiedź</span>
               </div>
               <a href="#contact" className="cf-button cf-button-primary"
-                onClick={() => chooseService(miniAuditService)}>
+                onClick={() => chooseService(miniAuditService, 'revenue_strip')}>
                 Poproś o mini-ocenę
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
@@ -640,7 +681,7 @@ export function HomepageV1() {
                   Zgłoszenie trafia bezpośrednio do mojego CRM
                 </div>
 
-                <form className="cf-lead-form" onSubmit={handleLeadSubmit}>
+                <form className="cf-lead-form" onSubmit={handleLeadSubmit} onFocusCapture={handleFormStart}>
                   <div className="cf-form-row">
                     <label>
                       <span>Imię / firma</span>
@@ -715,6 +756,10 @@ export function HomepageV1() {
                     {formState === 'submitting' ? 'Wysyłam…' : 'Wyślij zapytanie'}
                     {formState !== 'submitting' && <ArrowRight size={17} aria-hidden="true" />}
                   </button>
+
+                  <p className="cf-home-form-reassurance">
+                    Bez zobowiązań — najpierw dostaniesz odpowiedź z proponowanym zakresem i kolejnym krokiem.
+                  </p>
 
                   <p className="cf-form-privacy">
                     Wysyłając formularz, przekazujesz dane potrzebne do obsługi zapytania.
