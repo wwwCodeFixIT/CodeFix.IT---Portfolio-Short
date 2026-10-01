@@ -127,7 +127,12 @@
 }
 
 @media (max-width: 700px) {
-  .cf-measurement-settings[data-service-page='true'] {
+  .cf-measurement-settings[data-service-page='true'],
+  body:has(.cf-mobile-sticky-cta) .cf-measurement-settings {
     bottom: calc(80px + env(safe-area-inset-bottom));
   }
+}
+
+body:has(.cf-measurement-panel) .cf-mobile-sticky-cta {
+  display: none;
 }
