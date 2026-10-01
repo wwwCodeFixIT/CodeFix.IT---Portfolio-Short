@@ -48,11 +48,90 @@
   line-height: 1.7;
 }
 
+.guide-index-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 30px;
+}
+
+.guide-index-nav a {
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 13px;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 999px;
+  background: rgba(255,255,255,.018);
+  color: #b0b0b7;
+  font-size: 11px;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.guide-index-nav a:hover,
+.guide-index-nav a:focus-visible {
+  border-color: rgba(255,59,63,.28);
+  color: #fff;
+  outline: none;
+}
+
+.guide-index-sections {
+  display: grid;
+  gap: 70px;
+  margin-top: 76px;
+}
+
+.guide-index-group {
+  scroll-margin-top: 96px;
+}
+
+.guide-index-group-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 36px;
+}
+
+.guide-index-group-head h2 {
+  margin: 8px 0 0;
+  color: #f1f1f3;
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.08;
+  letter-spacing: -0.045em;
+}
+
+.guide-index-group-head > div > p:last-child {
+  max-width: 690px;
+  margin: 14px 0 0;
+  color: #8e8e96;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-index-service-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 4px;
+  color: #c7c7cc;
+  font-size: 12px;
+  font-weight: 750;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.guide-index-service-link:hover,
+.guide-index-service-link:focus-visible {
+  color: #ff7175;
+  outline: none;
+}
+
 .guide-index-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 15px;
-  margin-top: 60px;
+  margin-top: 28px;
 }
 
 .guide-card {
@@ -84,7 +163,8 @@
   font-size: 9px;
 }
 
-.guide-card h2 {
+.guide-card h2,
+.guide-card h3 {
   margin: 30px 0 0;
   color: #efeff1;
   font-size: 23px;
@@ -285,6 +365,16 @@
 }
 
 @media (max-width: 760px) {
+  .guide-index-group-head {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 18px;
+  }
+
+  .guide-index-service-link {
+    white-space: normal;
+  }
+
   .guide-index-grid {
     grid-template-columns: 1fr;
   }
