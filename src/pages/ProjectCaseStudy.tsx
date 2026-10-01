@@ -18,7 +18,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
     const previousDescription = metaDescription?.content ?? '';
 
     document.title = `${project.title} — case study | CodeFix.IT`;
-    if (canonical) canonical.href = `https://codefix.it/realizacje/${project.slug}`;
+    if (canonical) canonical.href = `https://codefix.it/realizacje/${project.slug}/`;
     if (metaDescription) metaDescription.content = description;
 
     return () => {
@@ -192,7 +192,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
       <footer className="cf-footer">
         <div className="cf-container cf-footer-bottom">
           <span>© 2026 CodeFix.IT</span>
-          <a href="/polityka-prywatnosci">Polityka prywatności</a>
+          <a href="/polityka-prywatnosci/">Polityka prywatności</a>
           <span className="cf-footer-code">Diabeł tkwi w kodzie. 😈</span>
         </div>
       </footer>
