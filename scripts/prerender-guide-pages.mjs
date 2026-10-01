@@ -71,7 +71,7 @@ const guides = [
       ['Czy można wyłączyć cache tylko dla checkoutu?', 'Tak. Koszyk i checkout powinny być traktowane jako dynamiczne. Dokładny sposób wykluczenia zależy od wtyczki, hostingu i CDN.'],
       ['Czy problem może powodować bramka płatności?', 'Tak. Jeśli awaria występuje tylko dla jednej metody, sprawdź jej logi, konfigurację, status integracji, SSL i błędy JavaScript związane z daną bramką.'],
     ],
-  },,
+  },
   {
     slug: 'ile-kosztuje-naprawa-wordpress',
     title: 'Ile kosztuje naprawa WordPress? Cena i zakres | CodeFix.IT',
