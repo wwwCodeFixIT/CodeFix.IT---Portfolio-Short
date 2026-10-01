@@ -102,6 +102,11 @@ function relatedBlock(path) {
         <ul>${links(guideLinks)}</ul>
       </section>
       <section>
+        <h2>Dla agencji — wsparcie WordPress white-label</h2>
+        <p>Wsparcie overflow przy WordPress, ACF PRO, WooCommerce, front-endzie i mniejszych integracjach. Praca na stagingu i Git, także bez kontaktu z klientem końcowym.</p>
+        <p><a href="/?service=wordpress#contact">Zapytaj o współpracę white-label</a></p>
+      </section>
+      <section>
         <h2>Wybrane realizacje</h2>
         <ul>
           <li><a href="/realizacje/em-air-system/">EM Air System — realizacja WordPress</a></li>

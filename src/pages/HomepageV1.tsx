@@ -23,12 +23,14 @@ const quickFixService = 'WORDPRESS_QUICK_FIX';
 const businessSiteService = 'CODEFIX_BUSINESS_SITE';
 const miniAuditService = 'FREE_MINI_AUDIT';
 const careService = 'WORDPRESS_CARE';
+const agencyService = 'wordpress';
 
 const allowedServiceDeepLinks = new Set([
   quickFixService,
   businessSiteService,
   careService,
   miniAuditService,
+  agencyService,
   'development',
   'other',
 ]);
@@ -144,6 +146,11 @@ const faqItems = [
       'Tak. Możemy ustalić miesięczny zakres aktualizacji, backupów, drobnych zmian i wsparcia technicznego albo rozliczać pojedyncze zadania osobno.',
   },
   {
+    question: 'Czy pracujesz white-label dla agencji?',
+    answer:
+      'Tak. Mogę przejąć mniejsze wdrożenia, poprawki WordPress, ACF PRO, WooCommerce i front-end jako wsparcie overflow. Mogę pracować na stagingu i Git oraz bez kontaktu z klientem końcowym, według ustalonych standardów agencji.',
+  },
+  {
     question: 'Jak wygląda wdrożenie zmian?',
     answer:
       'Większe zmiany trafiają najpierw na osobny branch i środowisko preview. Po akceptacji i przejściu kontroli są publikowane na produkcji.',
@@ -248,7 +255,9 @@ export function HomepageV1() {
           ? 'Zapytaj o stałą opiekę'
           : selectedService === miniAuditService
             ? 'Poproś o mini-ocenę'
-            : 'Wyślij zapytanie';
+            : selectedService === agencyService
+              ? 'Zapytaj o współpracę white-label'
+              : 'Wyślij zapytanie';
 
   const messagePlaceholder =
     selectedService === quickFixService
@@ -259,7 +268,9 @@ export function HomepageV1() {
           ? 'Jak wygląda obecna strona i czego oczekujesz w ramach stałej opieki?'
           : selectedService === miniAuditService
             ? 'Co najbardziej Cię niepokoi na obecnej stronie?'
-            : 'Krótko opisz problem, zakres albo oczekiwany efekt.';
+            : selectedService === agencyService
+              ? 'Jakiego typu zadania chcesz oddelegować, w jakim stacku pracuje zespół i jak wygląda Wasz workflow?'
+              : 'Krótko opisz problem, zakres albo oczekiwany efekt.';
 
   async function handleLeadSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -354,10 +365,10 @@ export function HomepageV1() {
           <div className="cf-hero-copy">
             <div className="cf-eyebrow">
               <span className="cf-eyebrow-dot" />
-              WordPress dla firm • zdalnie cała Polska
+              WordPress dla firm i agencji • zdalnie cała Polska
             </div>
 
-            <p className="cf-stack-label">Naprawa • nowe strony • opieka WordPress</p>
+            <p className="cf-stack-label">Naprawa • nowe strony • opieka • white-label</p>
 
             <h1 className="cf-title">
               CodeFix.IT — WordPress dla firm.
@@ -366,40 +377,36 @@ export function HomepageV1() {
 
             <p className="cf-lead">
               Masz awarię, potrzebujesz nowej strony albo chcesz przestać samodzielnie pilnować WordPressa?
-              Pomagam zdalnie firmom z całej Polski. Najpierw ustalamy problem i zakres, a cenę potwierdzam przed rozpoczęciem prac.
+              Pomagam firmom oraz zespołom agencyjnym zdalnie w całej Polsce. Najpierw ustalam problem,
+              zakres i sposób współpracy, a cenę potwierdzam przed rozpoczęciem prac.
             </p>
 
             <div className="cf-actions">
               <a href="#contact" className="cf-button cf-button-primary"
-                onClick={() => chooseService(quickFixService, 'hero_primary')}>
-                Zgłoś problem WordPress
+                onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'hero_primary_generic' })}>
+                Opisz temat i odbierz zakres
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
-              <a href="#contact" className="cf-button cf-button-secondary"
-                onClick={() => chooseService(businessSiteService, 'hero_secondary')}>
-                Wyceń stronę firmową
+              <a href="#work" className="cf-button cf-button-secondary"
+                onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'hero_secondary_work' })}>
+                Zobacz realizacje
               </a>
             </div>
 
             <div className="cf-proof" aria-label="Standard pracy">
               <span className="cf-proof-item">
                 <CheckCircle2 size={15} aria-hidden="true" />
-                Quick Fix od 390 zł
+                Odpowiedź zwykle do 1 dnia roboczego
               </span>
               <span className="cf-proof-item">
                 <CheckCircle2 size={15} aria-hidden="true" />
-                Bez loginu na start
+                Zakres i cena przed startem
               </span>
               <span className="cf-proof-item">
                 <CheckCircle2 size={15} aria-hidden="true" />
-                Zdalnie w całej Polsce
+                Preview przy większych zmianach
               </span>
             </div>
-            <a href="#contact" className="cf-mini-audit-link"
-              onClick={() => chooseService(miniAuditService, 'hero_mini_audit')}>
-              Masz już stronę? Wyślij URL — sprawdzę 3 techniczne punkty
-              <ArrowRight size={15} aria-hidden="true" />
-            </a>
           </div>
 
           <aside className="cf-hero-paths" aria-labelledby="cf-hero-paths-title">
@@ -453,6 +460,14 @@ export function HomepageV1() {
             <p className="cf-hero-path-help">
               Nie wiesz, co wybrać? Podeślij URL i opisz objaw — dobiorę najkrótszą sensowną ścieżkę.
             </p>
+            <a
+              href="#agencies"
+              className="cf-mini-audit-link cf-hero-agency-link"
+              onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'hero_agency_link' })}
+            >
+              Jesteś agencją? Zobacz współpracę white-label
+              <ArrowRight size={14} aria-hidden="true" />
+            </a>
           </aside>
         </section>
 
@@ -511,6 +526,44 @@ export function HomepageV1() {
                   )}
                 </article>
               ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="agencies" className="cf-agency-strip" aria-labelledby="cf-agency-title">
+          <div className="cf-container cf-revenue-strip-inner cf-agency-strip-inner">
+            <div className="cf-agency-copy">
+              <p className="cf-section-kicker">Dla agencji / white-label</p>
+              <h2 id="cf-agency-title">Masz overflow WordPress? Mogę przejąć część kolejki.</h2>
+              <p>
+                WordPress, ACF PRO, WooCommerce, poprawki front-endowe i mniejsze integracje.
+                Mogę pracować na stagingu i Git, według Waszych standardów oraz bez kontaktu z klientem końcowym.
+              </p>
+              <div className="cf-revenue-proof cf-agency-tags" aria-label="Zakres współpracy agencyjnej">
+                <span>WordPress + ACF PRO</span>
+                <span>WooCommerce</span>
+                <span>Git / staging / preview</span>
+                <span>white-label</span>
+              </div>
+            </div>
+
+            <div className="cf-revenue-action cf-agency-actions">
+              <a
+                href="#contact"
+                className="cf-button cf-button-primary"
+                onClick={() => chooseService(agencyService, 'agency_strip')}
+              >
+                Porozmawiajmy o współpracy
+                <ArrowRight size={17} aria-hidden="true" />
+              </a>
+              <a
+                href="#work"
+                className="cf-card-link cf-card-link-secondary"
+                onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'agency_strip_work' })}
+              >
+                Zobacz realizacje
+                <ArrowRight size={15} aria-hidden="true" />
+              </a>
             </div>
           </div>
         </section>
@@ -761,6 +814,7 @@ export function HomepageV1() {
                   <span><Wrench size={14} /> Naprawa WordPress</span>
                   <span><Layers3 size={14} /> Nowa strona firmowa</span>
                   <span><MessageSquareText size={14} /> Stała opieka</span>
+                  <span><GitBranch size={14} /> White-label / overflow</span>
                   <span><Rocket size={14} /> Mini-ocena techniczna</span>
                 </div>
               </div>
@@ -809,6 +863,7 @@ export function HomepageV1() {
                       <option value={quickFixService}>WordPress Quick Fix — jeden konkretny problem</option>
                       <option value={businessSiteService}>Nowa strona firmowa WordPress + ACF PRO</option>
                       <option value={careService}>Opieka i rozwój WordPress</option>
+                      <option value={agencyService}>Współpraca agencyjna / white-label</option>
                       <option value={miniAuditService}>Mini-ocena techniczna publicznej strony</option>
                       <option value="development">React / Next.js / API</option>
                       <option value="other">Inny temat</option>
@@ -825,6 +880,12 @@ export function HomepageV1() {
                     <p className="cf-quickfix-selection" role="status">
                       Wybrano stronę firmową WordPress + ACF PRO. Napisz, czym zajmuje się firma,
                       ile podstron orientacyjnie potrzebujesz i czy masz już domenę, hosting, teksty oraz logo.
+                    </p>
+                  )}
+                  {selectedService === agencyService && (
+                    <p className="cf-quickfix-selection" role="status">
+                      Wybrano współpracę agencyjną / white-label. Napisz, jakie zadania chcesz delegować,
+                      jak wygląda Wasz stack, workflow i czy oczekujesz pracy bez kontaktu z klientem końcowym.
                     </p>
                   )}
                   {selectedService === miniAuditService && (
@@ -917,8 +978,8 @@ export function HomepageV1() {
           <div className="cf-footer-brand">
             <Brand href="#top" tagline />
             <p>
-              Strony firmowe WordPress + ACF PRO, naprawy istniejących stron
-              i dalsza opieka techniczna.
+              Strony firmowe WordPress + ACF PRO, naprawy, dalsza opieka techniczna
+              i wsparcie white-label dla agencji.
             </p>
           </div>
 
