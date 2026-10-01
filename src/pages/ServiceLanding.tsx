@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import {
   ArrowRight,
@@ -175,21 +175,24 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
     schema.textContent = JSON.stringify(buildSchema(config));
   }, [config]);
 
-  function trackLeadEvent(eventName: string, extra: Record<string, string> = {}) {
-    const analyticsWindow = window as Window & {
-      gtag?: (...args: unknown[]) => void;
-      codefixAnalyticsAllowed?: boolean;
-    };
-    if (!analyticsWindow.codefixAnalyticsAllowed) return;
-    analyticsWindow.gtag?.('event', eventName, {
-      event_category: 'lead_funnel',
-      service: config.service,
-      landing_path: config.path,
-      journey_source: journey.journeySource || 'DIRECT',
-      journey_guide: journey.journeyGuide || '(none)',
-      ...extra,
-    });
-  }
+  const trackLeadEvent = useCallback(
+    (eventName: string, extra: Record<string, string> = {}) => {
+      const analyticsWindow = window as Window & {
+        gtag?: (...args: unknown[]) => void;
+        codefixAnalyticsAllowed?: boolean;
+      };
+      if (!analyticsWindow.codefixAnalyticsAllowed) return;
+      analyticsWindow.gtag?.('event', eventName, {
+        event_category: 'lead_funnel',
+        service: config.service,
+        landing_path: config.path,
+        journey_source: journey.journeySource || 'DIRECT',
+        journey_guide: journey.journeyGuide || '(none)',
+        ...extra,
+      });
+    },
+    [config.path, config.service, journey.journeyGuide, journey.journeySource],
+  );
 
   useEffect(() => {
     const section = contactSectionRef.current;
@@ -211,7 +214,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
 
     observer.observe(section);
     return () => observer.disconnect();
-  }, [config.path, config.service, journey.journeyGuide, journey.journeySource]);
+  }, [trackLeadEvent]);
 
   function trackCtaClick(placement: string) {
     trackLeadEvent('lead_cta_click', { cta_placement: placement });
