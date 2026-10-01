@@ -23,7 +23,7 @@ const quickFixService = 'WORDPRESS_QUICK_FIX';
 const businessSiteService = 'CODEFIX_BUSINESS_SITE';
 const miniAuditService = 'FREE_MINI_AUDIT';
 const careService = 'WORDPRESS_CARE';
-const agencyService = 'AGENCY_WHITE_LABEL';
+const agencyService = 'wordpress';
 
 const allowedServiceDeepLinks = new Set([
   quickFixService,
