@@ -4,10 +4,10 @@ import { join } from 'node:path';
 const pages = [
   {
     slug: 'naprawa-wordpress',
-    title: 'Naprawa WordPress – błędy i WooCommerce | CodeFix.IT',
+    title: 'Naprawa WordPress – błędy, formularze, WooCommerce | CodeFix.IT',
     description:
       'Naprawa WordPress zdalnie w całej Polsce: błędy, formularze, WooCommerce, CSS i awarie po aktualizacjach. Quick Fix od 390 zł.',
-    serviceName: 'WordPress Quick Fix',
+    serviceName: 'Naprawa WordPress — Quick Fix',
     serviceType: 'Diagnostyka i naprawa WordPress',
     faq: [
       [
@@ -34,7 +34,7 @@ const pages = [
   },
   {
     slug: 'opieka-wordpress',
-    title: 'Opieka WordPress – aktualizacje i backupy | CodeFix.IT',
+    title: 'Opieka WordPress – aktualizacje, backupy i rozwój | CodeFix.IT',
     description:
       'Opieka WordPress zdalnie w całej Polsce od 300 zł/mies.: aktualizacje, backupy, drobne poprawki i rozwój strony.',
     serviceName: 'Opieka i rozwój WordPress',
@@ -131,11 +131,13 @@ for (const page of pages) {
       },
       {
         '@type': 'Service',
+        '@id': `${canonical}#service`,
         name: page.serviceName,
         provider: { '@id': 'https://codefix.it/#organization' },
         url: canonical,
         serviceType: page.serviceType,
         description: page.description,
+        mainEntityOfPage: canonical,
         areaServed: [{ '@type': 'Country', name: 'Polska' }],
         availableChannel: {
           '@type': 'ServiceChannel',
