@@ -1,7 +1,7 @@
 {
   "name": "CodeFix.IT",
   "short_name": "CodeFix.IT",
-  "description": "CodeFix.IT — strony WordPress, naprawa błędów i opieka techniczna. Diabeł tkwi w kodzie.",
+  "description": "CodeFix.IT — naprawa, opieka i strony WordPress dla firm w całej Polsce. Diabeł tkwi w kodzie.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -14,10 +14,10 @@
   ],
   "icons": [
     {
-      "src": "/favicon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any"
+      "src": "/brand/codefix-mark.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
