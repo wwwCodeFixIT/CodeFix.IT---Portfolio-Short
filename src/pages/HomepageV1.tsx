@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import {
   ArrowRight,
@@ -160,8 +160,10 @@ export function HomepageV1() {
   const [selectedService, setSelectedService] = useState(initialServiceFromUrl);
   const [attribution] = useState(captureSessionAttribution);
   const formStartTracked = useRef(false);
+  const formViewTracked = useRef(false);
+  const contactSectionRef = useRef<HTMLElement | null>(null);
 
-  function trackHomepageEvent(eventName: string, parameters: Record<string, string> = {}) {
+  const trackHomepageEvent = useCallback((eventName: string, parameters: Record<string, string> = {}) => {
     const analyticsWindow = window as Window & {
       gtag?: (...args: unknown[]) => void;
       codefixAnalyticsAllowed?: boolean;
@@ -172,7 +174,7 @@ export function HomepageV1() {
       page_path: '/',
       ...parameters,
     });
-  }
+  }, []);
 
   function chooseService(service: string, placement?: string) {
     setSelectedService(service);
@@ -202,6 +204,30 @@ export function HomepageV1() {
     return !(window as Window & { codefixConsentChoice?: string | null }).codefixConsentChoice;
   });
 
+  useEffect(() => {
+    const section = contactSectionRef.current;
+    if (!section || formViewTracked.current || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting || formViewTracked.current) return;
+
+        const analyticsWindow = window as Window & { codefixAnalyticsAllowed?: boolean };
+        if (!analyticsWindow.codefixAnalyticsAllowed) return;
+
+        formViewTracked.current = true;
+        trackHomepageEvent('lead_form_view', {
+          service: selectedService || 'not_selected',
+        });
+        observer.disconnect();
+      },
+      { threshold: 0.25 },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, [consentChoice, selectedService, trackHomepageEvent]);
+
   function saveConsent(choice: 'accepted' | 'rejected') {
     (window as Window & {
       codefixSetAnalyticsConsent?: (choice: 'accepted' | 'rejected') => void;
@@ -210,6 +236,28 @@ export function HomepageV1() {
     setShowConsent(false);
   }
 
+
+  const submitButtonLabel =
+    selectedService === quickFixService
+      ? 'Wyślij zgłoszenie Quick Fix'
+      : selectedService === businessSiteService
+        ? 'Wyślij brief do wyceny'
+        : selectedService === careService
+          ? 'Zapytaj o stałą opiekę'
+          : selectedService === miniAuditService
+            ? 'Poproś o mini-ocenę'
+            : 'Wyślij zapytanie';
+
+  const messagePlaceholder =
+    selectedService === quickFixService
+      ? 'Co dokładnie nie działa, od kiedy i co widzisz na ekranie?'
+      : selectedService === businessSiteService
+        ? 'Czym zajmuje się firma, jakich podstron potrzebujesz i jaki jest główny cel strony?'
+        : selectedService === careService
+          ? 'Jak wygląda obecna strona i czego oczekujesz w ramach stałej opieki?'
+          : selectedService === miniAuditService
+            ? 'Co najbardziej Cię niepokoi na obecnej stronie?'
+            : 'Krótko opisz problem, zakres albo oczekiwany efekt.';
 
   async function handleLeadSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -273,7 +321,7 @@ export function HomepageV1() {
   }
 
   return (
-    <div className="homepage-v1">
+    <div className={`homepage-v1${!showConsent ? ' has-mobile-cta' : ''}`}>
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand href="#top" />
@@ -691,7 +739,7 @@ export function HomepageV1() {
           </div>
         </section>
 
-        <section id="contact" className="cf-section cf-contact-section">
+        <section id="contact" ref={contactSectionRef} className="cf-section cf-contact-section">
           <div className="cf-container">
             <div className="cf-contact-panel">
               <div className="cf-contact-copy">
@@ -723,11 +771,29 @@ export function HomepageV1() {
                   <div className="cf-form-row">
                     <label>
                       <span>Imię / firma</span>
-                      <input name="name" type="text" autoComplete="name" minLength={2} maxLength={120} required />
+                      <input
+                        name="name"
+                        type="text"
+                        autoComplete="name"
+                        autoCapitalize="words"
+                        enterKeyHint="next"
+                        minLength={2}
+                        maxLength={120}
+                        required
+                      />
                     </label>
                     <label>
                       <span>E-mail</span>
-                      <input name="email" type="email" autoComplete="email" maxLength={254} required />
+                      <input
+                        name="email"
+                        type="email"
+                        inputMode="email"
+                        autoComplete="email"
+                        autoCapitalize="none"
+                        enterKeyHint="next"
+                        maxLength={254}
+                        required
+                      />
                     </label>
                   </div>
 
@@ -766,7 +832,16 @@ export function HomepageV1() {
 
                   <label>
                     <span>Adres strony <small>opcjonalnie</small></span>
-                    <input name="pageUrl" type="url" inputMode="url" placeholder="https://twojastrona.pl" maxLength={500} />
+                    <input
+                      name="pageUrl"
+                      type="url"
+                      inputMode="url"
+                      autoComplete="url"
+                      autoCapitalize="none"
+                      enterKeyHint="next"
+                      placeholder="https://twojastrona.pl"
+                      maxLength={500}
+                    />
                   </label>
 
                   <label>
@@ -776,7 +851,7 @@ export function HomepageV1() {
                       rows={5}
                       minLength={10}
                       maxLength={4000}
-                      placeholder="Krótko opisz problem, zakres albo oczekiwany efekt."
+                      placeholder={messagePlaceholder}
                       required
                     />
                   </label>
@@ -791,7 +866,7 @@ export function HomepageV1() {
                     className="cf-button cf-button-primary cf-contact-button"
                     disabled={formState === 'submitting'}
                   >
-                    {formState === 'submitting' ? 'Wysyłam…' : 'Wyślij zapytanie'}
+                    {formState === 'submitting' ? 'Wysyłam…' : submitButtonLabel}
                     {formState !== 'submitting' && <ArrowRight size={17} aria-hidden="true" />}
                   </button>
 
@@ -872,6 +947,21 @@ export function HomepageV1() {
           <span className="cf-footer-code">Zdalnie • cała Polska</span>
         </div>
       </footer>
+
+      {!showConsent && (
+        <a
+          href="#contact"
+          className="cf-mobile-sticky-cta"
+          onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'sticky_mobile' })}
+          aria-label="Przejdź do formularza kontaktowego"
+        >
+          <span>
+            <strong>Opisz temat</strong>
+            <small>Odpowiedź zwykle do 1 dnia roboczego</small>
+          </span>
+          <ArrowRight size={18} aria-hidden="true" />
+        </a>
+      )}
 
       {showConsent && (
         <section
