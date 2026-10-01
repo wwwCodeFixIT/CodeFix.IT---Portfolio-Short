@@ -21,6 +21,7 @@ import { projects } from '../data/projects';
 import { wordpressGuides } from '../data/wordpress-guides';
 import { captureSessionAttribution } from '../lib/attribution';
 import { clearConversionJourney, readConversionJourney } from '../lib/conversion-journey';
+import { measureAcceptedLead } from '../lib/measurement';
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
 import './ServiceLanding.css';
@@ -87,59 +88,6 @@ function buildSchema(config: ServiceLandingConfig) {
       },
     ],
   };
-}
-
-function ServiceConsentBanner() {
-  const [choice, setChoice] = useState<'accepted' | 'rejected' | null>(() => {
-    const value = (window as Window & { codefixConsentChoice?: string | null }).codefixConsentChoice;
-    return value === 'accepted' || value === 'rejected' ? value : null;
-  });
-  const [open, setOpen] = useState(() => !choice);
-
-  function save(nextChoice: 'accepted' | 'rejected') {
-    (
-      window as Window & {
-        codefixSetAnalyticsConsent?: (choice: 'accepted' | 'rejected') => void;
-      }
-    ).codefixSetAnalyticsConsent?.(nextChoice);
-    setChoice(nextChoice);
-    setOpen(false);
-  }
-
-  return (
-    <>
-      {open && (
-        <aside className="cf-consent-banner" aria-label="Ustawienia analityki">
-          <div className="cf-consent-copy">
-            <p className="cf-section-kicker">Prywatność</p>
-            <h2>Analityka tylko za Twoją zgodą.</h2>
-            <p>
-              Google Analytics jest ładowane dopiero po akceptacji. Odrzucenie nie blokuje formularza ani strony.
-              Szczegóły: <a href="/polityka-prywatnosci">polityka prywatności</a>.
-            </p>
-            {choice && (
-              <p className="cf-consent-current">
-                Aktualny wybór: {choice === 'accepted' ? 'analityka włączona' : 'analityka wyłączona'}.
-              </p>
-            )}
-          </div>
-          <div className="cf-consent-actions">
-            <button type="button" className="cf-button cf-button-secondary" onClick={() => save('rejected')}>
-              Odrzuć
-            </button>
-            <button type="button" className="cf-button cf-button-primary" onClick={() => save('accepted')}>
-              Akceptuję analitykę
-            </button>
-          </div>
-        </aside>
-      )}
-      {!open && (
-        <button type="button" className="cf-service-consent-shortcut" onClick={() => setOpen(true)}>
-          Ustawienia analityki
-        </button>
-      )}
-    </>
-  );
 }
 
 export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
@@ -251,6 +199,8 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
 
       const result = (await response.json()) as { error?: string };
       if (!response.ok) throw new Error(result.error || 'Nie udało się wysłać formularza.');
+
+      measureAcceptedLead();
 
       const analyticsWindow = window as Window & {
         gtag?: (...args: unknown[]) => void;
@@ -683,7 +633,6 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
         </a>
       )}
 
-      <ServiceConsentBanner />
     </div>
   );
 }

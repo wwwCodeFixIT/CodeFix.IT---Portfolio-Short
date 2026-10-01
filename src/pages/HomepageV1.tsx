@@ -15,6 +15,7 @@ import {
 import { Brand } from '../components/Brand';
 import { projects } from '../data/projects';
 import { captureSessionAttribution } from '../lib/attribution';
+import { measureAcceptedLead, openMeasurementSettings } from '../lib/measurement';
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
 
@@ -192,22 +193,6 @@ export function HomepageV1() {
       service: selectedService || 'not_selected',
     });
   }
-  const [consentChoice, setConsentChoice] = useState<'accepted' | 'rejected' | null>(() => {
-    const value = (window as Window & { codefixConsentChoice?: string | null }).codefixConsentChoice;
-    return value === 'accepted' || value === 'rejected' ? value : null;
-  });
-  const [showConsent, setShowConsent] = useState(() => {
-    return !(window as Window & { codefixConsentChoice?: string | null }).codefixConsentChoice;
-  });
-
-  function saveConsent(choice: 'accepted' | 'rejected') {
-    (window as Window & {
-      codefixSetAnalyticsConsent?: (choice: 'accepted' | 'rejected') => void;
-    }).codefixSetAnalyticsConsent?.(choice);
-    setConsentChoice(choice);
-    setShowConsent(false);
-  }
-
 
   async function handleLeadSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -243,6 +228,8 @@ export function HomepageV1() {
       if (!response.ok) {
         throw new Error(result.error || 'Nie udało się wysłać formularza.');
       }
+
+      measureAcceptedLead();
 
       const analyticsWindow = window as Window & {
         gtag?: (...args: unknown[]) => void;
@@ -827,54 +814,14 @@ export function HomepageV1() {
           <span>© 2026 CodeFix.IT</span>
           <div className="cf-footer-legal">
             <a href="/polityka-prywatnosci">Polityka prywatności</a>
-            <button className="cf-consent-settings" type="button" onClick={() => setShowConsent(true)}>
-              Ustawienia analityki
+            <button className="cf-consent-settings" type="button" onClick={openMeasurementSettings}>
+              Ustawienia prywatności
             </button>
           </div>
           <span className="cf-footer-code">Zdalnie • cała Polska</span>
         </div>
       </footer>
 
-      {showConsent && (
-        <section
-          className="cf-consent-banner"
-          role="dialog"
-          aria-modal="false"
-          aria-labelledby="cf-consent-title"
-          aria-describedby="cf-consent-description"
-        >
-          <div className="cf-consent-copy">
-            <p className="cf-section-kicker">Prywatność • CodeFix.IT</p>
-            <h2 id="cf-consent-title">Czy zgadzasz się na analitykę?</h2>
-            <p id="cf-consent-description">
-              Używam Google Analytics do pomiaru odwiedzin i zgłoszeń. Jeśli wyrazisz zgodę,
-              Google może zapisywać i odczytywać identyfikatory analityczne na Twoim urządzeniu.
-              Odrzucenie nie ogranicza korzystania ze strony ani wysłania formularza.
-            </p>
-            {consentChoice && (
-              <p className="cf-consent-current">
-                Obecne ustawienie: {consentChoice === 'accepted' ? 'analityka włączona' : 'analityka wyłączona'}.
-              </p>
-            )}
-          </div>
-          <div className="cf-consent-actions">
-            <button
-              type="button"
-              className="cf-button cf-button-secondary"
-              onClick={() => saveConsent('rejected')}
-            >
-              Odrzucam
-            </button>
-            <button
-              type="button"
-              className="cf-button cf-button-primary"
-              onClick={() => saveConsent('accepted')}
-            >
-              Akceptuję analitykę
-            </button>
-          </div>
-        </section>
-      )}
     </div>
   );
 }
