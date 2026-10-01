@@ -1987,3 +1987,128 @@
     scroll-behavior: auto;
   }
 }
+
+
+/* Stage 14A — homepage CRO + agency / white-label path */
+.cf-hero-agency-link {
+  position: relative;
+  z-index: 1;
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin: 12px 2px 0;
+  color: #9a9aa2;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+.cf-hero-agency-link:hover {
+  color: #f2f2f4;
+}
+
+.cf-hero-agency-link:focus-visible {
+  outline: 3px solid #ff9a9e;
+  outline-offset: 4px;
+  border-radius: 6px;
+}
+
+.cf-agency-strip {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.065);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.065);
+  background:
+    radial-gradient(circle at 80% 30%, rgba(239, 68, 68, 0.1), transparent 30%),
+    linear-gradient(180deg, #0a0a0b, #080809);
+}
+
+.cf-agency-strip-inner {
+  min-height: 300px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+  gap: clamp(36px, 7vw, 96px);
+  align-items: center;
+  padding-block: 54px;
+}
+
+.cf-agency-copy h2 {
+  max-width: 760px;
+  margin: 8px 0 0;
+  color: #f4f4f5;
+  font-size: clamp(30px, 4.2vw, 50px);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+}
+
+.cf-agency-copy > p:not(.cf-section-kicker) {
+  max-width: 760px;
+  margin: 18px 0 0;
+  color: #97979f;
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.cf-agency-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.cf-agency-tags span {
+  padding: 7px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.022);
+  color: #92929a;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.cf-agency-actions {
+  display: grid;
+  justify-items: end;
+  gap: 14px;
+}
+
+.cf-agency-actions .cf-card-link {
+  margin-top: 0;
+}
+
+@media (max-width: 900px) {
+  .cf-agency-strip-inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .cf-agency-actions {
+    justify-items: start;
+  }
+}
+
+@media (max-width: 560px) {
+  .cf-agency-strip-inner {
+    min-height: 0;
+    padding-block: 42px;
+  }
+
+  .cf-agency-actions,
+  .cf-agency-actions .cf-button {
+    width: 100%;
+  }
+
+  .cf-agency-actions .cf-button {
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cf-hero-agency-link,
+  .cf-agency-strip .cf-button,
+  .cf-agency-strip .cf-card-link {
+    transition: none;
+  }
+}
