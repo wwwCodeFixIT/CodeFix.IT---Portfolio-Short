@@ -6,9 +6,9 @@ const sitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url)
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => new URL(match[1].trim()));
 
 const serviceHeadings = {
-  '/naprawa-wordpress/': 'Naprawa WordPress — jeden problem, konkretny zakres od 390 zł',
-  '/opieka-wordpress/': 'Opieka WordPress dla firm zdalnie w całej Polsce',
-  '/strony-wordpress/': 'Strony internetowe dla firm — WordPress + ACF PRO',
+  '/naprawa-wordpress': 'Naprawa WordPress — jeden problem, konkretny zakres od 390 zł',
+  '/opieka-wordpress': 'Opieka WordPress dla firm zdalnie w całej Polsce',
+  '/strony-wordpress': 'Strony internetowe dla firm — WordPress + ACF PRO',
 };
 
 const guideLinks = [
@@ -70,14 +70,14 @@ function relatedBlock(path) {
       <section>
         <h2>Wybrane realizacje</h2>
         <ul>
-          <li><a href="/realizacje/em-air-system">EM Air System — realizacja WordPress</a></li>
-          <li><a href="/realizacje/rzeczoznawca-marcin-dudek">Rzeczoznawca Marcin Dudek — realizacja WordPress</a></li>
-          <li><a href="/realizacje/kancelaria-adwokacka-witkowska">Kancelaria Adwokacka Witkowska — realizacja WordPress</a></li>
+          <li><a href="/realizacje/em-air-system/">EM Air System — realizacja WordPress</a></li>
+          <li><a href="/realizacje/rzeczoznawca-marcin-dudek/">Rzeczoznawca Marcin Dudek — realizacja WordPress</a></li>
+          <li><a href="/realizacje/kancelaria-adwokacka-witkowska/">Kancelaria Adwokacka Witkowska — realizacja WordPress</a></li>
         </ul>
       </section>`;
   }
 
-  if (path === '/naprawa-wordpress/') {
+  if (path === '/naprawa-wordpress') {
     return `
       <section>
         <h2>Quick Fix od 390 zł — jak wygląda start</h2>
@@ -86,7 +86,7 @@ function relatedBlock(path) {
           <li>Zakres i cena są potwierdzane przed rozpoczęciem pracy.</li>
           <li>Jeśli problem okaże się większy, zlecenie nie jest rozszerzane bez akceptacji.</li>
         </ul>
-        <p><a href="/naprawa-wordpress#kontakt">Zgłoś problem WordPress</a></p>
+        <p><a href="/naprawa-wordpress/#kontakt">Zgłoś problem WordPress</a></p>
       </section>
       <section><h2>Najczęstsze problemy WordPress</h2><ul>${links(guideLinks)}</ul></section>`;
   }
@@ -103,13 +103,13 @@ function relatedBlock(path) {
 
   if (path.startsWith('/poradniki/')) {
     return `
-      <p><a href="/naprawa-wordpress">Naprawa WordPress — zobacz zakres usługi</a></p>
-      <p><a href="/poradniki">Wszystkie poradniki WordPress</a></p>`;
+      <p><a href="/naprawa-wordpress/">Naprawa WordPress — zobacz zakres usługi</a></p>
+      <p><a href="/poradniki/">Wszystkie poradniki WordPress</a></p>`;
   }
 
   if (path.startsWith('/realizacje/')) {
     return `
-      <p><a href="/strony-wordpress">Strony internetowe dla firm — zobacz zakres wdrożenia</a></p>
+      <p><a href="/strony-wordpress/">Strony internetowe dla firm — zobacz zakres wdrożenia</a></p>
       <p><a href="/">Wróć do CodeFix.IT</a></p>`;
   }
 
