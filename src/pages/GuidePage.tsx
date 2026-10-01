@@ -22,7 +22,7 @@ function setMeta(selector: string, attribute: string, value: string) {
 }
 
 function schemaFor(guide: WordPressGuide) {
-  const url = `https://codefix.it/poradniki/${guide.slug}`;
+  const url = `https://codefix.it/poradniki/${guide.slug}/`;
   return {
     '@context': 'https://schema.org',
     '@graph': [
@@ -59,7 +59,7 @@ function schemaFor(guide: WordPressGuide) {
             '@type': 'ListItem',
             position: 2,
             name: 'Poradniki WordPress',
-            item: 'https://codefix.it/poradniki',
+            item: 'https://codefix.it/poradniki/',
           },
           {
             '@type': 'ListItem',
@@ -87,7 +87,7 @@ export function GuidesIndex() {
     const description =
       'Praktyczne poradniki CodeFix.IT o WordPress: błędy krytyczne i 500, WooCommerce checkout, poczta SMTP, awarie po aktualizacji i wydajność.';
     setMeta('meta[name="description"]', 'content', description);
-    setMeta('link[rel="canonical"]', 'href', 'https://codefix.it/poradniki');
+    setMeta('link[rel="canonical"]', 'href', 'https://codefix.it/poradniki/');
   }, []);
 
   return (
@@ -95,7 +95,7 @@ export function GuidesIndex() {
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand />
-          <a href="/naprawa-wordpress" className="cf-nav-cta">Naprawa WordPress</a>
+          <a href="/naprawa-wordpress/" className="cf-nav-cta">Naprawa WordPress</a>
         </div>
       </header>
 
@@ -121,7 +121,7 @@ export function GuidesIndex() {
               </div>
               <h2>{guide.title}</h2>
               <p>{guide.description}</p>
-              <a href={`/poradniki/${guide.slug}`}>
+              <a href={`/poradniki/${guide.slug}/`}>
                 Czytaj poradnik <ArrowRight size={15}/>
               </a>
             </article>
@@ -132,7 +132,7 @@ export function GuidesIndex() {
       <footer className="cf-footer">
         <div className="cf-container cf-footer-bottom">
           <span>© 2026 CodeFix.IT</span>
-          <a href="/polityka-prywatnosci">Polityka prywatności</a>
+          <a href="/polityka-prywatnosci/">Polityka prywatności</a>
           <span className="cf-footer-code">Diabeł tkwi w kodzie. 😈</span>
         </div>
       </footer>
@@ -142,7 +142,7 @@ export function GuidesIndex() {
 
 export function GuidePage({ guide }: { guide: WordPressGuide }) {
   useEffect(() => {
-    const canonical = `https://codefix.it/poradniki/${guide.slug}`;
+    const canonical = `https://codefix.it/poradniki/${guide.slug}/`;
     document.title = guide.metaTitle;
     setMeta('meta[name="description"]', 'content', guide.description);
     setMeta('link[rel="canonical"]', 'href', canonical);
@@ -188,7 +188,7 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand />
-          <a href={guide.serviceHref} className="cf-nav-cta" onClick={trackServiceCta}>{guide.serviceLabel}</a>
+          <a href={`${guide.serviceHref}/`} className="cf-nav-cta" onClick={trackServiceCta}>{guide.serviceLabel}</a>
         </div>
       </header>
 
@@ -197,7 +197,7 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
           <nav className="guide-breadcrumb" aria-label="Okruszki">
             <a href="/">CodeFix.IT</a>
             <span aria-hidden="true">/</span>
-            <a href="/poradniki">Poradniki WordPress</a>
+            <a href="/poradniki/">Poradniki WordPress</a>
             <span aria-hidden="true">/</span>
             <span>{guide.intent}</span>
           </nav>
@@ -245,7 +245,7 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
               <h2>Nie chcesz diagnozować tego na produkcji samodzielnie?</h2>
               <p>Opisz objaw i podeślij URL. Najpierw ustalimy zakres, a dopiero potem zmianę.</p>
             </div>
-            <a className="cf-button cf-button-primary" href={guide.serviceHref} onClick={trackServiceCta}>
+            <a className="cf-button cf-button-primary" href={`${guide.serviceHref}/`} onClick={trackServiceCta}>
               {guide.serviceLabel}<ArrowRight size={16}/>
             </a>
           </section>
@@ -268,7 +268,7 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
             <h2>Powiązane poradniki</h2>
             <div>
               {related.map((item) => (
-                <a href={`/poradniki/${item.slug}`} key={item.slug}>
+                <a href={`/poradniki/${item.slug}/`} key={item.slug}>
                   <FileText size={17}/>
                   <span>{item.title}</span>
                   <ArrowRight size={14}/>
@@ -282,7 +282,7 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
       <footer className="cf-footer">
         <div className="cf-container cf-footer-bottom">
           <span>© 2026 CodeFix.IT</span>
-          <a href="/polityka-prywatnosci">Polityka prywatności</a>
+          <a href="/polityka-prywatnosci/">Polityka prywatności</a>
           <span className="cf-footer-code">Diabeł tkwi w kodzie. 😈</span>
         </div>
       </footer>
