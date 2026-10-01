@@ -405,7 +405,7 @@ export const wordpressGuides: WordPressGuide[] = [
           'Tak. Jeśli awaria występuje tylko dla jednej metody, sprawdź jej logi, konfigurację, status integracji, SSL i błędy JavaScript związane z daną bramką.',
       },
     ],
-  },,
+  },
   {
     slug: 'ile-kosztuje-naprawa-wordpress',
     title: 'Ile kosztuje naprawa WordPress i od czego zależy cena?',
