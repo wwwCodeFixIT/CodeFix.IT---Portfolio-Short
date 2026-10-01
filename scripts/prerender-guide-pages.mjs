@@ -109,7 +109,7 @@ const organization = {
   slogan: 'Diabeł tkwi w kodzie',
 };
 
-const indexCanonical = 'https://codefix.it/poradniki';
+const indexCanonical = 'https://codefix.it/poradniki/';
 const indexDescription = 'Praktyczne poradniki CodeFix.IT o WordPress: błędy krytyczne i 500, WooCommerce checkout, poczta SMTP, awarie po aktualizacji i wydajność.';
 let indexHtml = withMeta(baseHtml, {
   title: 'Poradniki WordPress — diagnostyka i utrzymanie | CodeFix.IT',
@@ -141,7 +141,7 @@ await writeFile(join(distDir.pathname, 'poradniki', 'index.html'), indexHtml, 'u
 process.stdout.write('Prerendered /poradniki\n');
 
 for (const guide of guides) {
-  const canonical = `https://codefix.it/poradniki/${guide.slug}`;
+  const canonical = `https://codefix.it/poradniki/${guide.slug}/`;
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -162,7 +162,7 @@ for (const guide of guides) {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'CodeFix.IT', item: 'https://codefix.it/' },
-          { '@type': 'ListItem', position: 2, name: 'Poradniki WordPress', item: 'https://codefix.it/poradniki' },
+          { '@type': 'ListItem', position: 2, name: 'Poradniki WordPress', item: 'https://codefix.it/poradniki/' },
           { '@type': 'ListItem', position: 3, name: guide.headline, item: canonical },
         ],
       },
