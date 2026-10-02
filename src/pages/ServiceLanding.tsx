@@ -196,7 +196,7 @@ export function ServiceLanding({
 
     observer.observe(section);
     return () => observer.disconnect();
-  }, [trackLeadEvent]);
+  }, [config.service, trackLeadEvent]);
 
   function trackCtaClick(placement: string) {
     markFunnelCta(placement, config.service);
