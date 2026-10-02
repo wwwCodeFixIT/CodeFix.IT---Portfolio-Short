@@ -811,6 +811,45 @@ export function HomepageV1() {
           </div>
         </section>
 
+        <section className="cf-revenue-strip" aria-labelledby="cf-trust-strip-title">
+          <div className="cf-container cf-revenue-strip-inner">
+            <div>
+              <p className="cf-section-kicker">Do sprawdzenia przed kontaktem</p>
+              <h2 id="cf-trust-strip-title">Nie musisz opierać decyzji tylko na opisie oferty.</h2>
+              <p>
+                W portfolio są trzy opisane wdrożenia z publicznymi adresami stron. Jedno z nich —
+                Kancelaria Adwokacka Witkowska — zostało wykonane we współpracy agencyjnej z SyloSoftware.
+                Możesz sprawdzić realizacje, zakres prac i sposób współpracy przed wysłaniem zapytania.
+              </p>
+              <div className="cf-revenue-proof" aria-label="Weryfikowalne informacje o CodeFix.IT">
+                <span>3/3 publiczne realizacje</span>
+                <span>WordPress + ACF PRO</span>
+                <span>udokumentowany case agencyjny</span>
+                <span>zakres i cena przed startem</span>
+              </div>
+            </div>
+
+            <div className="cf-revenue-action">
+              <a
+                href="#contact"
+                className="cf-button cf-button-primary"
+                onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'trust_strip_contact' })}
+              >
+                Opisz temat
+                <ArrowRight size={17} aria-hidden="true" />
+              </a>
+              <a
+                href="/realizacje/kancelaria-adwokacka-witkowska/"
+                className="cf-card-link cf-card-link-secondary"
+                onClick={() => trackHomepageEvent('homepage_proof_click', { placement: 'trust_strip_agency_case' })}
+              >
+                Sprawdź case agencyjny
+                <ArrowRight size={15} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+        </section>
+
         <section id="contact" ref={contactSectionRef} className="cf-section cf-contact-section">
           <div className="cf-container">
             <div className="cf-contact-panel">
