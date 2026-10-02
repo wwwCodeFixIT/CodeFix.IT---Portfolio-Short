@@ -31,6 +31,12 @@
     <priority>0.88</priority>
   </url>
   <url>
+    <loc>https://codefix.it/realizacje/</loc>
+    <lastmod>2026-10-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.82</priority>
+  </url>
+  <url>
     <loc>https://codefix.it/realizacje/em-air-system/</loc>
     <lastmod>2026-10-01</lastmod>
     <changefreq>yearly</changefreq>

@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { Brand } from '../components/Brand';
 import type { Project } from '../data/projects';
@@ -9,25 +8,6 @@ type ProjectCaseStudyProps = {
 };
 
 export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
-  useEffect(() => {
-    const previousTitle = document.title;
-    const description = project.shortDescription;
-    const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    const previousCanonical = canonical?.href ?? '';
-    const metaDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
-    const previousDescription = metaDescription?.content ?? '';
-
-    document.title = `${project.title} — case study | CodeFix.IT`;
-    if (canonical) canonical.href = `https://codefix.it/realizacje/${project.slug}/`;
-    if (metaDescription) metaDescription.content = description;
-
-    return () => {
-      document.title = previousTitle;
-      if (canonical) canonical.href = previousCanonical;
-      if (metaDescription) metaDescription.content = previousDescription;
-    };
-  }, [project]);
-
   const paragraphs = project.fullDescription
     .split('\n')
     .map((paragraph) => paragraph.trim())
@@ -38,7 +18,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
       <header className="cf-header">
         <div className="cf-container cf-case-nav">
           <Brand />
-          <a href="/#work" className="cf-case-back">
+          <a href="/realizacje/" className="cf-case-back">
             <ArrowLeft size={16} aria-hidden="true" />
             Wszystkie realizacje
           </a>
