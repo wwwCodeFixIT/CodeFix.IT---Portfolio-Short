@@ -189,6 +189,7 @@ export function trackFunnelEvent(
       utmSource: attribution.utmSource,
       utmMedium: attribution.utmMedium,
       utmCampaign: attribution.utmCampaign,
+      utmContent: attribution.utmContent,
       referrerOrigin: attribution.referrerOrigin,
     }),
   }).catch(() => {
