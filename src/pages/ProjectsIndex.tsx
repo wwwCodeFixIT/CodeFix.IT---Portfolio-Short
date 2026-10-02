@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { ArrowRight, ArrowUpRight, CheckCircle2, Layers3, ShieldCheck } from 'lucide-react';
 
 import { Brand } from '../components/Brand';
@@ -7,98 +6,7 @@ import './HomepageV1.css';
 import './HomepageV1.v3.css';
 import './ProjectsIndex.css';
 
-const pageTitle = 'Realizacje WordPress i strony dla firm | CodeFix.IT';
-const pageDescription =
-  'Realizacje CodeFix.IT: trzy publiczne wdrożenia WordPress z opisanym zakresem, technologiami i działającymi stronami. Zobacz projekty dla firm i case współpracy agencyjnej.';
-const canonicalUrl = 'https://codefix.it/realizacje/';
-
-function setMeta(selector: string, attribute: string, value: string) {
-  const element = document.querySelector(selector);
-  if (element) element.setAttribute(attribute, value);
-}
-
-function buildSchema() {
-  return {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'Organization',
-        '@id': 'https://codefix.it/#organization',
-        name: 'CodeFix.IT',
-        url: 'https://codefix.it/',
-        logo: 'https://codefix.it/brand/codefix-mark.png',
-        slogan: 'Diabeł tkwi w kodzie',
-        email: 'wwwcodefixit@gmail.com',
-      },
-      {
-        '@type': 'CollectionPage',
-        '@id': canonicalUrl + '#page',
-        url: canonicalUrl,
-        name: pageTitle,
-        description: pageDescription,
-        inLanguage: 'pl-PL',
-        isPartOf: { '@id': 'https://codefix.it/#website' },
-        about: { '@id': 'https://codefix.it/#organization' },
-        mainEntity: {
-          '@type': 'ItemList',
-          itemListElement: projects.map((project, index) => ({
-            '@type': 'ListItem',
-            position: index + 1,
-            url: `https://codefix.it/realizacje/${project.slug}/`,
-            name: project.title,
-          })),
-        },
-      },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          {
-            '@type': 'ListItem',
-            position: 1,
-            name: 'CodeFix.IT',
-            item: 'https://codefix.it/',
-          },
-          {
-            '@type': 'ListItem',
-            position: 2,
-            name: 'Realizacje',
-            item: canonicalUrl,
-          },
-        ],
-      },
-    ],
-  };
-}
-
 export function ProjectsIndex() {
-  useEffect(() => {
-    const previousTitle = document.title;
-    document.title = pageTitle;
-
-    setMeta('meta[name="description"]', 'content', pageDescription);
-    setMeta('link[rel="canonical"]', 'href', canonicalUrl);
-    setMeta('meta[property="og:type"]', 'content', 'website');
-    setMeta('meta[property="og:url"]', 'content', canonicalUrl);
-    setMeta('meta[property="og:title"]', 'content', pageTitle);
-    setMeta('meta[property="og:description"]', 'content', pageDescription);
-    setMeta('meta[name="twitter:title"]', 'content', pageTitle);
-    setMeta('meta[name="twitter:description"]', 'content', pageDescription);
-
-    let schema = document.getElementById('codefix-projects-schema') as HTMLScriptElement | null;
-    if (!schema) {
-      schema = document.createElement('script');
-      schema.type = 'application/ld+json';
-      schema.id = 'codefix-projects-schema';
-      document.head.appendChild(schema);
-    }
-    schema.textContent = JSON.stringify(buildSchema());
-
-    return () => {
-      document.title = previousTitle;
-      schema?.remove();
-    };
-  }, []);
-
   const publicProjects = projects.filter((project) => project.demoUrl).length;
   const agencyProjects = projects.filter((project) => project.collaboration).length;
 
