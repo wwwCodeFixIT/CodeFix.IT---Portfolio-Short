@@ -51,6 +51,11 @@ async function resolveRoute(path: string): Promise<ReactNode> {
     }
   }
 
+  if (path === '/realizacje') {
+    const { ProjectsIndex } = await import('./pages/ProjectsIndex');
+    return <ProjectsIndex />;
+  }
+
   if (path.startsWith('/realizacje/')) {
     const [{ ProjectCaseStudy }, { projects }] = await Promise.all([
       import('./pages/ProjectCaseStudy'),
