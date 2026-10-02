@@ -9,6 +9,7 @@ const serviceHeadings = {
   '/naprawa-wordpress': 'Naprawa WordPress — jeden problem, konkretny zakres od 390 zł',
   '/opieka-wordpress': 'Opieka WordPress dla firm zdalnie w całej Polsce',
   '/strony-wordpress': 'Strony internetowe dla firm — WordPress + ACF PRO',
+  '/dla-agencji-wordpress': 'WordPress white-label dla agencji — wsparcie overflow',
 };
 
 const guideLinks = [
@@ -58,6 +59,7 @@ const serviceLinks = [
   ['/naprawa-wordpress/', 'Naprawa WordPress — błędy, formularze i WooCommerce'],
   ['/strony-wordpress/', 'Strony internetowe dla firm — WordPress + ACF PRO'],
   ['/opieka-wordpress/', 'Opieka WordPress — aktualizacje, backupy i rozwój'],
+  ['/dla-agencji-wordpress/', 'WordPress white-label dla agencji — wsparcie overflow'],
 ];
 
 function escapeHtml(value) {
@@ -104,7 +106,7 @@ function relatedBlock(path) {
       <section>
         <h2>Dla agencji — wsparcie WordPress white-label</h2>
         <p>Wsparcie overflow przy WordPress, ACF PRO, WooCommerce, front-endzie i mniejszych integracjach. Praca na stagingu i Git, także bez kontaktu z klientem końcowym.</p>
-        <p><a href="/?service=AGENCY_WHITE_LABEL#contact">Zapytaj o współpracę white-label</a></p>
+        <p><a href="/dla-agencji-wordpress/">Zobacz współpracę WordPress white-label dla agencji</a></p>
       </section>
       <section>
         <h2>Weryfikowalne realizacje i sposób pracy</h2>
@@ -145,6 +147,21 @@ function relatedBlock(path) {
     return `
       <section><h2>Poradniki o stronach WordPress dla firm</h2><ul>${links(businessSiteGuideLinks)}</ul></section>
       <p><a href="/#contact">Skontaktuj się z CodeFix.IT</a></p>`;
+  }
+
+  if (path === '/dla-agencji-wordpress') {
+    return `
+      <section>
+        <h2>White-label dla agencji — konkretny model współpracy</h2>
+        <ul>
+          <li>WordPress, ACF PRO, WooCommerce i poprawki front-endowe.</li>
+          <li>Git, staging, preview i praca według standardów zespołu.</li>
+          <li>Możliwość pracy bez kontaktu z klientem końcowym.</li>
+          <li>Start od jednego małego, płatnego tasku testowego.</li>
+        </ul>
+        <p><a href="/realizacje/kancelaria-adwokacka-witkowska/">Sprawdź udokumentowany case współpracy agencyjnej</a></p>
+      </section>
+      <p><a href="/dla-agencji-wordpress/#kontakt">Zapytaj o współpracę white-label</a></p>`;
   }
 
   if (path === '/poradniki') {
