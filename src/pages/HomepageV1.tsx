@@ -476,9 +476,9 @@ export function HomepageV1() {
               Nie wiesz, co wybrać? Podeślij URL i opisz objaw — dobiorę najkrótszą sensowną ścieżkę.
             </p>
             <a
-              href="#agencies"
+              href="/dla-agencji-wordpress/"
               className="cf-mini-audit-link cf-hero-agency-link"
-              onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'hero_agency_link' })}
+              onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'hero_agency_landing' })}
             >
               Jesteś agencją? Zobacz współpracę white-label
               <ArrowRight size={14} aria-hidden="true" />
@@ -564,19 +564,19 @@ export function HomepageV1() {
 
             <div className="cf-revenue-action cf-agency-actions">
               <a
-                href="#contact"
+                href="/dla-agencji-wordpress/"
                 className="cf-button cf-button-primary"
-                onClick={() => chooseService(agencyService, 'agency_strip')}
+                onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'agency_strip_landing' })}
               >
-                Porozmawiajmy o współpracy
+                Zobacz współpracę white-label
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
               <a
-                href="#work"
+                href="#contact"
                 className="cf-card-link cf-card-link-secondary"
-                onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'agency_strip_work' })}
+                onClick={() => chooseService(agencyService, 'agency_strip_contact')}
               >
-                Zobacz realizacje
+                Mam konkretny task
                 <ArrowRight size={15} aria-hidden="true" />
               </a>
             </div>
