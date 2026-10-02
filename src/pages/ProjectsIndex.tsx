@@ -59,13 +59,6 @@ export function ProjectsIndex() {
           </div>
         </section>
       </main>
-
-      <footer className="cf-footer">
-        <div className="cf-container cf-footer-bottom">
-          <span>© 2026 CodeFix.IT</span>
-          <a href="/polityka-prywatnosci/">Polityka prywatności</a>
-        </div>
-      </footer>
     </div>
   );
 }
