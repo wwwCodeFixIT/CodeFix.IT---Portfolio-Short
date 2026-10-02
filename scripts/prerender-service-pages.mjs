@@ -95,7 +95,41 @@ const pages = [
         'Tak. Projekt i wdrożenie mogą być prowadzone zdalnie dla firm z całej Polski.',
       ],
     ],
-  },
+  },,
+  {
+    slug: 'dla-agencji-wordpress',
+    title: 'WordPress white-label dla agencji – wsparcie overflow | CodeFix.IT',
+    description:
+      'Wsparcie WordPress white-label dla agencji: ACF PRO, WooCommerce, poprawki front-endowe, Git, staging i mniejsze wdrożenia. Zacznij od jednego tasku.',
+    serviceName: 'WordPress white-label dla agencji',
+    serviceType: 'Wsparcie developerskie WordPress white-label dla agencji',
+    faq: [
+      [
+        'Czy możesz pracować bez kontaktu z naszym klientem?',
+        'Tak. W modelu white-label CodeFix.IT może komunikować się wyłącznie z osobą po stronie agencji i nie kontaktować się z klientem końcowym.',
+      ],
+      [
+        'Czy musimy od razu ustalać stałą liczbę godzin?',
+        'Nie. Współpracę można zacząć od jednego małego, płatnego zadania i dopiero później ustalić stały model.',
+      ],
+      [
+        'Czy pracujesz z ACF PRO i WooCommerce?',
+        'Tak. Zakres obejmuje WordPress, ACF PRO, WooCommerce, niestandardowy front-end, formularze i proste integracje API.',
+      ],
+      [
+        'Czy możesz pracować w naszym repo i na stagingu?',
+        'Tak. Praca może odbywać się na Git, osobnym branchu, stagingu lub preview i trafiać do code review przed publikacją.',
+      ],
+      [
+        'Jak rozliczana jest współpraca?',
+        'Pierwsze jasno zdefiniowane zadanie może być rozliczone projektowo. Przy stałym overflow można później ustalić rozliczenie godzinowe albo miesięczny zakres.',
+      ],
+      [
+        'Czy masz przykład pracy agencyjnej?',
+        'Tak. Portfolio CodeFix.IT zawiera realizację strony Kancelarii Adwokackiej Witkowskiej wykonaną we współpracy z SyloSoftware.',
+      ],
+    ],
+  }
 ];
 
 const distDir = new URL('../dist/', import.meta.url);
