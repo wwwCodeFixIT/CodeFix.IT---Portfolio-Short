@@ -392,7 +392,7 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
       'Np. firma instalacyjna, strona główna + usługi + realizacje + o nas + kontakt. Mam domenę i logo, teksty częściowo gotowe.',
     pageUrlRequired: false,
     demoUrl: 'https://demo.codefix.it/',
-  },,
+  },
   '/dla-agencji-wordpress': {
     path: '/dla-agencji-wordpress',
     service: 'AGENCY_WHITE_LABEL',
