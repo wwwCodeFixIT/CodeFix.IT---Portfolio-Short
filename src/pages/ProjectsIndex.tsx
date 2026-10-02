@@ -30,11 +30,6 @@ export function ProjectsIndex() {
               <a href="/dla-agencji-wordpress/" className="cf-button cf-button-secondary">Dla agencji</a>
             </div>
           </div>
-          <aside className="projects-index-proof" aria-label="Fakty o portfolio">
-            <div><strong>3/3</strong><span>publiczne realizacje</span></div>
-            <div><strong>WordPress + ACF PRO</strong><span>udokumentowany stack</span></div>
-            <div><strong>1</strong><span>case współpracy agencyjnej</span></div>
-          </aside>
         </section>
 
         <section id="projekty" className="cf-section projects-index-list">
@@ -53,9 +48,6 @@ export function ProjectsIndex() {
                   </div>
                   <h3>{project.title}</h3>
                   <p>{project.shortDescription}</p>
-                  <div className="projects-index-tech">
-                    {project.technologies.slice(0, 4).map((item) => <span key={item}>{item}</span>)}
-                  </div>
                   {project.collaboration && <p className="cf-project-collaboration">Współpraca: <strong>{project.collaboration}</strong></p>}
                   <div className="projects-index-actions">
                     <a href={`/realizacje/${project.slug}/`} className="cf-button cf-button-primary">Case study →</a>
@@ -64,16 +56,6 @@ export function ProjectsIndex() {
                 </article>
               ))}
             </div>
-          </div>
-        </section>
-
-        <section className="projects-index-cta">
-          <div className="cf-container projects-index-cta-inner">
-            <div>
-              <p className="cf-section-kicker">Masz podobny temat?</p>
-              <h2>Najpierw zakres. Potem konkretna wycena.</h2>
-            </div>
-            <a href="/strony-wordpress/#kontakt" className="cf-button cf-button-primary">Zapytaj o wdrożenie →</a>
           </div>
         </section>
       </main>
