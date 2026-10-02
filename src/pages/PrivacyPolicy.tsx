@@ -35,7 +35,7 @@ export function PrivacyPolicy() {
             Poniżej wyjaśniam, jakie dane są przetwarzane przez codefix.it,
             po co są potrzebne i jakie masz prawa.
           </p>
-          <span>Ostatnia aktualizacja: 1 października 2026 r.</span>
+          <span>Ostatnia aktualizacja: 2 października 2026 r.</span>
         </div>
 
         <div className="cf-privacy-grid">
@@ -69,7 +69,9 @@ export function PrivacyPolicy() {
                 imię lub nazwa firmy, adres e-mail, opcjonalny adres strony, wybrany
                 temat i treść wiadomości. Zapisywane mogą być także ograniczone dane
                 o źródle zgłoszenia: wartości UTM, ścieżka wejścia oraz domena strony,
-                z której nastąpiło przejście.
+                z której nastąpiło przejście. Przy wysłaniu formularza do zgłoszenia może
+                zostać dołączony także losowy identyfikator sesji lejka, wybrana usługa,
+                pierwsze i ostatnie kliknięte CTA oraz moment rozpoczęcia formularza.
               </p>
               <p>
                 Dane służą do odpowiedzi na zapytanie, przygotowania zakresu lub
@@ -99,7 +101,10 @@ export function PrivacyPolicy() {
                 Wcześniejsza zgoda na samą analitykę nie uruchamia pomiaru reklam.
               </p>
               <p>
-                Decyzje są zapamiętywane lokalnie w przeglądarce. Każdy z pomiarów
+                Kontekst lejka sprzedażowego jest zapamiętywany w sessionStorage i służy
+                do przypisania wysłanego zapytania do etapów ścieżki na codefix.it. Zdarzenia
+                lejka są wysyłane do Google Analytics wyłącznie po zgodzie na analitykę.
+                Decyzje dotyczące pomiarów są zapamiętywane lokalnie w przeglądarce. Każdy z pomiarów
                 możesz zmienić w „Ustawieniach prywatności” dostępnych na stronie.
                 Skrypt danego dostawcy jest ładowany dopiero po odpowiedniej zgodzie.
                 Odrzucenie nie ogranicza formularza ani korzystania ze strony.
