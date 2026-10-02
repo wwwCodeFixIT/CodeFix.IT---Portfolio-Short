@@ -427,7 +427,7 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
     ],
     ctaMicrocopy:
       'Wystarczy opis typowych zadań, stacku i workflow. Bez deklarowania stałej współpracy.',
-    stickyCta: 'White-label • zacznij od tasku',
+    stickyCta: 'White-label • task testowy',
     problemHeading: 'Kiedy zewnętrzne wsparcie WordPress odciąża agencję.',
     problems: [
       {
@@ -495,6 +495,6 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
     projectSlugs: ['kancelaria-adwokacka-witkowska', 'em-air-system'],
     companyFieldLabel: 'Nazwa agencji / firmy',
     successMessage:
-      'Dzięki — zapytanie white-label dotarło. Odpowiem z kolejnym krokiem i możemy zacząć od jednego tasku.',
+      'Dzięki — zapytanie white-label dotarło. Odpowiem z kolejnym krokiem.',
   }
 };
