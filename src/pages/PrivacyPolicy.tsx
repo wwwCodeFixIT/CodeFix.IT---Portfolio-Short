@@ -104,8 +104,9 @@ export function PrivacyPolicy() {
                 Kontekst lejka sprzedażowego jest zapamiętywany w sessionStorage i służy
                 do przypisania wysłanego zapytania do etapów ścieżki na codefix.it. Po zgodzie
                 na analitykę zdarzenia lejka są wysyłane do Google Analytics oraz do własnego
-                raportu CodeFix.IT w postaci pseudonimowego identyfikatora sesji, ścieżki strony,
-                wybranej usługi, klikniętego CTA i ograniczonych danych źródła ruchu. Ten raport
+                raportu CodeFix.IT w postaci pseudonimowego identyfikatora sesji, identyfikatora
+                wersji baseline lub eksperymentu CRO, ścieżki strony, wybranej usługi,
+                klikniętego CTA i ograniczonych danych źródła ruchu. Ten raport
                 nie zapisuje imienia, adresu e-mail, telefonu ani treści wiadomości formularza.
                 Decyzje dotyczące pomiarów są zapamiętywane lokalnie w przeglądarce. Każdy z pomiarów
                 możesz zmienić w „Ustawieniach prywatności” dostępnych na stronie.
