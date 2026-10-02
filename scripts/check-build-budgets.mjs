@@ -45,7 +45,7 @@ const totalCss = css.reduce((sum, asset) => sum + asset.bytes, 0);
 const budgets = {
   entryJs: 215_000,
   largestDeferredJs: 50_000,
-  totalJs: 330_000,
+  totalJs: 320_000,
   largestCss: 40_000,
   totalCss: 70_000,
 };

@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 
 import { Brand } from '../components/Brand';
-import { serviceLandings, type ServiceLandingConfig } from '../data/service-landings';
+import type { ServiceLandingConfig } from '../data/service-landings';
 import { projects } from '../data/projects';
 import { wordpressGuides } from '../data/wordpress-guides';
 import { captureSessionAttribution } from '../lib/attribution';
@@ -92,7 +92,13 @@ function buildSchema(config: ServiceLandingConfig) {
   };
 }
 
-export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
+export function ServiceLanding({
+  config,
+  allServices,
+}: {
+  config: ServiceLandingConfig;
+  allServices: ServiceLandingConfig[];
+}) {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formMessage, setFormMessage] = useState('');
   const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
@@ -235,7 +241,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
     }
   }
 
-  const related = Object.values(serviceLandings).filter((item) => item.path !== config.path);
+  const related = allServices.filter((item) => item.path !== config.path);
   const proofProjects = config.projectSlugs?.length
     ? config.projectSlugs
         .map((slug) => projects.find((project) => project.slug === slug))
