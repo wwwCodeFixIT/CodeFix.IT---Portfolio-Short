@@ -16,6 +16,14 @@ import { Brand } from '../components/Brand';
 import { projects } from '../data/projects';
 import { captureSessionAttribution } from '../lib/attribution';
 import { measureAcceptedLead, openMeasurementSettings } from '../lib/measurement';
+import {
+  clearFunnelSession,
+  markFunnelCta,
+  markFunnelFormStart,
+  markFunnelService,
+  readFunnelPayload,
+  trackFunnelEvent,
+} from '../lib/sales-funnel';
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
 
@@ -175,6 +183,15 @@ export function HomepageV1() {
   const contactSectionRef = useRef<HTMLElement | null>(null);
 
   const trackHomepageEvent = useCallback((eventName: string, parameters: Record<string, string> = {}) => {
+    if (eventName === 'homepage_cta_click') {
+      const placement = parameters.placement || 'unknown';
+      markFunnelCta(placement, parameters.service || selectedService);
+      trackFunnelEvent('cf_cta_click', {
+        placement,
+        service: parameters.service || selectedService || 'not_selected',
+      });
+    }
+
     const analyticsWindow = window as Window & {
       gtag?: (...args: unknown[]) => void;
       codefixAnalyticsAllowed?: boolean;
@@ -185,14 +202,20 @@ export function HomepageV1() {
       page_path: '/',
       ...parameters,
     });
-  }, []);
+  }, [selectedService]);
 
   function chooseService(service: string, placement?: string) {
     setSelectedService(service);
     setFormMessage('');
     setFormState('idle');
+    markFunnelService(service);
+    trackFunnelEvent('cf_service_select', {
+      service,
+      placement: placement || 'direct',
+    });
 
     if (placement) {
+      markFunnelCta(placement, service);
       trackHomepageEvent('homepage_service_choice', {
         service,
         placement,
@@ -203,6 +226,10 @@ export function HomepageV1() {
   function handleFormStart() {
     if (formStartTracked.current) return;
     formStartTracked.current = true;
+    markFunnelFormStart(selectedService);
+    trackFunnelEvent('cf_form_start', {
+      service: selectedService || 'not_selected',
+    });
     trackHomepageEvent('lead_form_start', {
       service: selectedService || 'not_selected',
     });
@@ -222,6 +249,14 @@ export function HomepageV1() {
   }, []);
 
   useEffect(() => {
+    if (selectedService) markFunnelService(selectedService);
+    trackFunnelEvent('cf_funnel_view', {
+      service: selectedService || 'not_selected',
+      placement: 'homepage',
+    });
+  }, [consentChoice, selectedService]);
+
+  useEffect(() => {
     const section = contactSectionRef.current;
     if (!section || formViewTracked.current || typeof IntersectionObserver === 'undefined') return;
 
@@ -233,6 +268,9 @@ export function HomepageV1() {
         if (!analyticsWindow.codefixAnalyticsAllowed) return;
 
         formViewTracked.current = true;
+        trackFunnelEvent('cf_form_view', {
+          service: selectedService || 'not_selected',
+        });
         trackHomepageEvent('lead_form_view', {
           service: selectedService || 'not_selected',
         });
@@ -286,6 +324,9 @@ export function HomepageV1() {
 
     setFormState('submitting');
     setFormMessage('');
+    trackFunnelEvent('cf_submit_attempt', {
+      service: service || 'not_selected',
+    });
     trackHomepageEvent('lead_form_submit_attempt', {
       service: service || 'not_selected',
     });
@@ -304,27 +345,37 @@ export function HomepageV1() {
           companyWebsite: data.get('companyWebsite'),
           startedAt: formStartedAt,
           ...attribution,
+          ...readFunnelPayload(service),
         }),
       });
 
-      const result = (await response.json()) as { error?: string };
+      const result = (await response.json()) as { error?: string; duplicate?: boolean; leadId?: string };
 
       if (!response.ok) {
         throw new Error(result.error || 'Nie udało się wysłać formularza.');
       }
 
-      measureAcceptedLead();
+      if (result.duplicate) {
+        trackFunnelEvent('cf_duplicate_submit', {
+          service: service || 'not_selected',
+        });
+      } else {
+        measureAcceptedLead();
+        trackFunnelEvent('cf_lead_created', {
+          service: service || 'not_selected',
+        });
 
-      const analyticsWindow = window as Window & {
-        gtag?: (...args: unknown[]) => void;
-        codefixAnalyticsAllowed?: boolean;
-      };
+        const analyticsWindow = window as Window & {
+          gtag?: (...args: unknown[]) => void;
+          codefixAnalyticsAllowed?: boolean;
+        };
 
-      if (analyticsWindow.codefixAnalyticsAllowed) analyticsWindow.gtag?.('event', 'generate_lead', {
-        event_category: 'lead',
-        lead_source: 'website_form',
-        service: service || 'not_selected',
-      });
+        if (analyticsWindow.codefixAnalyticsAllowed) analyticsWindow.gtag?.('event', 'generate_lead', {
+          event_category: 'lead',
+          lead_source: 'website_form',
+          service: service || 'not_selected',
+        });
+      }
 
       const successMessage =
         service === agencyService
@@ -336,11 +387,15 @@ export function HomepageV1() {
               : 'Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiem po krótkiej analizie tematu.';
 
       form.reset();
+      if (!result.duplicate) clearFunnelSession();
       setSelectedService('');
       setFormStartedAt(Date.now());
       setFormState('success');
       setFormMessage(successMessage);
     } catch (error) {
+      trackFunnelEvent('cf_form_error', {
+        service: service || 'not_selected',
+      });
       trackHomepageEvent('lead_form_error', {
         service: service || 'not_selected',
       });
