@@ -385,8 +385,9 @@ export function HomepageV1() {
         });
       }
 
-      const successMessage =
-        service === agencyService
+      const successMessage = result.duplicate
+        ? 'To zgłoszenie już do mnie trafiło — nie musisz wysyłać go ponownie.'
+        : service === agencyService
           ? 'Dzięki — mam zapytanie o współpracę white-label. Odpowiem z propozycją kolejnego kroku i modelu współpracy.'
           : service === businessSiteService
             ? 'Dzięki — brief dotarł. Odpowiem z pytaniami uzupełniającymi albo proponowanym zakresem i kolejnym krokiem.'
