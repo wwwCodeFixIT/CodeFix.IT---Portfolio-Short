@@ -1,5 +1,3 @@
-import { ArrowRight, ArrowUpRight, CheckCircle2, Layers3, ShieldCheck } from 'lucide-react';
-
 import { Brand } from '../components/Brand';
 import { projects } from '../data/projects';
 import './HomepageV1.css';
@@ -18,11 +16,8 @@ export function ProjectsIndex() {
           <nav className="cf-nav-links" aria-label="Nawigacja realizacji">
             <a href="/strony-wordpress/">Strony dla firm</a>
             <a href="/dla-agencji-wordpress/">Dla agencji</a>
-            <a href="/poradniki/">Poradniki</a>
           </nav>
-          <a href="/strony-wordpress/#kontakt" className="cf-nav-cta">
-            Omów podobne wdrożenie
-          </a>
+          <a href="/strony-wordpress/#kontakt" className="cf-nav-cta">Omów wdrożenie</a>
         </div>
       </header>
 
@@ -30,74 +25,26 @@ export function ProjectsIndex() {
         <section className="cf-container projects-index-hero">
           <div>
             <nav className="projects-breadcrumb" aria-label="Okruszki">
-              <a href="/">CodeFix.IT</a>
-              <span aria-hidden="true">/</span>
-              <span>Realizacje</span>
+              <a href="/">CodeFix.IT</a><span aria-hidden="true">/</span><span>Realizacje</span>
             </nav>
             <p className="cf-section-kicker">Realizacje CodeFix.IT</p>
-            <h1>
-              Projekty, które można
-              <span>sprawdzić przed kontaktem.</span>
-            </h1>
+            <h1>Projekty, które można<span>sprawdzić przed kontaktem.</span></h1>
             <p className="projects-index-lead">
-              Nie pokazuję makiet udających realizacje. Każdy opisany case prowadzi do działającej strony
-              i zawiera konkretny zakres prac, technologie oraz kontekst wdrożenia.
+              Każdy case prowadzi do działającej strony i pokazuje konkretny zakres prac,
+              technologie oraz kontekst wdrożenia.
             </p>
             <div className="cf-actions">
-              <a href="#projekty" className="cf-button cf-button-primary">
-                Zobacz projekty
-                <ArrowRight size={17} aria-hidden="true" />
-              </a>
-              <a href="/strony-wordpress/" className="cf-button cf-button-secondary">
-                Zobacz ofertę stron WordPress
-              </a>
+              <a href="#projekty" className="cf-button cf-button-primary">Zobacz projekty →</a>
+              <a href="/strony-wordpress/" className="cf-button cf-button-secondary">Oferta stron WordPress</a>
             </div>
           </div>
 
           <aside className="projects-index-proof" aria-label="Weryfikowalne informacje">
-            <div>
-              <strong>{projects.length}</strong>
-              <span>opisane case studies</span>
-            </div>
-            <div>
-              <strong>{publicProjects}/{projects.length}</strong>
-              <span>publiczne adresy stron</span>
-            </div>
-            <div>
-              <strong>{agencyProjects}</strong>
-              <span>udokumentowany case agencyjny</span>
-            </div>
-            <div>
-              <strong>WordPress + ACF PRO</strong>
-              <span>w każdym pokazanym wdrożeniu</span>
-            </div>
+            <div><strong>{projects.length}</strong><span>opisane case studies</span></div>
+            <div><strong>{publicProjects}/{projects.length}</strong><span>publiczne adresy stron</span></div>
+            <div><strong>{agencyProjects}</strong><span>case współpracy agencyjnej</span></div>
+            <div><strong>WordPress + ACF PRO</strong><span>w pokazanych wdrożeniach</span></div>
           </aside>
-        </section>
-
-        <section className="projects-index-trust">
-          <div className="cf-container projects-index-trust-grid">
-            <article>
-              <ShieldCheck size={18} aria-hidden="true" />
-              <div>
-                <strong>Publiczny rezultat</strong>
-                <p>Każdy case zawiera link do działającej strony klienta.</p>
-              </div>
-            </article>
-            <article>
-              <CheckCircle2 size={18} aria-hidden="true" />
-              <div>
-                <strong>Zakres bez ogólników</strong>
-                <p>Opisuję wykonane elementy i użyty stack zamiast samych screenów.</p>
-              </div>
-            </article>
-            <article>
-              <Layers3 size={18} aria-hidden="true" />
-              <div>
-                <strong>Różne modele współpracy</strong>
-                <p>Są wdrożenia bezpośrednie oraz przykład pracy dla innego zespołu.</p>
-              </div>
-            </article>
-          </div>
         </section>
 
         <section id="projekty" className="cf-section projects-index-list">
@@ -105,11 +52,10 @@ export function ProjectsIndex() {
             <div className="cf-section-head-row">
               <div>
                 <p className="cf-section-kicker">Case studies</p>
-                <h2 className="cf-section-heading">Trzy wdrożenia, trzy konkretne zakresy.</h2>
+                <h2 className="cf-section-heading">Trzy wdrożenia. Konkretne zakresy.</h2>
               </div>
               <p className="cf-section-sidecopy">
-                Otwórz case, sprawdź zakres, technologie i publiczną stronę. Jeśli potrzebujesz podobnego wdrożenia,
-                możemy zacząć od krótkiego zakresu i wyceny.
+                Sprawdź działającą stronę, wykonane elementy i stack użyty w realizacji.
               </p>
             </div>
 
@@ -119,7 +65,7 @@ export function ProjectsIndex() {
                   <div className="projects-index-card-head">
                     <div>
                       <span>{project.year}</span>
-                      {project.collaboration && <span>white-label / współpraca</span>}
+                      {project.collaboration && <span>współpraca agencyjna</span>}
                     </div>
                     <span className="projects-index-domain">
                       {project.demoUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}
@@ -130,28 +76,21 @@ export function ProjectsIndex() {
                   <p>{project.shortDescription}</p>
 
                   <ul>
-                    {project.scope.slice(0, 4).map((item) => (
-                      <li key={item}>
-                        <CheckCircle2 size={15} aria-hidden="true" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
+                    {project.scope.slice(0, 3).map((item) => <li key={item}><span>✓</span>{item}</li>)}
                   </ul>
 
                   <div className="projects-index-tech">
-                    {project.technologies.slice(0, 5).map((technology) => (
+                    {project.technologies.slice(0, 4).map((technology) => (
                       <span key={technology}>{technology}</span>
                     ))}
                   </div>
 
                   <div className="projects-index-actions">
                     <a href={`/realizacje/${project.slug}/`} className="cf-button cf-button-primary">
-                      Zobacz case study
-                      <ArrowRight size={16} aria-hidden="true" />
+                      Case study →
                     </a>
                     <a href={project.demoUrl} target="_blank" rel="noreferrer" className="projects-live-link">
-                      Otwórz stronę
-                      <ArrowUpRight size={15} aria-hidden="true" />
+                      Otwórz stronę ↗
                     </a>
                   </div>
                 </article>
@@ -165,18 +104,11 @@ export function ProjectsIndex() {
             <div>
               <p className="cf-section-kicker">Masz podobny temat?</p>
               <h2>Najpierw zakres. Potem konkretna wycena.</h2>
-              <p>
-                Podeślij istniejącą stronę albo opisz nowe wdrożenie. Nie potrzebujesz pełnego briefu na start.
-              </p>
+              <p>Podeślij istniejącą stronę albo opisz nowe wdrożenie. Pełny brief nie jest potrzebny na start.</p>
             </div>
             <div className="projects-index-cta-actions">
-              <a href="/strony-wordpress/#kontakt" className="cf-button cf-button-primary">
-                Zapytaj o stronę dla firmy
-                <ArrowRight size={17} aria-hidden="true" />
-              </a>
-              <a href="/dla-agencji-wordpress/" className="cf-button cf-button-secondary">
-                Współpraca white-label
-              </a>
+              <a href="/strony-wordpress/#kontakt" className="cf-button cf-button-primary">Zapytaj o stronę →</a>
+              <a href="/dla-agencji-wordpress/" className="cf-button cf-button-secondary">White-label</a>
             </div>
           </div>
         </section>
