@@ -398,150 +398,111 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
     service: 'AGENCY_WHITE_LABEL',
     eyebrow: 'WordPress white-label dla agencji',
     title: 'Wsparcie WordPress dla agencji.',
-    titleAccent: 'Overflow, mniejsze wdrożenia i poprawki bez dokładania etatu.',
+    titleAccent: 'Overflow, poprawki i mniejsze wdrożenia bez dokładania etatu.',
     description:
-      'Przejmuję wybrane zadania WordPress, ACF PRO, WooCommerce i front-end jako zewnętrzne wsparcie zespołu. Mogę pracować na stagingu i Git, według Waszego workflow oraz bez kontaktu z klientem końcowym.',
+      'Przejmuję wybrane zadania WordPress, ACF PRO, WooCommerce i front-end. Pracuję na stagingu i Git, według Waszego workflow i bez kontaktu z klientem końcowym.',
     metaTitle: 'WordPress white-label dla agencji – wsparcie overflow | CodeFix.IT',
     metaDescription:
-      'Wsparcie WordPress white-label dla agencji: ACF PRO, WooCommerce, poprawki front-endowe, Git, staging i mniejsze wdrożenia. Zacznij od jednego tasku.',
+      'Wsparcie WordPress white-label dla agencji: ACF PRO, WooCommerce, front-end, Git i staging. Zacznij od jednego płatnego tasku.',
     price: 'Od 1 zadania testowego',
     pricingNote:
-      'Na start możemy rozliczyć jeden mały task projektowo. Przy stałej współpracy ustalamy wygodny model rozliczeń i dostępność.',
+      'Na start możemy rozliczyć mały task projektowo, a stały model ustalić dopiero po wspólnej realizacji.',
     cta: 'Zapytaj o współpracę',
     secondaryCta: 'Zobacz zakres white-label',
-    heroPoints: [
-      'Bez kontaktu z klientem końcowym',
-      'Git / staging / preview',
-      'WordPress + ACF PRO + WooCommerce',
-    ],
+    heroPoints: ['Bez kontaktu z klientem', 'Git / staging / preview', 'WordPress + ACF PRO'],
     offerPoints: [
-      'Małe wdrożenia i poprawki, które blokują główny zespół.',
-      'Praca według ustalonego stacku, workflow i standardów QA.',
-      'Możliwość rozpoczęcia od jednego płatnego tasku testowego.',
+      'Mniejsze wdrożenia i poprawki z kolejki.',
+      'Praca według Waszego workflow i QA.',
+      'Start od jednego płatnego tasku.',
     ],
     reassurance: [
       {
-        title: 'White-label naprawdę znaczy white-label',
-        description:
-          'Mogę działać całkowicie w tle, bez kontaktu z klientem końcowym i bez eksponowania marki CodeFix.IT.',
+        title: 'White-label',
+        description: 'Mogę działać całkowicie w tle, bez kontaktu z klientem końcowym.',
       },
       {
-        title: 'Najpierw mały task',
-        description:
-          'Nie trzeba deklarować stałej współpracy na starcie. Najpierw sprawdzamy proces na jednym konkretnym zadaniu.',
+        title: 'Mały start',
+        description: 'Najpierw jeden konkretny task, dopiero potem decyzja o stałej współpracy.',
       },
       {
-        title: 'Wasze środowisko i standardy',
-        description:
-          'Dostosowuję się do repozytorium, stagingu, sposobu zgłaszania zadań, code review i procesu publikacji.',
+        title: 'Wasze standardy',
+        description: 'Repo, staging, review i publikacja zgodnie z procesem zespołu.',
       },
     ],
     ctaMicrocopy:
-      'Na start wystarczy krótki opis typowych zadań, stacku i sposobu pracy zespołu. Bez zobowiązań do stałej współpracy.',
+      'Wystarczy opis typowych zadań, stacku i workflow. Bez deklarowania stałej współpracy.',
     stickyCta: 'White-label • zacznij od tasku',
-    problemHeading: 'Kiedy zewnętrzne wsparcie WordPress realnie odciąża agencję.',
+    problemHeading: 'Kiedy zewnętrzne wsparcie WordPress odciąża agencję.',
     problems: [
       {
-        title: 'Overflow po sprzedaży projektu',
-        description:
-          'Projekt jest sprzedany, ale główny zespół ma pełny sprint i potrzebuje kogoś do części wdrożenia albo poprawek.',
+        title: 'Overflow w zespole',
+        description: 'Przejmuję część wdrożenia lub poprawki, gdy główny zespół ma pełny sprint.',
       },
       {
-        title: 'Małe taski blokują seniorów',
-        description:
-          'CSS, formularze, ACF, WooCommerce i drobne poprawki nie powinny zabierać czasu osobom skupionym na większych projektach.',
+        title: 'Małe taski blokują kolejkę',
+        description: 'ACF, WooCommerce, formularze, CSS i RWD nie muszą czekać na większy projekt.',
       },
       {
-        title: 'Potrzebny dodatkowy front-end / WordPress',
-        description:
-          'Mogę wejść w istniejący motyw, komponenty i strukturę ACF zamiast proponować przebudowę wszystkiego od zera.',
+        title: 'Regresje i poprawki',
+        description: 'Diagnozuję problemy po aktualizacjach, błędy layoutu i formularzy.',
       },
       {
-        title: 'Po aktualizacji coś się rozsypało',
-        description:
-          'Diagnoza regresji, konfliktu wtyczki, problemu z layoutem albo formularzem bez odrywania głównego zespołu.',
-      },
-      {
-        title: 'WooCommerce wymaga poprawek',
-        description:
-          'Widoki, checkout, hooki, template overrides i mniejsze zmiany w istniejącym sklepie.',
-      },
-      {
-        title: 'Trzeba dowieźć coś przed deadlinem',
-        description:
-          'Dodatkowa para rąk do jasno opisanego zakresu, zamiast przepinania całego projektu między wykonawcami.',
+        title: 'Deadline wymaga wsparcia',
+        description: 'Dodatkowa para rąk do jasno opisanego zakresu bez przepinania całego projektu.',
       },
     ],
     scopeHeading: 'Co mogę przejąć white-label.',
     scopeIntro:
-      'Zakres ma być prosty do przekazania i kontroli. Nie muszę przejmować całego projektu — mogę wejść tylko tam, gdzie obecnie brakuje przepustowości.',
+      'Mogę wejść tylko w te zadania, przy których brakuje przepustowości — bez przejmowania całego projektu.',
     scope: [
-      'Strony firmowe i landing page na WordPressie.',
-      'ACF PRO: pola, Flexible Content, sekcje i edytowalne komponenty.',
-      'WooCommerce: poprawki widoków, checkoutu, hooków i szablonów.',
-      'Poprawki front-endowe, RWD, CSS/JS i regresje po aktualizacjach.',
-      'Formularze, SMTP, proste integracje API i problemy z dostarczalnością.',
-      'Wydajność, Core Web Vitals i porządki w zasobach strony.',
-      'Praca na Git, stagingu i preview z przekazaniem zmian do review.',
+      'WordPress, ACF PRO i edytowalne komponenty.',
+      'WooCommerce, checkout, hooki i template overrides.',
+      'Front-end, RWD, CSS/JS i regresje po aktualizacjach.',
+      'Formularze, SMTP i proste integracje API.',
+      'Git, staging, preview i przekazanie do review.',
     ],
     process: [
       {
-        title: '1. Dostaję task i kontekst',
-        description:
-          'Krótki ticket, expected result, dostęp do repo/stagingu i informacja, jak wygląda Wasz proces akceptacji.',
+        title: '1. Task i kontekst',
+        description: 'Dostaję expected result, repo/staging i zasady akceptacji.',
       },
       {
-        title: '2. Potwierdzam zakres',
-        description:
-          'Przed startem potwierdzam, co dokładnie biorę, czego potrzebuję i jak rozliczamy pierwszy task.',
+        title: '2. Potwierdzenie zakresu',
+        description: 'Ustalam, co biorę, czego potrzebuję i jak rozliczamy zadanie.',
       },
       {
-        title: '3. Wdrażam do review',
-        description:
-          'Pracuję na uzgodnionym branchu lub stagingu, testuję zmianę i przekazuję ją do Waszej akceptacji przed produkcją.',
+        title: '3. Wdrożenie do review',
+        description: 'Oddaję przetestowaną zmianę na branchu lub stagingu do Waszej akceptacji.',
       },
     ],
     faq: [
       {
-        question: 'Czy możesz pracować bez kontaktu z naszym klientem?',
-        answer:
-          'Tak. W modelu white-label mogę komunikować się wyłącznie z osobą po stronie agencji i nie kontaktować się z klientem końcowym.',
+        question: 'Czy możesz pracować bez kontaktu z klientem?',
+        answer: 'Tak. W modelu white-label kontakt może odbywać się wyłącznie z agencją.',
       },
       {
         question: 'Czy musimy od razu ustalać stałą liczbę godzin?',
-        answer:
-          'Nie. Najbezpieczniej zacząć od jednego małego, płatnego zadania. Dopiero po nim możemy ustalić stały model współpracy.',
+        answer: 'Nie. Możemy zacząć od jednego małego, płatnego zadania.',
       },
       {
         question: 'Czy pracujesz z ACF PRO i WooCommerce?',
-        answer:
-          'Tak. Pracuję z WordPressem, ACF PRO, WooCommerce, niestandardowym front-endem, formularzami i prostymi integracjami API.',
-      },
-      {
-        question: 'Czy możesz pracować w naszym repo i na stagingu?',
-        answer:
-          'Tak. Mogę pracować na Git, osobnym branchu i stagingu lub preview oraz dostarczać zmianę do code review przed publikacją.',
-      },
-      {
-        question: 'Jak rozliczana jest współpraca?',
-        answer:
-          'Pierwsze, jasno zdefiniowane zadanie możemy rozliczyć projektowo. Przy stałym overflow można później ustalić rozliczenie godzinowe albo miesięczny zakres.',
+        answer: 'Tak. Pracuję z WordPressem, ACF PRO, WooCommerce i front-endem.',
       },
       {
         question: 'Czy masz przykład pracy agencyjnej?',
         answer:
-          'Tak. W portfolio CodeFix.IT znajduje się realizacja strony Kancelarii Adwokackiej Witkowskiej wykonana we współpracy z SyloSoftware.',
+          'Tak. Case Kancelarii Adwokackiej Witkowskiej w portfolio został wykonany we współpracy z SyloSoftware.',
       },
     ],
     contactHeading: 'Masz task, który utknął w kolejce? Podeślij go.',
     contactCopy:
-      'Napisz, jaki typ zadań chcesz delegować, w jakim stacku pracujecie i jak wygląda Wasz workflow. Jeśli macie teraz mały temat, możemy zacząć od niego.',
+      'Napisz, co chcesz delegować, w jakim stacku pracujecie i jak wygląda workflow. Możemy zacząć od jednego małego tematu.',
     messagePlaceholder:
-      'Np. mamy overflow przy WordPress/ACF. Potrzebujemy poprawek front-endowych i drobnych wdrożeń. Pracujemy na Git + staging, taski w ...',
+      'Np. overflow przy WordPress/ACF, poprawki front-endowe, Git + staging, taski w ...',
     pageUrlRequired: false,
     projectSlugs: ['kancelaria-adwokacka-witkowska', 'em-air-system'],
     companyFieldLabel: 'Nazwa agencji / firmy',
     successMessage:
-      'Dzięki — zapytanie white-label trafiło do CodeFix.IT. Odpowiem z propozycją kolejnego kroku i możemy zacząć od jednego małego tasku.',
+      'Dzięki — zapytanie white-label dotarło. Odpowiem z kolejnym krokiem i możemy zacząć od jednego tasku.',
   }
 };
