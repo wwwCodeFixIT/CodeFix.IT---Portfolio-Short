@@ -275,8 +275,10 @@ export function ServiceLanding({
       setFormStartedAt(Date.now());
       setFormState('success');
       setFormMessage(
-        config.successMessage ??
-          'Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiem po krótkiej analizie tematu.',
+        result.duplicate
+          ? 'To zgłoszenie już do mnie trafiło — nie musisz wysyłać go ponownie.'
+          : config.successMessage ??
+              'Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiem po krótkiej analizie tematu.',
       );
     } catch (error) {
       trackFunnelEvent('cf_form_error', { service: config.service });
