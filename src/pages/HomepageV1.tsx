@@ -701,6 +701,7 @@ export function HomepageV1() {
               </div>
               <p className="cf-section-sidecopy">
                 Każdy case prowadzi do działającej strony i opisuje konkretny zakres prac, technologie oraz sposób realizacji.
+                {' '}<a href="/realizacje/">Zobacz wszystkie realizacje</a>.
               </p>
             </div>
 
