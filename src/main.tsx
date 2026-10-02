@@ -3,7 +3,12 @@ import { createRoot } from 'react-dom/client';
 import { MeasurementConsent } from './components/MeasurementConsent';
 import './index.css';
 
-const servicePaths = new Set(['/naprawa-wordpress', '/opieka-wordpress', '/strony-wordpress']);
+const servicePaths = new Set([
+  '/naprawa-wordpress',
+  '/opieka-wordpress',
+  '/strony-wordpress',
+  '/dla-agencji-wordpress',
+]);
 
 async function loadHomepage(): Promise<ReactNode> {
   const { HomepageV1 } = await import('./pages/HomepageV1');
