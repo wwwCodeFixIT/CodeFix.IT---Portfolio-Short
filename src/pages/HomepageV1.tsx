@@ -180,6 +180,7 @@ export function HomepageV1() {
   const [attribution] = useState(captureSessionAttribution);
   const formStartTracked = useRef(false);
   const formViewTracked = useRef(false);
+  const funnelViewTracked = useRef(false);
   const contactSectionRef = useRef<HTMLElement | null>(null);
 
   const trackHomepageEvent = useCallback((eventName: string, parameters: Record<string, string> = {}) => {
@@ -250,6 +251,12 @@ export function HomepageV1() {
 
   useEffect(() => {
     if (selectedService) markFunnelService(selectedService);
+    if (funnelViewTracked.current) return;
+
+    const analyticsWindow = window as Window & { codefixAnalyticsAllowed?: boolean };
+    if (!analyticsWindow.codefixAnalyticsAllowed) return;
+
+    funnelViewTracked.current = true;
     trackFunnelEvent('cf_funnel_view', {
       service: selectedService || 'not_selected',
       placement: 'homepage',
