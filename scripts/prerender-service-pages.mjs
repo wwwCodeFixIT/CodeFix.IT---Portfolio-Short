@@ -113,18 +113,6 @@ const pages = [
         'Nie. Współpracę można zacząć od jednego małego, płatnego zadania i dopiero później ustalić stały model.',
       ],
       [
-        'Czy pracujesz z ACF PRO i WooCommerce?',
-        'Tak. Zakres obejmuje WordPress, ACF PRO, WooCommerce, niestandardowy front-end, formularze i proste integracje API.',
-      ],
-      [
-        'Czy możesz pracować w naszym repo i na stagingu?',
-        'Tak. Praca może odbywać się na Git, osobnym branchu, stagingu lub preview i trafiać do code review przed publikacją.',
-      ],
-      [
-        'Jak rozliczana jest współpraca?',
-        'Pierwsze jasno zdefiniowane zadanie może być rozliczone projektowo. Przy stałym overflow można później ustalić rozliczenie godzinowe albo miesięczny zakres.',
-      ],
-      [
         'Czy masz przykład pracy agencyjnej?',
         'Tak. Portfolio CodeFix.IT zawiera realizację strony Kancelarii Adwokackiej Witkowskiej wykonaną we współpracy z SyloSoftware.',
       ],
