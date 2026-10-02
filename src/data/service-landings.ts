@@ -449,7 +449,7 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
     ],
     scopeHeading: 'Co mogę przejąć white-label.',
     scopeIntro:
-      'Mogę wejść tylko w te zadania, przy których brakuje przepustowości — bez przejmowania całego projektu.',
+      'Przejmuję wybrane zadania bez przejmowania całego projektu.',
     scope: [
       'WordPress, ACF PRO i edytowalne komponenty.',
       'WooCommerce, checkout, hooki i template overrides.',
@@ -488,7 +488,7 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
     ],
     contactHeading: 'Masz task, który utknął w kolejce? Podeślij go.',
     contactCopy:
-      'Napisz, co chcesz delegować, w jakim stacku pracujecie i jak wygląda workflow. Możemy zacząć od jednego małego tematu.',
+      'Napisz, co chcesz delegować i jak wygląda Wasz workflow. Możemy zacząć od małego tasku.',
     messagePlaceholder:
       'Np. overflow przy WordPress/ACF, poprawki front-endowe, Git + staging, taski w ...',
     pageUrlRequired: false,
