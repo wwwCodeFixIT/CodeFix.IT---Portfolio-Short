@@ -95,7 +95,7 @@ const pages = [
         'Tak. Projekt i wdrożenie mogą być prowadzone zdalnie dla firm z całej Polski.',
       ],
     ],
-  },,
+  },
   {
     slug: 'dla-agencji-wordpress',
     title: 'WordPress white-label dla agencji – wsparcie overflow | CodeFix.IT',
