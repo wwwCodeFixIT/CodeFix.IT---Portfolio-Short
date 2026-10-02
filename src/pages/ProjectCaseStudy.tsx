@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { Brand } from '../components/Brand';
 import type { Project } from '../data/projects';
@@ -8,106 +7,7 @@ type ProjectCaseStudyProps = {
   project: Project;
 };
 
-function setMeta(selector: string, attribute: string, value: string) {
-  const element = document.querySelector(selector);
-  if (element) element.setAttribute(attribute, value);
-}
-
-function buildProjectSchema(project: Project) {
-  const canonical = `https://codefix.it/realizacje/${project.slug}/`;
-  return {
-    '@context': 'https://schema.org',
-    '@graph': [
-      {
-        '@type': 'Organization',
-        '@id': 'https://codefix.it/#organization',
-        name: 'CodeFix.IT',
-        url: 'https://codefix.it/',
-        logo: 'https://codefix.it/brand/codefix-mark.png',
-        slogan: 'Diabeł tkwi w kodzie',
-        email: 'wwwcodefixit@gmail.com',
-      },
-      {
-        '@type': 'WebSite',
-        '@id': 'https://codefix.it/#website',
-        url: 'https://codefix.it/',
-        name: 'CodeFix.IT',
-        publisher: { '@id': 'https://codefix.it/#organization' },
-        inLanguage: 'pl-PL',
-      },
-      {
-        '@type': 'CreativeWork',
-        '@id': canonical + '#case-study',
-        name: project.title,
-        headline: `${project.title} — case study`,
-        url: canonical,
-        description: project.shortDescription,
-        creator: { '@id': 'https://codefix.it/#organization' },
-        publisher: { '@id': 'https://codefix.it/#organization' },
-        inLanguage: 'pl-PL',
-        dateCreated: String(project.year),
-        keywords: project.technologies,
-        about: project.scope,
-        sameAs: [project.demoUrl],
-        isPartOf: { '@id': 'https://codefix.it/#website' },
-      },
-      {
-        '@type': 'BreadcrumbList',
-        itemListElement: [
-          {
-            '@type': 'ListItem',
-            position: 1,
-            name: 'CodeFix.IT',
-            item: 'https://codefix.it/',
-          },
-          {
-            '@type': 'ListItem',
-            position: 2,
-            name: 'Realizacje',
-            item: 'https://codefix.it/realizacje/',
-          },
-          {
-            '@type': 'ListItem',
-            position: 3,
-            name: project.title,
-            item: canonical,
-          },
-        ],
-      },
-    ],
-  };
-}
-
 export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
-  useEffect(() => {
-    const title = `${project.title} — case study WordPress | CodeFix.IT`;
-    const description = project.shortDescription;
-    const canonicalUrl = `https://codefix.it/realizacje/${project.slug}/`;
-
-    document.title = title;
-    setMeta('meta[name="description"]', 'content', description);
-    setMeta('link[rel="canonical"]', 'href', canonicalUrl);
-    setMeta('meta[property="og:type"]', 'content', 'article');
-    setMeta('meta[property="og:url"]', 'content', canonicalUrl);
-    setMeta('meta[property="og:title"]', 'content', title);
-    setMeta('meta[property="og:description"]', 'content', description);
-    setMeta('meta[name="twitter:title"]', 'content', title);
-    setMeta('meta[name="twitter:description"]', 'content', description);
-
-    let schema = document.getElementById('codefix-project-schema') as HTMLScriptElement | null;
-    if (!schema) {
-      schema = document.createElement('script');
-      schema.type = 'application/ld+json';
-      schema.id = 'codefix-project-schema';
-      document.head.appendChild(schema);
-    }
-    schema.textContent = JSON.stringify(buildProjectSchema(project));
-
-    return () => {
-      schema?.remove();
-    };
-  }, [project]);
-
   const paragraphs = project.fullDescription
     .split('\n')
     .map((paragraph) => paragraph.trim())
