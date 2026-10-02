@@ -27,7 +27,6 @@ export function ProjectsIndex() {
             </p>
             <div className="cf-actions">
               <a href="#projekty" className="cf-button cf-button-primary">Zobacz projekty →</a>
-              <a href="/dla-agencji-wordpress/" className="cf-button cf-button-secondary">Dla agencji</a>
             </div>
           </div>
         </section>
