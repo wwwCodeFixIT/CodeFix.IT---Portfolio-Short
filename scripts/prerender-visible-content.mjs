@@ -104,7 +104,7 @@ function relatedBlock(path) {
       <section>
         <h2>Dla agencji — wsparcie WordPress white-label</h2>
         <p>Wsparcie overflow przy WordPress, ACF PRO, WooCommerce, front-endzie i mniejszych integracjach. Praca na stagingu i Git, także bez kontaktu z klientem końcowym.</p>
-        <p><a href="/?service=wordpress#contact">Zapytaj o współpracę white-label</a></p>
+        <p><a href="/?service=AGENCY_WHITE_LABEL#contact">Zapytaj o współpracę white-label</a></p>
       </section>
       <section>
         <h2>Wybrane realizacje</h2>
