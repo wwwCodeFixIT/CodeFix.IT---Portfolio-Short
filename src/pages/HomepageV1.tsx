@@ -217,6 +217,7 @@ export function HomepageV1() {
 
     if (placement) {
       markFunnelCta(placement, service);
+      trackFunnelEvent('cf_cta_click', { service, placement });
       trackHomepageEvent('homepage_service_choice', {
         service,
         placement,
