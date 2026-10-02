@@ -14,7 +14,7 @@
     "format:check": "prettier --check package.json tsconfig.app.json .prettierrc.json .github/workflows/ci.yml",
     "seo:smoke": "node scripts/seo-production-smoke.mjs",
     "build:budget": "node scripts/check-build-budgets.mjs",
-    "lint:production": "eslint src/main.tsx src/components/Brand.tsx src/pages/HomepageV1.tsx src/pages/ServiceLanding.tsx src/pages/GuidePage.tsx src/pages/ProjectCaseStudy.tsx src/pages/PrivacyPolicy.tsx src/data/projects.ts src/data/wordpress-guides.ts src/data/service-landings.ts src/lib/attribution.ts src/lib/conversion-journey.ts --max-warnings=0"
+    "lint:production": "eslint src/main.tsx src/components/Brand.tsx src/pages/HomepageV1.tsx src/pages/ServiceLanding.tsx src/pages/GuidePage.tsx src/pages/ProjectCaseStudy.tsx src/pages/ProjectsIndex.tsx src/pages/PrivacyPolicy.tsx src/data/projects.ts src/data/wordpress-guides.ts src/data/service-landings.ts src/lib/attribution.ts src/lib/conversion-journey.ts --max-warnings=0"
   },
   "dependencies": {
     "lucide-react": "^0.563.0",
