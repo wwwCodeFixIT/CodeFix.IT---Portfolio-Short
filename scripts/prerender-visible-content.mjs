@@ -62,6 +62,12 @@ const serviceLinks = [
   ['/dla-agencji-wordpress/', 'WordPress white-label dla agencji — wsparcie overflow'],
 ];
 
+const projectLinks = [
+  ['/realizacje/em-air-system/', 'eM-aiR System — redesign WordPress + ACF PRO'],
+  ['/realizacje/rzeczoznawca-marcin-dudek/', 'Rzeczoznawca Marcin Dudek — strona WordPress od zera'],
+  ['/realizacje/kancelaria-adwokacka-witkowska/', 'Kancelaria Adwokacka Witkowska — case współpracy agencyjnej'],
+];
+
 function escapeHtml(value) {
   return value.replace(/[&<>"']/g, (character) => ({
     '&': '&amp;',
@@ -89,6 +95,7 @@ function pageHeading(path, title) {
   if (path === '/') return 'CodeFix.IT — WordPress dla firm: naprawa, opieka i strony';
   if (serviceHeadings[path]) return serviceHeadings[path];
   if (path === '/poradniki') return 'Poradniki WordPress — naprawa, opieka i wyceny';
+  if (path === '/realizacje') return 'Realizacje WordPress i strony dla firm — CodeFix.IT';
   return title.replace(/\s*[|–—-]\s*CodeFix\.IT.*$/i, '').trim() || 'CodeFix.IT';
 }
 
@@ -164,6 +171,20 @@ function relatedBlock(path) {
       <p><a href="/dla-agencji-wordpress/#kontakt">Zapytaj o współpracę white-label</a></p>`;
   }
 
+  if (path === '/realizacje') {
+    return `
+      <section>
+        <h2>Publiczne realizacje WordPress</h2>
+        <p>Każdy opisany case ma publiczny adres strony, konkretny zakres prac i użyty stack.</p>
+        <ul>${links(projectLinks)}</ul>
+      </section>
+      <section>
+        <h2>Potrzebujesz podobnego wdrożenia?</h2>
+        <p><a href="/strony-wordpress/">Strony WordPress dla firm — zakres i wycena</a></p>
+        <p><a href="/dla-agencji-wordpress/">Wsparcie WordPress white-label dla agencji</a></p>
+      </section>`;
+  }
+
   if (path === '/poradniki') {
     return `
       <section>
@@ -193,8 +214,9 @@ function relatedBlock(path) {
 
   if (path.startsWith('/realizacje/')) {
     return `
+      <p><a href="/realizacje/">Zobacz wszystkie realizacje CodeFix.IT</a></p>
       <p><a href="/strony-wordpress/">Strony internetowe dla firm — zobacz zakres wdrożenia</a></p>
-      <p><a href="/">Wróć do CodeFix.IT</a></p>`;
+      <p><a href="/dla-agencji-wordpress/">Wsparcie WordPress white-label dla agencji</a></p>`;
   }
 
   return `<p><a href="/">Wróć do strony głównej CodeFix.IT</a></p>`;
