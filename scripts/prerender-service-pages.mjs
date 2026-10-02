@@ -58,7 +58,7 @@ for (const page of pages) {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'CodeFix.IT', item: 'https://codefix.it/' },
-          { '@type': 'ListItem', position: 2, name: page.metaTitle, item: canonical },
+          { '@type': 'ListItem', position: 2, name: page.title, item: canonical },
         ],
       },
       {
