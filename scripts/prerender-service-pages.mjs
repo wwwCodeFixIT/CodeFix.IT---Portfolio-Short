@@ -1,124 +1,10 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 
-const pages = [
-  {
-    slug: 'naprawa-wordpress',
-    title: 'Naprawa WordPress – błędy, formularze, WooCommerce | CodeFix.IT',
-    description:
-      'Naprawa i pomoc WordPress zdalnie w całej Polsce: błędy, formularze, WooCommerce, CSS i awarie po aktualizacjach. Quick Fix od 390 zł.',
-    serviceName: 'Naprawa WordPress — Quick Fix',
-    serviceType: 'Diagnostyka i naprawa WordPress',
-    faq: [
-      [
-        'Czy 390 zł to stała cena każdej naprawy?',
-        'Nie. To cena startowa dla małego, jasno zdefiniowanego problemu. Jeśli temat wymaga większej ingerencji, przed rozpoczęciem dostajesz osobny zakres i wycenę.',
-      ],
-      [
-        'Czy potrzebujesz od razu loginu do WordPressa?',
-        'Nie zawsze. Na początku wystarczy publiczny adres strony i opis problemu. Dostęp jest potrzebny dopiero do diagnozy lub wdrożenia, jeśli wymaga tego temat.',
-      ],
-      [
-        'Czy naprawiasz Elementor i Contact Form 7?',
-        'Tak. CodeFix.IT pracuje z WordPressem, Elementorem, ACF PRO, Contact Form 7, WooCommerce i niestandardowym front-endem.',
-      ],
-      [
-        'Co jeśli problem okaże się większy?',
-        'Zakres nie jest rozszerzany bez uzgodnienia. Po diagnozie otrzymujesz informację, co trzeba zrobić i ile będzie kosztował kolejny etap.',
-      ],
-      [
-        'Czy realizujesz naprawy WordPress w całej Polsce?',
-        'Tak. Naprawy WordPress realizuję zdalnie dla firm z całej Polski, po bezpiecznym przekazaniu potrzebnych dostępów, jeśli są wymagane.',
-      ],
-    ],
-  },
-  {
-    slug: 'opieka-wordpress',
-    title: 'Opieka WordPress – administracja, backupy i rozwój | CodeFix.IT',
-    description:
-      'Opieka i administracja WordPress od 300 zł/mies.: aktualizacje, backupy, wsparcie techniczne, drobne poprawki i rozwój strony.',
-    serviceName: 'Opieka i rozwój WordPress',
-    serviceType: 'Stała opieka techniczna WordPress',
-    faq: [
-      [
-        'Co dokładnie obejmuje abonament od 300 zł?',
-        'Zakres jest ustalany indywidualnie. Przy prostym serwisie może obejmować aktualizacje, backup i niewielki miesięczny pakiet drobnych zmian.',
-      ],
-      [
-        'Czy opieka obejmuje awarie hostingu?',
-        'CodeFix.IT może diagnozować problemy po stronie WordPressa, DNS, SSL i hostingu oraz współpracować z supportem dostawcy, ale nie zastępuje SLA firmy hostingowej.',
-      ],
-      [
-        'Czy mogę zlecać nowe sekcje i funkcje?',
-        'Tak. Małe zmiany mogą mieścić się w uzgodnionym pakiecie, a większe funkcje są wyceniane osobno przed wdrożeniem.',
-      ],
-      [
-        'Czy mogę zrezygnować ze stałej opieki?',
-        'Tak. Warunki współpracy i okres rozliczeniowy są ustalane przed startem.',
-      ],
-      [
-        'Czy opieka WordPress jest dostępna w całej Polsce?',
-        'Tak. Stała opieka jest realizowana zdalnie dla firm z całej Polski.',
-      ],
-    ],
-  },
-  {
-    slug: 'strony-wordpress',
-    title: 'Strony WordPress dla firm – projekt i wdrożenie | CodeFix.IT',
-    description:
-      'Tworzenie stron WordPress dla firm w całej Polsce: ACF PRO, szybki front-end, formularze, SEO techniczne i wygodna edycja treści.',
-    serviceName: 'Strony internetowe dla firm — WordPress + ACF PRO',
-    serviceType: 'Projektowanie i wdrożenie stron internetowych WordPress',
-    faq: [
-      [
-        'Czy dostanę gotowy motyw WordPress?',
-        'Przy wdrożeniu customowym przygotowywany jest motyw i struktura dopasowana do ustalonego projektu. Zakres techniczny jest opisany przed rozpoczęciem prac.',
-      ],
-      [
-        'Czy będę mógł sam zmieniać treści?',
-        'Tak. ACF PRO służy do tego, żeby uzgodnione teksty, obrazy, listy usług czy realizacje dało się edytować z panelu.',
-      ],
-      [
-        'Czy wykonujesz także wersję mobilną?',
-        'Tak. Responsywność jest częścią wdrożenia i strona jest przygotowywana również dla telefonów i tabletów.',
-      ],
-      [
-        'Ile kosztuje strona internetowa dla firmy?',
-        'Cena zależy od liczby podstron, projektu, treści, integracji i zakresu WordPress/ACF PRO. Po krótkim briefie CodeFix.IT podaje zakres i wycenę przed rozpoczęciem prac.',
-      ],
-      [
-        'Czy mogę zobaczyć przykład techniczny?',
-        'Tak. Na demo.codefix.it działa własne demo WordPress + ACF PRO CodeFix.IT, oznaczone jako demo techniczne, a nie realizacja klienta.',
-      ],
-      [
-        'Czy tworzysz strony dla firm z całej Polski?',
-        'Tak. Projekt i wdrożenie mogą być prowadzone zdalnie dla firm z całej Polski.',
-      ],
-    ],
-  },
-  {
-    slug: 'dla-agencji-wordpress',
-    title: 'WordPress white-label dla agencji – wsparcie overflow | CodeFix.IT',
-    description:
-      'Wsparcie WordPress white-label dla agencji: ACF PRO, WooCommerce, poprawki front-endowe, Git, staging i mniejsze wdrożenia. Zacznij od jednego tasku.',
-    serviceName: 'WordPress white-label dla agencji',
-    serviceType: 'Wsparcie developerskie WordPress white-label dla agencji',
-    faq: [
-      [
-        'Czy możesz pracować bez kontaktu z naszym klientem?',
-        'Tak. W modelu white-label CodeFix.IT może komunikować się wyłącznie z osobą po stronie agencji i nie kontaktować się z klientem końcowym.',
-      ],
-      [
-        'Czy musimy od razu ustalać stałą liczbę godzin?',
-        'Nie. Współpracę można zacząć od jednego małego, płatnego zadania i dopiero później ustalić stały model.',
-      ],
-      [
-        'Czy masz przykład pracy agencyjnej?',
-        'Tak. Portfolio CodeFix.IT zawiera realizację strony Kancelarii Adwokackiej Witkowskiej wykonaną we współpracy z SyloSoftware.',
-      ],
-    ],
-  }
-];
+const catalog = JSON.parse(
+  await readFile(new URL('../public/data/service-landings.json', import.meta.url), 'utf8'),
+);
+const pages = Object.values(catalog);
 
 const distDir = new URL('../dist/', import.meta.url);
 const indexPath = new URL('index.html', distDir);
@@ -136,7 +22,8 @@ function replaceTag(html, pattern, replacement, label) {
 }
 
 for (const page of pages) {
-  const canonical = `https://codefix.it/${page.slug}/`;
+  const slug = page.path.replace(/^\//, '');
+  const canonical = `https://codefix.it/${slug}/`;
   const schema = {
     '@context': 'https://schema.org',
     '@graph': [
@@ -154,11 +41,11 @@ for (const page of pages) {
       {
         '@type': 'Service',
         '@id': `${canonical}#service`,
-        name: page.serviceName,
+        name: page.title,
         provider: { '@id': 'https://codefix.it/#organization' },
         url: canonical,
-        serviceType: page.serviceType,
-        description: page.description,
+        serviceType: page.eyebrow,
+        description: page.metaDescription,
         mainEntityOfPage: canonical,
         areaServed: [{ '@type': 'Country', name: 'Polska' }],
         availableChannel: {
@@ -171,12 +58,12 @@ for (const page of pages) {
         '@type': 'BreadcrumbList',
         itemListElement: [
           { '@type': 'ListItem', position: 1, name: 'CodeFix.IT', item: 'https://codefix.it/' },
-          { '@type': 'ListItem', position: 2, name: page.serviceName, item: canonical },
+          { '@type': 'ListItem', position: 2, name: page.metaTitle, item: canonical },
         ],
       },
       {
         '@type': 'FAQPage',
-        mainEntity: page.faq.map(([question, answer]) => ({
+        mainEntity: page.faq.map(({ question, answer }) => ({
           '@type': 'Question',
           name: question,
           acceptedAnswer: { '@type': 'Answer', text: answer },
@@ -186,11 +73,11 @@ for (const page of pages) {
   };
 
   let html = baseHtml;
-  html = replaceTag(html, /<title>[\s\S]*?<\/title>/, `<title>${page.title}</title>`, 'title');
+  html = replaceTag(html, /<title>[\s\S]*?<\/title>/, `<title>${page.metaTitle}</title>`, 'title');
   html = replaceTag(
     html,
     /<meta\s+name="description"\s+content="[^"]*"\s*\/>/,
-    `<meta name="description" content="${page.description}" />`,
+    `<meta name="description" content="${page.metaDescription}" />`,
     'description',
   );
   html = replaceTag(
@@ -208,25 +95,25 @@ for (const page of pages) {
   html = replaceTag(
     html,
     /<meta\s+property="og:title"\s+content="[^"]*"\s*\/>/,
-    `<meta property="og:title" content="${page.title}" />`,
+    `<meta property="og:title" content="${page.metaTitle}" />`,
     'og:title',
   );
   html = replaceTag(
     html,
     /<meta\s+property="og:description"\s+content="[^"]*"\s*\/>/,
-    `<meta property="og:description" content="${page.description}" />`,
+    `<meta property="og:description" content="${page.metaDescription}" />`,
     'og:description',
   );
   html = replaceTag(
     html,
     /<meta\s+name="twitter:title"\s+content="[^"]*"\s*\/>/,
-    `<meta name="twitter:title" content="${page.title}" />`,
+    `<meta name="twitter:title" content="${page.metaTitle}" />`,
     'twitter:title',
   );
   html = replaceTag(
     html,
     /<meta\s+name="twitter:description"\s+content="[^"]*"\s*\/>/,
-    `<meta name="twitter:description" content="${page.description}" />`,
+    `<meta name="twitter:description" content="${page.metaDescription}" />`,
     'twitter:description',
   );
   html = replaceTag(
@@ -236,8 +123,8 @@ for (const page of pages) {
     'JSON-LD',
   );
 
-  const outputDir = join(distDir.pathname, page.slug);
+  const outputDir = join(distDir.pathname, slug);
   await mkdir(outputDir, { recursive: true });
   await writeFile(join(outputDir, 'index.html'), html, 'utf8');
-  process.stdout.write(`Prerendered /${page.slug}\n`);
+  process.stdout.write(`Prerendered /${slug}\n`);
 }
