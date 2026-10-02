@@ -1,4 +1,7 @@
+import { captureSessionAttribution } from './attribution';
+
 export const funnelVersion = '14f_v1';
+const funnelEventApiUrl = 'https://app.codefix.it/api/public/funnel-events';
 
 type FunnelState = {
   sessionId: string;
@@ -148,13 +151,39 @@ export function trackFunnelEvent(
   if (!analyticsWindow.codefixAnalyticsAllowed) return;
 
   const state = readState();
+  const attribution = captureSessionAttribution();
+  const pagePath = window.location.pathname || '/';
+  const service = parameters.service || state.selectedService || 'not_selected';
+  const placement = parameters.placement || '';
+
   analyticsWindow.gtag?.('event', eventName, {
     event_category: 'sales_funnel',
     funnel_version: funnelVersion,
     funnel_id: state.sessionId,
     entry_path: state.entryPath,
-    page_path: window.location.pathname || '/',
-    service: parameters.service || state.selectedService || 'not_selected',
+    page_path: pagePath,
+    service,
     ...parameters,
+  });
+
+  void fetch(funnelEventApiUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    keepalive: true,
+    body: JSON.stringify({
+      eventName,
+      funnelVersion,
+      sessionId: state.sessionId,
+      entryPath: state.entryPath,
+      pagePath,
+      service,
+      placement,
+      utmSource: attribution.utmSource,
+      utmMedium: attribution.utmMedium,
+      utmCampaign: attribution.utmCampaign,
+      referrerOrigin: attribution.referrerOrigin,
+    }),
+  }).catch(() => {
+    // Funnel telemetry is optional and must never interrupt navigation or a lead submission.
   });
 }
