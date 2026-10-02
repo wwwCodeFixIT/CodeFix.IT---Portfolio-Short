@@ -23,7 +23,7 @@ const quickFixService = 'WORDPRESS_QUICK_FIX';
 const businessSiteService = 'CODEFIX_BUSINESS_SITE';
 const miniAuditService = 'FREE_MINI_AUDIT';
 const careService = 'WORDPRESS_CARE';
-const agencyService = 'wordpress';
+const agencyService = 'AGENCY_WHITE_LABEL';
 
 const allowedServiceDeepLinks = new Set([
   quickFixService,
@@ -259,6 +259,11 @@ export function HomepageV1() {
               ? 'Zapytaj o współpracę white-label'
               : 'Wyślij zapytanie';
 
+  const showCompanyField =
+    selectedService === businessSiteService ||
+    selectedService === careService ||
+    selectedService === agencyService;
+
   const messagePlaceholder =
     selectedService === quickFixService
       ? 'Co dokładnie nie działa, od kiedy i co widzisz na ekranie?'
@@ -291,6 +296,7 @@ export function HomepageV1() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: data.get('name'),
+          company: data.get('company'),
           email: data.get('email'),
           service,
           pageUrl: data.get('pageUrl'),
@@ -320,11 +326,20 @@ export function HomepageV1() {
         service: service || 'not_selected',
       });
 
+      const successMessage =
+        service === agencyService
+          ? 'Dzięki — mam zapytanie o współpracę white-label. Odpowiem z propozycją kolejnego kroku i modelu współpracy.'
+          : service === businessSiteService
+            ? 'Dzięki — brief dotarł. Odpowiem z pytaniami uzupełniającymi albo proponowanym zakresem i kolejnym krokiem.'
+            : service === quickFixService
+              ? 'Dzięki — zgłoszenie Quick Fix dotarło. Najpierw sprawdzę opis i potwierdzę zakres oraz cenę przed startem.'
+              : 'Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiem po krótkiej analizie tematu.';
+
       form.reset();
       setSelectedService('');
       setFormStartedAt(Date.now());
       setFormState('success');
-      setFormMessage('Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiem po krótkiej analizie tematu.');
+      setFormMessage(successMessage);
     } catch (error) {
       trackHomepageEvent('lead_form_error', {
         service: service || 'not_selected',
@@ -806,8 +821,8 @@ export function HomepageV1() {
                 <p className="cf-section-kicker">Kontakt</p>
                 <h2>Powiedz, co ma działać lepiej. Resztę ustalimy razem.</h2>
                 <p>
-                  Podeślij adres strony albo opisz planowane wdrożenie. Odpowiadam zwykle
-                  w ciągu jednego dnia roboczego i przed startem potwierdzam zakres oraz cenę.
+                  Podeślij adres strony albo krótko opisz planowane wdrożenie. Nie potrzebujesz pełnego briefu na start.
+                  Odpowiadam zwykle w ciągu jednego dnia roboczego i przed rozpoczęciem prac potwierdzam zakres oraz cenę.
                 </p>
 
                 <div className="cf-contact-tags" aria-label="Przykładowe tematy">
@@ -828,7 +843,7 @@ export function HomepageV1() {
                 <form className="cf-lead-form" onSubmit={handleLeadSubmit} onFocusCapture={handleFormStart}>
                   <div className="cf-form-row">
                     <label>
-                      <span>Imię / firma</span>
+                      <span>Imię / osoba kontaktowa</span>
                       <input
                         name="name"
                         type="text"
@@ -855,11 +870,29 @@ export function HomepageV1() {
                     </label>
                   </div>
 
+                  {showCompanyField && (
+                    <label>
+                      <span>{selectedService === agencyService ? 'Nazwa agencji / firmy' : 'Firma'} <small>opcjonalnie</small></span>
+                      <input
+                        name="company"
+                        type="text"
+                        autoComplete="organization"
+                        autoCapitalize="words"
+                        enterKeyHint="next"
+                        maxLength={160}
+                      />
+                    </label>
+                  )}
+
                   <label>
                     <span>Temat</span>
-                    <select name="service" value={selectedService}
-                      onChange={(event) => chooseService(event.target.value)}>
-                      <option value="">Wybierz opcjonalnie</option>
+                    <select
+                      name="service"
+                      value={selectedService}
+                      onChange={(event) => chooseService(event.target.value)}
+                      required
+                    >
+                      <option value="" disabled>Wybierz temat</option>
                       <option value={quickFixService}>WordPress Quick Fix — jeden konkretny problem</option>
                       <option value={businessSiteService}>Nowa strona firmowa WordPress + ACF PRO</option>
                       <option value={careService}>Opieka i rozwój WordPress</option>
@@ -882,6 +915,11 @@ export function HomepageV1() {
                       ile podstron orientacyjnie potrzebujesz i czy masz już domenę, hosting, teksty oraz logo.
                     </p>
                   )}
+                  {selectedService === careService && (
+                    <p className="cf-quickfix-selection" role="status">
+                      Wybrano stałą opiekę. Napisz, co dziś wymaga pilnowania lub poprawy i jak często pojawiają się kolejne zadania.
+                    </p>
+                  )}
                   {selectedService === agencyService && (
                     <p className="cf-quickfix-selection" role="status">
                       Wybrano współpracę agencyjną / white-label. Napisz, jakie zadania chcesz delegować,
@@ -896,7 +934,9 @@ export function HomepageV1() {
                   )}
 
                   <label>
-                    <span>Adres strony <small>opcjonalnie</small></span>
+                    <span>
+                      Adres strony {selectedService !== miniAuditService && <small>opcjonalnie</small>}
+                    </span>
                     <input
                       name="pageUrl"
                       type="url"
@@ -906,6 +946,7 @@ export function HomepageV1() {
                       enterKeyHint="next"
                       placeholder="https://twojastrona.pl"
                       maxLength={500}
+                      required={selectedService === miniAuditService}
                     />
                   </label>
 
@@ -936,7 +977,8 @@ export function HomepageV1() {
                   </button>
 
                   <p className="cf-home-form-reassurance">
-                    Bez zobowiązań — najpierw dostaniesz odpowiedź z proponowanym zakresem i kolejnym krokiem.
+                    Bez zobowiązań: najpierw analizuję zgłoszenie, potem dostajesz proponowany zakres i kolejny krok.
+                    Nie proszę o hasła ani dostęp administracyjny w pierwszej wiadomości.
                   </p>
 
                   <p className="cf-form-privacy">
