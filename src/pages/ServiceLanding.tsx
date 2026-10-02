@@ -188,6 +188,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           name: data.get('name'),
+          company: data.get('company'),
           email: data.get('email'),
           service: config.service,
           pageUrl: data.get('pageUrl'),
@@ -223,7 +224,10 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
       clearConversionJourney();
       setFormStartedAt(Date.now());
       setFormState('success');
-      setFormMessage('Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiem po krótkiej analizie tematu.');
+      setFormMessage(
+        config.successMessage ??
+          'Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiem po krótkiej analizie tematu.',
+      );
     } catch (error) {
       trackLeadEvent('lead_form_error');
       setFormState('error');
@@ -232,6 +236,11 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
   }
 
   const related = Object.values(serviceLandings).filter((item) => item.path !== config.path);
+  const proofProjects = config.projectSlugs?.length
+    ? config.projectSlugs
+        .map((slug) => projects.find((project) => project.slug === slug))
+        .filter((project): project is (typeof projects)[number] => Boolean(project))
+    : projects.slice(0, 2);
   const relatedGuides = wordpressGuides
     .filter((item) => item.serviceHref === config.path)
     .sort((a, b) => Number(b.slug.startsWith('ile-kosztuje-')) - Number(a.slug.startsWith('ile-kosztuje-')))
@@ -416,7 +425,7 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
               </p>
             </div>
             <div className="service-projects-grid">
-              {projects.slice(0, 2).map((project) => (
+              {proofProjects.map((project) => (
                 <article className="service-project-card" key={project.slug}>
                   <span>{project.year} · WordPress</span>
                   <h3>{project.title}</h3>
@@ -469,6 +478,18 @@ export function ServiceLanding({ config }: { config: ServiceLandingConfig }) {
                       <input name="email" type="email" autoComplete="email" maxLength={254} required />
                     </label>
                   </div>
+
+                  {config.companyFieldLabel && (
+                    <label>
+                      <span>{config.companyFieldLabel} <small>opcjonalnie</small></span>
+                      <input
+                        name="company"
+                        type="text"
+                        autoComplete="organization"
+                        maxLength={160}
+                      />
+                    </label>
+                  )}
 
                   <p className="service-form-topic">
                     Temat: <strong>{config.eyebrow}</strong>
