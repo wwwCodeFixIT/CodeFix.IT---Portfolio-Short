@@ -22,6 +22,14 @@ import { wordpressGuides } from '../data/wordpress-guides';
 import { captureSessionAttribution } from '../lib/attribution';
 import { clearConversionJourney, readConversionJourney } from '../lib/conversion-journey';
 import { measureAcceptedLead } from '../lib/measurement';
+import {
+  clearFunnelSession,
+  markFunnelCta,
+  markFunnelFormStart,
+  markFunnelService,
+  readFunnelPayload,
+  trackFunnelEvent,
+} from '../lib/sales-funnel';
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
 import './ServiceLanding.css';
@@ -106,6 +114,7 @@ export function ServiceLanding({
   const [journey] = useState(readConversionJourney);
   const formStartTracked = useRef(false);
   const formViewTracked = useRef(false);
+  const funnelViewTracked = useRef(false);
   const contactSectionRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -127,6 +136,25 @@ export function ServiceLanding({
     }
     schema.textContent = JSON.stringify(buildSchema(config));
   }, [config]);
+
+  useEffect(() => {
+    markFunnelService(config.service);
+
+    function trackView() {
+      if (funnelViewTracked.current) return;
+      const analyticsWindow = window as Window & { codefixAnalyticsAllowed?: boolean };
+      if (!analyticsWindow.codefixAnalyticsAllowed) return;
+      funnelViewTracked.current = true;
+      trackFunnelEvent('cf_funnel_view', {
+        service: config.service,
+        placement: 'service_landing',
+      });
+    }
+
+    trackView();
+    window.addEventListener('codefix:measurement-consent-changed', trackView);
+    return () => window.removeEventListener('codefix:measurement-consent-changed', trackView);
+  }, [config.service]);
 
   const trackLeadEvent = useCallback(
     (eventName: string, extra: Record<string, string> = {}) => {
@@ -159,6 +187,7 @@ export function ServiceLanding({
         if (!analyticsWindow.codefixAnalyticsAllowed) return;
 
         formViewTracked.current = true;
+        trackFunnelEvent('cf_form_view', { service: config.service });
         trackLeadEvent('lead_form_view');
         observer.disconnect();
       },
@@ -170,12 +199,19 @@ export function ServiceLanding({
   }, [trackLeadEvent]);
 
   function trackCtaClick(placement: string) {
+    markFunnelCta(placement, config.service);
+    trackFunnelEvent('cf_cta_click', {
+      placement,
+      service: config.service,
+    });
     trackLeadEvent('lead_cta_click', { cta_placement: placement });
   }
 
   function handleFormStart() {
     if (formStartTracked.current) return;
     formStartTracked.current = true;
+    markFunnelFormStart(config.service);
+    trackFunnelEvent('cf_form_start', { service: config.service });
     trackLeadEvent('lead_form_start');
   }
 
@@ -186,6 +222,7 @@ export function ServiceLanding({
 
     setFormState('submitting');
     setFormMessage('');
+    trackFunnelEvent('cf_submit_attempt', { service: config.service });
     trackLeadEvent('lead_form_submit_attempt');
 
     try {
@@ -203,30 +240,37 @@ export function ServiceLanding({
           startedAt: formStartedAt,
           ...attribution,
           ...journey,
+          ...readFunnelPayload(config.service),
         }),
       });
 
-      const result = (await response.json()) as { error?: string };
+      const result = (await response.json()) as { error?: string; duplicate?: boolean; leadId?: string };
       if (!response.ok) throw new Error(result.error || 'Nie udało się wysłać formularza.');
 
-      measureAcceptedLead();
+      if (result.duplicate) {
+        trackFunnelEvent('cf_duplicate_submit', { service: config.service });
+      } else {
+        measureAcceptedLead();
+        trackFunnelEvent('cf_lead_created', { service: config.service });
 
-      const analyticsWindow = window as Window & {
-        gtag?: (...args: unknown[]) => void;
-        codefixAnalyticsAllowed?: boolean;
-      };
-      if (analyticsWindow.codefixAnalyticsAllowed) {
-        analyticsWindow.gtag?.('event', 'generate_lead', {
-          event_category: 'lead',
-          lead_source: 'service_landing',
-          service: config.service,
-          landing_path: config.path,
-          journey_source: journey.journeySource || 'DIRECT',
-          journey_guide: journey.journeyGuide || '(none)',
-        });
+        const analyticsWindow = window as Window & {
+          gtag?: (...args: unknown[]) => void;
+          codefixAnalyticsAllowed?: boolean;
+        };
+        if (analyticsWindow.codefixAnalyticsAllowed) {
+          analyticsWindow.gtag?.('event', 'generate_lead', {
+            event_category: 'lead',
+            lead_source: 'service_landing',
+            service: config.service,
+            landing_path: config.path,
+            journey_source: journey.journeySource || 'DIRECT',
+            journey_guide: journey.journeyGuide || '(none)',
+          });
+        }
       }
 
       form.reset();
+      if (!result.duplicate) clearFunnelSession();
       clearConversionJourney();
       setFormStartedAt(Date.now());
       setFormState('success');
@@ -235,6 +279,7 @@ export function ServiceLanding({
           'Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiem po krótkiej analizie tematu.',
       );
     } catch (error) {
+      trackFunnelEvent('cf_form_error', { service: config.service });
       trackLeadEvent('lead_form_error');
       setFormState('error');
       setFormMessage(error instanceof Error ? error.message : 'Nie udało się wysłać formularza.');
