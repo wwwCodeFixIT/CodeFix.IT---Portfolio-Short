@@ -424,10 +424,6 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
         title: 'Mały start',
         description: 'Najpierw jeden konkretny task, dopiero potem decyzja o stałej współpracy.',
       },
-      {
-        title: 'Wasze standardy',
-        description: 'Repo, staging, review i publikacja zgodnie z procesem zespołu.',
-      },
     ],
     ctaMicrocopy:
       'Wystarczy opis typowych zadań, stacku i workflow. Bez deklarowania stałej współpracy.',
@@ -483,10 +479,6 @@ export const serviceLandings: Record<string, ServiceLandingConfig> = {
       {
         question: 'Czy musimy od razu ustalać stałą liczbę godzin?',
         answer: 'Nie. Możemy zacząć od jednego małego, płatnego zadania.',
-      },
-      {
-        question: 'Czy pracujesz z ACF PRO i WooCommerce?',
-        answer: 'Tak. Pracuję z WordPressem, ACF PRO, WooCommerce i front-endem.',
       },
       {
         question: 'Czy masz przykład pracy agencyjnej?',
