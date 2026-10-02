@@ -107,6 +107,11 @@ function relatedBlock(path) {
         <p><a href="/?service=AGENCY_WHITE_LABEL#contact">Zapytaj o współpracę white-label</a></p>
       </section>
       <section>
+        <h2>Weryfikowalne realizacje i sposób pracy</h2>
+        <p>Trzy opisane realizacje mają publiczne adresy stron. Case Kancelarii Adwokackiej Witkowskiej dokumentuje współpracę agencyjną z SyloSoftware. Zakres i cena są potwierdzane przed rozpoczęciem prac.</p>
+        <p><a href="/realizacje/kancelaria-adwokacka-witkowska/">Sprawdź case współpracy agencyjnej</a></p>
+      </section>
+      <section>
         <h2>Wybrane realizacje</h2>
         <ul>
           <li><a href="/realizacje/em-air-system/">EM Air System — realizacja WordPress</a></li>
