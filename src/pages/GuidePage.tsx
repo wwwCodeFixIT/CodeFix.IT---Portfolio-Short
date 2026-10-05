@@ -28,7 +28,7 @@ const guideGroups = [
     title: 'Diagnoza i naprawa WordPress',
     description: 'Błędy 500, awarie po aktualizacjach, formularze, checkout WooCommerce i problemy krytyczne — w kolejności, która ogranicza zgadywanie na produkcji.',
     serviceHref: '/naprawa-wordpress',
-    serviceLabel: 'Zobacz usługę naprawy WordPress',
+    serviceLabel: 'Naprawa WordPress od 390 zł',
   },
   {
     id: 'opieka',
@@ -36,7 +36,7 @@ const guideGroups = [
     title: 'Opieka, wydajność i utrzymanie',
     description: 'Materiały o stabilności, wydajności, backupach i kosztach stałej opieki nad WordPressem.',
     serviceHref: '/opieka-wordpress',
-    serviceLabel: 'Zobacz opiekę WordPress',
+    serviceLabel: 'Opieka WordPress od 300 zł/mies.',
   },
   {
     id: 'strony',
@@ -44,7 +44,7 @@ const guideGroups = [
     title: 'Strony WordPress i wycena wdrożenia',
     description: 'Co wpływa na koszt strony firmowej, jak przygotować zakres i czego oczekiwać od wdrożenia WordPress + ACF PRO.',
     serviceHref: '/strony-wordpress',
-    serviceLabel: 'Zobacz strony WordPress dla firm',
+    serviceLabel: 'Strony WordPress — wycena',
   },
 ] as const;
 
@@ -127,7 +127,7 @@ export function GuidesIndex() {
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand />
-          <a href="/#services" className="cf-nav-cta">Usługi WordPress</a>
+          <a href="/#services" className="cf-nav-cta">Zobacz usługi</a>
         </div>
       </header>
 
@@ -139,8 +139,8 @@ export function GuidesIndex() {
           <p className="cf-section-kicker">PORADNIKI / WORDPRESS</p>
           <h1>Poradniki WordPress.<br/><span>Naprawa, opieka i wyceny.</span></h1>
           <p>
-            Praktyczne materiały dla firm i właścicieli stron: od diagnozy błędów i WooCommerce,
-            przez wydajność i utrzymanie, po koszt naprawy, abonamentu oraz nowej strony WordPress.
+            {wordpressGuides.length} praktycznych poradników: od diagnozy błędów i WooCommerce po wydajność,
+            opiekę, koszty naprawy i wycenę nowej strony WordPress.
           </p>
 
           <nav className="guide-index-nav" aria-label="Kategorie poradników">
@@ -188,6 +188,17 @@ export function GuidesIndex() {
             );
           })}
         </div>
+
+        <section className="cf-container guide-cta">
+          <div>
+            <p className="cf-section-kicker">Masz konkretny problem?</p>
+            <h2>Nie musisz diagnozować go samodzielnie.</h2>
+            <p>Jeśli poradnik nie wystarczy, podeślij URL i objaw. Najpierw ustalimy zakres i cenę, dopiero potem zmianę.</p>
+          </div>
+          <a className="cf-button cf-button-primary" href="/naprawa-wordpress/#kontakt">
+            Naprawa od 390 zł <ArrowRight size={16}/>
+          </a>
+        </section>
       </main>
 
       <footer className="cf-footer">
