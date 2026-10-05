@@ -167,14 +167,6 @@ const featuredProjects = projects.slice(0, 3);
 const publicProjectCount = featuredProjects.filter((project) => Boolean(project.demoUrl)).length;
 const agencyCollaborationCount = featuredProjects.filter((project) => Boolean(project.collaboration)).length;
 
-function projectHostname(url: string) {
-  try {
-    return new URL(url).hostname.replace(/^www\./, '');
-  } catch {
-    return url;
-  }
-}
-
 const contactEmail = 'wwwcodefixit@gmail.com';
 const contactHref = `mailto:${contactEmail}?subject=${encodeURIComponent('Zapytanie ze strony CodeFix.IT')}`;
 const leadApiUrl = 'https://app.codefix.it/api/public/leads';
@@ -698,28 +690,6 @@ export function HomepageV1() {
           </div>
         </section>
 
-        <section className="cf-revenue-strip" aria-labelledby="cf-revenue-strip-title">
-          <div className="cf-container cf-revenue-strip-inner">
-            <div>
-              <p className="cf-section-kicker">Szybki start</p>
-              <h2 id="cf-revenue-strip-title">Masz już stronę i nie wiesz, od czego zacząć?</h2>
-              <p>Wyślij publiczny adres. Sprawdzę trzy podstawowe punkty techniczne i wskażę, czy sensowniejsza jest naprawa, optymalizacja czy większa przebudowa — bez proszenia o login.</p>
-            </div>
-            <div className="cf-revenue-action">
-              <div className="cf-revenue-proof" aria-label="Zakres mini-oceny">
-                <span>bez loginu</span>
-                <span>3 punkty</span>
-                <span>krótka odpowiedź</span>
-              </div>
-              <a href="#contact" className="cf-button cf-button-primary"
-                onClick={() => chooseService(miniAuditService, 'revenue_strip')}>
-                Poproś o mini-ocenę
-                <ArrowRight size={17} aria-hidden="true" />
-              </a>
-            </div>
-          </div>
-        </section>
-
         <section id="work" className="cf-section cf-work-section">
           <div className="cf-container">
             <div className="cf-work-heading-row">
@@ -762,26 +732,6 @@ export function HomepageV1() {
                     <span>{project.collaboration ? 'Współpraca agencyjna' : 'Strona firmowa'}</span>
                   </div>
 
-                  <div
-                    className="cf-project-verification"
-                    aria-label={`Weryfikacja realizacji: ${project.title}`}
-                  >
-                    <span className="cf-project-verification-item">
-                      <CheckCircle2 size={13} aria-hidden="true" />
-                      Case study CodeFix.IT
-                    </span>
-                    <span className="cf-project-verification-item cf-project-verification-live">
-                      <span className="cf-live-dot" aria-hidden="true" />
-                      Live: {projectHostname(project.demoUrl)}
-                    </span>
-                    {project.collaboration && (
-                      <span className="cf-project-verification-item">
-                        <Layers3 size={13} aria-hidden="true" />
-                        Partner: {project.collaboration}
-                      </span>
-                    )}
-                  </div>
-
                   <h3>{project.title}</h3>
                   <p className="cf-project-description">{project.shortDescription}</p>
 
@@ -813,7 +763,7 @@ export function HomepageV1() {
                       href={`/realizacje/${project.slug}/`}
                       className="cf-project-link"
                     >
-                      Zobacz case study
+                      Case study
                       <ArrowRight size={16} aria-hidden="true" />
                     </a>
                     <a
@@ -822,7 +772,7 @@ export function HomepageV1() {
                       rel="noreferrer"
                       className="cf-project-live-link"
                     >
-                      Otwórz stronę
+                      Sprawdź stronę live
                       <ArrowUpRight size={15} aria-hidden="true" />
                     </a>
                   </div>
@@ -830,28 +780,27 @@ export function HomepageV1() {
               ))}
             </div>
 
-            <div className="cf-work-next-step" aria-labelledby="cf-work-next-step-title">
-              <div>
-                <p className="cf-section-kicker">Po realizacjach</p>
-                <h3 id="cf-work-next-step-title">Sprawdziłeś przykłady? Teraz opisz swój temat.</h3>
-                <p>
-                  Wyślij adres strony albo krótki brief. Przed rozpoczęciem prac dostaniesz proponowany zakres,
-                  cenę i kolejny krok.
-                </p>
+          </div>
+        </section>
+
+        <section className="cf-revenue-strip" aria-labelledby="cf-revenue-strip-title">
+          <div className="cf-container cf-revenue-strip-inner">
+            <div>
+              <p className="cf-section-kicker">Szybki start</p>
+              <h2 id="cf-revenue-strip-title">Masz już stronę i nie wiesz, od czego zacząć?</h2>
+              <p>Wyślij publiczny adres. Sprawdzę trzy podstawowe punkty techniczne i wskażę, czy sensowniejsza jest naprawa, optymalizacja czy większa przebudowa — bez proszenia o login.</p>
+            </div>
+            <div className="cf-revenue-action">
+              <div className="cf-revenue-proof" aria-label="Zakres mini-oceny">
+                <span>bez loginu</span>
+                <span>3 punkty</span>
+                <span>krótka odpowiedź</span>
               </div>
-              <div className="cf-work-next-step-actions">
-                <a href="/realizacje/" className="cf-button cf-button-secondary">
-                  Wszystkie case studies
-                </a>
-                <a
-                  href="#contact"
-                  className="cf-button cf-button-primary"
-                  onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'portfolio_after_proof' })}
-                >
-                  Opisz temat
-                  <ArrowRight size={17} aria-hidden="true" />
-                </a>
-              </div>
+              <a href="#contact" className="cf-button cf-button-primary"
+                onClick={() => chooseService(miniAuditService, 'revenue_strip')}>
+                Poproś o mini-ocenę
+                <ArrowRight size={17} aria-hidden="true" />
+              </a>
             </div>
           </div>
         </section>
