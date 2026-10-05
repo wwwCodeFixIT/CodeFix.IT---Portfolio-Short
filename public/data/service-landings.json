@@ -4,17 +4,17 @@
     "service": "WORDPRESS_QUICK_FIX",
     "eyebrow": "WordPress Quick Fix",
     "title": "Naprawa WordPress. Jeden problem, konkretny zakres.",
-    "titleAccent": "Od 390 zł — zdalnie w całej Polsce.",
-    "description": "Formularz nie wysyła? Aktualizacja zepsuła stronę? WooCommerce albo layout przestał działać? Podeślij URL i objaw. Na start bez loginu. Jeśli temat mieści się w Quick Fixie, dostaniesz zakres i cenę przed rozpoczęciem prac.",
+    "titleAccent": "Quick Fix od 390 zł. Zakres i cena przed startem.",
+    "description": "Formularz nie wysyła? Aktualizacja zepsuła stronę? WooCommerce albo layout przestał działać? Podeślij URL i jeden konkretny objaw. Na start bez loginu — jeśli temat mieści się w Quick Fixie, dostaniesz zakres i cenę przed rozpoczęciem prac.",
     "metaTitle": "Naprawa WordPress – błędy, formularze, WooCommerce | CodeFix.IT",
     "metaDescription": "Naprawa i pomoc WordPress zdalnie w całej Polsce: błędy, formularze, WooCommerce, CSS i awarie po aktualizacjach. Quick Fix od 390 zł.",
     "price": "Od 390 zł",
     "pricingNote": "Cena orientacyjna dla jednego, jasno zdefiniowanego problemu. Po diagnozie potwierdzam zakres i kwotę przed rozpoczęciem prac.",
     "cta": "Zgłoś problem WordPress",
-    "secondaryCta": "Zobacz przykładowy zakres",
+    "secondaryCta": "Sprawdź realizacje",
     "heroPoints": [
       "Bez loginu na start",
-      "Cena przed rozpoczęciem",
+      "Zdalnie w całej Polsce",
       "Test po naprawie"
     ],
     "offerPoints": [
@@ -113,7 +113,17 @@
     "contactHeading": "Opisz jeden problem. Zacznijmy od diagnozy.",
     "contactCopy": "Wklej adres strony i opisz objaw. Jeśli to temat na Quick Fix, dostaniesz konkretny zakres i cenę przed rozpoczęciem.",
     "messagePlaceholder": "Np. po aktualizacji formularz przestał wysyłać wiadomości / na telefonie menu nachodzi na treść / na stronie produktu pojawia się błąd PHP.",
-    "pageUrlRequired": true
+    "pageUrlRequired": true,
+    "secondaryHref": "#realizacje",
+    "nameFieldLabel": "Imię lub nazwa firmy",
+    "nameFieldPlaceholder": "Np. Jan Kowalski lub Twoja Firma",
+    "pageUrlLabel": "Adres strony WordPress do naprawy",
+    "proofHeading": "Sprawdź realizacje przed zgłoszeniem.",
+    "proofCopy": "To publiczne, opisane wdrożenia CodeFix.IT. Możesz zobaczyć zakres prac i sposób realizacji przed wysłaniem swojego problemu.",
+    "projectSlugs": [
+      "kancelaria-adwokacka-witkowska",
+      "rzeczoznawca-marcin-dudek"
+    ]
   },
   "/opieka-wordpress": {
     "path": "/opieka-wordpress",
