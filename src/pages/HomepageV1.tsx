@@ -122,46 +122,46 @@ const fitItems = [
 
 const faqItems = [
   {
-    question: 'Czy naprawiasz istniejące strony WordPress?',
+    question: 'Ile kosztuje praca przy WordPressie?',
     answer:
-      'Tak. Zajmuję się błędami po aktualizacjach, formularzami, WooCommerce, CSS, integracjami, motywami i innymi konkretnymi problemami technicznymi.',
+      'Quick Fix zaczyna się od 390 zł, a stała opieka od 300 zł miesięcznie. Nowe strony wyceniam indywidualnie. Przed startem zawsze potwierdzam zakres, kwotę i sposób rozliczenia.',
   },
   {
-    question: 'Czy wykonujesz kompletne strony firmowe od zera?',
+    question: 'Czy mogę zacząć od jednego małego zadania?',
     answer:
-      'Tak. Przygotowuję strony firmowe na WordPressie z ACF PRO, responsywnym front-endem, formularzem kontaktowym, technicznym SEO i edycją treści z panelu. Zakres i cena wynikają z krótkiego briefu.',
+      'Tak. Możemy zacząć od jednego konkretnego, płatnego tasku. To najprostszy sposób, żeby sprawdzić współpracę bez deklarowania większego zakresu.',
   },
   {
-    question: 'Czy mogę później samodzielnie zmieniać treści?',
+    question: 'Czy pracujesz na istniejących stronach WordPress?',
     answer:
-      'Tak. Przy wdrożeniach WordPress + ACF PRO pola i sekcje przygotowuję tak, żeby typowe treści można było edytować z panelu bez grzebania w kodzie.',
+      'Tak. Naprawiam błędy, formularze, WooCommerce, CSS, integracje i problemy po aktualizacjach bez konieczności budowania strony od zera.',
   },
   {
-    question: 'Jak szybko dostanę odpowiedź?',
+    question: 'Czy przy pierwszym kontakcie muszę podawać loginy?',
     answer:
-      'Na nowe zapytania odpowiadam zwykle w ciągu jednego dnia roboczego. Przy pilnej awarii najlepiej od razu podać adres strony i krótko opisać objaw.',
+      'Nie. Do wstępnej oceny zwykle wystarczy publiczny adres strony i opis problemu. O dostęp proszę dopiero po ustaleniu zakresu i tylko wtedy, gdy jest potrzebny.',
   },
   {
-    question: 'Czy obsługujesz firmy z całej Polski?',
+    question: 'Jak szybko dostanę odpowiedź i termin realizacji?',
     answer:
-      'Tak. Naprawy, nowe wdrożenia i opiekę WordPress realizuję zdalnie dla firm z całej Polski.',
+      'Na nowe zapytania odpowiadam zwykle w ciągu jednego dnia roboczego. Termin wykonania podaję po poznaniu zakresu zadania.',
+  },
+  {
+    question: 'Czy po wdrożeniu samodzielnie zmienię treści?',
+    answer:
+      'Tak. W nowych stronach WordPress + ACF PRO typowe treści przygotowuję do edycji z panelu, bez potrzeby zmieniania kodu.',
   },
   {
     question: 'Czy oferujesz opiekę po wdrożeniu?',
     answer:
-      'Tak. Możemy ustalić miesięczny zakres aktualizacji, backupów, drobnych zmian i wsparcia technicznego albo rozliczać pojedyncze zadania osobno.',
+      'Tak. Możemy ustalić stały miesięczny zakres aktualizacji, backupów, poprawek i rozwoju albo rozliczać kolejne zadania osobno.',
   },
   {
     question: 'Czy pracujesz white-label dla agencji?',
     answer:
-      'Tak. Mogę przejąć mniejsze wdrożenia, poprawki WordPress, ACF PRO, WooCommerce i front-end jako wsparcie overflow. Mogę pracować na stagingu i Git oraz bez kontaktu z klientem końcowym, według ustalonych standardów agencji.',
+      'Tak. Mogę przejąć poprawki, mniejsze wdrożenia i front-end na stagingu oraz Git, również bez kontaktu z klientem końcowym.',
   },
-  {
-    question: 'Jak wygląda wdrożenie zmian?',
-    answer:
-      'Większe zmiany trafiają najpierw na osobny branch i środowisko preview. Po akceptacji i przejściu kontroli są publikowane na produkcji.',
-  },
-];
+]
 
 const featuredProjects = projects.slice(0, 3);
 const publicProjectCount = featuredProjects.filter((project) => Boolean(project.demoUrl)).length;
@@ -857,10 +857,10 @@ export function HomepageV1() {
             <div className="cf-section-head-row">
               <div>
                 <p className="cf-section-kicker">FAQ</p>
-                <h2 className="cf-section-heading">Najczęstsze pytania o naprawę i rozwój stron.</h2>
+                <h2 className="cf-section-heading">Najważniejsze pytania przed pierwszym zleceniem.</h2>
               </div>
               <p className="cf-section-sidecopy">
-                WordPress, ACF PRO, poprawki, nowe wdrożenia i dalsza opieka — najważniejsze informacje przed kontaktem.
+                Cena, mały pierwszy task, dostępy, termin i dalsza opieka — konkrety przed wysłaniem zapytania.
               </p>
             </div>
 
