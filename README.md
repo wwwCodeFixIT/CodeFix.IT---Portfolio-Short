@@ -15,9 +15,13 @@ CodeFix.IT pomaga firmom utrzymać i rozwijać strony WordPress: od napraw pojed
 
 ## Wybrane realizacje
 
-- [EM Air System](https://codefix.it/realizacje/em-air-system)
-- [Rzeczoznawca Marcin Dudek](https://codefix.it/realizacje/rzeczoznawca-marcin-dudek)
 - [Kancelaria Adwokacka Witkowska](https://codefix.it/realizacje/kancelaria-adwokacka-witkowska)
+- [Rzeczoznawca Marcin Dudek](https://codefix.it/realizacje/rzeczoznawca-marcin-dudek)
+- [EM Air System](https://codefix.it/realizacje/em-air-system)
+
+Podglądy w `public/portfolio/` pokazują publiczne strony z 5 października 2026: komputer oraz mobilny viewport 390 px. Komponent `ProjectPreview` korzysta z lokalnych obrazów WebP, wariantów 600/1200 px dla komputera, stałych proporcji i lazy loading. Strony klientów nie są osadzane w portfolio.
+
+Opisy realizacji rozdzielają cel strony, mój zakres pracy i efekt wdrożenia. Współpraca z SyloSoftware pozostaje wskazana przy kancelarii; podglądy aktualnych stron nie rozszerzają deklarowanego zakresu realizacji z lat 2023–2024.
 
 ## Baza wiedzy
 

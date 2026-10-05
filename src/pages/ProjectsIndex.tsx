@@ -1,4 +1,5 @@
 import { Brand } from '../components/Brand';
+import { ProjectPreview } from '../components/ProjectPreview';
 import { projects } from '../data/projects';
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
@@ -23,10 +24,10 @@ export function ProjectsIndex() {
             <p className="cf-section-kicker">Realizacje CodeFix.IT</p>
             <h1>Projekty, które można<span>sprawdzić przed kontaktem.</span></h1>
             <p className="projects-index-lead">
-              Trzy publiczne wdrożenia WordPress z opisanym zakresem, stackiem i działającą stroną klienta.
+              Zobacz wygląd stron na komputerze i telefonie, mój zakres prac oraz efekt wdrożenia.
             </p>
             <div className="cf-actions">
-              <a href="#projekty" className="cf-button cf-button-primary">Zobacz projekty →</a>
+              <a href="#projekty" className="cf-button cf-button-primary">Zobacz projekty</a>
             </div>
           </div>
         </section>
@@ -39,6 +40,7 @@ export function ProjectsIndex() {
             <div className="projects-index-grid">
               {projects.map((project) => (
                 <article key={project.id} className="projects-index-card">
+                  <ProjectPreview project={project} />
                   <div className="projects-index-card-head">
                     <span>{project.year}</span>
                     <span className="projects-index-domain">
@@ -49,8 +51,8 @@ export function ProjectsIndex() {
                   <p>{project.shortDescription}</p>
                   {project.collaboration && <p className="cf-project-collaboration">Współpraca: <strong>{project.collaboration}</strong></p>}
                   <div className="projects-index-actions">
-                    <a href={`/realizacje/${project.slug}/`} className="cf-button cf-button-primary">Case study →</a>
-                    <a href={project.demoUrl} target="_blank" rel="noreferrer" className="projects-live-link">Strona ↗</a>
+                    <a href={`/realizacje/${project.slug}/`} className="cf-button cf-button-primary">Zobacz realizację</a>
+                    <a href={project.demoUrl} target="_blank" rel="noreferrer" className="projects-live-link">Otwórz stronę</a>
                   </div>
                 </article>
               ))}

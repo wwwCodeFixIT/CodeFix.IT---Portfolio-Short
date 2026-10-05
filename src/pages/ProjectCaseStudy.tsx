@@ -1,6 +1,9 @@
 import { ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { Brand } from '../components/Brand';
+import { ProjectPreview } from '../components/ProjectPreview';
 import type { Project } from '../data/projects';
+import './HomepageV1.css';
+import './HomepageV1.v3.css';
 import './ProjectCaseStudy.css';
 
 type ProjectCaseStudyProps = {
@@ -8,11 +11,6 @@ type ProjectCaseStudyProps = {
 };
 
 export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
-  const paragraphs = project.fullDescription
-    .split('\n')
-    .map((paragraph) => paragraph.trim())
-    .filter(Boolean);
-
   return (
     <div className="homepage-v1 cf-case-page">
       <header className="cf-header">
@@ -70,63 +68,46 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
           </aside>
         </section>
 
+        <section className="cf-case-previews" aria-labelledby="cf-case-previews-title">
+          <div className="cf-container">
+            <p className="cf-section-kicker">Podgląd strony</p>
+            <h2 id="cf-case-previews-title" className="cf-case-verification-title">Na komputerze i telefonie.</h2>
+            <p className="cf-case-preview-note">Zrzuty aktualnej publicznej strony z 5 października 2026. Zakres mojej realizacji opisuję poniżej.</p>
+            <ProjectPreview project={project} gallery />
+          </div>
+        </section>
+
         <section className="cf-case-verification" aria-labelledby="cf-case-verification-title">
           <div className="cf-container">
-            <p className="cf-section-kicker">Weryfikowalne fakty</p>
+            <p className="cf-section-kicker">Cel i realizacja</p>
             <h2 id="cf-case-verification-title" className="cf-case-verification-title">
-              Co możesz sprawdzić bez proszenia mnie o „case study PDF”.
+              Potrzeba firmy, moja rola i efekt wdrożenia.
             </h2>
 
             <div className="cf-case-verification-grid">
-              <a
-                href={project.demoUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="cf-case-verification-item cf-case-verification-link"
-              >
-                <span>Strona online</span>
-                <strong>Publiczny adres projektu</strong>
-                <small>Otwórz działającą stronę klienta</small>
-                <ArrowUpRight size={16} aria-hidden="true" />
-              </a>
-
               <div className="cf-case-verification-item">
-                <span>Zakres</span>
-                <strong>{project.scope.length} opisanych elementów</strong>
-                <small>Zakres realizacji rozpisany punkt po punkcie</small>
+                <h3>Cel strony</h3>
+                <p>{project.goal}</p>
               </div>
 
               <div className="cf-case-verification-item">
-                <span>Stack</span>
-                <strong>{project.technologies.length} technologii</strong>
-                <small>Technologie użyte w konkretnym wdrożeniu</small>
+                <h3>Moja rola</h3>
+                <p>{project.contribution}</p>
               </div>
 
               <div className="cf-case-verification-item">
-                <span>Realizacja</span>
-                <strong>{project.year}</strong>
-                <small>
-                  {project.collaboration
-                    ? `Współpraca z ${project.collaboration}`
-                    : 'Projekt opisany na podstawie faktycznego zakresu prac'}
-                </small>
+                <h3>Efekt wdrożenia</h3>
+                <p>{project.result}</p>
               </div>
             </div>
           </div>
         </section>
 
         <section className="cf-case-section">
-          <div className="cf-container cf-case-layout">
-            <article className="cf-case-story">
-              <p className="cf-section-kicker">O projekcie</p>
-              <h2>Co zostało wykonane.</h2>
-              {paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </article>
-
-            <aside className="cf-case-scope">
-              <p className="cf-section-kicker">Zakres</p>
+          <div className="cf-container">
+            <p className="cf-section-kicker">Zakres prac</p>
+            <h2 className="cf-case-tech-heading">Co obejmowała realizacja.</h2>
+            <div className="cf-case-scope">
               <ul>
                 {project.scope.map((item) => (
                   <li key={item}>
@@ -135,7 +116,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
                   </li>
                 ))}
               </ul>
-            </aside>
+            </div>
           </div>
         </section>
 

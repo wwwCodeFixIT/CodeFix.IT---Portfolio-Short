@@ -1279,57 +1279,6 @@
   min-height: 430px;
   padding: 18px;
 }
-.cf-project-preview {
-  overflow: hidden;
-  height: 126px;
-  margin: -1px -1px 4px;
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 13px;
-  background:
-    radial-gradient(circle at 80% 10%, rgba(239,68,68,.16), transparent 36%),
-    linear-gradient(145deg, #171719, #0b0b0c);
-}
-.cf-project-preview-bar {
-  height: 32px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 0 11px;
-  border-bottom: 1px solid rgba(255,255,255,.06);
-  background: rgba(255,255,255,.018);
-}
-.cf-project-preview-bar span {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #49494f;
-}
-.cf-project-preview-bar span:first-child { background: #a5363b; }
-.cf-project-preview-body {
-  min-height: 92px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px;
-}
-.cf-project-preview-mark {
-  width: 44px;
-  height: 44px;
-  flex: 0 0 auto;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(239,68,68,.24);
-  border-radius: 12px;
-  background: rgba(239,68,68,.08);
-  color: #ff777b;
-  font: 800 12px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
-}
-.cf-project-preview-label {
-  color: #797981;
-  font: 650 10px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-}
 .cf-project-card h3 {
   margin-top: 22px;
 }
@@ -1486,18 +1435,27 @@
 
 
 /* Final sales polish after second live screenshot review. */
-.cf-project-preview-copy {
-  min-width: 0;
-  display: grid;
-  gap: 4px;
+.cf-work-section .cf-project-description {
+  color: #b1b1bb;
+  font-size: 16px;
+  line-height: 1.7;
 }
-.cf-project-preview-domain {
-  max-width: 220px;
-  overflow: hidden;
-  color: #b7b7bd;
-  font: 650 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+
+.cf-work-section .cf-project-topline {
+  color: #aaaab4;
+  font-size: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cf-work-section .cf-project-actions {
+  flex-wrap: wrap;
+  gap: 8px 16px;
+}
+
+.cf-work-section .cf-project-actions a {
+  min-height: 44px;
+  font-size: 14px;
 }
 .cf-revenue-action {
   display: grid;

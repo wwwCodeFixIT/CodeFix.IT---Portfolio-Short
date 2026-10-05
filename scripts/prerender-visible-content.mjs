@@ -63,9 +63,9 @@ const serviceLinks = [
 ];
 
 const projectLinks = [
-  ['/realizacje/em-air-system/', 'eM-aiR System — redesign WordPress + ACF PRO'],
-  ['/realizacje/rzeczoznawca-marcin-dudek/', 'Rzeczoznawca Marcin Dudek — strona WordPress od zera'],
   ['/realizacje/kancelaria-adwokacka-witkowska/', 'Kancelaria Adwokacka Witkowska — case współpracy agencyjnej'],
+  ['/realizacje/rzeczoznawca-marcin-dudek/', 'Rzeczoznawca Marcin Dudek — strona WordPress od zera'],
+  ['/realizacje/em-air-system/', 'eM-aiR System — redesign WordPress + ACF PRO'],
 ];
 
 function escapeHtml(value) {
@@ -123,9 +123,9 @@ function relatedBlock(path) {
       <section>
         <h2>Wybrane realizacje</h2>
         <ul>
-          <li><a href="/realizacje/em-air-system/">EM Air System — realizacja WordPress</a></li>
-          <li><a href="/realizacje/rzeczoznawca-marcin-dudek/">Rzeczoznawca Marcin Dudek — realizacja WordPress</a></li>
           <li><a href="/realizacje/kancelaria-adwokacka-witkowska/">Kancelaria Adwokacka Witkowska — realizacja WordPress</a></li>
+          <li><a href="/realizacje/rzeczoznawca-marcin-dudek/">Rzeczoznawca Marcin Dudek — realizacja WordPress</a></li>
+          <li><a href="/realizacje/em-air-system/">EM Air System — realizacja WordPress</a></li>
         </ul>
       </section>`;
   }

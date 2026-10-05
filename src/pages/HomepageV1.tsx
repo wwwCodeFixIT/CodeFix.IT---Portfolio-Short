@@ -13,6 +13,7 @@ import {
   Wrench,
 } from 'lucide-react';
 import { Brand } from '../components/Brand';
+import { ProjectPreview } from '../components/ProjectPreview';
 import { projects } from '../data/projects';
 import { captureSessionAttribution } from '../lib/attribution';
 import { measureAcceptedLead, openMeasurementSettings } from '../lib/measurement';
@@ -727,32 +728,14 @@ export function HomepageV1() {
             <div className="cf-projects-grid">
               {featuredProjects.map((project) => (
                 <article key={project.id} className="cf-project-card">
-                  <div className="cf-project-preview" aria-hidden="true">
-                    <div className="cf-project-preview-bar">
-                      <span />
-                      <span />
-                      <span />
-                    </div>
-                    <div className="cf-project-preview-body">
-                      <span className="cf-project-preview-mark">
-                        {project.title.slice(0, 2).toUpperCase()}
-                      </span>
-                      <span className="cf-project-preview-copy">
-                        <span className="cf-project-preview-label">WordPress • responsive</span>
-                        <span className="cf-project-preview-domain">
-                          {project.demoUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}
-                        </span>
-                      </span>
-                    </div>
-                  </div>
+                  <ProjectPreview project={project} />
 
                   <div className="cf-project-topline">
                     <span>{project.year}</span>
-                    <span>{project.category}</span>
+                    <span>{project.collaboration ? 'Współpraca agencyjna' : 'Strona firmowa'}</span>
                   </div>
 
                   <h3>{project.title}</h3>
-                  {project.client && <p className="cf-project-client">{project.client}</p>}
                   <p className="cf-project-description">{project.shortDescription}</p>
 
                   <div className="cf-project-tech">

@@ -3,20 +3,20 @@ import { join } from 'node:path';
 
 const projectCases = [
   {
-    path: 'realizacje/em-air-system',
-    title: 'eM-aiR System — case study WordPress | CodeFix.IT',
+    path: 'realizacje/kancelaria-adwokacka-witkowska',
+    title: 'Kancelaria Adwokacka Witkowska — case study WordPress | CodeFix.IT',
     description:
-      'Redesign strony firmy klimatyzacyjnej: responsywny WordPress, ACF PRO, oferta, realizacje, formularz kontaktowy i techniczne SEO.',
-    schemaName: 'eM-aiR System — case study',
-    demoUrl: 'https://em-airsystem.pl/',
-    year: 2023,
-    technologies: ['WordPress', 'HTML', 'CSS', 'JavaScript', 'PHP', 'ACF Pro'],
+      'Realizacja WordPress dla kancelarii wykonana we współpracy z SyloSoftware: Elementor, ACF PRO, CPT i responsywny front-end.',
+    schemaName: 'Kancelaria Adwokacka Witkowska — case study',
+    demoUrl: 'https://adwokatwitkowska.com/',
+    year: 2024,
+    technologies: ['WordPress', 'Elementor', 'ACF Pro', 'PHP', 'CSS', 'JavaScript'],
     scope: [
-      'Przebudowa istniejącej strony',
-      'Projekt responsywny',
-      'Custom WordPress theme',
-      'Integracja ACF Pro',
-      'Optymalizacja SEO',
+      'Projekt we współpracy z SyloSoftware',
+      'WordPress + Elementor',
+      'Custom Post Types',
+      'ACF Pro integration',
+      'Responsywny design',
     ],
   },
   {
@@ -37,20 +37,20 @@ const projectCases = [
     ],
   },
   {
-    path: 'realizacje/kancelaria-adwokacka-witkowska',
-    title: 'Kancelaria Adwokacka Witkowska — case study WordPress | CodeFix.IT',
+    path: 'realizacje/em-air-system',
+    title: 'eM-aiR System — case study WordPress | CodeFix.IT',
     description:
-      'Realizacja WordPress dla kancelarii wykonana we współpracy z SyloSoftware: Elementor, ACF PRO, CPT i responsywny front-end.',
-    schemaName: 'Kancelaria Adwokacka Witkowska — case study',
-    demoUrl: 'https://adwokatwitkowska.com/',
-    year: 2024,
-    technologies: ['WordPress', 'Elementor', 'ACF Pro', 'PHP', 'CSS', 'JavaScript'],
+      'Redesign strony firmy klimatyzacyjnej: responsywny WordPress, ACF PRO, oferta, realizacje, formularz kontaktowy i techniczne SEO.',
+    schemaName: 'eM-aiR System — case study',
+    demoUrl: 'https://em-airsystem.pl/',
+    year: 2023,
+    technologies: ['WordPress', 'HTML', 'CSS', 'JavaScript', 'PHP', 'ACF Pro'],
     scope: [
-      'Projekt we współpracy z SyloSoftware',
-      'WordPress + Elementor',
-      'Custom Post Types',
-      'ACF Pro integration',
-      'Responsywny design',
+      'Przebudowa istniejącej strony',
+      'Projekt responsywny',
+      'Custom WordPress theme',
+      'Integracja ACF Pro',
+      'Optymalizacja SEO',
     ],
   },
 ];
@@ -160,6 +160,13 @@ function primarySchema(page, canonical) {
       headline: page.schemaName,
       url: canonical,
       description: page.description,
+      image: {
+        '@type': 'ImageObject',
+        contentUrl: `https://codefix.it/portfolio/${page.path.replace('realizacje/', '')}-desktop-1200.webp`,
+        width: 1200,
+        height: 834,
+        caption: `${page.schemaName} — aktualny podgląd strony`,
+      },
       creator: { '@id': 'https://codefix.it/#organization' },
       publisher: { '@id': 'https://codefix.it/#organization' },
       inLanguage: 'pl-PL',
@@ -261,6 +268,17 @@ for (const page of pages) {
     `<meta name="twitter:description" content="${page.description}" />`,
     'twitter:description',
   );
+  if (page.path.startsWith('realizacje')) {
+    const slug = page.path === 'realizacje' ? 'kancelaria-adwokacka-witkowska' : page.path.replace('realizacje/', '');
+    const previewImage = `https://codefix.it/portfolio/${slug}-desktop-1200.webp`;
+    html = html.replace('</head>', `
+    <meta property="og:image" content="${previewImage}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="834" />
+    <meta property="og:image:alt" content="${page.schemaName} — podgląd strony" />
+    <meta name="twitter:image" content="${previewImage}" />
+  </head>`);
+  }
   html = replaceTag(
     html,
     /<script\s+(?:id="[^"]*"\s+)?type="application\/ld\+json">[\s\S]*?<\/script>/,

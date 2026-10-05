@@ -2,13 +2,11 @@ export interface Project {
   id: number;
   title: string;
   shortDescription: string;
-  fullDescription: string;
-  image: string;
+  goal: string;
+  contribution: string;
+  result: string;
   technologies: string[];
-  category: string;
-  featured: boolean;
   demoUrl: string;
-  repoUrl?: string;
   scope: string[];
   client?: string;
   year: number;
@@ -18,47 +16,37 @@ export interface Project {
 
 export const projects: Project[] = [
   {
-    id: 1,
-    slug: "em-air-system",
-    title: "eM-aiR System",
-    shortDescription: "Redesign strony firmy klimatyzacyjnej: responsywny WordPress, ACF PRO, oferta, realizacje i kontakt.",
-    fullDescription: `Projekt polegał na całkowitej przebudowie istniejącej strony internetowej dla firmy eM-aiR System, specjalizującej się w montażu i serwisie klimatyzacji oraz wentylacji.
-
-Strona została zbudowana na WordPressie z wykorzystaniem Advanced Custom Fields Pro do edycji oferty, realizacji i danych kontaktowych z poziomu panelu.
-
-Zakres obejmował responsywny front-end, techniczne SEO, formularz kontaktowy, galerię realizacji oraz integrację Google Maps.`,
-    image: "https://images.unsplash.com/photo-1631545806609-35d4ae440431?w=800&h=600&fit=crop",
-    technologies: ["WordPress", "HTML", "CSS", "JavaScript", "PHP", "ACF Pro"],
-    category: "wordpress",
-    featured: true,
-    demoUrl: "https://em-airsystem.pl/",
+    id: 3,
+    slug: "kancelaria-adwokacka-witkowska",
+    title: "Kancelaria Adwokacka Witkowska",
+    shortDescription: "Strona kancelarii z prezentacją specjalizacji i kontaktem. WordPress i front-end we współpracy z SyloSoftware.",
+    goal: "Przedstawić specjalizacje kancelarii i ułatwić dostęp do informacji oraz kontaktu.",
+    contribution: "Wdrożenie WordPress i front-endu z SyloSoftware: Elementor, ACF PRO, niestandardowe typy treści i formularze.",
+    result: "Strona kancelarii z widokami specjalizacji, formularzami i sekcjami edytowanymi w WordPressie.",
+    technologies: ["WordPress", "Elementor", "ACF Pro", "PHP", "CSS", "JavaScript"],
+    demoUrl: "https://adwokatwitkowska.com/",
     scope: [
-      "Przebudowa istniejącej strony",
-      "Projekt responsywny",
-      "Custom WordPress theme",
-      "Integracja ACF Pro",
-      "Optymalizacja SEO",
-      "Integracja Google Maps",
-      "Formularz kontaktowy",
-      "Galeria realizacji"
+      "Projekt we współpracy z SyloSoftware",
+      "WordPress + Elementor",
+      "Custom Post Types",
+      "ACF Pro integration",
+      "Responsywny design",
+      "Formularze kontaktowe",
+      "Optymalizacja prędkości",
+      "Widoki dopasowane do treści kancelarii"
     ],
-    client: "eM-aiR System",
-    year: 2023
+    year: 2024,
+    collaboration: "SyloSoftware"
   },
   {
     id: 2,
     slug: "rzeczoznawca-marcin-dudek",
     title: "Rzeczoznawca Marcin Dudek",
-    shortDescription: "Strona wizytówka od zera dla rzeczoznawcy: WordPress, formularze, analityka i wersja mobilna.",
-    fullDescription: `Strona internetowa stworzona od podstaw dla rzeczoznawcy samochodowego Marcina Dudka. Projekt obejmował pełen proces - od projektu graficznego, przez kodowanie w HTML/CSS/JS, aż po konwersję na WordPress.
-
-Unikalne podejście polegało na tym, że najpierw stworzyłem statyczną wersję strony w czystym HTML, CSS i JavaScript, a następnie przekonwertowałem ją na w pełni funkcjonalny motyw WordPress z PHP.
-
-Strona zawiera integrację z Google Analytics, formularze kontaktowe oraz responsywny układ przygotowany pod urządzenia mobilne.`,
-    image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&h=600&fit=crop",
+    shortDescription: "Strona rzeczoznawcy z ofertą, formularzami kontaktowymi i wersją mobilną. Autorski motyw WordPress przygotowany od podstaw.",
+    goal: "Przedstawić usługi rzeczoznawcy i ułatwić kontakt w sprawie wyceny samochodu.",
+    contribution: "Projekt i front-end w HTML, CSS oraz JavaScript, następnie konwersja na autorski motyw WordPress z formularzami i analityką.",
+    result: "Strona usługowa z opisem oferty, formularzami kontaktowymi i układem dopasowanym do komputera oraz telefonu.",
     technologies: ["WordPress", "HTML", "CSS", "JavaScript", "PHP", "ACF Pro", "Google Analytics"],
-    category: "wordpress",
-    featured: true,
     demoUrl: "https://rzeczoznawcamarcindudek.pl/",
     scope: [
       "Strona od podstaw",
@@ -74,37 +62,25 @@ Strona zawiera integrację z Google Analytics, formularze kontaktowe oraz respon
     year: 2023
   },
   {
-    id: 3,
-    slug: "kancelaria-adwokacka-witkowska",
-    title: "Kancelaria Adwokacka Witkowska",
-    shortDescription: "Strona kancelarii wykonana we współpracy z SyloSoftware: WordPress, Elementor, ACF PRO i responsywny front-end.",
-    fullDescription: `Strona internetowa dla kancelarii adwokackiej, stworzona we współpracy z firmą SyloSoftware. Ten projekt pokazuje moje umiejętności pracy zespołowej i realizacji zleceń dla innych agencji.
-
-Wykorzystałem WordPress z Elementorem oraz Advanced Custom Fields Pro dla niestandardowych sekcji. Zakres obejmował także Custom Post Types dla obszarów praktyki, responsywny front-end i formularze kontaktowe.`,
-    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=800&h=600&fit=crop",
-    technologies: ["WordPress", "Elementor", "ACF Pro", "PHP", "CSS", "JavaScript"],
-    category: "wordpress",
-    featured: true,
-    demoUrl: "https://adwokatwitkowska.com/",
+    id: 1,
+    slug: "em-air-system",
+    title: "eM-aiR System",
+    shortDescription: "Przebudowa strony firmy klimatyzacyjnej: oferta, galeria realizacji i kontakt, z edycją treści w WordPressie.",
+    goal: "Pokazać ofertę firmy klimatyzacyjnej, wykonane instalacje i dane kontaktowe.",
+    contribution: "Przebudowa strony i autorskiego motywu WordPress, pola ACF PRO, responsywny front-end, galeria i formularz kontaktowy.",
+    result: "Strona firmowa z ofertą, realizacjami i danymi kontaktowymi, których treść można aktualizować z panelu WordPress.",
+    technologies: ["WordPress", "HTML", "CSS", "JavaScript", "PHP", "ACF Pro"],
+    demoUrl: "https://em-airsystem.pl/",
     scope: [
-      "Projekt we współpracy z SyloSoftware",
-      "WordPress + Elementor",
-      "Custom Post Types",
-      "ACF Pro integration",
-      "Responsywny design",
-      "Formularze kontaktowe",
-      "Optymalizacja prędkości",
-      "Widoki dopasowane do treści kancelarii"
+      "Przebudowa istniejącej strony",
+      "Projekt responsywny",
+      "Custom WordPress theme",
+      "Integracja ACF Pro",
+      "Optymalizacja SEO",
+      "Integracja Google Maps",
+      "Formularz kontaktowy",
+      "Galeria realizacji"
     ],
-    client: "Kancelaria Adwokacka Witkowska",
-    year: 2024,
-    collaboration: "SyloSoftware"
+    year: 2023
   }
-];
-
-export const projectCategories = [
-  { id: "all", name: "Wszystkie", count: projects.length },
-  { id: "wordpress", name: "WordPress", count: projects.filter(p => p.category === "wordpress").length },
-  { id: "react", name: "React / Next.js", count: projects.filter(p => p.category === "react").length },
-  { id: "mobile", name: "Mobile", count: projects.filter(p => p.category === "mobile").length },
 ];
