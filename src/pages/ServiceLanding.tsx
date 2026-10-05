@@ -384,7 +384,7 @@ export function ServiceLanding({
               className="cf-button cf-button-primary"
               onClick={() => trackCtaClick('offer_card')}
             >
-              Omów zakres
+              {config.offerCta ?? 'Omów zakres'}
               <ArrowRight size={16} aria-hidden="true" />
             </a>
             {config.demoUrl && (
