@@ -159,8 +159,17 @@ function relatedBlock(path) {
 
   if (path === '/opieka-wordpress') {
     return `
-      <section><h2>Powiązane materiały o opiece WordPress</h2><ul>${links(careGuideLinks)}</ul></section>
-      <p><a href="/#contact">Skontaktuj się z CodeFix.IT</a></p>`;
+      <section>
+        <h2>Opieka WordPress od 300 zł/mies. — jasny zakres przed startem</h2>
+        <ul>
+          <li>Kontrolowane aktualizacje WordPressa i uzgodnionych wtyczek.</li>
+          <li>Backup przed większymi zmianami i kontrola możliwości odtworzenia.</li>
+          <li>Uzgodniony limit drobnych zmian w miesiącu.</li>
+          <li>Większe zadania są wyceniane osobno przed rozpoczęciem.</li>
+        </ul>
+        <p><a href="/opieka-wordpress/#kontakt">Zapytaj o opiekę</a></p>
+      </section>
+      <section><h2>Powiązane materiały o opiece WordPress</h2><ul>${links(careGuideLinks)}</ul></section>`;
   }
 
   if (path === '/strony-wordpress') {
