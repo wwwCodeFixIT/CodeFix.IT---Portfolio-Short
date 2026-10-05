@@ -309,8 +309,8 @@ export function ServiceLanding({
           <Brand />
           <nav className="cf-nav-links service-nav-links" aria-label="Nawigacja usługi">
             <a href="#zakres">Zakres</a>
-            <a href="#proces">Proces</a>
-            <a href="#faq">FAQ</a>
+            <a href="/realizacje/">Realizacje</a>
+            <a href="/poradniki/">Poradniki</a>
             <a href="#kontakt">Kontakt</a>
           </nav>
           <a href="#kontakt" className="cf-nav-cta" onClick={() => trackCtaClick('nav')}>{config.cta}</a>
