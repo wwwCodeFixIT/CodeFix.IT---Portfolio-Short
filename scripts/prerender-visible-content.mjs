@@ -172,16 +172,16 @@ function relatedBlock(path) {
   if (path === '/dla-agencji-wordpress') {
     return `
       <section>
-        <h2>White-label dla agencji — konkretny model współpracy</h2>
+        <h2>White-label dla agencji — 120 zł/h i start od jednego płatnego tasku</h2>
         <ul>
           <li>WordPress, ACF PRO, WooCommerce i poprawki front-endowe.</li>
           <li>Git, staging, preview i praca według standardów zespołu.</li>
           <li>Możliwość pracy bez kontaktu z klientem końcowym.</li>
-          <li>Start od jednego małego, płatnego tasku testowego.</li>
+          <li>Estymacja czasu i zakres przed rozpoczęciem.</li>
         </ul>
-        <p><a href="/realizacje/kancelaria-adwokacka-witkowska/">Sprawdź udokumentowany case współpracy agencyjnej</a></p>
+        <p><a href="/realizacje/kancelaria-adwokacka-witkowska/">Sprawdź udokumentowany case współpracy agencyjnej z SyloSoftware</a></p>
       </section>
-      <p><a href="/dla-agencji-wordpress/#kontakt">Zapytaj o współpracę white-label</a></p>`;
+      <p><a href="/dla-agencji-wordpress/#kontakt">Zapytaj o współpracę</a></p>`;
   }
 
   if (path === '/realizacje') {
