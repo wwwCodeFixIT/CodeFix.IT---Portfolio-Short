@@ -112,7 +112,7 @@
 
 .cf-service-card {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .cf-service-card::before {
@@ -120,6 +120,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
+  border-radius: inherit;
   background: radial-gradient(circle at 20% 0%, rgba(239, 68, 68, 0.08), transparent 38%);
   opacity: 0;
   transition: opacity 220ms ease;
@@ -510,7 +511,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1.3fr) minmax(320px, 0.7fr);
   gap: 72px;
-  align-items: center;
+  align-items: start;
   padding: 52px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 24px;
@@ -578,8 +579,8 @@
   display: flex;
   align-items: center;
   gap: 9px;
-  color: #a2a2a9;
-  font-size: 12px;
+  color: #d2d2d8;
+  font-size: 14px;
   line-height: 1.5;
 }
 
@@ -594,19 +595,29 @@
   gap: 14px;
 }
 
+.cf-lead-form fieldset {
+  min-width: 0;
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
 .cf-lead-form label {
   display: grid;
   gap: 7px;
 }
 
 .cf-lead-form label > span {
-  color: #a7a7ae;
-  font-size: 11px;
+  color: #d2d2d8;
+  font-size: 14px;
   font-weight: 700;
 }
 
 .cf-lead-form label > span small {
-  color: #65656d;
+  color: #a7a7ae;
+  font-size: 12px;
   font-weight: 500;
 }
 
@@ -644,7 +655,7 @@
 
 .cf-lead-form input::placeholder,
 .cf-lead-form textarea::placeholder {
-  color: #5f5f67;
+  color: #92929a;
 }
 
 .cf-lead-form input:focus,
@@ -660,6 +671,12 @@
   color: #f1f1f2;
 }
 
+.cf-lead-form :is(input, select, textarea):focus-visible,
+.cf-form-feedback:focus {
+  outline: 2px solid #ff9b9f;
+  outline-offset: 3px;
+}
+
 .cf-contact-button:disabled {
   cursor: wait;
   opacity: 0.7;
@@ -668,10 +685,19 @@
 
 .cf-form-feedback {
   margin: 0;
-  padding: 11px 12px;
-  border-radius: 9px;
-  font-size: 11px;
-  line-height: 1.5;
+  padding: 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.cf-form-feedback strong {
+  display: block;
+  font-size: 16px;
+}
+
+.cf-form-feedback p {
+  margin: 8px 0 0;
 }
 
 .cf-form-feedback.is-success {
@@ -688,13 +714,13 @@
 
 .cf-contact-fallback {
   margin: 0;
-  color: #6f6f77;
-  font-size: 11px;
+  color: #a7a7ae;
+  font-size: 14px;
   text-align: center;
 }
 
 .cf-contact-fallback a {
-  color: #a9a9b0;
+  color: #d2d2d8;
   text-underline-offset: 3px;
 }
 
@@ -1002,7 +1028,7 @@
   border-radius: 10px;
   background: rgba(28, 88, 49, 0.22);
   color: #d3f9df;
-  font-size: 12px;
+  font-size: 14px;
   line-height: 1.6;
 }
 #contact {
@@ -1228,9 +1254,6 @@
   min-height: 320px;
   padding: 28px;
 }
-.cf-service-card-featured {
-  overflow: visible;
-}
 .cf-service-badge {
   position: absolute;
   z-index: 2;
@@ -1359,7 +1382,7 @@
   font-size: clamp(36px, 3.5vw, 52px);
 }
 .cf-lead-form label > span {
-  font-size: 12px;
+  font-size: 14px;
 }
 .cf-lead-form input,
 .cf-lead-form select {
@@ -1370,7 +1393,7 @@
 }
 .cf-contact-fallback,
 .cf-form-feedback {
-  font-size: 12px;
+  font-size: 14px;
 }
 .cf-footer-inner {
   color: #777780;
@@ -1564,8 +1587,8 @@
 /* Privacy + lead attribution polish. */
 .cf-form-privacy {
   margin: -2px 0 0;
-  color: #777780;
-  font-size: 10px;
+  color: #a7a7ae;
+  font-size: 12px;
   line-height: 1.6;
 }
 .cf-form-privacy a {
@@ -1761,8 +1784,8 @@
   border: 1px solid rgba(84, 210, 155, 0.14);
   border-radius: 10px;
   background: rgba(84, 210, 155, 0.04);
-  color: #9a9aa2;
-  font-size: 10px;
+  color: #b3b3bb;
+  font-size: 13px;
   line-height: 1.55;
 }
 
@@ -1860,6 +1883,30 @@
     flex: 0 0 auto;
   }
 
+  .homepage-v1:has(.cf-lead-form:focus-within) .cf-mobile-sticky-cta {
+    display: none;
+  }
+
+  .cf-contact-panel {
+    gap: 24px;
+  }
+
+  .cf-contact-icon,
+  .cf-contact-tags {
+    display: none;
+  }
+
+  .cf-contact-copy h2 {
+    font-size: clamp(28px, 6vw, 36px);
+    line-height: 1.1;
+  }
+
+  .cf-contact-copy > p:not(.cf-section-kicker) {
+    margin-top: 16px;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
   .cf-lead-form input,
   .cf-lead-form select,
   .cf-lead-form textarea {
@@ -1918,24 +1965,11 @@
   }
 
   .cf-contact-panel {
-    gap: 32px;
-  }
-
-  .cf-contact-tags {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .cf-contact-tags span {
-    justify-content: flex-start;
+    gap: 24px;
   }
 }
 
 @media (max-width: 390px) {
-  .cf-contact-tags {
-    grid-template-columns: 1fr;
-  }
-
   .cf-mobile-sticky-cta small {
     max-width: 230px;
   }

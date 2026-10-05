@@ -170,6 +170,34 @@ const contactEmail = 'wwwcodefixit@gmail.com';
 const contactHref = `mailto:${contactEmail}?subject=${encodeURIComponent('Zapytanie ze strony CodeFix.IT')}`;
 const leadApiUrl = 'https://app.codefix.it/api/public/leads';
 
+const serviceFormGuidance: Record<string, { submit: string; placeholder: string; hint: string }> = {
+  [quickFixService]: {
+    submit: 'Wyślij zgłoszenie Quick Fix',
+    placeholder: 'Co dokładnie nie działa, od kiedy i co widzisz na ekranie?',
+    hint: 'Opisz jeden problem: co nie działa i od kiedy. Zakres i cenę potwierdzę przed rozpoczęciem prac.',
+  },
+  [businessSiteService]: {
+    submit: 'Wyślij brief do wyceny',
+    placeholder: 'Czym zajmuje się firma, jakich podstron potrzebujesz i jaki jest główny cel strony?',
+    hint: 'Napisz, czym zajmuje się firma, czego potrzebuje strona i czy masz już domenę, teksty oraz logo.',
+  },
+  [careService]: {
+    submit: 'Zapytaj o stałą opiekę',
+    placeholder: 'Jak wygląda obecna strona i czego oczekujesz w ramach stałej opieki?',
+    hint: 'Podeślij adres strony i napisz, co mam regularnie aktualizować, sprawdzać lub poprawiać.',
+  },
+  [agencyService]: {
+    submit: 'Zapytaj o współpracę white-label',
+    placeholder: 'Jakiego typu zadania chcesz oddelegować, w jakim stacku pracuje zespół i jak wygląda Wasz workflow?',
+    hint: 'Opisz zadanie, technologie i termin. Dodaj, czy mam pracować bez kontaktu z klientem końcowym.',
+  },
+  [miniAuditService]: {
+    submit: 'Poproś o mini-ocenę',
+    placeholder: 'Co najbardziej Cię niepokoi na obecnej stronie?',
+    hint: 'Wklej publiczny adres strony i opisz, co Cię niepokoi. Nie potrzebuję danych logowania.',
+  },
+};
+
 export function HomepageV1() {
   const [formState, setFormState] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [formMessage, setFormMessage] = useState('');
@@ -180,6 +208,11 @@ export function HomepageV1() {
   const formViewTracked = useRef(false);
   const funnelViewTracked = useRef(false);
   const contactSectionRef = useRef<HTMLElement | null>(null);
+  const feedbackRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (formState === 'success' || formState === 'error') feedbackRef.current?.focus();
+  }, [formState]);
 
   const trackHomepageEvent = useCallback((eventName: string, parameters: Record<string, string> = {}) => {
     if (eventName === 'homepage_cta_click') {
@@ -204,6 +237,7 @@ export function HomepageV1() {
   }, [selectedService]);
 
   function chooseService(service: string, placement?: string) {
+    if (formState === 'submitting') return;
     setSelectedService(service);
     setFormMessage('');
     setFormState('idle');
@@ -290,39 +324,19 @@ export function HomepageV1() {
   }, [consentChoice, selectedService, trackHomepageEvent]);
 
 
-  const submitButtonLabel =
-    selectedService === quickFixService
-      ? 'Wyślij zgłoszenie Quick Fix'
-      : selectedService === businessSiteService
-        ? 'Wyślij brief do wyceny'
-        : selectedService === careService
-          ? 'Zapytaj o stałą opiekę'
-          : selectedService === miniAuditService
-            ? 'Poproś o mini-ocenę'
-            : selectedService === agencyService
-              ? 'Zapytaj o współpracę white-label'
-              : 'Wyślij zapytanie';
+  const guidance = serviceFormGuidance[selectedService];
+  const submitButtonLabel = guidance?.submit || 'Wyślij zapytanie';
 
   const showCompanyField =
     selectedService === businessSiteService ||
     selectedService === careService ||
     selectedService === agencyService;
 
-  const messagePlaceholder =
-    selectedService === quickFixService
-      ? 'Co dokładnie nie działa, od kiedy i co widzisz na ekranie?'
-      : selectedService === businessSiteService
-        ? 'Czym zajmuje się firma, jakich podstron potrzebujesz i jaki jest główny cel strony?'
-        : selectedService === careService
-          ? 'Jak wygląda obecna strona i czego oczekujesz w ramach stałej opieki?'
-          : selectedService === miniAuditService
-            ? 'Co najbardziej Cię niepokoi na obecnej stronie?'
-            : selectedService === agencyService
-              ? 'Jakiego typu zadania chcesz oddelegować, w jakim stacku pracuje zespół i jak wygląda Wasz workflow?'
-              : 'Krótko opisz problem, zakres albo oczekiwany efekt.';
+  const messagePlaceholder = guidance?.placeholder || 'Krótko opisz problem, zakres albo oczekiwany efekt.';
 
   async function handleLeadSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (formState === 'submitting') return;
 
     const form = event.currentTarget;
     const data = new FormData(form);
@@ -406,7 +420,9 @@ export function HomepageV1() {
       trackHomepageEvent('lead_form_error', {
         service: service || 'not_selected',
       });
-      const message = error instanceof Error ? error.message : 'Nie udało się wysłać formularza.';
+      const message = error instanceof Error && !(error instanceof TypeError || error instanceof SyntaxError)
+        ? error.message
+        : 'Nie udało się połączyć ze stroną. Spróbuj ponownie za chwilę.';
       setFormState('error');
       setFormMessage(message);
     }
@@ -910,8 +926,7 @@ export function HomepageV1() {
                 <p className="cf-section-kicker">Kontakt</p>
                 <h2>Powiedz, co ma działać lepiej. Resztę ustalimy razem.</h2>
                 <p>
-                  Podeślij adres strony albo krótko opisz planowane wdrożenie. Nie potrzebujesz pełnego briefu na start.
-                  Odpowiadam zwykle w ciągu jednego dnia roboczego i przed rozpoczęciem prac potwierdzam zakres oraz cenę.
+                  Opisz problem lub pomysł na stronę. Wystarczy kilka zdań i adres, jeśli już masz stronę.
                 </p>
 
                 <div className="cf-contact-tags" aria-label="Przykładowe tematy">
@@ -926,163 +941,143 @@ export function HomepageV1() {
               <div className="cf-contact-action">
                 <div className="cf-contact-status">
                   <span className="cf-eyebrow-dot" />
-                  Zgłoszenie trafia bezpośrednio do mojego CRM
+                  Odpowiedź zwykle do 1 dnia roboczego
                 </div>
 
                 <form className="cf-lead-form" onSubmit={handleLeadSubmit} onFocusCapture={handleFormStart}>
-                  <div className="cf-form-row">
+                  <fieldset disabled={formState === 'submitting'} aria-label="Dane zapytania">
+                    <div className="cf-form-row">
+                      <label>
+                        <span>Imię / osoba kontaktowa</span>
+                        <input
+                          name="name"
+                          type="text"
+                          autoComplete="name"
+                          autoCapitalize="words"
+                          enterKeyHint="next"
+                          minLength={2}
+                          maxLength={120}
+                          required
+                        />
+                      </label>
+                      <label>
+                        <span>E-mail</span>
+                        <input
+                          name="email"
+                          type="email"
+                          inputMode="email"
+                          autoComplete="email"
+                          autoCapitalize="none"
+                          enterKeyHint="next"
+                          maxLength={254}
+                          required
+                        />
+                      </label>
+                    </div>
+
+                    {showCompanyField && (
+                      <label>
+                        <span>{selectedService === agencyService ? 'Nazwa agencji / firmy' : 'Firma'} <small>opcjonalnie</small></span>
+                        <input
+                          name="company"
+                          type="text"
+                          autoComplete="organization"
+                          autoCapitalize="words"
+                          enterKeyHint="next"
+                          maxLength={160}
+                        />
+                      </label>
+                    )}
+
                     <label>
-                      <span>Imię / osoba kontaktowa</span>
-                      <input
-                        name="name"
-                        type="text"
-                        autoComplete="name"
-                        autoCapitalize="words"
-                        enterKeyHint="next"
-                        minLength={2}
-                        maxLength={120}
+                      <span>Temat</span>
+                      <select
+                        name="service"
+                        value={selectedService}
+                        onChange={(event) => chooseService(event.target.value)}
                         required
-                      />
+                      >
+                        <option value="" disabled>Wybierz temat</option>
+                        <option value={quickFixService}>WordPress Quick Fix — jeden konkretny problem</option>
+                        <option value={businessSiteService}>Nowa strona firmowa WordPress + ACF PRO</option>
+                        <option value={careService}>Opieka i rozwój WordPress</option>
+                        <option value={agencyService}>Współpraca agencyjna / white-label</option>
+                        <option value={miniAuditService}>Mini-ocena techniczna publicznej strony</option>
+                        <option value="development">React / Next.js / API</option>
+                        <option value="other">Inny temat</option>
+                      </select>
                     </label>
+
+                    {guidance && (
+                      <p className="cf-quickfix-selection" role="status">{guidance.hint}</p>
+                    )}
+
                     <label>
-                      <span>E-mail</span>
+                      <span>
+                        Adres strony {selectedService !== miniAuditService && <small>opcjonalnie</small>}
+                      </span>
                       <input
-                        name="email"
-                        type="email"
-                        inputMode="email"
-                        autoComplete="email"
+                        name="pageUrl"
+                        type="url"
+                        inputMode="url"
+                        autoComplete="url"
                         autoCapitalize="none"
                         enterKeyHint="next"
-                        maxLength={254}
+                        placeholder="https://twojastrona.pl"
+                        maxLength={500}
+                        required={selectedService === miniAuditService}
+                      />
+                    </label>
+
+                    <label>
+                      <span>Co trzeba zrobić?</span>
+                      <textarea
+                        name="message"
+                        rows={5}
+                        minLength={10}
+                        maxLength={4000}
+                        placeholder={messagePlaceholder}
                         required
                       />
                     </label>
-                  </div>
 
-                  {showCompanyField && (
-                    <label>
-                      <span>{selectedService === agencyService ? 'Nazwa agencji / firmy' : 'Firma'} <small>opcjonalnie</small></span>
-                      <input
-                        name="company"
-                        type="text"
-                        autoComplete="organization"
-                        autoCapitalize="words"
-                        enterKeyHint="next"
-                        maxLength={160}
-                      />
+                    <label className="cf-form-honeypot" aria-hidden="true">
+                      <span>Strona firmy</span>
+                      <input name="companyWebsite" type="text" tabIndex={-1} autoComplete="off" />
                     </label>
-                  )}
 
-                  <label>
-                    <span>Temat</span>
-                    <select
-                      name="service"
-                      value={selectedService}
-                      onChange={(event) => chooseService(event.target.value)}
-                      required
+                    <button
+                      type="submit"
+                      className="cf-button cf-button-primary cf-contact-button"
+                      disabled={formState === 'submitting'}
                     >
-                      <option value="" disabled>Wybierz temat</option>
-                      <option value={quickFixService}>WordPress Quick Fix — jeden konkretny problem</option>
-                      <option value={businessSiteService}>Nowa strona firmowa WordPress + ACF PRO</option>
-                      <option value={careService}>Opieka i rozwój WordPress</option>
-                      <option value={agencyService}>Współpraca agencyjna / white-label</option>
-                      <option value={miniAuditService}>Mini-ocena techniczna publicznej strony</option>
-                      <option value="development">React / Next.js / API</option>
-                      <option value="other">Inny temat</option>
-                    </select>
-                  </label>
+                      {formState === 'submitting' ? 'Wysyłam…' : submitButtonLabel}
+                      {formState !== 'submitting' && <ArrowRight size={17} aria-hidden="true" />}
+                    </button>
+                  </fieldset>
 
-                  {selectedService === quickFixService && (
-                    <p className="cf-quickfix-selection" role="status">
-                      Wybrano WordPress Quick Fix. Opisz jeden problem — przed rozpoczęciem
-                      prac potwierdzę dokładny zakres, cenę i sposób rozliczenia.
-                    </p>
+                  {formMessage && (
+                    <div
+                      ref={feedbackRef}
+                      className={`cf-form-feedback ${formState === 'success' ? 'is-success' : 'is-error'}`}
+                      role={formState === 'success' ? 'status' : 'alert'}
+                      tabIndex={-1}
+                    >
+                      <strong>{formState === 'success' ? 'Wiadomość dotarła' : 'Nie udało się wysłać'}</strong>
+                      <p>{formMessage}</p>
+                      {formState === 'error' && <p>Dane pozostały w formularzu. Spróbuj ponownie lub napisz e-mail poniżej.</p>}
+                    </div>
                   )}
-                  {selectedService === businessSiteService && (
-                    <p className="cf-quickfix-selection" role="status">
-                      Wybrano stronę firmową WordPress + ACF PRO. Napisz, czym zajmuje się firma,
-                      ile podstron orientacyjnie potrzebujesz i czy masz już domenę, hosting, teksty oraz logo.
-                    </p>
-                  )}
-                  {selectedService === careService && (
-                    <p className="cf-quickfix-selection" role="status">
-                      Wybrano stałą opiekę. Napisz, co dziś wymaga pilnowania lub poprawy i jak często pojawiają się kolejne zadania.
-                    </p>
-                  )}
-                  {selectedService === agencyService && (
-                    <p className="cf-quickfix-selection" role="status">
-                      Wybrano współpracę agencyjną / white-label. Napisz, jakie zadania chcesz delegować,
-                      jak wygląda Wasz stack, workflow i czy oczekujesz pracy bez kontaktu z klientem końcowym.
-                    </p>
-                  )}
-                  {selectedService === miniAuditService && (
-                    <p className="cf-quickfix-selection" role="status">
-                      Mini-ocena dotyczy publicznie dostępnej strony i nie wymaga loginu. Wklej URL
-                      poniżej i opisz, co najbardziej Cię niepokoi.
-                    </p>
-                  )}
-
-                  <label>
-                    <span>
-                      Adres strony {selectedService !== miniAuditService && <small>opcjonalnie</small>}
-                    </span>
-                    <input
-                      name="pageUrl"
-                      type="url"
-                      inputMode="url"
-                      autoComplete="url"
-                      autoCapitalize="none"
-                      enterKeyHint="next"
-                      placeholder="https://twojastrona.pl"
-                      maxLength={500}
-                      required={selectedService === miniAuditService}
-                    />
-                  </label>
-
-                  <label>
-                    <span>Co trzeba zrobić?</span>
-                    <textarea
-                      name="message"
-                      rows={5}
-                      minLength={10}
-                      maxLength={4000}
-                      placeholder={messagePlaceholder}
-                      required
-                    />
-                  </label>
-
-                  <label className="cf-form-honeypot" aria-hidden="true">
-                    <span>Strona firmy</span>
-                    <input name="companyWebsite" type="text" tabIndex={-1} autoComplete="off" />
-                  </label>
-
-                  <button
-                    type="submit"
-                    className="cf-button cf-button-primary cf-contact-button"
-                    disabled={formState === 'submitting'}
-                  >
-                    {formState === 'submitting' ? 'Wysyłam…' : submitButtonLabel}
-                    {formState !== 'submitting' && <ArrowRight size={17} aria-hidden="true" />}
-                  </button>
 
                   <p className="cf-home-form-reassurance">
-                    Bez zobowiązań: najpierw analizuję zgłoszenie, potem dostajesz proponowany zakres i kolejny krok.
-                    Nie proszę o hasła ani dostęp administracyjny w pierwszej wiadomości.
+                    Bez zobowiązań: najpierw poznasz zakres i cenę. Prace zaczynam po Twojej akceptacji.
+                    Na tym etapie nie podawaj haseł ani dostępów.
                   </p>
 
                   <p className="cf-form-privacy">
                     Wysyłając formularz, przekazujesz dane potrzebne do obsługi zapytania.
                     Szczegóły znajdziesz w <a href="/polityka-prywatnosci/">polityce prywatności</a>.
                   </p>
-
-                  {formMessage && (
-                    <p
-                      className={`cf-form-feedback ${formState === 'success' ? 'is-success' : 'is-error'}`}
-                      role="status"
-                    >
-                      {formMessage}
-                    </p>
-                  )}
                 </form>
 
                 <p className="cf-contact-fallback">
