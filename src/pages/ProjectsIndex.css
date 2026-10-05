@@ -93,6 +93,14 @@
   border-radius: 999px;
 }
 
+.projects-index-domain {
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-transform: none;
+  white-space: nowrap;
+}
+
 .projects-index-card h3 {
   margin: 0 0 12px;
   color: #f0f0f2;
