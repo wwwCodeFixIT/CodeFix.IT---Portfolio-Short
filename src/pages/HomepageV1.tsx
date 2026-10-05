@@ -51,7 +51,6 @@ function initialServiceFromUrl() {
 
 const services = [
   {
-    icon: Wrench,
     title: 'WordPress Quick Fix',
     description:
       'Formularz nie działa, aktualizacja coś zepsuła albo strona pokazuje błąd? Diagnozuję jeden konkretny problem, naprawiam go i sprawdzam efekt po wdrożeniu.',
@@ -63,7 +62,6 @@ const services = [
     detailsLabel: 'Naprawa WordPress — pełny zakres',
   },
   {
-    icon: Layers3,
     title: 'Strony internetowe dla firm — WordPress + ACF PRO',
     description:
       'Nowoczesna strona firmy od podstaw: czytelna oferta, wersja mobilna, formularz, techniczne SEO i wygodna edycja treści z panelu WordPress.',
@@ -75,7 +73,6 @@ const services = [
     detailsLabel: 'Strony WordPress dla firm — pełny zakres',
   },
   {
-    icon: MessageSquareText,
     title: 'Opieka i rozwój WordPress',
     description:
       'Aktualizacje, backupy, drobne poprawki i rozwój istniejącej strony bez szukania wykonawcy od zera przy każdym kolejnym zadaniu.',
@@ -566,46 +563,51 @@ export function HomepageV1() {
             </div>
 
             <div className="cf-services-grid">
-              {services.map(({ icon: Icon, title, description, meta, price, service, cta, detailsHref, detailsLabel }) => (
-                <article key={title}
-                  className={`cf-service-card${service === quickFixService ? ' cf-service-card-featured' : ''}`}>
-                  {service === businessSiteService && (
-                    <span className="cf-service-badge">Najlepsze do nowej strony</span>
-                  )}
-                  <div className="cf-service-icon">
-                    <Icon size={20} aria-hidden="true" />
-                  </div>
-                  <h3>{title}</h3>
-                  <p>{description}</p>
-                  {price && <p className="cf-service-price">{price}</p>}
-                  {price && price !== 'Wycena indywidualna' && <p className="cf-service-pricing-note">
-                    Cena orientacyjna. Dokładny zakres, kwotę i sposób rozliczenia
-                    potwierdzam przed rozpoczęciem prac.
-                  </p>}
-                  <p className="cf-service-meta">{meta}</p>
-                  <div className="cf-service-card-actions">
-                    <a href={detailsHref} className="cf-card-link cf-card-link-secondary">
-                      {detailsLabel}
-                      <ArrowRight size={15} aria-hidden="true" />
-                    </a>
-                    <a href="#contact" className="cf-card-link"
-                      onClick={() => chooseService(service, 'service_card')}>
-                      {cta ?? 'Omów zakres'}
-                      <ArrowRight size={15} aria-hidden="true" />
-                    </a>
-                  </div>
-                  {service === businessSiteService && (
-                    <div className="cf-service-proof">
-                      <a href="https://demo.codefix.it/" target="_blank"
-                        rel="noreferrer" className="cf-card-link cf-card-link-secondary">
-                        Zobacz demo WordPress + ACF PRO
-                        <ArrowUpRight size={15} aria-hidden="true" />
+              {services.map(({ title, description, meta, price, service, cta, detailsHref, detailsLabel }) => {
+                const artwork = `/graphics/${service}`;
+                return (
+                  <article key={title}
+                    className={`cf-service-card${service === quickFixService ? ' cf-service-card-featured' : ''}`}>
+                    {service === businessSiteService && (
+                      <span className="cf-service-badge">Najlepsze do nowej strony</span>
+                    )}
+                    <img className="cf-service-art"
+                      src={`${artwork}-720.webp`}
+                      srcSet={`${artwork}-360.webp 360w, ${artwork}-720.webp 720w`}
+                      sizes="(min-width: 801px) 350px, 85vw"
+                      width={720} height={480} alt="" loading="lazy" decoding="async" />
+                    <h3>{title}</h3>
+                    <p>{description}</p>
+                    <p className="cf-service-price">{price}</p>
+                    {service !== businessSiteService && <p className="cf-service-pricing-note">
+                      Cena orientacyjna. Dokładny zakres, kwotę i sposób rozliczenia
+                      potwierdzam przed rozpoczęciem prac.
+                    </p>}
+                    <p className="cf-service-meta">{meta}</p>
+                    <div className="cf-service-card-actions">
+                      <a href={detailsHref} className="cf-card-link cf-card-link-secondary">
+                        {detailsLabel}
+                        <ArrowRight size={15} aria-hidden="true" />
                       </a>
-                      <small>Własne demo techniczne CodeFix.IT — nie realizacja klienta.</small>
+                      <a href="#contact" className="cf-card-link"
+                        onClick={() => chooseService(service, 'service_card')}>
+                        {cta}
+                        <ArrowRight size={15} aria-hidden="true" />
+                      </a>
                     </div>
-                  )}
-                </article>
-              ))}
+                    {service === businessSiteService && (
+                      <div className="cf-service-proof">
+                        <a href="https://demo.codefix.it/" target="_blank"
+                          rel="noreferrer" className="cf-card-link cf-card-link-secondary">
+                          Zobacz demo WordPress + ACF PRO
+                          <ArrowUpRight size={15} aria-hidden="true" />
+                        </a>
+                        <small>Własne demo techniczne CodeFix.IT — nie realizacja klienta.</small>
+                      </div>
+                    )}
+                  </article>
+                );
+              })}
             </div>
           </div>
         </section>
