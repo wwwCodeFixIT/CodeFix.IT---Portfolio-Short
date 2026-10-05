@@ -118,6 +118,10 @@ export function GuidesIndex() {
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand />
+          <nav className="cf-nav-links" aria-label="Nawigacja główna">
+            <a href="/#services">Usługi</a>
+            <a href="/realizacje/">Realizacje</a>
+          </nav>
           <a href="/#services" className="cf-nav-cta">Zobacz usługi</a>
         </div>
       </header>
@@ -241,6 +245,10 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand />
+          <nav className="cf-nav-links" aria-label="Nawigacja główna">
+            <a href="/poradniki/">Poradniki</a>
+            <a href="/realizacje/">Realizacje</a>
+          </nav>
           <a href={`${guide.serviceHref}/`} className="cf-nav-cta" onClick={trackServiceCta}>{guide.serviceLabel}</a>
         </div>
       </header>

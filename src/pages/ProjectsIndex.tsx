@@ -11,6 +11,10 @@ export function ProjectsIndex() {
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand />
+          <nav className="cf-nav-links" aria-label="Nawigacja główna">
+            <a href="/#services">Usługi</a>
+            <a href="/poradniki/">Poradniki</a>
+          </nav>
           <a href="/strony-wordpress/#kontakt" className="cf-nav-cta">Wyceń stronę</a>
         </div>
       </header>

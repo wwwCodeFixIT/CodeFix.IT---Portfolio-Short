@@ -15,6 +15,10 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
       <header className="cf-header">
         <div className="cf-container cf-case-nav">
           <Brand />
+          <nav className="cf-nav-links" aria-label="Nawigacja główna">
+            <a href="/#services">Usługi</a>
+            <a href="/poradniki/">Poradniki</a>
+          </nav>
           <a href="/realizacje/" className="cf-case-back">
             <span aria-hidden="true">←</span>
             Wszystkie realizacje
