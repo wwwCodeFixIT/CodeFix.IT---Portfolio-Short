@@ -18,6 +18,7 @@ export type ServiceLandingConfig = {
   cta: string;
   secondaryCta: string;
   secondaryHref?: string;
+  offerCta?: string;
   heroPoints: string[];
   nameFieldLabel?: string;
   nameFieldPlaceholder?: string;
