@@ -189,16 +189,6 @@ export function GuidesIndex() {
           })}
         </div>
 
-        <section className="cf-container guide-cta">
-          <div>
-            <p className="cf-section-kicker">Masz konkretny problem?</p>
-            <h2>Nie musisz diagnozować go samodzielnie.</h2>
-            <p>Jeśli poradnik nie wystarczy, podeślij URL i objaw. Najpierw ustalimy zakres i cenę, dopiero potem zmianę.</p>
-          </div>
-          <a className="cf-button cf-button-primary" href="/naprawa-wordpress/#kontakt">
-            Naprawa od 390 zł <ArrowRight size={16}/>
-          </a>
-        </section>
       </main>
 
       <footer className="cf-footer">
