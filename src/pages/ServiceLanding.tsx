@@ -137,25 +137,6 @@ export function ServiceLanding({
     schema.textContent = JSON.stringify(buildSchema(config));
   }, [config]);
 
-  useEffect(() => {
-    markFunnelService(config.service);
-
-    function trackView() {
-      if (funnelViewTracked.current) return;
-      const analyticsWindow = window as Window & { codefixAnalyticsAllowed?: boolean };
-      if (!analyticsWindow.codefixAnalyticsAllowed) return;
-      funnelViewTracked.current = true;
-      trackFunnelEvent('cf_funnel_view', {
-        service: config.service,
-        placement: 'service_landing',
-      });
-    }
-
-    trackView();
-    window.addEventListener('codefix:measurement-consent-changed', trackView);
-    return () => window.removeEventListener('codefix:measurement-consent-changed', trackView);
-  }, [config.service]);
-
   const trackLeadEvent = useCallback(
     (eventName: string, extra: Record<string, string> = {}) => {
       const analyticsWindow = window as Window & {
@@ -176,10 +157,9 @@ export function ServiceLanding({
   );
 
   useEffect(() => {
+    markFunnelService(config.service);
     const section = contactSectionRef.current;
-    if (!section || formViewTracked.current || typeof IntersectionObserver === 'undefined') return;
-
-    const observer = new IntersectionObserver(
+    const observer = section && typeof IntersectionObserver !== 'undefined' ? new IntersectionObserver(
       ([entry]) => {
         if (!entry?.isIntersecting || formViewTracked.current) return;
 
@@ -189,13 +169,36 @@ export function ServiceLanding({
         formViewTracked.current = true;
         trackFunnelEvent('cf_form_view', { service: config.service });
         trackLeadEvent('lead_form_view');
-        observer.disconnect();
+        observer?.disconnect();
       },
       { threshold: 0.25 },
-    );
+    ) : null;
 
-    observer.observe(section);
-    return () => observer.disconnect();
+    function trackViews() {
+      const analyticsWindow = window as Window & { codefixAnalyticsAllowed?: boolean };
+      if (!analyticsWindow.codefixAnalyticsAllowed) return;
+
+      if (!funnelViewTracked.current) {
+        funnelViewTracked.current = true;
+        trackFunnelEvent('cf_funnel_view', {
+          service: config.service,
+          placement: 'service_landing',
+        });
+      }
+
+      if (section && !formViewTracked.current) {
+        // Re-observing checks current visibility when analytics consent arrives.
+        observer?.disconnect();
+        observer?.observe(section);
+      }
+    }
+
+    trackViews();
+    window.addEventListener('codefix:measurement-consent-changed', trackViews);
+    return () => {
+      observer?.disconnect();
+      window.removeEventListener('codefix:measurement-consent-changed', trackViews);
+    };
   }, [config.service, trackLeadEvent]);
 
   function trackCtaClick(placement: string) {
