@@ -226,17 +226,13 @@
 
 .guide-safety-note {
   display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 13px;
+  grid-template-columns: 1fr;
+  gap: 0;
   margin: 44px 0;
   padding: 18px;
   border: 1px solid rgba(53,212,154,.18);
   border-radius: 13px;
   background: rgba(53,212,154,.035);
-}
-
-.guide-safety-note > svg {
-  color: #55d59e;
 }
 
 .guide-safety-note strong,
@@ -299,9 +295,9 @@
   line-height: 1.6;
 }
 
-.guide-body li svg {
-  margin-top: 2px;
+.guide-body li > span:first-child {
   color: #55d59e;
+  font-weight: 800;
 }
 
 .guide-cta {
@@ -347,7 +343,7 @@
 
 .guide-related a {
   display: grid;
-  grid-template-columns: auto minmax(0,1fr) auto;
+  grid-template-columns: minmax(0,1fr) auto;
   align-items: center;
   gap: 10px;
   padding: 15px 16px;
