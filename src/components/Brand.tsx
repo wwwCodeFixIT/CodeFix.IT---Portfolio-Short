@@ -12,9 +12,9 @@ export function Brand({ href = '/', tagline = false, className = '' }: BrandProp
       <span className="cf-brand-mark" aria-hidden="true">
         <img
           className="cf-brand-logo"
-          src="/brand/codefix-mark.png"
-          width="96"
-          height="96"
+          src="/brand/codefix-devil-mark.webp"
+          width="128"
+          height="128"
           alt=""
           decoding="sync"
           loading="eager"
