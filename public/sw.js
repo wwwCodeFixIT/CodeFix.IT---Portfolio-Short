@@ -1,5 +1,5 @@
 // Service Worker for CodeFix.IT PWA
-const CACHE_NAME = 'codefix-v1';
+const CACHE_NAME = 'codefix-v2';
 const OFFLINE_URL = '/offline.html';
 
 const ASSETS_TO_CACHE = [
@@ -7,8 +7,8 @@ const ASSETS_TO_CACHE = [
   '/index.html',
   '/offline.html',
   '/manifest.json',
-  '/icons/icon-192x192.png',
-  '/icons/icon-512x512.png'
+  '/favicon.ico',
+  '/favicon.svg'
 ];
 
 // Install event - cache assets
@@ -112,16 +112,16 @@ async function syncContactForm() {
 self.addEventListener('push', (event) => {
   const options = {
     body: event.data ? event.data.text() : 'Nowa wiadomość od CodeFix.IT',
-    icon: '/icons/icon-192x192.png',
-    badge: '/icons/badge-72x72.png',
+    icon: '/favicon.ico',
+    badge: '/favicon.ico',
     vibrate: [100, 50, 100],
     data: {
       dateOfArrival: Date.now(),
       primaryKey: 1
     },
     actions: [
-      { action: 'explore', title: 'Zobacz', icon: '/icons/checkmark.png' },
-      { action: 'close', title: 'Zamknij', icon: '/icons/xmark.png' }
+      { action: 'explore', title: 'Zobacz' },
+      { action: 'close', title: 'Zamknij' }
     ]
   };
 
