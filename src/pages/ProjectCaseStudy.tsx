@@ -1,4 +1,3 @@
-import { ArrowLeft, ArrowRight, ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { Brand } from '../components/Brand';
 import { ProjectPreview } from '../components/ProjectPreview';
 import type { Project } from '../data/projects';
@@ -17,7 +16,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
         <div className="cf-container cf-case-nav">
           <Brand />
           <a href="/realizacje/" className="cf-case-back">
-            <ArrowLeft size={16} aria-hidden="true" />
+            <span aria-hidden="true">←</span>
             Wszystkie realizacje
           </a>
         </div>
@@ -36,12 +35,10 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
                 rel="noreferrer"
                 className="cf-button cf-button-secondary"
               >
-                Otwórz działającą stronę
-                <ArrowUpRight size={16} aria-hidden="true" />
+                Otwórz działającą stronę ↗
               </a>
               <a href="/?service=CODEFIX_BUSINESS_SITE#contact" className="cf-button cf-button-primary">
-                Zapytaj o podobne wdrożenie
-                <ArrowRight size={16} aria-hidden="true" />
+                Zapytaj o podobne wdrożenie →
               </a>
             </div>
           </div>
@@ -111,7 +108,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
               <ul>
                 {project.scope.map((item) => (
                   <li key={item}>
-                    <CheckCircle2 size={17} aria-hidden="true" />
+                    <span aria-hidden="true">✓</span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -143,8 +140,7 @@ export function ProjectCaseStudy({ project }: ProjectCaseStudyProps) {
               </p>
             </div>
             <a href="/?service=CODEFIX_BUSINESS_SITE#contact" className="cf-button cf-button-primary">
-              Przejdź do kontaktu
-              <ArrowRight size={17} aria-hidden="true" />
+              Przejdź do kontaktu →
             </a>
           </div>
         </section>
