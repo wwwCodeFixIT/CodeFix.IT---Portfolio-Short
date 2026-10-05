@@ -17,7 +17,13 @@ export type ServiceLandingConfig = {
   pricingNote: string;
   cta: string;
   secondaryCta: string;
+  secondaryHref?: string;
   heroPoints: string[];
+  nameFieldLabel?: string;
+  nameFieldPlaceholder?: string;
+  pageUrlLabel?: string;
+  proofHeading?: string;
+  proofCopy?: string;
   offerPoints?: string[];
   reassurance?: { title: string; description: string }[];
   ctaMicrocopy?: string;
