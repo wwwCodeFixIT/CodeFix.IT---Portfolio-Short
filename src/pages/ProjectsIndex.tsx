@@ -43,11 +43,9 @@ export function ProjectsIndex() {
                   <ProjectPreview project={project} />
                   <div className="projects-index-card-head">
                     <span>{project.year}</span>
-                    <div>
-                      {project.technologies.slice(0, 3).map((technology) => (
-                        <span key={technology}>{technology}</span>
-                      ))}
-                    </div>
+                    <span className="projects-index-domain">
+                      {project.demoUrl.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}
+                    </span>
                   </div>
                   <h3>{project.title}</h3>
                   <p>{project.shortDescription}</p>
@@ -62,28 +60,12 @@ export function ProjectsIndex() {
           </div>
         </section>
 
-        <section className="cf-section">
-          <div className="cf-container">
-            <div className="cf-contact-panel">
-              <div className="cf-contact-copy">
-                <p className="cf-section-kicker">Następny krok</p>
-                <h2>Potrzebujesz podobnego wdrożenia?</h2>
-                <p>Podeślij zakres nowej strony albo istniejący projekt. Przed startem potwierdzę zakres, wycenę i kolejny krok.</p>
-              </div>
-              <div className="cf-actions">
-                <a href="/strony-wordpress/#kontakt" className="cf-button cf-button-primary">Wyceń stronę</a>
-                <a href="/dla-agencji-wordpress/" className="cf-button cf-button-secondary">White-label dla agencji</a>
-              </div>
-            </div>
-          </div>
-        </section>
       </main>
 
       <footer className="cf-footer">
         <div className="cf-container cf-footer-bottom">
           <span>© 2026 CodeFix.IT</span>
           <a href="/polityka-prywatnosci/">Polityka prywatności</a>
-          <span className="cf-footer-code">Diabeł tkwi w kodzie. 😈</span>
         </div>
       </footer>
     </div>
