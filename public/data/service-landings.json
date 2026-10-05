@@ -355,8 +355,8 @@
         "description": "Najpierw jeden konkretny, płatny task, dopiero potem decyzja o stałej współpracy."
       },
       {
-        "title": "120 zł/h + estymacja",
-        "description": "Przed rozpoczęciem podaję przewidywany czas, żeby od początku było wiadomo, czego się spodziewać kosztowo."
+        "title": "Case agencyjny",
+        "description": "Kancelaria Adwokacka Witkowska została wykonana we współpracy z SyloSoftware — zakres i stack są publicznie opisane."
       }
     ],
     "ctaMicrocopy": "Podeślij jeden konkretny task, stack i oczekiwany rezultat. Odpowiem z estymacją i kolejnym krokiem — bez deklarowania stałej współpracy.",
@@ -426,8 +426,7 @@
     "messagePlaceholder": "Np. poprawka WordPress/ACF, regresja front-endu, WooCommerce, Git + staging. Napisz expected result, deadline i sposób review.",
     "pageUrlRequired": false,
     "projectSlugs": [
-      "kancelaria-adwokacka-witkowska",
-      "em-air-system"
+      "kancelaria-adwokacka-witkowska"
     ],
     "companyFieldLabel": "Nazwa agencji / firmy",
     "successMessage": "Dzięki — zapytanie white-label dotarło. Odpowiem z kolejnym krokiem.",
