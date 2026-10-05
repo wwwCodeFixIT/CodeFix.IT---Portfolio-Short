@@ -72,16 +72,16 @@
   justify-self: start;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
   min-width: 0;
   color: var(--text);
   text-decoration: none;
 }
 
 .cf-brand-mark {
-  width: 52px;
-  height: 52px;
-  flex: 0 0 52px;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
   display: grid;
   place-items: center;
   overflow: visible;
@@ -97,7 +97,7 @@
   object-fit: contain !important;
   opacity: 1 !important;
   visibility: visible !important;
-  filter: drop-shadow(0 0 14px rgba(239, 35, 60, 0.34));
+  filter: drop-shadow(0 0 10px rgba(239, 35, 60, 0.28));
 }
 
 .cf-brand-copy {
@@ -134,9 +134,9 @@
 }
 
 .cf-brand--tagline .cf-brand-mark {
-  width: 64px;
-  height: 64px;
-  flex-basis: 64px;
+  width: 60px;
+  height: 60px;
+  flex-basis: 60px;
 }
 
 .cf-nav-links {
@@ -608,15 +608,15 @@
   }
 
   .cf-brand-mark {
-    width: 42px;
-    height: 42px;
-    flex-basis: 42px;
+    width: 40px;
+    height: 40px;
+    flex-basis: 40px;
   }
 
   .cf-brand--tagline .cf-brand-mark {
-    width: 50px;
-    height: 50px;
-    flex-basis: 50px;
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
   }
 
   .cf-brand-name {
