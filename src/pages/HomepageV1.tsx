@@ -466,19 +466,18 @@ export function HomepageV1() {
 
             <h1 className="cf-title">
               CodeFix.IT — WordPress dla firm.
-              <span className="cf-title-muted">Naprawiam, buduję i przejmuję opiekę.</span>
+              <span className="cf-title-muted">Naprawa, nowe strony i stała opieka.</span>
             </h1>
 
             <p className="cf-lead">
-              Masz awarię, potrzebujesz nowej strony albo chcesz przestać samodzielnie pilnować WordPressa?
-              Pomagam firmom oraz zespołom agencyjnym zdalnie w całej Polsce. Najpierw ustalam problem,
-              zakres i sposób współpracy, a cenę potwierdzam przed rozpoczęciem prac.
+              Masz problem z WordPressem, potrzebujesz nowej strony albo chcesz oddać techniczną opiekę?
+              Opisz temat. Przed startem potwierdzam zakres, cenę i kolejny krok — zdalnie w całej Polsce.
             </p>
 
             <div className="cf-actions">
               <a href="#contact" className="cf-button cf-button-primary"
                 onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'hero_primary_generic' })}>
-                Opisz temat i odbierz zakres
+                Opisz temat
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
               <a href="#work" className="cf-button cf-button-secondary"
@@ -490,7 +489,7 @@ export function HomepageV1() {
             <div className="cf-proof" aria-label="Standard pracy">
               <span className="cf-proof-item">
                 <CheckCircle2 size={15} aria-hidden="true" />
-                Odpowiedź zwykle do 1 dnia roboczego
+                Odpowiedź zwykle w 1 dzień roboczy
               </span>
               <span className="cf-proof-item">
                 <CheckCircle2 size={15} aria-hidden="true" />
@@ -505,7 +504,7 @@ export function HomepageV1() {
 
           <aside className="cf-hero-paths" aria-labelledby="cf-hero-paths-title">
             <p className="cf-section-kicker">Od czego zaczynamy?</p>
-            <h2 id="cf-hero-paths-title">Wybierz sytuację, która jest najbliżej Twojej.</h2>
+            <h2 id="cf-hero-paths-title">Wybierz, czego potrzebujesz.</h2>
 
             <div className="cf-hero-path-list">
               <a
@@ -552,7 +551,7 @@ export function HomepageV1() {
             </div>
 
             <p className="cf-hero-path-help">
-              Nie wiesz, co wybrać? Podeślij URL i opisz objaw — dobiorę najkrótszą sensowną ścieżkę.
+              Nie wiesz? Podeślij URL i opisz problem — wskażę najkrótszą sensowną ścieżkę.
             </p>
             <a
               href="/dla-agencji-wordpress/"
@@ -1149,7 +1148,7 @@ export function HomepageV1() {
         >
           <span>
             <strong>Opisz temat</strong>
-            <small>Odpowiedź zwykle do 1 dnia roboczego</small>
+            <small>Zakres i cena przed startem</small>
           </span>
           <ArrowRight size={18} aria-hidden="true" />
       </a>
