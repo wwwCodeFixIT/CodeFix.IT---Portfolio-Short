@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#060606" />
     <meta name="color-scheme" content="dark" />
     <meta name="application-name" content="CodeFix.IT" />
-    <meta name="codefix-build" content="stage-15c11-funnel-audit-v1" />
+    <meta name="codefix-build" content="stage-15c12-google-ads-readiness-v1" />
     <meta name="author" content="CodeFix.IT" />
 
     <title>CodeFix.IT — WordPress dla firm: naprawa, opieka i strony</title>
@@ -91,6 +91,16 @@
             });
           });
         }
+
+        window.codefixSetGoogleAdConsent = function (allowed) {
+          var value = allowed ? 'granted' : 'denied';
+          window.gtag('consent', 'update', {
+            ad_storage: value,
+            ad_user_data: value,
+            ad_personalization: value
+          });
+          window.gtag('set', 'ads_data_redaction', !allowed);
+        };
 
         window.codefixSetAnalyticsConsent = function (nextChoice, deferReload) {
           if (nextChoice !== 'accepted' && nextChoice !== 'rejected') return;
@@ -196,9 +206,11 @@
             // Persist for this page only when storage is unavailable.
           }
           if (nextChoice === 'accepted') {
+            window.codefixSetGoogleAdConsent?.(true);
             startAdMeasurement();
             return;
           }
+          window.codefixSetGoogleAdConsent?.(false);
           window.codefixAdMeasurementAllowed = false;
           if (window.oaiq) {
             // Discard pending conversions before a queued SDK load can replay them.
@@ -232,8 +244,14 @@
           }
         });
 
-        if (choice === 'accepted') startAdMeasurement();
-        if (choice === 'rejected') clearAdCookies();
+        if (choice === 'accepted') {
+          window.codefixSetGoogleAdConsent?.(true);
+          startAdMeasurement();
+        }
+        if (choice === 'rejected') {
+          window.codefixSetGoogleAdConsent?.(false);
+          clearAdCookies();
+        }
       })();
     </script>
 
