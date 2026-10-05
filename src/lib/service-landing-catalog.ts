@@ -5,7 +5,7 @@ let serviceLandingCatalogPromise: Promise<ServiceLandingCatalog> | null = null;
 export function loadServiceLandingCatalog(): Promise<ServiceLandingCatalog> {
   if (!serviceLandingCatalogPromise) {
     serviceLandingCatalogPromise = fetch('/data/service-landings.json', {
-      cache: 'force-cache',
+      cache: 'no-cache',
       headers: { Accept: 'application/json' },
     }).then(async (response) => {
       if (!response.ok) {
