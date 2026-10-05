@@ -174,8 +174,17 @@ function relatedBlock(path) {
 
   if (path === '/strony-wordpress') {
     return `
-      <section><h2>Poradniki o stronach WordPress dla firm</h2><ul>${links(businessSiteGuideLinks)}</ul></section>
-      <p><a href="/#contact">Skontaktuj się z CodeFix.IT</a></p>`;
+      <section>
+        <h2>Strona WordPress, którą później edytujesz sam</h2>
+        <ul>
+          <li>Uzgodnione teksty, zdjęcia, usługi i realizacje edytujesz z panelu WordPress.</li>
+          <li>Przed publikacją dostajesz działające preview do sprawdzenia.</li>
+          <li>Zakres i wycenę potwierdzamy przed rozpoczęciem prac.</li>
+        </ul>
+        <p><a href="/realizacje/">Sprawdź 3 publiczne realizacje</a></p>
+        <p><a href="/strony-wordpress/#kontakt">Wyceń stronę firmową</a></p>
+      </section>
+      <section><h2>Poradniki o stronach WordPress dla firm</h2><ul>${links(businessSiteGuideLinks)}</ul></section>`;
   }
 
   if (path === '/dla-agencji-wordpress') {
