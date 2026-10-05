@@ -98,8 +98,8 @@ function links(items) {
 function pageHeading(path, title) {
   if (path === '/') return 'CodeFix.IT — WordPress dla firm: naprawa, opieka i strony';
   if (serviceHeadings[path]) return serviceHeadings[path];
-  if (path === '/poradniki') return 'Poradniki WordPress — naprawa, opieka i wyceny';
-  if (path === '/realizacje') return 'Realizacje WordPress i strony dla firm — CodeFix.IT';
+  if (path === '/poradniki') return 'Poradniki WordPress. Naprawa, opieka i wyceny.';
+  if (path === '/realizacje') return 'Realizacje WordPress, które możesz sprawdzić przed kontaktem.';
   return title.replace(/\s*[|–—-]\s*CodeFix\.IT.*$/i, '').trim() || 'CodeFix.IT';
 }
 
@@ -212,17 +212,17 @@ function relatedBlock(path) {
       <section>
         <h2>Naprawa i awarie WordPress</h2>
         <ul>${links(quickFixGuideLinks)}</ul>
-        <p><a href="/naprawa-wordpress/">Naprawa WordPress — zobacz zakres usługi</a></p>
+        <p><a href="/naprawa-wordpress/">Naprawa WordPress od 390 zł</a></p>
       </section>
       <section>
         <h2>Opieka i wydajność WordPress</h2>
         <ul>${links(careGuideLinks)}</ul>
-        <p><a href="/opieka-wordpress/">Opieka WordPress — abonament i zakres</a></p>
+        <p><a href="/opieka-wordpress/">Opieka WordPress od 300 zł/mies.</a></p>
       </section>
       <section>
         <h2>Strony WordPress dla firm</h2>
         <ul>${links(businessSiteGuideLinks)}</ul>
-        <p><a href="/strony-wordpress/">Strony WordPress dla firm — wycena i wdrożenie</a></p>
+        <p><a href="/strony-wordpress/">Strony WordPress — wycena</a></p>
       </section>`;
   }
 
