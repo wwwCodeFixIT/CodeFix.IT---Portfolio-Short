@@ -5,12 +5,16 @@ const distDir = new URL('../dist/', import.meta.url);
 const sitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8');
 const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => new URL(match[1].trim()));
 
-const serviceHeadings = {
-  '/naprawa-wordpress': 'Naprawa WordPress — jeden problem, konkretny zakres od 390 zł',
-  '/opieka-wordpress': 'Opieka WordPress dla firm zdalnie w całej Polsce',
-  '/strony-wordpress': 'Strony internetowe dla firm — WordPress + ACF PRO',
-  '/dla-agencji-wordpress': 'WordPress white-label dla agencji — wsparcie overflow',
-};
+const serviceCatalog = JSON.parse(
+  await readFile(new URL('../public/data/service-landings.json', import.meta.url), 'utf8'),
+);
+
+const serviceHeadings = Object.fromEntries(
+  Object.entries(serviceCatalog).map(([path, page]) => [
+    path,
+    [page.title, page.titleAccent].filter(Boolean).join(' '),
+  ]),
+);
 
 const guideLinks = [
   ['/poradniki/wordpress-nie-wysyla-maili/', 'WordPress nie wysyła maili'],
@@ -140,6 +144,15 @@ function relatedBlock(path) {
           <li>Jeśli problem okaże się większy, zlecenie nie jest rozszerzane bez akceptacji.</li>
         </ul>
         <p><a href="/naprawa-wordpress/#kontakt">Zgłoś problem WordPress</a></p>
+      </section>
+      <section>
+        <h2>Sprawdź realizacje przed zgłoszeniem.</h2>
+        <p>To publiczne, opisane wdrożenia CodeFix.IT. Możesz sprawdzić zakres prac przed wysłaniem swojego problemu.</p>
+        <ul>
+          <li><a href="/realizacje/kancelaria-adwokacka-witkowska/">Kancelaria Adwokacka Witkowska — case study</a></li>
+          <li><a href="/realizacje/rzeczoznawca-marcin-dudek/">Rzeczoznawca Marcin Dudek — case study</a></li>
+        </ul>
+        <p><a href="/naprawa-wordpress/#realizacje">Sprawdź realizacje</a></p>
       </section>
       <section><h2>Najczęstsze problemy WordPress</h2><ul>${links(quickFixGuideLinks)}</ul></section>`;
   }
