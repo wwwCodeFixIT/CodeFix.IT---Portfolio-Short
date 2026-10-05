@@ -158,9 +158,9 @@
   line-height: 1.55;
 }
 
-.cf-case-scope svg {
-  margin-top: 1px;
+.cf-case-scope li > span:first-child {
   color: #ff7377;
+  font-weight: 800;
 }
 
 .cf-case-tech {
