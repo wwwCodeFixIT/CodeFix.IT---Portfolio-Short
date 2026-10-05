@@ -3,12 +3,12 @@
 }
 
 .guide-index-main {
-  padding: 120px 0 90px;
+  padding: 96px 0 72px;
 }
 
 .guide-index-hero {
   max-width: 980px;
-  padding-top: 42px;
+  padding-top: 34px;
 }
 
 .guide-back {
@@ -78,8 +78,8 @@
 
 .guide-index-sections {
   display: grid;
-  gap: 70px;
-  margin-top: 76px;
+  gap: 60px;
+  margin-top: 64px;
 }
 
 .guide-index-group {
