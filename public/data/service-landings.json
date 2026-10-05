@@ -326,24 +326,24 @@
     "path": "/dla-agencji-wordpress",
     "service": "AGENCY_WHITE_LABEL",
     "eyebrow": "WordPress white-label dla agencji",
-    "title": "Wsparcie WordPress dla agencji.",
-    "titleAccent": "Overflow, poprawki i mniejsze wdrożenia bez dokładania etatu.",
-    "description": "Przejmuję wybrane zadania WordPress, ACF PRO, WooCommerce i front-end. Pracuję na stagingu i Git, według Waszego workflow i bez kontaktu z klientem końcowym.",
+    "title": "WordPress white-label dla agencji.",
+    "titleAccent": "Zacznij od jednego płatnego tasku — 120 zł/h.",
+    "description": "Przejmuję overflow, poprawki i mniejsze wdrożenia WordPress, ACF PRO, WooCommerce i front-end. Pracuję na Git/stagingu, według Waszego workflow i bez kontaktu z klientem końcowym.",
     "metaTitle": "WordPress white-label dla agencji – wsparcie overflow | CodeFix.IT",
     "metaDescription": "Wsparcie WordPress white-label dla agencji: ACF PRO, WooCommerce, front-end, Git i staging. Zacznij od jednego płatnego tasku.",
-    "price": "Od 1 zadania testowego",
-    "pricingNote": "Na start możemy rozliczyć mały task projektowo, a stały model ustalić dopiero po wspólnej realizacji.",
+    "price": "120 zł/h",
+    "pricingNote": "Standardowa stawka white-label. Przed startem podaję estymację czasu; pierwszy mały task możemy zamknąć projektowo, a stały model ustalić dopiero po wspólnej realizacji.",
     "cta": "Zapytaj o współpracę",
-    "secondaryCta": "Zobacz zakres white-label",
+    "secondaryCta": "Zobacz case agencyjny",
     "heroPoints": [
+      "120 zł/h",
       "Bez kontaktu z klientem",
-      "Git / staging / preview",
-      "WordPress + ACF PRO"
+      "Git / staging / review"
     ],
     "offerPoints": [
-      "Mniejsze wdrożenia i poprawki z kolejki.",
-      "Praca według Waszego workflow i QA.",
-      "Start od jednego płatnego tasku."
+      "Start od jednego konkretnego, płatnego tasku.",
+      "Estymacja czasu i zakres przed rozpoczęciem.",
+      "Praca według Waszego workflow i QA."
     ],
     "reassurance": [
       {
@@ -352,11 +352,15 @@
       },
       {
         "title": "Mały start",
-        "description": "Najpierw jeden konkretny task, dopiero potem decyzja o stałej współpracy."
+        "description": "Najpierw jeden konkretny, płatny task, dopiero potem decyzja o stałej współpracy."
+      },
+      {
+        "title": "120 zł/h + estymacja",
+        "description": "Przed rozpoczęciem podaję przewidywany czas, żeby od początku było wiadomo, czego się spodziewać kosztowo."
       }
     ],
-    "ctaMicrocopy": "Wystarczy opis typowych zadań, stacku i workflow. Bez deklarowania stałej współpracy.",
-    "stickyCta": "White-label • task testowy",
+    "ctaMicrocopy": "Podeślij jeden konkretny task, stack i oczekiwany rezultat. Odpowiem z estymacją i kolejnym krokiem — bez deklarowania stałej współpracy.",
+    "stickyCta": "Zapytaj o współpracę",
     "problemHeading": "Kiedy zewnętrzne wsparcie WordPress odciąża agencję.",
     "problems": [
       {
@@ -402,26 +406,37 @@
     "faq": [
       {
         "question": "Czy możesz pracować bez kontaktu z klientem?",
-        "answer": "Tak. W modelu white-label kontakt może odbywać się wyłącznie z agencją."
+        "answer": "Tak. W modelu white-label kontakt może odbywać się wyłącznie z agencją, a wdrożenie przekazuję do Waszego review."
+      },
+      {
+        "question": "Jak rozliczamy pierwszy task?",
+        "answer": "Standardowa stawka white-label to 120 zł/h. Przed startem podaję estymację czasu; mały pierwszy task możemy też zamknąć projektowo po uzgodnieniu zakresu."
       },
       {
         "question": "Czy musimy od razu ustalać stałą liczbę godzin?",
-        "answer": "Nie. Możemy zacząć od jednego małego, płatnego zadania."
+        "answer": "Nie. Możemy zacząć od jednego małego, płatnego zadania i dopiero po nim zdecydować o dalszym modelu współpracy."
       },
       {
         "question": "Czy masz przykład pracy agencyjnej?",
         "answer": "Tak. Case Kancelarii Adwokackiej Witkowskiej w portfolio został wykonany we współpracy z SyloSoftware."
       }
     ],
-    "contactHeading": "Masz task, który utknął w kolejce? Podeślij go.",
-    "contactCopy": "Napisz, co chcesz delegować i jak wygląda Wasz workflow. Możemy zacząć od małego tasku.",
-    "messagePlaceholder": "Np. overflow przy WordPress/ACF, poprawki front-endowe, Git + staging, taski w ...",
+    "contactHeading": "Masz task w kolejce? Podeślij go do wyceny.",
+    "contactCopy": "Napisz, co chcesz delegować, jaki jest oczekiwany rezultat i jak wygląda Wasz workflow. Możemy zacząć od jednego płatnego zadania.",
+    "messagePlaceholder": "Np. poprawka WordPress/ACF, regresja front-endu, WooCommerce, Git + staging. Napisz expected result, deadline i sposób review.",
     "pageUrlRequired": false,
     "projectSlugs": [
       "kancelaria-adwokacka-witkowska",
       "em-air-system"
     ],
     "companyFieldLabel": "Nazwa agencji / firmy",
-    "successMessage": "Dzięki — zapytanie white-label dotarło. Odpowiem z kolejnym krokiem."
+    "successMessage": "Dzięki — zapytanie white-label dotarło. Odpowiem z kolejnym krokiem.",
+    "secondaryHref": "#realizacje",
+    "offerCta": "Zapytaj o współpracę",
+    "proofHeading": "Najpierw sprawdź udokumentowany case agencyjny.",
+    "proofCopy": "Kancelaria Adwokacka Witkowska została zrealizowana we współpracy agencyjnej z SyloSoftware. Możesz sprawdzić zakres i stack przed wysłaniem pierwszego tasku.",
+    "nameFieldLabel": "Imię i nazwisko",
+    "nameFieldPlaceholder": "Np. Piotr Sokołowski",
+    "pageUrlLabel": "Link do strony lub stagingu"
   }
 }
