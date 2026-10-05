@@ -2022,3 +2022,26 @@
     width: 100%;
   }
 }
+
+/* Stage 15B.2 — strengthen existing proof without increasing component weight. */
+.cf-work-section .cf-project-actions {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,.07);
+}
+.cf-work-section .cf-project-link::before {
+  content: '✓';
+  color: #68dca5;
+  font-weight: 900;
+}
+.cf-work-section .cf-project-live-link::before {
+  content: '●';
+  color: #68dca5;
+  font-size: 8px;
+}
+.cf-work-section .cf-proof-fact {
+  background: linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.012));
+}
+.cf-work-section .cf-proof-fact strong {
+  color: #fff;
+}
