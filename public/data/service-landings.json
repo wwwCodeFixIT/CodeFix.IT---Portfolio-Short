@@ -255,19 +255,19 @@
     "path": "/strony-wordpress",
     "service": "CODEFIX_BUSINESS_SITE",
     "eyebrow": "Strony internetowe dla firm • WordPress + ACF PRO",
-    "title": "Strony internetowe dla firm",
-    "titleAccent": "WordPress + ACF PRO, szybkie i edytowalne.",
-    "description": "Tworzę strony internetowe dla firm zdalnie w całej Polsce. Wdrażam je na WordPress + ACF PRO: responsywny front-end, formularze, techniczne SEO, Core Web Vitals i wygodna edycja treści bez grzebania w kodzie.",
+    "title": "Strona WordPress dla firmy.",
+    "titleAccent": "Edytujesz treści sam. Zakres i wycena przed startem.",
+    "description": "Projektuję i wdrażam firmowe strony WordPress z ACF PRO tak, żeby typowe teksty, usługi, realizacje i zdjęcia można było później zmieniać z panelu bez proszenia programisty o każdą drobną aktualizację.",
     "metaTitle": "Strony WordPress dla firm – projekt i wdrożenie | CodeFix.IT",
     "metaDescription": "Tworzenie stron WordPress dla firm w całej Polsce: ACF PRO, szybki front-end, formularze, SEO techniczne i wygodna edycja treści.",
     "price": "Wycena indywidualna",
-    "pricingNote": "Cena zależy od liczby podstron, zakresu projektu, treści, integracji i tego, czy startujemy od istniejącej strony.",
-    "cta": "Wyceń stronę firmową",
-    "secondaryCta": "Zobacz, co dostajesz",
+    "pricingNote": "Po krótkim briefie dostajesz konkretny zakres i wycenę. Nie zaczynam prac, dopóki ich nie zaakceptujesz.",
+    "cta": "Wyceń stronę",
+    "secondaryCta": "Zobacz realizacje",
     "heroPoints": [
-      "Zdalnie w całej Polsce",
-      "WordPress + ACF PRO",
-      "Mobile-first i Core Web Vitals"
+      "3 publiczne realizacje",
+      "Treści edytujesz z panelu",
+      "Preview przed publikacją"
     ],
     "problemHeading": "Tworzenie stron WordPress dla firm, które mają generować kontakt — nie tylko wyglądać.",
     "problems": [
@@ -296,15 +296,15 @@
         "description": "Responsywny layout, optymalizacja zasobów i kontrola Core Web Vitals jako część wdrożenia."
       }
     ],
-    "scopeHeading": "Co obejmuje profesjonalna strona internetowa dla firmy.",
-    "scopeIntro": "Zakres dopasowuję do firmy, ale poniższe elementy traktuję jako bazę dobrego wdrożenia, a nie płatne dodatki do każdej drobnej rzeczy.",
+    "scopeHeading": "Co dostajesz w profesjonalnym wdrożeniu strony firmowej.",
+    "scopeIntro": "Nie dokładam podstawowych elementów jako niespodziewanych „dodatków”. Zakres ustalamy przed startem, a poniższe rzeczy są standardową bazą dobrego wdrożenia.",
     "scope": [
-      "Struktura strony i uzgodniony zestaw podstron / sekcji.",
+      "Uzgodniona struktura strony i zestaw podstron / sekcji.",
       "Responsywny front-end przygotowany pod desktop i urządzenia mobilne.",
-      "WordPress + ACF PRO do edycji uzgodnionych treści.",
+      "Panel WordPress + ACF PRO do samodzielnej edycji uzgodnionych treści.",
       "Formularz kontaktowy z konfiguracją poprawnej dostarczalności.",
       "Techniczne SEO i podstawowe dane strukturalne.",
-      "Preview przed większą publikacją oraz test kontaktu po wdrożeniu."
+      "Preview przed publikacją oraz test formularza i najważniejszych ścieżek po wdrożeniu."
     ],
     "process": [
       {
@@ -327,7 +327,7 @@
       },
       {
         "question": "Czy będę mógł sam zmieniać treści?",
-        "answer": "Tak. ACF PRO wykorzystuję właśnie po to, żeby uzgodnione teksty, obrazy, listy usług czy realizacje dało się edytować z panelu."
+        "answer": "Tak. Teksty, obrazy, listy usług i realizacje, które ustalimy jako edytowalne, przygotowuję w panelu WordPress + ACF PRO tak, żeby typowe aktualizacje nie wymagały zmiany kodu."
       },
       {
         "question": "Czy wykonujesz także wersję mobilną?",
@@ -335,7 +335,7 @@
       },
       {
         "question": "Ile kosztuje strona internetowa dla firmy?",
-        "answer": "Cena zależy od liczby podstron, projektu, treści, integracji i zakresu WordPress/ACF PRO. Po krótkim briefie podaję zakres i wycenę przed rozpoczęciem prac."
+        "answer": "Cena zależy od liczby podstron, projektu, treści i integracji. Po krótkim briefie podaję konkretny zakres i wycenę przed rozpoczęciem prac — bez uruchamiania projektu bez Twojej akceptacji."
       },
       {
         "question": "Czy mogę zobaczyć przykład techniczny?",
@@ -346,11 +346,44 @@
         "answer": "Tak. Projekt i wdrożenie mogą być prowadzone w pełni zdalnie dla firm z całej Polski. Kontakt, preview i akceptacja zmian odbywają się online."
       }
     ],
-    "contactHeading": "Opisz firmę i stronę, której potrzebujesz.",
-    "contactCopy": "Wystarczy krótki brief: czym zajmuje się firma, orientacyjna liczba podstron oraz informacja, czy masz już domenę, hosting, logo i teksty.",
-    "messagePlaceholder": "Np. firma instalacyjna, strona główna + usługi + realizacje + o nas + kontakt. Mam domenę i logo, teksty częściowo gotowe.",
+    "contactHeading": "Podeślij krótki brief. Wrócę z zakresem i wyceną.",
+    "contactCopy": "Napisz czym zajmuje się firma, jakie podstrony są potrzebne i co masz już gotowe: domenę, hosting, logo, teksty lub obecną stronę. Jeśli masz orientacyjny budżet albo termin, też możesz go podać.",
+    "messagePlaceholder": "Np. firma instalacyjna; strona główna + usługi + realizacje + o nas + kontakt. Mam domenę i logo, teksty częściowo gotowe. Termin: listopad.",
     "pageUrlRequired": false,
-    "demoUrl": "https://demo.codefix.it/"
+    "demoUrl": "https://demo.codefix.it/",
+    "offerCta": "Wyceń stronę",
+    "secondaryHref": "#realizacje",
+    "offerPoints": [
+      "Responsywny front-end na desktop i telefon.",
+      "WordPress + ACF PRO do wygodnej edycji treści.",
+      "Formularz, podstawy SEO i test po publikacji."
+    ],
+    "reassurance": [
+      {
+        "title": "Treści bez programisty",
+        "description": "Uzgodnione teksty, obrazy, usługi i realizacje edytujesz później z panelu WordPress."
+      },
+      {
+        "title": "Preview przed publikacją",
+        "description": "Najpierw oglądasz działającą wersję i akceptujesz poprawki, dopiero potem publikujemy."
+      },
+      {
+        "title": "Weryfikowalne realizacje",
+        "description": "Możesz sprawdzić 3 publiczne wdrożenia i osobne case studies przed wysłaniem briefu."
+      }
+    ],
+    "proofHeading": "Sprawdź działające wdrożenia przed wyceną.",
+    "proofCopy": "To publiczne strony z opisanym zakresem i stackiem. Możesz zobaczyć efekt na żywo, zanim wyślesz brief.",
+    "projectSlugs": [
+      "kancelaria-adwokacka-witkowska",
+      "rzeczoznawca-marcin-dudek",
+      "em-air-system"
+    ],
+    "nameFieldLabel": "Imię lub nazwa firmy",
+    "nameFieldPlaceholder": "Np. Jan Kowalski lub Twoja Firma",
+    "pageUrlLabel": "Obecna strona lub inspiracja",
+    "ctaMicrocopy": "Najpierw dostajesz zakres i wycenę. Start prac dopiero po Twojej akceptacji.",
+    "stickyCta": "Wyceń stronę"
   },
   "/dla-agencji-wordpress": {
     "path": "/dla-agencji-wordpress",
