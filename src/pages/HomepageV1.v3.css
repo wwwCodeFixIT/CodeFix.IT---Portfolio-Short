@@ -2022,3 +2022,131 @@
     width: 100%;
   }
 }
+
+
+/* Stage 15B.2 — verifiable portfolio proof and post-proof conversion. */
+.cf-project-verification {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 13px;
+}
+
+.cf-project-verification-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 28px;
+  padding: 5px 8px;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.025);
+  color: #92929a;
+  font-size: 10px;
+  font-weight: 650;
+  line-height: 1.2;
+}
+
+.cf-project-verification-item svg {
+  color: #68dca5;
+}
+
+.cf-project-verification-live {
+  color: #b6b6bd;
+}
+
+.cf-live-dot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 50%;
+  background: #68dca5;
+  box-shadow: 0 0 0 3px rgba(104, 220, 165, 0.08);
+}
+
+.cf-work-section .cf-project-verification + h3 {
+  margin-top: 18px;
+}
+
+.cf-work-next-step {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) auto;
+  gap: clamp(28px, 5vw, 64px);
+  align-items: center;
+  margin-top: 34px;
+  padding: clamp(24px, 3vw, 34px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 88% 20%, rgba(239, 68, 68, 0.11), transparent 34%),
+    rgba(255, 255, 255, 0.022);
+}
+
+.cf-work-next-step h3 {
+  max-width: 760px;
+  margin: 7px 0 0;
+  color: #f4f4f5;
+  font-size: clamp(24px, 2.4vw, 34px);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+
+.cf-work-next-step > div:first-child > p:last-child {
+  max-width: 690px;
+  margin: 14px 0 0;
+  color: #92929a;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.cf-work-next-step-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.cf-work-next-step-actions .cf-button {
+  min-height: 46px;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.cf-work-next-step a:focus-visible {
+  outline: 3px solid #ff9a9e;
+  outline-offset: 4px;
+}
+
+@media (max-width: 900px) {
+  .cf-work-next-step {
+    grid-template-columns: 1fr;
+  }
+
+  .cf-work-next-step-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 560px) {
+  .cf-project-verification {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .cf-project-verification-item {
+    width: fit-content;
+  }
+
+  .cf-work-next-step {
+    padding: 22px 18px;
+  }
+
+  .cf-work-next-step-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .cf-work-next-step-actions .cf-button {
+    width: 100%;
+  }
+}
