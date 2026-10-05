@@ -8,8 +8,8 @@
   grid-template-columns: minmax(0, 1fr);
   gap: 56px;
   align-items: end;
-  padding-top: 96px;
-  padding-bottom: 76px;
+  padding-top: 82px;
+  padding-bottom: 60px;
 }
 
 .projects-breadcrumb {
@@ -48,8 +48,8 @@
 }
 
 .projects-index-list {
-  padding-top: 88px;
-  padding-bottom: 96px;
+  padding-top: 72px;
+  padding-bottom: 82px;
 }
 
 .projects-index-grid {
@@ -93,14 +93,6 @@
   border-radius: 999px;
 }
 
-.projects-index-domain {
-  max-width: 150px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-transform: none;
-  white-space: nowrap;
-}
-
 .projects-index-card h3 {
   margin: 0 0 12px;
   color: #f0f0f2;
@@ -114,28 +106,6 @@
   color: #b1b1bb;
   font-size: 16px;
   line-height: 1.65;
-}
-
-.projects-index-card ul {
-  display: grid;
-  gap: 10px;
-  margin: 0 0 24px;
-  padding: 0;
-  list-style: none;
-}
-
-.projects-index-card li {
-  display: flex;
-  gap: 9px;
-  color: #b5b5bd;
-  font-size: 12px;
-  line-height: 1.45;
-}
-
-.projects-index-card li svg {
-  flex: 0 0 auto;
-  margin-top: 1px;
-  color: #ff4c5d;
 }
 
 .projects-index-actions {
