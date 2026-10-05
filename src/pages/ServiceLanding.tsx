@@ -341,7 +341,7 @@ export function ServiceLanding({
                 {config.cta}
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
-              <a href="#zakres" className="cf-button cf-button-secondary">
+              <a href={config.secondaryHref ?? '#zakres'} className="cf-button cf-button-secondary">
                 {config.secondaryCta}
               </a>
             </div>
@@ -469,15 +469,15 @@ export function ServiceLanding({
           </div>
         </section>
 
-        <section className="cf-section service-proof-section">
+        <section id="realizacje" className="cf-section service-proof-section">
           <div className="cf-container">
             <div className="cf-section-head-row">
               <div>
                 <p className="cf-section-kicker">Realizacje</p>
-                <h2 className="cf-section-heading">WordPress w praktyce, nie tylko w opisie usługi.</h2>
+                <h2 className="cf-section-heading">{config.proofHeading ?? 'WordPress w praktyce, nie tylko w opisie usługi.'}</h2>
               </div>
               <p className="cf-section-sidecopy">
-                Poniższe projekty to opisane, faktyczne wdrożenia. Szczegóły zakresu są dostępne na osobnych stronach realizacji.
+                {config.proofCopy ?? 'Poniższe projekty to opisane, faktyczne wdrożenia. Szczegóły zakresu są dostępne na osobnych stronach realizacji.'}
               </p>
             </div>
             <div className="service-projects-grid">
@@ -526,8 +526,16 @@ export function ServiceLanding({
                 <form className="cf-lead-form" onSubmit={handleSubmit} onFocusCapture={handleFormStart}>
                   <div className="cf-form-row">
                     <label>
-                      <span>Imię / firma</span>
-                      <input name="name" type="text" autoComplete="name" minLength={2} maxLength={120} required />
+                      <span>{config.nameFieldLabel ?? 'Imię / firma'}</span>
+                      <input
+                        name="name"
+                        type="text"
+                        autoComplete="name"
+                        placeholder={config.nameFieldPlaceholder}
+                        minLength={2}
+                        maxLength={120}
+                        required
+                      />
                     </label>
                     <label>
                       <span>E-mail</span>
@@ -552,7 +560,9 @@ export function ServiceLanding({
                   </p>
 
                   <label>
-                    <span>Adres strony {config.pageUrlRequired ? '' : <small>opcjonalnie</small>}</span>
+                    <span>
+                      {config.pageUrlLabel ?? 'Adres strony'} {config.pageUrlRequired ? '' : <small>opcjonalnie</small>}
+                    </span>
                     <input
                       name="pageUrl"
                       type="url"
