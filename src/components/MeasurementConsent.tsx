@@ -66,7 +66,7 @@ export function MeasurementConsent({ servicePage = false }: { servicePage?: bool
             checked={preferences.ads}
             onChange={(event) => setPreferences((current) => ({ ...current, ads: event.target.checked }))}
           />
-          <span><strong>Pomiar reklam (OpenAI)</strong><small>Sprawdzenie, czy reklama doprowadziła do zapytania.</small></span>
+          <span><strong>Pomiar reklam (Google Ads i OpenAI)</strong><small>Atrybucja reklam i konwersji po dobrowolnej zgodzie.</small></span>
         </label>
       </fieldset>
       <div className="cf-measurement-actions">

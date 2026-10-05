@@ -35,7 +35,7 @@ export function PrivacyPolicy() {
             Poniżej wyjaśniam, jakie dane są przetwarzane przez codefix.it,
             po co są potrzebne i jakie masz prawa.
           </p>
-          <span>Ostatnia aktualizacja: 2 października 2026 r.</span>
+          <span>Ostatnia aktualizacja: 6 października 2026 r.</span>
         </div>
 
         <div className="cf-privacy-grid">
@@ -44,7 +44,7 @@ export function PrivacyPolicy() {
             <h2>Najważniejsze w skrócie</h2>
             <p>
               Formularz służy do obsługi zapytania. Analityka Google i pomiar reklam
-              OpenAI mają osobne, dobrowolne zgody. Nie sprzedaję danych osobowych.
+              (Google Ads / OpenAI) mają odrębne, dobrowolne zgody. Nie sprzedaję danych osobowych.
             </p>
             <a href={`mailto:${contactEmail}`}>
               <Mail size={15} aria-hidden="true" />
@@ -87,8 +87,8 @@ export function PrivacyPolicy() {
                 żądanie przed zawarciem umowy albo obsługi dalszej współpracy.
                 W zakresie bezpieczeństwa, historii ustaleń i podstawowej atrybucji
                 źródła zgłoszenia podstawą jest uzasadniony interes administratora.
-                Analityka Google i pomiar reklam OpenAI są uruchamiane wyłącznie
-                po wyrażeniu odpowiedniej zgody.
+                Analityka Google oraz pomiar reklam w Google Ads i OpenAI są uruchamiane
+                wyłącznie po wyrażeniu odpowiedniej zgody i tylko wtedy, gdy dany kanał pomiarowy jest aktywny.
               </p>
             </section>
 
@@ -96,9 +96,12 @@ export function PrivacyPolicy() {
               <h2>4. Analityka, pomiar reklam i pamięć zgody</h2>
               <p>
                 Google Analytics 4 mierzy odwiedziny i wysłane zapytania po zgodzie
-                na analitykę. Osobna zgoda na pomiar reklam uruchamia Pixel OpenAI,
-                który pozwala powiązać wysłanie zapytania z reklamą w ChatGPT.
-                Wcześniejsza zgoda na samą analitykę nie uruchamia pomiaru reklam.
+                na analitykę. Osobna zgoda na pomiar reklam może uruchamiać pomiar
+                Google Ads oraz Pixel OpenAI, zależnie od aktywnego kanału reklamowego.
+                Dla Google stosowany jest Consent Mode v2: ad_storage, ad_user_data
+                i ad_personalization pozostają domyślnie wyłączone i są włączane
+                dopiero po zgodzie na pomiar reklam. Zgoda na samą analitykę nie
+                uruchamia pomiaru reklam.
               </p>
               <p>
                 Kontekst lejka sprzedażowego jest zapamiętywany w sessionStorage i służy
@@ -128,9 +131,9 @@ export function PrivacyPolicy() {
               <p>
                 Dane mogą być przetwarzane przez dostawców infrastruktury potrzebnej
                 do działania serwisu, CRM i poczty transakcyjnej, w szczególności
-                usług hostingowych i chmurowych. Dane analityczne trafiają do Google
-                wyłącznie po wyrażeniu zgody.
-                Dane pomiaru reklam trafiają do OpenAI po osobnej zgodzie.
+                usług hostingowych i chmurowych. Dane analityczne trafiają do Google wyłącznie po zgodzie na analitykę.
+                Dane pomiaru reklam mogą trafiać do Google Ads i OpenAI dopiero po
+                osobnej zgodzie na pomiar reklam i tylko dla aktywnego kanału.
               </p>
             </section>
 
