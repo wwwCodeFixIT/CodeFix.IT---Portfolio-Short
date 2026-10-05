@@ -1,13 +1,4 @@
 import { useEffect } from 'react';
-import {
-  ArrowLeft,
-  ArrowRight,
-  CheckCircle2,
-  Clock3,
-  FileText,
-  ShieldCheck,
-} from 'lucide-react';
-
 import type { WordPressGuide } from '../data/wordpress-guides';
 import { Brand } from '../components/Brand';
 import { wordpressGuides } from '../data/wordpress-guides';
@@ -134,7 +125,7 @@ export function GuidesIndex() {
       <main className="guide-index-main">
         <section className="cf-container guide-index-hero">
           <a className="guide-back" href="/">
-            <ArrowLeft size={15} /> Strona główna
+            ← Strona główna
           </a>
           <p className="cf-section-kicker">PORADNIKI / WORDPRESS</p>
           <h1>Poradniki WordPress.<br/><span>Naprawa, opieka i wyceny.</span></h1>
@@ -165,7 +156,7 @@ export function GuidesIndex() {
                     <p>{group.description}</p>
                   </div>
                   <a href={`${group.serviceHref}/`} className="guide-index-service-link">
-                    {group.serviceLabel} <ArrowRight size={15} />
+                    {group.serviceLabel} →
                   </a>
                 </div>
 
@@ -174,12 +165,12 @@ export function GuidesIndex() {
                     <article className="guide-card" key={guide.slug}>
                       <div className="guide-card-meta">
                         <span>{guide.intent}</span>
-                        <span><Clock3 size={13}/> {guide.readMinutes} min</span>
+                        <span>{guide.readMinutes} min</span>
                       </div>
                       <h3>{guide.title}</h3>
                       <p>{guide.description}</p>
                       <a href={`/poradniki/${guide.slug}/`}>
-                        Czytaj poradnik <ArrowRight size={15}/>
+                        Czytaj poradnik →
                       </a>
                     </article>
                   ))}
@@ -267,7 +258,7 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
           <header className="guide-article-header">
             <div className="guide-badges">
               <span>{guide.intent}</span>
-              <span><Clock3 size={13}/> {guide.readMinutes} min czytania</span>
+              <span>{guide.readMinutes} min czytania</span>
               <span>Aktualizacja: {guide.updatedOn}</span>
             </div>
             <h1>{guide.title}</h1>
@@ -275,7 +266,6 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
           </header>
 
           <aside className="guide-safety-note">
-            <ShieldCheck size={18}/>
             <div>
               <strong>Zanim zmienisz produkcję</strong>
               <span>
@@ -293,7 +283,7 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
                 {section.checklist && (
                   <ul>
                     {section.checklist.map((item) => (
-                      <li key={item}><CheckCircle2 size={16}/><span>{item}</span></li>
+                      <li key={item}><span aria-hidden="true">✓</span><span>{item}</span></li>
                     ))}
                   </ul>
                 )}
@@ -308,7 +298,7 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
               <p>Opisz objaw i podeślij URL. Najpierw ustalimy zakres, a dopiero potem zmianę.</p>
             </div>
             <a className="cf-button cf-button-primary" href={`${guide.serviceHref}/`} onClick={trackServiceCta}>
-              {guide.serviceLabel}<ArrowRight size={16}/>
+              {guide.serviceLabel} →
             </a>
           </section>
 
@@ -331,9 +321,8 @@ export function GuidePage({ guide }: { guide: WordPressGuide }) {
             <div>
               {related.map((item) => (
                 <a href={`/poradniki/${item.slug}/`} key={item.slug}>
-                  <FileText size={17}/>
                   <span>{item.title}</span>
-                  <ArrowRight size={14}/>
+                  <span aria-hidden="true">→</span>
                 </a>
               ))}
             </div>
