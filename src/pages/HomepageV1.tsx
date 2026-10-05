@@ -166,6 +166,15 @@ const faqItems = [
 const featuredProjects = projects.slice(0, 3);
 const publicProjectCount = featuredProjects.filter((project) => Boolean(project.demoUrl)).length;
 const agencyCollaborationCount = featuredProjects.filter((project) => Boolean(project.collaboration)).length;
+
+function projectHostname(url: string) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return url;
+  }
+}
+
 const contactEmail = 'wwwcodefixit@gmail.com';
 const contactHref = `mailto:${contactEmail}?subject=${encodeURIComponent('Zapytanie ze strony CodeFix.IT')}`;
 const leadApiUrl = 'https://app.codefix.it/api/public/leads';
@@ -753,6 +762,26 @@ export function HomepageV1() {
                     <span>{project.collaboration ? 'Współpraca agencyjna' : 'Strona firmowa'}</span>
                   </div>
 
+                  <div
+                    className="cf-project-verification"
+                    aria-label={`Weryfikacja realizacji: ${project.title}`}
+                  >
+                    <span className="cf-project-verification-item">
+                      <CheckCircle2 size={13} aria-hidden="true" />
+                      Case study CodeFix.IT
+                    </span>
+                    <span className="cf-project-verification-item cf-project-verification-live">
+                      <span className="cf-live-dot" aria-hidden="true" />
+                      Live: {projectHostname(project.demoUrl)}
+                    </span>
+                    {project.collaboration && (
+                      <span className="cf-project-verification-item">
+                        <Layers3 size={13} aria-hidden="true" />
+                        Partner: {project.collaboration}
+                      </span>
+                    )}
+                  </div>
+
                   <h3>{project.title}</h3>
                   <p className="cf-project-description">{project.shortDescription}</p>
 
@@ -799,6 +828,30 @@ export function HomepageV1() {
                   </div>
                 </article>
               ))}
+            </div>
+
+            <div className="cf-work-next-step" aria-labelledby="cf-work-next-step-title">
+              <div>
+                <p className="cf-section-kicker">Po realizacjach</p>
+                <h3 id="cf-work-next-step-title">Sprawdziłeś przykłady? Teraz opisz swój temat.</h3>
+                <p>
+                  Wyślij adres strony albo krótki brief. Przed rozpoczęciem prac dostaniesz proponowany zakres,
+                  cenę i kolejny krok.
+                </p>
+              </div>
+              <div className="cf-work-next-step-actions">
+                <a href="/realizacje/" className="cf-button cf-button-secondary">
+                  Wszystkie case studies
+                </a>
+                <a
+                  href="#contact"
+                  className="cf-button cf-button-primary"
+                  onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'portfolio_after_proof' })}
+                >
+                  Opisz temat
+                  <ArrowRight size={17} aria-hidden="true" />
+                </a>
+              </div>
             </div>
           </div>
         </section>
