@@ -157,6 +157,7 @@
 }
 
 .cf-service-card-actions .cf-card-link {
+  min-height: 44px;
   margin-top: 0;
 }
 

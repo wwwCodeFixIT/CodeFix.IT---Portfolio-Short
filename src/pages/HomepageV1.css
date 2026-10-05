@@ -472,15 +472,15 @@
   border-color: rgba(239, 68, 68, 0.28);
 }
 
-.cf-service-icon {
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(239, 68, 68, 0.22);
+.cf-service-art {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  flex-shrink: 0;
+  align-self: center;
+  object-fit: contain;
   border-radius: 12px;
-  background: rgba(239, 68, 68, 0.08);
-  color: #ff6363;
+  background: #0b0b0d;
 }
 
 .cf-service-card h3 {
