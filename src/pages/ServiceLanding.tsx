@@ -51,7 +51,7 @@ function buildSchema(config: ServiceLandingConfig) {
         '@id': 'https://codefix.it/#organization',
         name: 'CodeFix.IT',
         url: 'https://codefix.it/',
-        logo: 'https://codefix.it/brand/codefix-mark.png',
+        logo: 'https://codefix.it/brand/codefix-devil-mark.webp',
         slogan: 'Diabeł tkwi w kodzie',
         email: contactEmail,
       },
