@@ -68,8 +68,9 @@ export function PrivacyPolicy() {
                 Przy wysłaniu formularza przetwarzane są dane, które podasz:
                 imię lub nazwa firmy, adres e-mail, opcjonalny adres strony, wybrany
                 temat i treść wiadomości. Zapisywane mogą być także ograniczone dane
-                o źródle zgłoszenia: wartości UTM, ścieżka wejścia oraz domena strony,
-                z której nastąpiło przejście. Przy wysłaniu formularza do zgłoszenia może
+                o źródle zgłoszenia: wartości UTM, ścieżka wejścia, domena strony,
+                z której nastąpiło przejście oraz identyfikator kliknięcia reklamy Google
+                (gclid, gbraid albo wbraid), jeżeli występuje w adresie wejścia. Przy wysłaniu formularza może
                 zostać dołączony także losowy identyfikator sesji lejka, wybrana usługa,
                 pierwsze i ostatnie kliknięte CTA oraz moment rozpoczęcia formularza.
               </p>
