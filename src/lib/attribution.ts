@@ -7,6 +7,7 @@ export type LeadAttribution = {
   utmCampaign: string;
   utmContent: string;
   utmTerm: string;
+  googleClickId: string;
 };
 
 type StoredAttribution = Omit<LeadAttribution, 'submitPath'>;
@@ -41,6 +42,7 @@ function readStored(): StoredAttribution | null {
       utmCampaign: clean(parsed.utmCampaign ?? '', 160),
       utmContent: clean(parsed.utmContent ?? '', 160),
       utmTerm: clean(parsed.utmTerm ?? '', 160),
+      googleClickId: clean(parsed.googleClickId ?? '', 270),
     };
   } catch {
     return null;
@@ -57,12 +59,15 @@ function writeStored(value: StoredAttribution) {
 
 export function captureSessionAttribution(): LeadAttribution {
   const url = new URL(window.location.href);
+  const query = url.searchParams;
+  const clickKey = query.has('gclid') ? 'gclid' : query.has('gbraid') ? 'gbraid' : query.has('wbraid') ? 'wbraid' : '';
   const current = {
-    utmSource: clean(url.searchParams.get('utm_source'), 160),
-    utmMedium: clean(url.searchParams.get('utm_medium'), 160),
-    utmCampaign: clean(url.searchParams.get('utm_campaign'), 160),
-    utmContent: clean(url.searchParams.get('utm_content'), 160),
-    utmTerm: clean(url.searchParams.get('utm_term'), 160),
+    utmSource: clean(query.get('utm_source'), 160),
+    utmMedium: clean(query.get('utm_medium'), 160),
+    utmCampaign: clean(query.get('utm_campaign'), 160),
+    utmContent: clean(query.get('utm_content'), 160),
+    utmTerm: clean(query.get('utm_term'), 160),
+    googleClickId: clickKey ? `${clickKey}=${clean(query.get(clickKey), 256)}` : '',
   };
   const hasTaggedTouch = Object.values(current).some(Boolean);
   const stored = readStored();
