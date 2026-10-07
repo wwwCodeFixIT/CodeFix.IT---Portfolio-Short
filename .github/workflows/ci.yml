@@ -54,5 +54,8 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Check conversion measurement contract
+        run: npm run measurement:smoke
+
       - name: Check build budgets
         run: node scripts/check-build-budgets.mjs
