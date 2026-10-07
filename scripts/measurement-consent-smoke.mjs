@@ -19,8 +19,18 @@ assert.match(
 );
 assert.match(
   html,
-  /if \(allowed\) loadGoogleTag\(false\);/,
-  'Granting Ads consent must load the consent-aware Google tag.',
+  /var googleAdsId = 'AW-18496694311';/,
+  'The production Google Ads tag ID must stay wired into the measurement bootstrap.',
+);
+assert.match(
+  html,
+  /window\.gtag\('config', googleAdsId, \{ send_page_view: false \}\);/,
+  'Ads consent must configure the Google Ads destination without an Analytics page view.',
+);
+assert.match(
+  html,
+  /if \(allowed\) configureGoogleAds\(\);/,
+  'Granting Ads consent must configure the Google Ads destination.',
 );
 assert.match(
   serviceLanding,
