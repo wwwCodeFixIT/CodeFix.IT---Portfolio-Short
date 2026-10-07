@@ -259,10 +259,13 @@ export function ServiceLanding({
         const analyticsWindow = window as Window & {
           gtag?: (...args: unknown[]) => void;
           codefixAnalyticsAllowed?: boolean;
+          codefixAdConsentChoice?: 'accepted' | 'rejected' | null;
         };
-        if (analyticsWindow.codefixAnalyticsAllowed) {
+        if (
+          analyticsWindow.codefixAnalyticsAllowed ||
+          analyticsWindow.codefixAdConsentChoice === 'accepted'
+        ) {
           analyticsWindow.gtag?.('event', 'generate_lead', {
-            event_category: 'lead',
             lead_source: 'service_landing',
             service: config.service,
             landing_path: config.path,

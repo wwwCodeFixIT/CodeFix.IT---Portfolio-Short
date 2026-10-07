@@ -64,17 +64,31 @@
         window.codefixConsentChoice = choice;
 
         var initialized = false;
+        var analyticsPageViewSent = false;
+
+        function loadGoogleTag(sendPageView) {
+          if (!initialized) {
+            initialized = true;
+            analyticsPageViewSent = Boolean(sendPageView);
+            window.gtag('js', new Date());
+            window.gtag('config', measurementId, { send_page_view: Boolean(sendPageView) });
+            var script = document.createElement('script');
+            script.async = true;
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
+            document.head.appendChild(script);
+            return;
+          }
+
+          if (sendPageView && !analyticsPageViewSent) {
+            analyticsPageViewSent = true;
+            window.gtag('config', measurementId);
+          }
+        }
+
         function startAnalytics() {
-          if (initialized) return;
-          initialized = true;
           window.codefixAnalyticsAllowed = true;
           window.gtag('consent', 'update', { analytics_storage: 'granted' });
-          window.gtag('js', new Date());
-          window.gtag('config', measurementId);
-          var script = document.createElement('script');
-          script.async = true;
-          script.src = 'https://www.googletagmanager.com/gtag/js?id=' + measurementId;
-          document.head.appendChild(script);
+          loadGoogleTag(true);
         }
 
         function clearAnalyticsCookies() {
@@ -100,6 +114,11 @@
             ad_personalization: value
           });
           window.gtag('set', 'ads_data_redaction', !allowed);
+
+          // Ads consent must be able to measure a lead even when Analytics
+          // consent stays denied. Load the consent-aware Google tag without
+          // sending an Analytics page_view in that case.
+          if (allowed) loadGoogleTag(false);
         };
 
         window.codefixSetAnalyticsConsent = function (nextChoice, deferReload) {
