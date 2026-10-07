@@ -259,8 +259,13 @@ export function ServiceLanding({
         const analyticsWindow = window as Window & {
           gtag?: (...args: unknown[]) => void;
           codefixAnalyticsAllowed?: boolean;
+          codefixAdConsentChoice?: 'accepted' | 'rejected' | null;
         };
-        if (analyticsWindow.codefixAnalyticsAllowed) {
+        const canMeasureGoogleLead =
+          analyticsWindow.codefixAnalyticsAllowed ||
+          analyticsWindow.codefixAdConsentChoice === 'accepted';
+
+        if (canMeasureGoogleLead) {
           analyticsWindow.gtag?.('event', 'generate_lead', {
             event_category: 'lead',
             lead_source: 'service_landing',
