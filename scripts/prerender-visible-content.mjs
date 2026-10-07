@@ -66,6 +66,8 @@ const serviceLinks = [
   ['/dla-agencji-wordpress/', 'WordPress white-label dla agencji — wsparcie overflow'],
 ];
 
+const contactEmail = 'wwwcodefixit@gmail.com';
+
 const projectLinks = [
   ['/realizacje/kancelaria-adwokacka-witkowska/', 'Kancelaria Adwokacka Witkowska — case współpracy agencyjnej'],
   ['/realizacje/rzeczoznawca-marcin-dudek/', 'Rzeczoznawca Marcin Dudek — strona WordPress od zera'],
@@ -253,6 +255,18 @@ function relatedBlock(path) {
   return `<p><a href="/">Wróć do strony głównej CodeFix.IT</a></p>`;
 }
 
+function staticContactBlock(path) {
+  const isCommercialPage = path === '/' || Boolean(serviceHeadings[path]);
+  if (!isCommercialPage) return '';
+
+  return `
+    <section id="kontakt" aria-labelledby="static-contact-heading">
+      <h2 id="static-contact-heading">Kontakt z CodeFix.IT</h2>
+      <p>Jeśli interaktywny formularz chwilowo się nie załaduje, nadal możesz wysłać zgłoszenie bezpośrednio e-mailem.</p>
+      <p><a href="mailto:${contactEmail}">${contactEmail}</a></p>
+    </section>`;
+}
+
 function outputPath(pathname) {
   if (pathname === '/') return join(distDir.pathname, 'index.html');
   return join(distDir.pathname, pathname.replace(/^\//, ''), 'index.html');
@@ -289,6 +303,7 @@ for (const url of urls) {
         <h1>${escapeHtml(heading)}</h1>
         <p>${escapeHtml(description)}</p>
         ${relatedBlock(path)}
+        ${staticContactBlock(path)}
       </div>
     </main>
   </div>`;
@@ -300,6 +315,14 @@ for (const url of urls) {
   html = html.replace('<div id="root"></div>', body);
   if (!html.includes('id="codefix-static-prerender-style"')) {
     html = html.replace('</head>', `${style}\n  </head>`);
+  }
+
+  const isCommercialPage = path === '/' || Boolean(serviceHeadings[path]);
+  if (
+    isCommercialPage &&
+    (!html.includes('id="kontakt"') || !html.includes(`mailto:${contactEmail}`))
+  ) {
+    throw new Error(`Static contact fallback missing for ${path}`);
   }
 
   await writeFile(file, html, 'utf8');
