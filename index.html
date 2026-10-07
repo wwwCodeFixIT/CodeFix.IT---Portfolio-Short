@@ -41,6 +41,7 @@
     <script>
       (function () {
         var measurementId = 'G-HBPBYSGBPS';
+        var googleAdsId = 'AW-18496694311';
         var storageKey = 'codefix_analytics_consent_v1';
         var choice = null;
         try {
@@ -65,6 +66,7 @@
 
         var initialized = false;
         var analyticsPageViewSent = false;
+        var googleAdsConfigured = false;
 
         function loadGoogleTag(sendPageView) {
           if (!initialized) {
@@ -89,6 +91,13 @@
           window.codefixAnalyticsAllowed = true;
           window.gtag('consent', 'update', { analytics_storage: 'granted' });
           loadGoogleTag(true);
+        }
+
+        function configureGoogleAds() {
+          loadGoogleTag(false);
+          if (googleAdsConfigured) return;
+          googleAdsConfigured = true;
+          window.gtag('config', googleAdsId, { send_page_view: false });
         }
 
         function clearAnalyticsCookies() {
@@ -118,7 +127,7 @@
           // Ads consent must be able to measure a lead even when Analytics
           // consent stays denied. Load the consent-aware Google tag without
           // sending an Analytics page_view in that case.
-          if (allowed) loadGoogleTag(false);
+          if (allowed) configureGoogleAds();
         };
 
         window.codefixSetAnalyticsConsent = function (nextChoice, deferReload) {
