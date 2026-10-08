@@ -14,14 +14,14 @@ const cases=[
 for(const scenario of cases){
   const context=await browser.newContext({viewport:{width:390,height:844}});
   const page=await context.newPage();
-  const errors=[];let interceptedPosts=0;let blocked=0;
+  const errors=[];let interceptedPosts=0;
   page.on('pageerror',e=>errors.push(e.message));
   // Never send a synthetic lead, telemetry, or Google Ads conversion to production.
   await page.route('**/googletagmanager.com/**',route=>route.abort());
   await page.route('**/google-analytics.com/**',route=>route.abort());
   await page.route('**/googleadservices.com/**',route=>route.abort());
   await page.route('**/doubleclick.net/**',route=>route.abort());
-  await page.route('https://app.codefix.it/**',route=>{blocked++;return route.abort();});
+  await page.route('https://app.codefix.it/**',route=>route.abort());
   await page.route('https://app.codefix.it/api/public/leads',async route=>{
     if(route.request().method()==='POST')interceptedPosts++;
     const headers={
