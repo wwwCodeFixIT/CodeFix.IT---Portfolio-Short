@@ -22,10 +22,14 @@ for(const size of sizes) {
   page.on('pageerror',e=>errors.push(e.message));
   await page.goto(url,{waitUntil:'domcontentloaded',timeout:60000});
   await page.locator('.cf-hero-path').first().waitFor({state:'visible',timeout:40000});
+  await page.waitForLoadState('load',{timeout:45000});
+  await page.waitForTimeout(250);
+  const debug=await page.evaluate(()=>({width:globalThis.innerWidth,mobileQuery:globalThis.matchMedia('(max-width: 720px)').matches,root:globalThis.document.querySelector('.homepage-v1')?.className,stylesheets:globalThis.document.styleSheets.length,focused:globalThis.document.activeElement?.outerHTML?.slice(0,120)}));
   const sticky=page.locator('.cf-mobile-sticky-cta');
   const mobile=size.width<=720;
   const inspect=()=>sticky.evaluate(el=>({display:globalThis.getComputedStyle(el).display,visibility:globalThis.getComputedStyle(el).visibility,opacity:globalThis.getComputedStyle(el).opacity}));
   const before=await inspect();
+  console.log('INITIAL '+engine+' '+size.label+' '+JSON.stringify({...debug,...before}));
   assert.equal(before.display!=='none',mobile,engine+' '+size.label+' sticky initial display');
   const overflow=await page.evaluate(()=>Math.max(0,globalThis.document.documentElement.scrollWidth-globalThis.document.documentElement.clientWidth));
   assert.equal(overflow,0,engine+' '+size.label+' has horizontal overflow');
