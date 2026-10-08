@@ -209,7 +209,33 @@ export function HomepageV1() {
   const formViewTracked = useRef(false);
   const funnelViewTracked = useRef(false);
   const contactSectionRef = useRef<HTMLElement | null>(null);
+  const footerRef = useRef<HTMLElement | null>(null);
   const feedbackRef = useRef<HTMLDivElement | null>(null);
+  const [contactAreaVisible, setContactAreaVisible] = useState(false);
+
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return;
+
+    // Avoid showing a redundant fixed CTA above the actual contact form or footer.
+    // Track both targets, since a single observer callback may contain only one entry.
+    const targets = [contactSectionRef.current, footerRef.current].filter(
+      (element): element is HTMLElement => element !== null,
+    );
+    const visibleTargets = new Set<Element>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visibleTargets.add(entry.target);
+          else visibleTargets.delete(entry.target);
+        }
+        setContactAreaVisible(visibleTargets.size > 0);
+      },
+      { threshold: 0, rootMargin: '0px 0px -72px 0px' },
+    );
+
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (formState === 'success' || formState === 'error') feedbackRef.current?.focus();
@@ -430,7 +456,7 @@ export function HomepageV1() {
   }
 
   return (
-    <div className="homepage-v1 has-mobile-cta">
+    <div className={`homepage-v1 has-mobile-cta${contactAreaVisible ? ' cf-contact-in-view' : ''}`}>
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand href="#top" />
@@ -1100,7 +1126,7 @@ export function HomepageV1() {
         </section>
       </main>
 
-      <footer className="cf-footer">
+      <footer className="cf-footer" ref={footerRef}>
         <div className="cf-container cf-footer-main">
           <div className="cf-footer-brand">
             <Brand href="#top" tagline />
