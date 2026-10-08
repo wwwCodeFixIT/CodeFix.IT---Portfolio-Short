@@ -40,14 +40,17 @@ for(const size of sizes) {
   if(mobile) {
     await page.evaluate(()=>globalThis.document.querySelector('#contact').scrollIntoView({block:'start',behavior:'instant'}));
     await page.waitForFunction(()=>globalThis.document.querySelector('.homepage-v1').classList.contains('cf-contact-in-view'),{timeout:12000});
+    await page.waitForFunction(()=>globalThis.getComputedStyle(globalThis.document.querySelector('.cf-mobile-sticky-cta')).visibility==='hidden',null,{timeout:12000});
     let state=await inspect();
     assert.equal(state.visibility,'hidden',engine+' '+size.label+' contact sticky hidden');
     await page.evaluate(()=>globalThis.document.querySelector('.cf-footer').scrollIntoView({block:'start',behavior:'instant'}));
     await page.waitForFunction(()=>globalThis.document.querySelector('.homepage-v1').classList.contains('cf-contact-in-view'),{timeout:12000});
+    await page.waitForFunction(()=>globalThis.getComputedStyle(globalThis.document.querySelector('.cf-mobile-sticky-cta')).visibility==='hidden',null,{timeout:12000});
     state=await inspect();
     assert.equal(state.visibility,'hidden',engine+' '+size.label+' footer sticky hidden');
     await page.evaluate(()=>globalThis.window.scrollTo({top:0,behavior:'instant'}));
     await page.waitForFunction(()=>!globalThis.document.querySelector('.homepage-v1').classList.contains('cf-contact-in-view'),{timeout:12000});
+    await page.waitForFunction(()=>globalThis.getComputedStyle(globalThis.document.querySelector('.cf-mobile-sticky-cta')).visibility==='visible',null,{timeout:12000});
     state=await inspect();
     assert.equal(state.visibility,'visible',engine+' '+size.label+' back to top sticky returns');
     await sticky.click();
