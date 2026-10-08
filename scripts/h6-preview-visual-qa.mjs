@@ -40,21 +40,21 @@ for (const viewport of scenarios) {
     await page.locator('.cf-hero-path').first().waitFor({state:'visible',timeout:40000});
     await page.waitForTimeout(800);
     const data = await page.evaluate(() => {
-      const panel = document.querySelector('.cf-hero-paths');
-      const before = getComputedStyle(panel,'::before');
-      const title = document.querySelector('.cf-title-muted');
-      const help = document.querySelector('.cf-hero-path-help');
+      const panel = globalThis.document.querySelector('.cf-hero-paths');
+      const before = globalThis.getComputedStyle(panel,'::before');
+      const title = globalThis.document.querySelector('.cf-title-muted');
+      const help = globalThis.document.querySelector('.cf-hero-path-help');
       return {
-        title: document.title,
-        h1: document.querySelector('h1')?.innerText,
-        pathCount: document.querySelectorAll('.cf-hero-path').length,
-        links: [...document.querySelectorAll('.cf-hero-path')].map(a=>a.getAttribute('href')),
-        horizontalOverflow: Math.max(0,document.documentElement.scrollWidth - document.documentElement.clientWidth),
+        title: globalThis.document.title,
+        h1: globalThis.document.querySelector('h1')?.innerText,
+        pathCount: globalThis.document.querySelectorAll('.cf-hero-path').length,
+        links: [...globalThis.document.querySelectorAll('.cf-hero-path')].map(a=>a.getAttribute('href')),
+        horizontalOverflow: Math.max(0,globalThis.document.documentElement.scrollWidth - globalThis.document.documentElement.clientWidth),
         gridBackground: before.backgroundImage,
         gridAnimation: before.animationName,
-        mutedTitleColor: getComputedStyle(title).color,
-        helpColor: getComputedStyle(help).color,
-        heroHeight: Math.round(document.querySelector('.cf-hero').getBoundingClientRect().height)
+        mutedTitleColor: globalThis.getComputedStyle(title).color,
+        helpColor: globalThis.getComputedStyle(help).color,
+        heroHeight: Math.round(globalThis.document.querySelector('.cf-hero').getBoundingClientRect().height)
       };
     });
     assert.equal(data.horizontalOverflow,0,key+' overflow at '+viewport.width);
@@ -87,7 +87,7 @@ const ctx = await browser.newContext({viewport:{width:390,height:844},reducedMot
 const page = await ctx.newPage();
 await page.goto(preview,{waitUntil:'domcontentloaded',timeout:60000});
 await page.locator('.cf-hero-path').first().waitFor({state:'visible'});
-const animation=await page.locator('.cf-hero-paths').evaluate(el=>getComputedStyle(el,'::before').animationName);
+const animation=await page.locator('.cf-hero-paths').evaluate(el=>globalThis.getComputedStyle(el,'::before').animationName);
 assert.equal(animation,'none','prefers-reduced-motion must disable H6 animation');
 console.log('PASS '+browserMode+' reduced-motion');
 await ctx.close();
