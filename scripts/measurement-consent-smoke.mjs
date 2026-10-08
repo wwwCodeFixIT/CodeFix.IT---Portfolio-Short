@@ -43,6 +43,32 @@ assert.match(
   'Accepted leads must be measurable after Analytics consent OR Ads consent.',
 );
 
+const homepage = await readFile(
+  new URL('../src/pages/HomepageV1.tsx', import.meta.url),
+  'utf8',
+);
+
+assert.match(
+  homepage,
+  /codefixAdConsentChoice\?: 'accepted' \| 'rejected' \| null;/,
+  'Homepage lead measurement must know Ads consent separately from Analytics.',
+);
+assert.match(
+  homepage,
+  /analyticsWindow\.codefixAnalyticsAllowed\s*\|\|\s*analyticsWindow\.codefixAdConsentChoice === 'accepted'/,
+  'Homepage must send generate_lead with either Analytics or Ads consent.',
+);
+const homepageAccepted = homepage.indexOf('if (!response.ok)');
+const homepageDuplicate = homepage.indexOf('if (result.duplicate)');
+const homepageEvent = homepage.indexOf("gtag?.('event', 'generate_lead'");
+assert.ok(homepageAccepted >= 0 && homepageAccepted < homepageDuplicate);
+assert.ok(homepageDuplicate >= 0 && homepageDuplicate < homepageEvent);
+assert.match(
+  homepage.slice(homepageDuplicate, homepageEvent),
+  /else \{[\s\S]*?measureAcceptedLead\(\)/,
+  'Only accepted, nonduplicate homepage leads may count as conversions.',
+);
+
 const responseGuard = serviceLanding.indexOf('if (!response.ok)');
 const leadEvent = serviceLanding.indexOf("gtag?.('event', 'generate_lead'");
 assert.ok(responseGuard >= 0, 'Lead API success guard is missing.');
