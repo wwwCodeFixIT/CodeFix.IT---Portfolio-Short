@@ -1,0 +1,39 @@
+name: SALES 4.1 landing preview QA
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'public/data/service-landings.json'
+      - 'scripts/sales41-preview-qa.mjs'
+      - '.github/workflows/sales41-preview-qa.yml'
+permissions:
+  contents: read
+concurrency:
+  group: sales41-preview-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install QA-only browsers
+        run: |
+          npm ci
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium webkit
+      - name: Compare live vs preview in Chromium
+        run: node scripts/sales41-preview-qa.mjs
+      - name: Compare live vs preview in WebKit
+        run: node scripts/sales41-preview-qa.mjs --webkit
+      - name: Upload browser QA screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sales41-preview-screenshots
+          path: artifacts/sales41/
+          retention-days: 7
