@@ -38,13 +38,13 @@ for(const size of sizes) {
     await page.waitForFunction(()=>globalThis.document.querySelector('.homepage-v1').classList.contains('cf-contact-in-view'),{timeout:12000});
     state=await inspect();
     assert.equal(state.visibility,'hidden',engine+' '+size.label+' footer sticky hidden');
-    await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
+    await page.evaluate(()=>globalThis.window.scrollTo({top:0,behavior:'instant'}));
     await page.waitForFunction(()=>!globalThis.document.querySelector('.homepage-v1').classList.contains('cf-contact-in-view'),{timeout:12000});
     state=await inspect();
     assert.equal(state.visibility,'visible',engine+' '+size.label+' back to top sticky returns');
     await sticky.click();
     assert.equal(new URL(page.url()).hash,'#contact',engine+' '+size.label+' sticky CTA hash');
-    await page.evaluate(()=>window.scrollTo({top:0,behavior:'instant'}));
+    await page.evaluate(()=>globalThis.window.scrollTo({top:0,behavior:'instant'}));
     await page.waitForFunction(()=>globalThis.getComputedStyle(globalThis.document.querySelector('.cf-mobile-sticky-cta')).visibility==='visible',{timeout:12000});
     assert.equal((await inspect()).visibility,'visible',engine+' '+size.label+' sticky returns while URL hash persists');
   }
