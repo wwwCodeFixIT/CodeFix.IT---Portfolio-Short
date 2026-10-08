@@ -27,14 +27,32 @@ Istniejące linki white-label i mini-audytu pozostają zachowane. Nie zmieniamy 
 - Nie twierdzimy, że diagnozujemy stronę automatycznie lub że AI wykonało audyt.
 - Nie zmieniamy działającego formularza ani pomiaru konwersji.
 
-## Bramka QA przed merge
+## QA H6 — porównanie rzeczywistych stron (8.10.2026)
 
-1. Zielone **CI**: typecheck, lint, production lint, format, build/prerender, measurement smoke oraz **niezmienione** budżety JS/CSS.
-2. Preview branch na Cloudflare: desktop 1440/1024, mobile 390/360, kontrast H1/pomocy, widoczność przycisków, brak CLS/horizontal overflow.
-3. Test klawiatury (Tab/focus-visible) i `prefers-reduced-motion: reduce`; animacja ma być nieaktywna.
-4. Potwierdzenie, że wybór jednej z 3 ścieżek nadal ustawia właściwy temat i działa `#contact`; żadnych syntetycznych leadów produkcyjnych.
-5. Lighthouse desktop/mobile i Safari/iOS przed wdrożeniem. Nie ogłaszać WCAG AA bez pełnego audytu.
+Źródło: [GitHub Actions H6 visual comparison #37838796649](https://github.com/wwwCodeFixIT/CodeFix.IT---Portfolio-Short/actions/runs/37838796649). Zrzuty i wyniki: [artifact h6-visual-comparison](https://github.com/wwwCodeFixIT/CodeFix.IT---Portfolio-Short/actions/runs/37838796649), zachowane w Actions.
 
-## Status
-- H6 **Draft PR only**, bez merge, bez deploymentu na `codefix.it`.
-- Gotowość do scalenia: zależy od QA na rzeczywistym preview.
+- CI PASS: typecheck, lint, production lint, format, build/prerender, measurement contract i budżety bez podnoszenia limitów.
+- Cloudflare Pages branch preview PASS: https://feat-h6-hero-ambient-polish.codefix-it---portfolio-short.pages.dev/.
+- Chromium headless i WebKit headless PASS: produkcja kontra preview, 360, 390, 768, 1024, 1440 px. Brak horizontal overflow i JavaScript pageerror. Trzy hero linki nadal wskazują na kontakt; kliknięcie ścieżki Quick Fix ustawia `WORDPRESS_QUICK_FIX`. `#contact` działa. `prefers-reduced-motion` wyłącza CSS animation.
+- Bez zgłoszeń próbnych do produkcyjnego CRM (nie wysyłano testowych leadów); istniejące endpointy, formularze i tracking niezmienione.
+- Lighthouse: pojedynczy pomiar syntetyczny na zdalnym runnerze, porównanie poniżej. Różnice między uruchomieniami są możliwe; nie przedstawiać ich jako udowodnionego wzrostu Core Web Vitals.
+
+| Lighthouse | Produkcja | H6 preview |
+| --- | ---: | ---: |
+| Performance mobile | 95 | 100 |
+| Performance desktop | 100 | 100 |
+| Accessibility mobile/desktop | 97/97 | 97/97 |
+| LCP mobile (ms) | 2156 | 1414 |
+| LCP desktop (ms) | 729 | 470 |
+| CLS mobile | 0 | 0 |
+
+- Build budget w pierwotnym PR: JS 319988/320000 B, CSS 69314/70000 B. Dodana warstwa wizualna to CSS-only; nie zmieniono JS.
+- NOT RUN: fizyczny iPhone / Safari; pełny ręczny audyt WCAG. WebKit Playwright nie zastępuje testu na fizycznym urządzeniu.
+- PR #87 to osobna poprawka mobilnego CTA, nie scalamy jej w tym etapie.
+
+Testowy workflow oraz skrypt screenshotów uruchomiono tymczasowo na branchu, a potem usunięto z drzewa zmian H6. Wyniki pozostają w GitHub Actions. W docelowym PR są tylko pliki stylów i ten raport.
+
+## Decyzja
+- **GO dla wąskiej poprawki H6 Hero** po zielonym CI na końcowym branchu: zakres to nieinwazyjne CSS i brak regresji funkcjonalnej w Chromium/WebKit, a użytkownik zatwierdził wdrożenie.
+- Nie publikować demonstracyjnego kalkulatora Lovable ani jego niezatwierdzonych cen. Nie zmieniać CRM/Ads.
+- Po merge sprawdzić Cloudflare Pages status i rzeczywiste `codefix.it`. Pozostałe ręczne testy Safari/iPhone oraz pełnego WCAG ująć w dalszej kontroli, nie oznaczać ich jako PASS.
