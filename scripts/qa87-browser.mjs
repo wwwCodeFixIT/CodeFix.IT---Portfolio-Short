@@ -29,6 +29,24 @@ for(const size of sizes) {
   const mobile=size.width<=720;
   const inspect=()=>sticky.evaluate(el=>({display:globalThis.getComputedStyle(el).display,visibility:globalThis.getComputedStyle(el).visibility,opacity:globalThis.getComputedStyle(el).opacity}));
   const before=await inspect();
+  if(size.label==='360') {
+    const matches=await page.evaluate(()=>{
+      const needle='.cf-mobile-sticky-cta';
+      const all=[];
+      const scan=(rs,scope)=>{
+        for(const r of rs){
+          if(r.cssRules) scan(r.cssRules,scope+' / '+(r.conditionText||r.name||'nested'));
+          else if((r.selectorText||'').includes(needle)) all.push({scope,selector:r.selectorText,display:r.style?.display,css:r.cssText.slice(0,280)});
+        }
+      };
+      for(const sheet of globalThis.document.styleSheets){
+        try {scan(sheet.cssRules,sheet.href||'inline');}catch(e){all.push({error:String(e),href:sheet.href})}
+      }
+      const el=globalThis.document.querySelector(needle);
+      return {all,display:globalThis.getComputedStyle(el).display,outer:el.outerHTML.slice(0,260),matchesFocus:globalThis.document.querySelector('.homepage-v1').matches(':has(.cf-lead-form:focus-within)'),query:globalThis.matchMedia('(max-width:720px)').matches};
+    });
+    console.log('CSS_DIAGNOSTICS '+JSON.stringify(matches).slice(0,12000));
+  }
   console.log('INITIAL '+engine+' '+size.label+' '+JSON.stringify({...debug,...before}));
   assert.equal(before.display!=='none',mobile,engine+' '+size.label+' sticky initial display');
   const overflow=await page.evaluate(()=>Math.max(0,globalThis.document.documentElement.scrollWidth-globalThis.document.documentElement.clientWidth));
