@@ -30,3 +30,15 @@ Search Console: strona główna 6 kliknięć / 66 wyświetleń, `/naprawa-wordpr
 - **Nie zmieniać teraz budżetu ani stawek reklam**; 6 kliknięć nie jest próbą wystarczającą do optymalizacji kampanii. Zapytania wyszukiwania zawierają zarówno polskie problemy WordPress, jak i anglojęzyczne zapytania informacyjne — obserwować ich koszt i jakość, nie blokować masowo bez dowodu strat.
 - Po zielonym CI i QA dla ads-only/analytics-only/both/none można scalić wąski PR; monitorować rzeczywiste, zewnętrzne leady z CRM, a nie surowe liczniki GA4.
 - Przestrzegać wyboru prywatności. Nie dodawać trackers bez zgody.
+
+## QA przeglądarkowe przed wdrożeniem
+
+[GitHub Actions — SALES 4 consent verification, run #37850793080](https://github.com/wwwCodeFixIT/CodeFix.IT---Portfolio-Short/actions/runs/37850793080): **PASS**. Chromium **6/6** i WebKit **6/6** scenariuszy:
+- brak zgód → 0 `generate_lead`;
+- tylko analityka → 1;
+- tylko reklamy → 1;
+- obie zgody → 1;
+- duplikat → 0;
+- odrzucone przez API → 0.
+
+Każdy scenariusz wywołał **wyłącznie lokalnie przechwycony POST**. Ruch do produkcyjnego CRM został zablokowany, Google tag/Ads destinations przechwycono; test nie zaśmiecał CRM i nie wyemitował rzeczywistych konwersji. Kod testu i tymczasowy workflow usunięto przed scaleniem, raport zostaje w GitHub Actions. Dodatkowo zwykły `measurement:smoke` na stałe egzekwuje tę regułę.
