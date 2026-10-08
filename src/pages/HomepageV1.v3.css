@@ -1895,8 +1895,9 @@
     transform: translateY(8px);
   }
 
-  .homepage-v1:has(.cf-lead-form:focus-within) .cf-mobile-sticky-cta,
-  .homepage-v1:has(#contact:target) .cf-mobile-sticky-cta {
+  /* Focused fields must not compete with the mobile CTA.
+     Do not hide on #contact:target: URL fragments persist after scrolling away. */
+  .homepage-v1:has(.cf-lead-form:focus-within) .cf-mobile-sticky-cta {
     display: none;
   }
 
