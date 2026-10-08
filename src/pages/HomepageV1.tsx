@@ -86,10 +86,10 @@ const services = [
 ];
 
 const process = [
-  'Wysyłasz adres strony albo krótko opisujesz, czego potrzebuje firma.',
-  'Dostajesz proponowany zakres, cenę i informacje, czego potrzebuję do startu.',
-  'Przy większych zmianach pokazuję wersję preview przed publikacją.',
-  'Po akceptacji wdrażam produkcję, testuję kontakt i przekazuję dalsze kroki.',
+  'Opisujesz problem lub cel strony; możesz podać jej adres.',
+  'Potwierdzam zakres, cenę i warunki rozpoczęcia.',
+  'Przy większych zmianach pokazuję preview do akceptacji.',
+  'Wdrażam, testuję kontakt i przekazuję dalsze kroki.',
 ];
 
 const advantages = [
@@ -114,52 +114,52 @@ const advantages = [
 ];
 
 const fitItems = [
-  'Masz firmę, ale obecna strona wygląda już przestarzale albo słabo działa na telefonie.',
-  'WordPress działa, lecz formularz, WooCommerce, aktualizacja lub wygląd wymagają naprawy.',
-  'Potrzebujesz nowej strony firmowej i chcesz później samodzielnie edytować jej treści.',
-  'Wolisz mieć jedną osobę do kolejnych poprawek, aktualizacji i rozwoju strony.',
+  'Twoja strona wygląda przestarzale lub źle działa na telefonie.',
+  'WordPress, formularz, WooCommerce lub aktualizacja wymagają naprawy.',
+  'Chcesz nowej strony firmowej z prostą edycją treści.',
+  'Szukasz stałego wsparcia przy poprawkach i rozwoju strony.',
 ];
 
 const faqItems = [
   {
     question: 'Ile kosztuje praca przy WordPressie?',
     answer:
-      'Quick Fix zaczyna się od 390 zł, a stała opieka od 300 zł miesięcznie. Nowe strony wyceniam indywidualnie. Przed startem zawsze potwierdzam zakres, kwotę i sposób rozliczenia.',
+      'Quick Fix od 390 zł, opieka od 300 zł/mies. Nowe strony wyceniam indywidualnie. Kwotę i zakres potwierdzam przed startem.',
   },
   {
     question: 'Czy mogę zacząć od jednego małego zadania?',
     answer:
-      'Tak. Możemy zacząć od jednego konkretnego, płatnego tasku. To najprostszy sposób, żeby sprawdzić współpracę bez deklarowania większego zakresu.',
+      'Tak. Możemy zacząć od jednego płatnego zadania, bez zobowiązania do większej współpracy.',
   },
   {
     question: 'Czy pracujesz na istniejących stronach WordPress?',
     answer:
-      'Tak. Naprawiam błędy, formularze, WooCommerce, CSS, integracje i problemy po aktualizacjach bez konieczności budowania strony od zera.',
+      'Tak. Naprawiam błędy, formularze, WooCommerce, CSS, integracje i awarie po aktualizacjach.',
   },
   {
     question: 'Czy przy pierwszym kontakcie muszę podawać loginy?',
     answer:
-      'Nie. Do wstępnej oceny zwykle wystarczy publiczny adres strony i opis problemu. O dostęp proszę dopiero po ustaleniu zakresu i tylko wtedy, gdy jest potrzebny.',
+      'Nie. Na początek wystarczy publiczny adres strony i opis problemu. O dostęp poproszę tylko w razie potrzeby.',
   },
   {
     question: 'Jak szybko dostanę odpowiedź i termin realizacji?',
     answer:
-      'Na nowe zapytania odpowiadam zwykle w ciągu jednego dnia roboczego. Termin wykonania podaję po poznaniu zakresu zadania.',
+      'Odpowiadam zwykle w ciągu dnia roboczego. Termin realizacji ustalam po poznaniu zakresu.',
   },
   {
     question: 'Czy po wdrożeniu samodzielnie zmienię treści?',
     answer:
-      'Tak. W nowych stronach WordPress + ACF PRO typowe treści przygotowuję do edycji z panelu, bez potrzeby zmieniania kodu.',
+      'Tak. W WordPress + ACF PRO możesz edytować typowe treści z panelu, bez programowania.',
   },
   {
     question: 'Czy oferujesz opiekę po wdrożeniu?',
     answer:
-      'Tak. Możemy ustalić stały miesięczny zakres aktualizacji, backupów, poprawek i rozwoju albo rozliczać kolejne zadania osobno.',
+      'Tak. Oferuję miesięczną opiekę lub pojedyncze zadania rozliczane osobno.',
   },
   {
     question: 'Czy pracujesz white-label dla agencji?',
     answer:
-      'Tak. Mogę przejąć poprawki, mniejsze wdrożenia i front-end na stagingu oraz Git, również bez kontaktu z klientem końcowym.',
+      'Tak. Pracuję na stagingu i Git, także bez kontaktu z klientem końcowym.',
   },
 ]
 
@@ -209,7 +209,33 @@ export function HomepageV1() {
   const formViewTracked = useRef(false);
   const funnelViewTracked = useRef(false);
   const contactSectionRef = useRef<HTMLElement | null>(null);
+  const footerRef = useRef<HTMLElement | null>(null);
   const feedbackRef = useRef<HTMLDivElement | null>(null);
+  const [contactAreaVisible, setContactAreaVisible] = useState(false);
+
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return;
+
+    // Avoid showing a redundant fixed CTA above the actual contact form or footer.
+    // Track both targets, since a single observer callback may contain only one entry.
+    const targets = [contactSectionRef.current, footerRef.current].filter(
+      (element): element is HTMLElement => element !== null,
+    );
+    const visibleTargets = new Set<Element>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) visibleTargets.add(entry.target);
+          else visibleTargets.delete(entry.target);
+        }
+        setContactAreaVisible(visibleTargets.size > 0);
+      },
+      { threshold: 0, rootMargin: '0px 0px 72px 0px' },
+    );
+
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     if (formState === 'success' || formState === 'error') feedbackRef.current?.focus();
@@ -430,7 +456,7 @@ export function HomepageV1() {
   }
 
   return (
-    <div className="homepage-v1 has-mobile-cta">
+    <div className={`homepage-v1 has-mobile-cta${contactAreaVisible ? ' cf-contact-in-view' : ''}`}>
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand href="#top" />
@@ -1100,7 +1126,7 @@ export function HomepageV1() {
         </section>
       </main>
 
-      <footer className="cf-footer">
+      <footer className="cf-footer" ref={footerRef}>
         <div className="cf-container cf-footer-main">
           <div className="cf-footer-brand">
             <Brand href="#top" tagline />
