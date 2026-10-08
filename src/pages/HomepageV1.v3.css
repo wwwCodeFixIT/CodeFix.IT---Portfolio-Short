@@ -1883,6 +1883,18 @@
     flex: 0 0 auto;
   }
 
+  .cf-mobile-sticky-cta {
+    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms;
+  }
+
+  /* A normal scroll into contact/footer should hide the redundant sticky CTA. */
+  .homepage-v1.cf-contact-in-view .cf-mobile-sticky-cta {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(8px);
+  }
+
   .homepage-v1:has(.cf-lead-form:focus-within) .cf-mobile-sticky-cta,
   .homepage-v1:has(#contact:target) .cf-mobile-sticky-cta {
     display: none;
@@ -2003,6 +2015,7 @@
 @media (prefers-reduced-motion: reduce) {
   .cf-mobile-sticky-cta {
     scroll-behavior: auto;
+    transition: none;
   }
 }
 
