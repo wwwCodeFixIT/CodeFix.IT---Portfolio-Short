@@ -1,0 +1,42 @@
+name: QA87 Mobile CTA browser gate
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/pages/HomepageV1.tsx'
+      - 'src/pages/HomepageV1.v3.css'
+      - 'scripts/qa87-browser.mjs'
+      - '.github/workflows/qa87-browser.yml'
+permissions:
+  contents: read
+concurrency:
+  group: qa87-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  compare:
+    name: Mobile CTA Chromium + WebKit
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium webkit
+      - name: Chromium — contact, footer and sticky recovery
+        run: node scripts/qa87-browser.mjs
+      - name: WebKit — contact, footer and sticky recovery
+        run: node scripts/qa87-browser.mjs --webkit
+      - name: Upload QA screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa87-browser
+          path: artifacts/qa87/
+          retention-days: 7
