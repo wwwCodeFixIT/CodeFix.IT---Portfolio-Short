@@ -1,0 +1,32 @@
+name: SALES 4 consent verification
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/pages/HomepageV1.tsx'
+      - 'scripts/sales4-browser-qa.mjs'
+      - '.github/workflows/sales4-browser-qa.yml'
+permissions:
+  contents: read
+concurrency:
+  group: sales4-qa-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm install --no-save --no-package-lock playwright@1.56.1
+          npx playwright install --with-deps chromium webkit
+      - name: Validate consent matrix in Chromium without transmitting test leads
+        run: node scripts/sales4-browser-qa.mjs
+      - name: Validate consent matrix in WebKit without transmitting test leads
+        run: node scripts/sales4-browser-qa.mjs --webkit
