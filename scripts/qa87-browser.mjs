@@ -35,15 +35,15 @@ for(const size of sizes) {
       const all=[];
       const scan=(rs,scope)=>{
         for(const r of rs){
-          if(r.cssRules) scan(r.cssRules,scope+' / '+(r.conditionText||r.name||'nested'));
-          else if((r.selectorText||'').includes(needle)) all.push({scope,selector:r.selectorText,display:r.style?.display,css:r.cssText.slice(0,280)});
+          if((r.selectorText||'').includes(needle)) all.push({scope,selector:r.selectorText,display:r.style?.display,css:r.cssText.slice(0,280)});
+          if(r.cssRules?.length) scan(r.cssRules,scope+' / '+(r.conditionText||r.name||'nested'));
         }
       };
       for(const sheet of globalThis.document.styleSheets){
         try {scan(sheet.cssRules,sheet.href||'inline');}catch(e){all.push({error:String(e),href:sheet.href})}
       }
       const el=globalThis.document.querySelector(needle);
-      return {all,display:globalThis.getComputedStyle(el).display,outer:el.outerHTML.slice(0,260),matchesFocus:globalThis.document.querySelector('.homepage-v1').matches(':has(.cf-lead-form:focus-within)'),query:globalThis.matchMedia('(max-width:720px)').matches};
+      return {all,sheets:[...globalThis.document.styleSheets].map(x=>({href:x.href,count:x.cssRules?.length})),display:globalThis.getComputedStyle(el).display,outer:el.outerHTML.slice(0,260),matchesFocus:globalThis.document.querySelector('.homepage-v1').matches(':has(.cf-lead-form:focus-within)'),query:globalThis.matchMedia('(max-width:720px)').matches};
     });
     console.log('CSS_DIAGNOSTICS '+JSON.stringify(matches).slice(0,12000));
   }
