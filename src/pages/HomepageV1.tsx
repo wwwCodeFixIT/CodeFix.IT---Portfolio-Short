@@ -230,7 +230,7 @@ export function HomepageV1() {
         }
         setContactAreaVisible(visibleTargets.size > 0);
       },
-      { threshold: 0, rootMargin: '0px 0px -72px 0px' },
+      { threshold: 0, rootMargin: '0px 0px 72px 0px' },
     );
 
     targets.forEach((target) => observer.observe(target));
