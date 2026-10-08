@@ -24,31 +24,17 @@ for(const size of sizes) {
   await page.locator('.cf-hero-path').first().waitFor({state:'visible',timeout:40000});
   await page.waitForLoadState('load',{timeout:45000});
   await page.waitForTimeout(250);
-  const debug=await page.evaluate(()=>({width:globalThis.innerWidth,mobileQuery:globalThis.matchMedia('(max-width: 720px)').matches,root:globalThis.document.querySelector('.homepage-v1')?.className,stylesheets:globalThis.document.styleSheets.length,focused:globalThis.document.activeElement?.outerHTML?.slice(0,120)}));
   const sticky=page.locator('.cf-mobile-sticky-cta');
   const mobile=size.width<=720;
   const inspect=()=>sticky.evaluate(el=>({display:globalThis.getComputedStyle(el).display,visibility:globalThis.getComputedStyle(el).visibility,opacity:globalThis.getComputedStyle(el).opacity}));
-  const before=await inspect();
-  if(size.label==='360') {
-    const matches=await page.evaluate(()=>{
-      const needle='.cf-mobile-sticky-cta';
-      const all=[];
-      const scan=(rs,scope)=>{
-        for(const r of rs){
-          if((r.selectorText||'').includes(needle)) all.push({scope,selector:r.selectorText,display:r.style?.display,css:r.cssText.slice(0,280)});
-          if(r.cssRules?.length) scan(r.cssRules,scope+' / '+(r.conditionText||r.name||'nested'));
-        }
-      };
-      for(const sheet of globalThis.document.styleSheets){
-        try {scan(sheet.cssRules,sheet.href||'inline');}catch(e){all.push({error:String(e),href:sheet.href})}
-      }
-      const el=globalThis.document.querySelector(needle);
-      return {all,sheets:[...globalThis.document.styleSheets].map(x=>({href:x.href,count:x.cssRules?.length})),display:globalThis.getComputedStyle(el).display,outer:el.outerHTML.slice(0,260),matchesFocus:globalThis.document.querySelector('.homepage-v1').matches(':has(.cf-lead-form:focus-within)'),query:globalThis.matchMedia('(max-width:720px)').matches};
-    });
-    console.log('CSS_DIAGNOSTICS '+JSON.stringify(matches).slice(0,12000));
+  const consentPanel=page.locator('.cf-measurement-panel');
+  if(await consentPanel.count()) {
+    if(mobile) assert.equal((await inspect()).display,'none','Privacy dialog must hide competing sticky CTA');
+    await page.getByRole('button',{name:'Odrzuć wszystkie'}).click();
+    await consentPanel.waitFor({state:'detached',timeout:12000});
   }
-  console.log('INITIAL '+engine+' '+size.label+' '+JSON.stringify({...debug,...before}));
-  assert.equal(before.display!=='none',mobile,engine+' '+size.label+' sticky initial display');
+  const before=await inspect();
+  assert.equal(before.display!=='none',mobile,engine+' '+size.label+' sticky display after privacy choice');
   const overflow=await page.evaluate(()=>Math.max(0,globalThis.document.documentElement.scrollWidth-globalThis.document.documentElement.clientWidth));
   assert.equal(overflow,0,engine+' '+size.label+' has horizontal overflow');
   if(mobile) {
@@ -80,6 +66,11 @@ for(const size of sizes) {
 const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});
 const page=await context.newPage();
 await page.goto(url,{waitUntil:'domcontentloaded',timeout:60000});
+const privacy=page.locator('.cf-measurement-panel');
+if(await privacy.count()) {
+  await page.getByRole('button',{name:'Odrzuć wszystkie'}).click();
+  await privacy.waitFor({state:'detached',timeout:12000});
+}
 await page.locator('.cf-mobile-sticky-cta').waitFor({state:'visible'});
 const transition=await page.locator('.cf-mobile-sticky-cta').evaluate(el=>globalThis.getComputedStyle(el).transitionDuration);
 assert.ok(transition.split(',').every(x=>parseFloat(x)===0),'Reduced motion should disable transition: '+transition);
