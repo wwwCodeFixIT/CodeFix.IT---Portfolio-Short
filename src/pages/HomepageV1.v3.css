@@ -1666,6 +1666,28 @@
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.42);
 }
 
+/* H6: one lightweight signal layer; the existing paths remain the actual UI. */
+.cf-title-muted {
+  color: #9a9aa4;
+}
+.cf-hero-paths::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(rgba(255,255,255,.033) 1px, transparent 1px), linear-gradient(90deg,rgba(255,255,255,.033) 1px, transparent 1px);
+  background-size: 32px 32px;
+  mask-image: linear-gradient(#000, transparent 80%);
+  opacity: .52;
+  animation: cf-h6-signal 9s ease-in-out infinite;
+}
+@keyframes cf-h6-signal {
+  50% { opacity: .22; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cf-hero-paths::before { animation: none; }
+}
+
 .cf-hero-paths::after {
   content: '';
   position: absolute;
@@ -1773,7 +1795,7 @@
   position: relative;
   z-index: 1;
   margin: 18px 2px 0;
-  color: #74747c;
+  color: #a0a0a9;
   font-size: 10px;
   line-height: 1.6;
 }
