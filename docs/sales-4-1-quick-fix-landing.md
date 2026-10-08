@@ -25,3 +25,9 @@ Bez zmian w cenniku, formularzu, API, tracking/consent, SEO meta, kampanii, staw
 5. Nie dodawać kolejnych funkcji ani wykluczeń przed zebraniem danych.
 
 W tym etapie nie udajemy, że wykonano A/B test lub że zmiana zwiększy sprzedaż. To niewielkie, odwracalne dopasowanie treści do znanej intencji wyszukiwania.
+
+## Wynik kontroli podglądu
+- [GitHub Actions — SALES 4.1 landing preview QA, run 37861678259](https://github.com/wwwCodeFixIT/CodeFix.IT---Portfolio-Short/actions/runs/37861678259): **PASS 8/8** porównań Chromium i WebKit (baseline vs preview, 390 oraz 1440 px).
+- Rzeczywisty React Hero w podglądzie pokazuje nowy opis; produkcja w chwili testu pokazuje poprzedni. Cena `Od 390 zł`, CTA `#kontakt`, wymagalność URL, SEO canonical, brak horizontal overflow i brak pageerror: PASS.
+- Testy przeglądarkowe nie wysłały żadnych leadów ani pomiarów do CRM/Analytics. Tymczasowe narzędzia QA usuwamy z finalnego PR, a raport i artefakty są dostępne w powyższym Actions run.
+- Nie wykonano pomiaru wpływu na rzeczywiste konwersje; przy 6 kliknięciach nie ma podstaw do takich roszczeń.
