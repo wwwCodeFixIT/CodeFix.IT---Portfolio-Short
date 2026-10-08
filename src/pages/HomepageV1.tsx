@@ -415,9 +415,13 @@ export function HomepageV1() {
         const analyticsWindow = window as Window & {
           gtag?: (...args: unknown[]) => void;
           codefixAnalyticsAllowed?: boolean;
+          codefixAdConsentChoice?: 'accepted' | 'rejected' | null;
         };
 
-        if (analyticsWindow.codefixAnalyticsAllowed) analyticsWindow.gtag?.('event', 'generate_lead', {
+        if (
+          analyticsWindow.codefixAnalyticsAllowed ||
+          analyticsWindow.codefixAdConsentChoice === 'accepted'
+        ) analyticsWindow.gtag?.('event', 'generate_lead', {
           event_category: 'lead',
           lead_source: 'website_form',
           service: service || 'not_selected',
