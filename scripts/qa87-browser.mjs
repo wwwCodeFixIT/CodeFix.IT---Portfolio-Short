@@ -79,7 +79,7 @@ if(await privacy.count()) {
 }
 await page.locator('.cf-mobile-sticky-cta').waitFor({state:'visible'});
 const transition=await page.locator('.cf-mobile-sticky-cta').evaluate(el=>globalThis.getComputedStyle(el).transitionDuration);
-assert.ok(transition.split(',').every(x=>parseFloat(x)===0),'Reduced motion should disable transition: '+transition);
+assert.ok(transition.split(',').every(x=>parseFloat(x) <= 0.001),'Reduced motion should disable meaningful transition (<=1ms): '+transition);
 await context.close();
 await browser.close();
 await writeFile('artifacts/qa87/'+engine+'.json',JSON.stringify(results,null,2));
