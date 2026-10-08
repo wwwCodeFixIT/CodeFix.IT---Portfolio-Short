@@ -69,6 +69,9 @@ for(const size of sizes) {
 const context=await browser.newContext({viewport:{width:390,height:844},reducedMotion:'reduce'});
 const page=await context.newPage();
 await page.goto(url,{waitUntil:'domcontentloaded',timeout:60000});
+await page.locator('.cf-hero-path').first().waitFor({state:'visible',timeout:40000});
+await page.waitForLoadState('load',{timeout:45000});
+await page.waitForTimeout(250);
 const privacy=page.locator('.cf-measurement-panel');
 if(await privacy.count()) {
   await page.getByRole('button',{name:'Odrzuć wszystkie'}).click();
