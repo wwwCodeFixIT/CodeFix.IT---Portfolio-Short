@@ -1,0 +1,158 @@
+.cf-hero-interactive {
+  position: relative;
+  isolation: isolate;
+  --cf-rotate-x: 0deg;
+  --cf-rotate-y: 0deg;
+  --cf-light-x: 0px;
+  --cf-light-y: 0px;
+}
+.cf-hero-atmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  mask-image: linear-gradient(transparent, #000 18%, #000 82%, transparent);
+}
+.cf-hero-atmosphere::before,
+.cf-hero-atmosphere::after {
+  content: '';
+  position: absolute;
+}
+.cf-hero-atmosphere::before {
+  inset: -30px;
+  background:
+    linear-gradient(#ef444412 1px, transparent 1px),
+    linear-gradient(90deg, #ef444412 1px, transparent 1px);
+  background-size: 44px 44px;
+  animation: cf-ambient-grid 16s ease-in-out infinite;
+}
+.cf-hero-atmosphere::after {
+  width: 440px;
+  height: 400px;
+  top: 12%;
+  right: 0;
+  background: radial-gradient(ellipse, #dc262635, transparent 68%);
+  transform: translate3d(var(--cf-light-x), var(--cf-light-y), 0);
+}
+.cf-hero-emblem {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ffffff14;
+}
+.cf-hero-stage {
+  position: relative;
+  flex: 0 0 136px;
+  height: 128px;
+  display: grid;
+  place-items: center;
+  perspective: 700px;
+}
+.cf-hero-orbit {
+  position: absolute;
+  width: 126px;
+  height: 126px;
+  border: 1px solid #ef44446b;
+  border-radius: 50%;
+  transform: rotateX(72deg) rotateZ(-18deg);
+}
+.cf-hero-tilt,
+.cf-hero-cube {
+  width: 96px;
+  height: 96px;
+  position: relative;
+  transform-style: preserve-3d;
+}
+.cf-hero-tilt {
+  transform: rotateX(calc(12deg + var(--cf-rotate-x))) rotateY(calc(-28deg + var(--cf-rotate-y)))
+    rotateZ(-7deg);
+}
+.cf-hero-cube {
+  animation: cf-emblem-float 7s ease-in-out infinite;
+}
+.cf-face {
+  position: absolute;
+  width: 96px;
+  height: 96px;
+  border: 1px solid #ef44447a;
+  background: linear-gradient(135deg, #351016, #12090c);
+  backface-visibility: hidden;
+}
+.cf-face-front {
+  display: grid;
+  place-items: center;
+  border-radius: 8px;
+  background: #08080a;
+  box-shadow: 0 0 24px #ef44441c;
+}
+.cf-hero-motion-control {
+  min-width: 0;
+}
+.cf-hero-motion-control p {
+  margin: 0;
+  color: #f2f2f4;
+  font-size: 14px;
+  font-weight: 750;
+}
+.cf-hero-motion-control button,
+.cf-hero-motion-control > span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #c7c7cc;
+  font-size: 12px;
+}
+.cf-hero-motion-control button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.cf-hero-motion-control button:focus-visible {
+  outline: 3px solid #ff9a9e;
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.cf-hero-interactive[data-motion='off'] *,
+.cf-hero-interactive[data-motion='off'] ::before,
+.cf-hero-interactive[data-motion='off'] ::after {
+  animation: none !important;
+  transition: none !important;
+}
+@keyframes cf-emblem-float {
+  50% {
+    transform: translateY(-6px);
+  }
+}
+@keyframes cf-ambient-grid {
+  50% {
+    transform: translate3d(12px, 8px, 0);
+    opacity: 0.5;
+  }
+}
+@media (max-width: 560px) {
+  .cf-hero-stage {
+    flex-basis: 112px;
+    height: 112px;
+  }
+  .cf-hero-emblem {
+    gap: 12px;
+  }
+  .cf-hero-motion-control p {
+    font-size: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+  .cf-hero-interactive *,
+  .cf-hero-interactive ::before,
+  .cf-hero-interactive ::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

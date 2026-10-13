@@ -13,6 +13,7 @@ import {
   Wrench,
 } from 'lucide-react';
 import { Brand } from '../components/Brand';
+import { HeroEmblem, HeroExperience } from '../components/HeroExperience';
 import { ProjectPreview } from '../components/ProjectPreview';
 import { projects } from '../data/projects';
 import { captureSessionAttribution } from '../lib/attribution';
@@ -516,7 +517,7 @@ export function HomepageV1() {
       </header>
 
       <main id="top">
-        <section className="cf-container cf-hero">
+        <HeroExperience>
           <div className="cf-hero-copy">
             <div className="cf-eyebrow">
               <span className="cf-eyebrow-dot" />
@@ -564,6 +565,7 @@ export function HomepageV1() {
           </div>
 
           <aside className="cf-hero-paths" aria-labelledby="cf-hero-paths-title">
+            <HeroEmblem />
             <p className="cf-section-kicker">Od czego zaczynamy?</p>
             <h2 id="cf-hero-paths-title">Wybierz, czego potrzebujesz.</h2>
 
@@ -623,7 +625,7 @@ export function HomepageV1() {
               <ArrowRight size={14} aria-hidden="true" />
             </a>
           </aside>
-        </section>
+        </HeroExperience>
 
         <section id="services" className="cf-section cf-section-bordered">
           <div className="cf-container">

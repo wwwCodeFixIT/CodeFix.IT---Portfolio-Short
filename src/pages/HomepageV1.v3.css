@@ -228,13 +228,6 @@
   letter-spacing: -0.03em;
 }
 
-.cf-project-client {
-  margin: 7px 0 0;
-  color: #ff6666;
-  font-size: 12px;
-  font-weight: 650;
-}
-
 .cf-project-description {
   margin: 18px 0 0;
   color: #92929a;
@@ -308,42 +301,6 @@
 
 .cf-project-collaboration strong {
   color: #d7d7db;
-}
-
-.cf-project-results {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  margin-top: 24px;
-}
-
-.cf-project-result {
-  min-height: 82px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.022);
-}
-
-.cf-project-result span {
-  color: #6d6d75;
-  font-size: 10px;
-}
-
-.cf-project-result strong {
-  margin-top: 4px;
-  color: #efefef;
-  font-size: 18px;
-  letter-spacing: -0.03em;
-}
-
-.cf-project-result small {
-  margin-top: 2px;
-  color: #626269;
-  font-size: 9px;
 }
 
 .cf-project-link {
@@ -558,7 +515,6 @@
 
 .cf-lead-form label > span {
   color: #d2d2d8;
-  font-size: 14px;
   font-weight: 700;
 }
 
@@ -618,8 +574,7 @@
   color: #f1f1f2;
 }
 
-.cf-lead-form :is(input, select, textarea):focus-visible,
-.cf-form-feedback:focus {
+.cf-lead-form :is(input, select, textarea):focus-visible, .cf-form-feedback:focus {
   outline: 2px solid #ff9b9f;
   outline-offset: 3px;
 }
@@ -680,40 +635,6 @@
   white-space: nowrap !important;
 }
 
-.cf-contact-placeholder {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 16px;
-  border: 1px dashed rgba(255, 255, 255, 0.13);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.02);
-  color: #7f7f87;
-}
-
-.cf-contact-placeholder svg {
-  flex: 0 0 auto;
-  margin-top: 1px;
-  color: #ff6767;
-}
-
-.cf-contact-placeholder strong,
-.cf-contact-placeholder span {
-  display: block;
-}
-
-.cf-contact-placeholder strong {
-  color: #d3d3d7;
-  font-size: 12px;
-}
-
-.cf-contact-placeholder span {
-  margin-top: 4px;
-  color: #6f6f77;
-  font-size: 10px;
-  line-height: 1.5;
-}
-
 .cf-github-link {
   display: inline-flex;
   align-items: center;
@@ -750,7 +671,6 @@
   }
 
   .cf-contact-panel {
-    grid-template-columns: 1fr;
     gap: 42px;
   }
 
@@ -794,10 +714,6 @@
     grid-template-columns: 1fr;
   }
 
-  .cf-project-results {
-    grid-template-columns: 1fr 1fr;
-  }
-
   .cf-contact-section {
     padding-block: 80px;
   }
@@ -817,9 +733,6 @@
 }
 
 @media (max-width: 520px) {
-  .cf-project-results {
-    grid-template-columns: 1fr;
-  }
 
   .cf-contact-panel {
     padding: 24px 20px;
@@ -856,86 +769,10 @@
   color: #fff;
 }
 
-.cf-consent-banner {
-  position: fixed;
-  z-index: 1000;
-  left: max(16px, env(safe-area-inset-left));
-  right: max(16px, env(safe-area-inset-right));
-  bottom: max(16px, env(safe-area-inset-bottom));
-  max-width: 1080px;
-  margin: 0 auto;
-  display: flex;
-  align-items: center;
-  gap: 30px;
-  justify-content: space-between;
-  padding: 24px 28px;
-  border: 1px solid rgba(255,255,255,.16);
-  border-radius: 18px;
-  background: #141214;
-  box-shadow: 0 20px 80px rgba(0,0,0,.78);
-}
-
-.cf-consent-copy {
-  max-width: 670px;
-}
-
-.cf-consent-copy h2 {
-  margin: 0 0 8px;
-  font-size: clamp(19px, 2vw, 24px);
-  line-height: 1.2;
-}
-
-.cf-consent-copy > p:not(.cf-section-kicker) {
-  margin: 0;
-  color: #b1b1b8;
-  font-size: 12px;
-  line-height: 1.65;
-}
-
-.cf-consent-copy .cf-consent-current {
-  margin-top: 8px !important;
-  color: #e4b3b3 !important;
-}
-
-.cf-consent-actions {
-  display: flex;
-  flex: 0 0 auto;
-  gap: 10px;
-}
-
-.cf-consent-actions .cf-button {
-  min-width: 145px;
-  cursor: pointer;
-  border: 0;
-}
-
-.cf-consent-actions .cf-button-secondary {
-  border: 1px solid rgba(255,255,255,.2);
-}
-
 @media (max-width: 800px) {
-  .cf-consent-banner {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 18px;
-    padding: 20px;
-  }
-
-  .cf-consent-actions {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0,1fr));
-  }
-
-  .cf-consent-actions .cf-button {
-    min-width: 0;
-    width: 100%;
-  }
 }
 
 @media (max-width: 440px) {
-  .cf-consent-actions {
-    grid-template-columns: 1fr;
-  }
 }
 
 
@@ -1330,9 +1167,6 @@
 .cf-contact-fallback,
 .cf-form-feedback {
   font-size: 14px;
-}
-.cf-footer-inner {
-  color: #777780;
 }
 
 @media (max-width: 1100px) {

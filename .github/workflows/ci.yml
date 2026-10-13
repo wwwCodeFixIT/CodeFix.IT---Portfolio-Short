@@ -60,6 +60,9 @@ jobs:
       - name: Check estimator and guide catalog
         run: npm run estimator:smoke
 
+      - name: Check hero pointer motion
+        run: npm run hero:smoke
+
       - name: Check mobile contact CTA regression
         run: node scripts/mobile-cta-smoke.mjs
 

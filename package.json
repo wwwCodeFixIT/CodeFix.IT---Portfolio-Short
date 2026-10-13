@@ -11,12 +11,13 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check package.json tsconfig.app.json .prettierrc.json .github/workflows/ci.yml src/components/ProjectEstimator.tsx src/components/ProjectEstimator.css src/lib/project-estimator.ts src/lib/wordpress-guide-catalog.ts scripts/export-guide-catalog.mjs scripts/project-estimator-smoke.mjs",
+    "format:check": "prettier --check package.json tsconfig.app.json .prettierrc.json .github/workflows/ci.yml src/components/ProjectEstimator.tsx src/components/ProjectEstimator.css src/lib/project-estimator.ts src/lib/wordpress-guide-catalog.ts scripts/export-guide-catalog.mjs scripts/project-estimator-smoke.mjs src/components/HeroExperience.tsx src/components/HeroExperience.css src/lib/hero-motion.ts scripts/hero-motion-smoke.mjs",
     "seo:smoke": "node scripts/seo-production-smoke.mjs",
     "build:budget": "node scripts/check-build-budgets.mjs",
     "lint:production": "eslint src --max-warnings=0",
     "measurement:smoke": "node scripts/measurement-consent-smoke.mjs",
-    "estimator:smoke": "node scripts/project-estimator-smoke.mjs"
+    "estimator:smoke": "node scripts/project-estimator-smoke.mjs",
+    "hero:smoke": "node scripts/hero-motion-smoke.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.563.0",

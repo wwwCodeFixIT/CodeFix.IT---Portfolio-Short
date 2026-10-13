@@ -428,16 +428,6 @@
   border-top: 1px solid var(--line);
 }
 
-.cf-footer-inner {
-  min-height: 76px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  color: #5e5e65;
-  font-size: 12px;
-}
-
 .cf-footer-code {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
@@ -527,12 +517,5 @@
 
   .cf-process-grid {
     grid-template-columns: 1fr;
-  }
-
-  .cf-footer-inner {
-    min-height: 94px;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
   }
 }
