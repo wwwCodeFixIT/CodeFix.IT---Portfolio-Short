@@ -16,12 +16,12 @@ Sześć ścianek jest opisanych jako geometria komponentu. Położenia powierzch
 
 Usunięto nieużywane style wcześniejszego bannera zgód, fragmentów portfolio i stopki oraz dwie identyczne wcześniejsze deklaracje. Nie podniesiono limitów paczek.
 
-| Zasób | Kalkulator | Kalkulator + hero | Limit |
-| --- | ---: | ---: | ---: |
-| Entry JS | 200702 B | 200739 B | 215000 B |
-| Największy chunk JS | 40754 B | 44569 B | 50000 B |
-| Łączny JS | 306192 B | 310044 B | 320000 B |
-| Łączny CSS | 69685 B | 69988 B | 70000 B |
+| Zasób               | Kalkulator | Kalkulator + hero |    Limit |
+| ------------------- | ---------: | ----------------: | -------: |
+| Entry JS            |   200702 B |          200739 B | 215000 B |
+| Największy chunk JS |    40754 B |           44690 B |  50000 B |
+| Łączny JS           |   306192 B |          310165 B | 320000 B |
+| Łączny CSS          |    69685 B |           69988 B |  70000 B |
 
 ## Walidacja
 
@@ -29,6 +29,6 @@ PASS: typecheck, lint, production lint, format, czysty build/prerender, build bu
 
 `hero:smoke` sprawdza ograniczenie kąta i światła, nieprawidłową geometrię, łączenie wielu zdarzeń w jedną klatkę (także ID 0), użycie ostatniej pozycji myszy, anulowanie i brak dostępu do odmontowanego DOM. Test jest uruchamiany w CI.
 
-NOT RUN: wizualne renderowanie sceny, rzeczywista interakcja w przeglądarce, fizyczny iPhone/Safari, Lighthouse oraz ręczny audyt WCAG. Wymagana przez workflow Sites umiejętność `control-browser` pozostaje niedostępna. Sprawdzenie źródeł i matematyki nie zastępuje kontroli wizualnej.
+PASS w Chrome przy 1348 × 936 px: kontrola wizualna hero, reakcja na mysz, pauza i wznowienie klawiaturą, wyłączenie ruchu po przewinięciu poza ekran oraz linki wszystkich usług. Wyniki i zakres walidacji zapisano w [raporcie kontroli podglądu](interactive-preview-qa-v1.md).
 
-Do przeglądu na podglądzie: scena na komputerze i telefonie, ruch myszy, przycisk zatrzymania, zmiana preferencji ograniczenia ruchu, powrót do hero po przewinięciu, wszystkie linki usług i działanie kalkulatora. Nie wysyłano próbnych zgłoszeń do produkcyjnego CRM.
+NOT RUN: widoki 390/1440 px, dotyk, rzeczywista zmiana preferencji ograniczenia ruchu, ukrycie karty, fizyczny iPhone/Safari, Lighthouse i pełny audyt WCAG. Dostępna kontrola przeglądarki nie udostępnia emulacji viewportu ani preferencji. Nie wysyłano próbnych zgłoszeń do produkcyjnego CRM.

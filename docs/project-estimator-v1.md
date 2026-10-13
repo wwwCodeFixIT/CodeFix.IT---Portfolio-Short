@@ -23,12 +23,12 @@ Komponent i jego CSS są ładowane po otwarciu. Treści poradników są eksporto
 
 Nie dodano zależności ani nie podniesiono limitów paczek.
 
-| Zasób | Przed | Po | Limit |
-| --- | ---: | ---: | ---: |
-| Entry JS | 200565 B | 200702 B | 215000 B |
-| Łączny JS | 319875 B | 306192 B | 320000 B |
-| Największy CSS | 39806 B | 37135 B | 40000 B |
-| Łączny CSS | 69489 B | 69685 B | 70000 B |
+| Zasób          |    Przed |       Po |    Limit |
+| -------------- | -------: | -------: | -------: |
+| Entry JS       | 200565 B | 200702 B | 215000 B |
+| Łączny JS      | 319875 B | 306192 B | 320000 B |
+| Największy CSS |  39806 B |  37135 B |  40000 B |
+| Łączny CSS     |  69489 B |  69685 B |  70000 B |
 
 ## Walidacja
 
@@ -36,6 +36,6 @@ PASS: typecheck, lint, production lint, format check, build/prerender, estimator
 
 `estimator:smoke` sprawdza stawki, przeliczenia okresów i godzin, brak fikcyjnej wyceny nowych stron i wielu usterek, błędny format ceny, zachowanie własnych uwag oraz zgodność katalogu i statycznych stron poradników. Jest wykonywany w istniejącym CI.
 
-NOT RUN: kontrola wizualna w przeglądarce, fizyczny Safari/iPhone, ręczna obsługa klawiaturą i pełny audyt WCAG. W środowisku nie jest dostępna wymagana przez workflow Sites umiejętność `control-browser`. Kontrole źródłowe nie zastępują testów przeglądarkowych.
+PASS w Chrome przy 1348 × 936 px: cztery usługi, wyceny, zachowanie ustawień po zwinięciu, obsługa Enterem, przeniesienie i usunięcie briefu, zachowanie własnych uwag, zmiana tematu oraz focus w formularzu. Po usunięciu zakresu focus wraca do pola opisu. Szczegóły zapisano w [raporcie kontroli podglądu](interactive-preview-qa-v1.md).
 
-Przed publikacją warto sprawdzić podgląd przy 390 i 1440 px: otwarcie, zachowanie wyborów po zwinięciu, każdą usługę, przeniesienie i usunięcie briefu, zmianę tematu oraz focus po przejściu do formularza.
+NOT RUN: widoki 390/1440 px, fizyczny Safari/iPhone i pełny audyt WCAG. Dostępna kontrola przeglądarki nie udostępnia emulacji viewportu. Kontrole źródłowe mobile CTA nie zastępują kontroli na telefonie.
