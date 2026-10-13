@@ -309,6 +309,13 @@ export function HomepageV1() {
     });
   }
 
+  function removeProjectBrief() {
+    setProjectBrief(null);
+    window.requestAnimationFrame(() => {
+      contactSectionRef.current?.querySelector<HTMLTextAreaElement>('[name="message"]')?.focus({ preventScroll: true });
+    });
+  }
+
   function handleFormStart() {
     if (formStartTracked.current) return;
     formStartTracked.current = true;
@@ -1115,7 +1122,7 @@ export function HomepageV1() {
                         <summary>Zakres z kalkulatora dołączony do zapytania</summary>
                         <pre>{projectBrief.brief}</pre>
                       </details>
-                      <button type="button" onClick={() => setProjectBrief(null)}>Usuń dołączony zakres</button>
+                      <button type="button" onClick={removeProjectBrief}>Usuń dołączony zakres</button>
                     </div>}
 
                     <label>
