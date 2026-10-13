@@ -18,7 +18,7 @@ import {
 import { Brand } from '../components/Brand';
 import type { ServiceLandingConfig } from '../data/service-landings';
 import { projects } from '../data/projects';
-import { wordpressGuides } from '../data/wordpress-guides';
+import { guideSummaries } from '../data/guide-summaries';
 import { captureSessionAttribution } from '../lib/attribution';
 import { clearConversionJourney, readConversionJourney } from '../lib/conversion-journey';
 import { measureAcceptedLead } from '../lib/measurement';
@@ -300,7 +300,7 @@ export function ServiceLanding({
         .map((slug) => projects.find((project) => project.slug === slug))
         .filter((project): project is (typeof projects)[number] => Boolean(project))
     : projects.slice(0, 2);
-  const relatedGuides = wordpressGuides
+  const relatedGuides = guideSummaries
     .filter((item) => item.serviceHref === config.path)
     .sort((a, b) => Number(b.slug.startsWith('ile-kosztuje-')) - Number(a.slug.startsWith('ile-kosztuje-')))
     .slice(0, 3);

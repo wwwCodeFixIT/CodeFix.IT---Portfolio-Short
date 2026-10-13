@@ -57,6 +57,9 @@ jobs:
       - name: Check conversion measurement contract
         run: npm run measurement:smoke
 
+      - name: Check estimator and guide catalog
+        run: npm run estimator:smoke
+
       - name: Check mobile contact CTA regression
         run: node scripts/mobile-cta-smoke.mjs
 

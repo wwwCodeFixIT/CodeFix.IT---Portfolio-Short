@@ -301,128 +301,6 @@
   color: var(--green);
 }
 
-.cf-terminal-wrap {
-  position: relative;
-}
-
-.cf-terminal-wrap::before {
-  content: '';
-  position: absolute;
-  inset: 10% -8% -8%;
-  z-index: -1;
-  background: rgba(220, 38, 38, 0.12);
-  filter: blur(70px);
-  border-radius: 50%;
-}
-
-.cf-terminal {
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 20px;
-  overflow: hidden;
-  background: linear-gradient(180deg, rgba(18, 18, 19, 0.98), rgba(9, 9, 10, 0.98));
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.55);
-}
-
-.cf-terminal-bar {
-  min-height: 48px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 0 18px;
-  border-bottom: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.018);
-}
-
-.cf-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-}
-
-.cf-dot-red { background: #ef4444; }
-.cf-dot-yellow { background: #f59e0b; }
-.cf-dot-green { background: #10b981; }
-
-.cf-terminal-title {
-  margin-left: 8px;
-  color: #5f5f66;
-  font: 500 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
-}
-
-.cf-terminal-body {
-  padding: 24px;
-  font: 500 13px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
-}
-
-.cf-command {
-  color: #65656d;
-}
-
-.cf-terminal-copy {
-  margin: 8px 0 20px;
-  color: #d0d0d4;
-}
-
-.cf-diagnostic-list {
-  display: grid;
-  gap: 10px;
-}
-
-.cf-diagnostic-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 13px 14px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.022);
-}
-
-.cf-diagnostic-row span:first-child {
-  color: #8b8b93;
-}
-
-.cf-status-red { color: #ff6161; }
-.cf-status-yellow { color: #fbbf24; }
-.cf-status-green { color: #34d399; }
-
-.cf-terminal-result {
-  margin: 20px 0 0;
-  color: #777780;
-}
-
-.cf-terminal-result strong {
-  color: #ff5b5b;
-}
-
-.cf-metrics {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-top: 12px;
-}
-
-.cf-metric {
-  padding: 14px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.018);
-}
-
-.cf-metric strong {
-  display: block;
-  color: #e8e8ea;
-  font-size: 13px;
-}
-
-.cf-metric span {
-  display: block;
-  margin-top: 4px;
-  color: #696970;
-  font-size: 11px;
-}
-
 .cf-section {
   padding-block: 94px;
 }
@@ -580,10 +458,6 @@
     padding-block: 76px;
   }
 
-  .cf-terminal-wrap {
-    max-width: 680px;
-  }
-
   .cf-services-grid {
     grid-template-columns: 1fr;
   }
@@ -645,10 +519,6 @@
 
   .cf-button {
     width: 100%;
-  }
-
-  .cf-metrics {
-    grid-template-columns: 1fr;
   }
 
   .cf-section {

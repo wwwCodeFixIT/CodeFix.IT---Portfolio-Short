@@ -22,18 +22,22 @@ async function resolveRoute(path: string): Promise<ReactNode> {
   }
 
   if (path === '/poradniki') {
-    const { GuidesIndex } = await import('./pages/GuidePage');
-    return <GuidesIndex />;
+    const [{ GuidesIndex }, { loadWordPressGuideCatalog }] = await Promise.all([
+      import('./pages/GuidePage'), import('./lib/wordpress-guide-catalog'),
+    ]);
+    const wordpressGuides = await loadWordPressGuideCatalog();
+    return <GuidesIndex wordpressGuides={wordpressGuides} />;
   }
 
   if (path.startsWith('/poradniki/')) {
-    const [{ GuidePage }, { guideByPath }] = await Promise.all([
+    const [{ GuidePage }, { loadWordPressGuideCatalog }] = await Promise.all([
       import('./pages/GuidePage'),
-      import('./data/wordpress-guides'),
+      import('./lib/wordpress-guide-catalog'),
     ]);
 
-    const guide = guideByPath[path];
-    if (guide) return <GuidePage guide={guide} />;
+    const wordpressGuides = await loadWordPressGuideCatalog();
+    const guide = wordpressGuides.find((item) => `/poradniki/${item.slug}` === path);
+    if (guide) return <GuidePage guide={guide} wordpressGuides={wordpressGuides} />;
 
     return loadHomepage();
   }

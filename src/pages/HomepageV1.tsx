@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
 import {
   ArrowRight,
@@ -17,6 +17,8 @@ import { ProjectPreview } from '../components/ProjectPreview';
 import { projects } from '../data/projects';
 import { captureSessionAttribution } from '../lib/attribution';
 import { measureAcceptedLead, openMeasurementSettings } from '../lib/measurement';
+import { mergeProjectBrief } from '../lib/project-estimator';
+import type { ProjectBrief } from '../lib/project-estimator';
 import {
   clearFunnelSession,
   markFunnelCta,
@@ -27,6 +29,13 @@ import {
 } from '../lib/sales-funnel';
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
+
+function EstimatorUnavailable() {
+  return <p role="status">Kalkulator jest chwilowo niedostępny. <a href="#contact">Przejdź do formularza wyceny</a>.</p>;
+}
+
+const ProjectEstimator = lazy(() => import('../components/ProjectEstimator')
+  .catch(() => ({ default: EstimatorUnavailable })));
 
 const quickFixService = 'WORDPRESS_QUICK_FIX';
 const businessSiteService = 'CODEFIX_BUSINESS_SITE';
@@ -204,6 +213,9 @@ export function HomepageV1() {
   const [formMessage, setFormMessage] = useState('');
   const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
   const [selectedService, setSelectedService] = useState(initialServiceFromUrl);
+  const [estimatorOpen, setEstimatorOpen] = useState(false);
+  const [estimatorStarted, setEstimatorStarted] = useState(false);
+  const [projectBrief, setProjectBrief] = useState<ProjectBrief | null>(null);
   const [attribution] = useState(captureSessionAttribution);
   const formStartTracked = useRef(false);
   const formViewTracked = useRef(false);
@@ -265,6 +277,7 @@ export function HomepageV1() {
 
   function chooseService(service: string, placement?: string) {
     if (formState === 'submitting') return;
+    setProjectBrief(null);
     setSelectedService(service);
     setFormMessage('');
     setFormState('idle');
@@ -282,6 +295,17 @@ export function HomepageV1() {
         placement,
       });
     }
+  }
+
+  function useProjectBrief(project: ProjectBrief) {
+    if (formState === 'submitting') return;
+    chooseService(project.service, 'estimator_contact');
+    setProjectBrief(project);
+    window.requestAnimationFrame(() => {
+      const section = contactSectionRef.current;
+      section?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+      section?.querySelector<HTMLInputElement>('[name="name"]')?.focus({ preventScroll: true });
+    });
   }
 
   function handleFormStart() {
@@ -368,6 +392,12 @@ export function HomepageV1() {
     const form = event.currentTarget;
     const data = new FormData(form);
     const service = selectedService;
+    const message = mergeProjectBrief(String(data.get('message') ?? ''), projectBrief);
+    if (message.length > 4000) {
+      setFormState('error');
+      setFormMessage('Opis razem z zakresem z kalkulatora może mieć maksymalnie 4000 znaków. Skróć dodatkowe informacje albo usuń załączony zakres.');
+      return;
+    }
 
     setFormState('submitting');
     setFormMessage('');
@@ -388,7 +418,7 @@ export function HomepageV1() {
           email: data.get('email'),
           service,
           pageUrl: data.get('pageUrl'),
-          message: data.get('message'),
+          message,
           companyWebsite: data.get('companyWebsite'),
           startedAt: formStartedAt,
           ...attribution,
@@ -439,6 +469,7 @@ export function HomepageV1() {
               : 'Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiem po krótkiej analizie tematu.';
 
       form.reset();
+      setProjectBrief(null);
       if (!result.duplicate) clearFunnelSession();
       setSelectedService('');
       setFormStartedAt(Date.now());
@@ -654,6 +685,23 @@ export function HomepageV1() {
                   </article>
                 );
               })}
+            </div>
+          </div>
+        </section>
+
+        <section id="kalkulator" className="cf-section cf-section-bordered" aria-labelledby="cf-estimator-heading">
+          <div className="cf-container">
+            <p className="cf-section-kicker">Kalkulator projektu</p>
+            <h2 id="cf-estimator-heading" className="cf-section-heading">Dobierz zakres. Zaplanuj budżet.</h2>
+            <p className="cf-section-sidecopy">Wybierz usługę i dopasuj zakres. Poznasz cenę startową lub przygotujesz brief do indywidualnej wyceny.</p>
+            <button type="button" className="cf-button cf-button-secondary" aria-expanded={estimatorOpen}
+              aria-controls="cf-project-estimator" onClick={() => { setEstimatorStarted(true); setEstimatorOpen((current) => !current); }}>
+              {estimatorOpen ? 'Zwiń kalkulator' : 'Otwórz kalkulator'}
+            </button>
+            <div id="cf-project-estimator" hidden={!estimatorOpen}>
+              {estimatorStarted && <Suspense fallback={<p role="status">Ładuję kalkulator…</p>}>
+                <ProjectEstimator initialService={selectedService} disabled={formState === 'submitting'} onUseBrief={useProjectBrief} />
+              </Suspense>}
             </div>
           </div>
         </section>
@@ -1060,15 +1108,23 @@ export function HomepageV1() {
                       />
                     </label>
 
+                    {projectBrief && <div className="cf-estimator-attachment">
+                      <details open>
+                        <summary>Zakres z kalkulatora dołączony do zapytania</summary>
+                        <pre>{projectBrief.brief}</pre>
+                      </details>
+                      <button type="button" onClick={() => setProjectBrief(null)}>Usuń dołączony zakres</button>
+                    </div>}
+
                     <label>
-                      <span>Co trzeba zrobić?</span>
+                      <span>{projectBrief ? 'Dodatkowe informacje (opcjonalnie)' : 'Co trzeba zrobić?'}</span>
                       <textarea
                         name="message"
                         rows={5}
-                        minLength={10}
-                        maxLength={4000}
+                        minLength={projectBrief ? undefined : 10}
+                        maxLength={4000 - (projectBrief ? projectBrief.brief.length + 2 : 0)}
                         placeholder={messagePlaceholder}
-                        required
+                        required={!projectBrief}
                       />
                     </label>
 

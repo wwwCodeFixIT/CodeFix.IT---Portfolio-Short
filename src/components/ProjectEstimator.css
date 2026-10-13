@@ -1,0 +1,167 @@
+.cf-estimator-grid {
+  display: grid;
+  gap: 24px;
+  margin-top: 24px;
+}
+.cf-estimator-config,
+.cf-estimator-result {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--line-strong);
+  border-radius: 18px;
+  background: var(--panel);
+}
+.cf-estimator-config fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.cf-estimator-config legend {
+  margin-bottom: 16px;
+  color: var(--text);
+  font-weight: 750;
+}
+.cf-estimator-service-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.cf-estimator-service-options label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.cf-estimator-service-options label:has(input:checked) {
+  border-color: #fb7185;
+  background: #ef444412;
+}
+.cf-estimator-grid input {
+  accent-color: #ef4444;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+}
+.cf-estimator-config .cf-estimator-settings {
+  display: grid;
+  gap: 18px;
+  margin-top: 24px;
+}
+.cf-estimator-field {
+  display: grid;
+  gap: 8px;
+  color: var(--muted-strong);
+}
+.cf-estimator-field select {
+  width: 100%;
+  min-height: 48px;
+  padding: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 9px;
+  background: #151517;
+  color: var(--text);
+  font: inherit;
+}
+.cf-estimator-features label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  color: var(--muted-strong);
+  cursor: pointer;
+}
+.cf-estimator-grid :is(input, select, button):focus-visible {
+  outline: 3px solid #fb7185;
+  outline-offset: 4px;
+}
+.cf-estimator-service-options label:focus-within {
+  outline: 3px solid #fb7185;
+  outline-offset: 3px;
+}
+.cf-estimator-result {
+  align-self: start;
+  background: linear-gradient(145deg, #231012, #0b0b0c 65%);
+}
+.cf-estimator-result h3 {
+  margin: 0;
+  font-size: 25px;
+}
+.cf-estimator-result p,
+.cf-estimator-result li,
+.cf-estimator-result small {
+  color: var(--muted-strong);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.cf-estimator-result .cf-estimator-price {
+  margin-block: 20px 12px;
+  color: var(--text);
+  font-size: clamp(25px, 3vw, 36px);
+  font-weight: 800;
+  line-height: 1.25;
+}
+.cf-estimator-result ul {
+  padding-left: 20px;
+  margin-block: 24px;
+}
+.cf-estimator-result li + li {
+  margin-top: 8px;
+}
+.cf-estimator-result button {
+  width: 100%;
+  white-space: normal;
+  padding-block: 12px;
+  cursor: pointer;
+}
+.cf-estimator-result small {
+  display: block;
+  margin-top: 16px;
+}
+.cf-estimator-result button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+.cf-estimator-attachment {
+  margin-block: 12px;
+  padding: 16px;
+  border: 1px solid #fb718560;
+  border-radius: 10px;
+  background: #ef444409;
+}
+.cf-estimator-attachment summary {
+  min-height: 44px;
+  cursor: pointer;
+  color: var(--text);
+}
+.cf-estimator-attachment pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: inherit;
+  color: var(--muted-strong);
+}
+.cf-estimator-attachment button {
+  min-height: 44px;
+  color: var(--text);
+  text-decoration: underline;
+  cursor: pointer;
+}
+@media (min-width: 900px) {
+  .cf-estimator-grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  }
+}
+@media (max-width: 420px) {
+  .cf-estimator-service-options {
+    grid-template-columns: 1fr;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cf-estimator-grid * {
+    transition: none;
+  }
+}
