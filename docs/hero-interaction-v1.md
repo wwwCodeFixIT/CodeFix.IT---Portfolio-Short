@@ -5,7 +5,7 @@ Pierwsza sekcja zawiera przestrzenny znak marki z sześciu płaszczyzn CSS, unos
 ## Sterowanie i dostępność
 
 - Ruch działa przy myszy i możliwości hover. Znak reaguje w zakresie ±5° w osi X i ±7° w osi Y; dekoracje nie zasłaniają linków.
-- Przycisk z `aria-pressed` pozwala zatrzymać i ponownie włączyć ruch. Obejmuje też istniejącą animację siatki w panelu usług.
+- Przycisk z `aria-pressed` pozwala zatrzymać i ponownie włączyć ruch znaku oraz tła.
 - Urządzenia dotykowe i `prefers-reduced-motion` otrzymują statyczny wariant. Dekoracyjna geometria jest ukryta przed czytnikami ekranu; sterowanie pozostaje poza nią.
 - Ukryta karta i hero poza viewportem wyłączają animacje. Słuchacze, obserwator i oczekująca klatka są sprzątane przy odmontowaniu.
 - Aktualizacje wskaźnika są łączone w jedną klatkę. Ruch myszy nie powoduje ponownego renderowania formularzy lub kart usług.
@@ -13,6 +13,8 @@ Pierwsza sekcja zawiera przestrzenny znak marki z sześciu płaszczyzn CSS, unos
 Sześć ścianek jest opisanych jako geometria komponentu. Położenia powierzchni nie są kopiowane do globalnych arkuszy strony. Dotychczasowe linki, H1, oferta, kalkulator i formularz zachowują swoje funkcje.
 
 ## Budżety
+
+Poniższe porównanie opisuje pierwszą wersję hero i kalkulatora. Bieżący, krótszy układ strony oraz jego walidację opisuje [dokument uproszczenia](homepage-minimal-v1.md) i aktualny opis PR #91.
 
 Usunięto nieużywane style wcześniejszego bannera zgód, fragmentów portfolio i stopki oraz dwie identyczne wcześniejsze deklaracje. Nie podniesiono limitów paczek.
 

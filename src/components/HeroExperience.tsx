@@ -134,11 +134,9 @@ export function HeroEmblem() {
             aria-pressed={motion.enabled}
             onClick={motion.toggle}
           >
-            {motion.enabled ? 'Zatrzymaj ruch' : 'Włącz ruch'}
+            {motion.enabled ? 'Zatrzymaj animację' : 'Włącz animację'}
           </button>
-        ) : (
-          <span>Spokojny tryb</span>
-        )}
+        ) : null}
       </div>
     </div>
   )

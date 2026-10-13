@@ -1,20 +1,23 @@
-import { readFile, writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { readFile, writeFile } from 'node:fs/promises'
+import { join } from 'node:path'
 
-const distDir = new URL('../dist/', import.meta.url);
-const sitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8');
-const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => new URL(match[1].trim()));
+const distDir = new URL('../dist/', import.meta.url)
+const homepageContent = JSON.parse(
+  await readFile(new URL('../src/data/homepage-content.json', import.meta.url), 'utf8'),
+)
+const sitemap = await readFile(new URL('../public/sitemap.xml', import.meta.url), 'utf8')
+const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => new URL(match[1].trim()))
 
 const serviceCatalog = JSON.parse(
   await readFile(new URL('../public/data/service-landings.json', import.meta.url), 'utf8'),
-);
+)
 
 const serviceHeadings = Object.fromEntries(
   Object.entries(serviceCatalog).map(([path, page]) => [
     path,
     [page.title, page.titleAccent].filter(Boolean).join(' '),
   ]),
-);
+)
 
 const guideLinks = [
   ['/poradniki/wordpress-nie-wysyla-maili/', 'WordPress nie wysyła maili'],
@@ -25,8 +28,11 @@ const guideLinks = [
   ['/poradniki/woocommerce-checkout-nie-dziala/', 'WooCommerce checkout nie działa'],
   ['/poradniki/ile-kosztuje-naprawa-wordpress/', 'Ile kosztuje naprawa WordPress'],
   ['/poradniki/ile-kosztuje-opieka-wordpress/', 'Ile kosztuje opieka WordPress'],
-  ['/poradniki/ile-kosztuje-strona-wordpress-dla-firmy/', 'Ile kosztuje strona WordPress dla firmy'],
-];
+  [
+    '/poradniki/ile-kosztuje-strona-wordpress-dla-firmy/',
+    'Ile kosztuje strona WordPress dla firmy',
+  ],
+]
 
 const quickFixGuideLinks = guideLinks.filter(([href]) =>
   [
@@ -37,103 +43,135 @@ const quickFixGuideLinks = guideLinks.filter(([href]) =>
     '/poradniki/woocommerce-checkout-nie-dziala/',
     '/poradniki/ile-kosztuje-naprawa-wordpress/',
   ].includes(href),
-);
+)
 
 const careGuideLinks = guideLinks.filter(([href]) =>
-  ['/poradniki/wolny-wordpress-co-sprawdzic/', '/poradniki/ile-kosztuje-opieka-wordpress/'].includes(href),
-);
+  [
+    '/poradniki/wolny-wordpress-co-sprawdzic/',
+    '/poradniki/ile-kosztuje-opieka-wordpress/',
+  ].includes(href),
+)
 
 const businessSiteGuideLinks = guideLinks.filter(([href]) =>
   ['/poradniki/ile-kosztuje-strona-wordpress-dla-firmy/'].includes(href),
-);
+)
 
 const guideServiceLinks = {
-  '/poradniki/wordpress-nie-wysyla-maili': ['/naprawa-wordpress/', 'Naprawa WordPress — zobacz zakres usługi'],
-  '/poradniki/blad-500-wordpress': ['/naprawa-wordpress/', 'Naprawa WordPress — zobacz zakres usługi'],
-  '/poradniki/wordpress-zepsul-sie-po-aktualizacji': ['/naprawa-wordpress/', 'Naprawa WordPress — zobacz zakres usługi'],
-  '/poradniki/wolny-wordpress-co-sprawdzic': ['/opieka-wordpress/', 'Opieka WordPress — zobacz zakres usługi'],
-  '/poradniki/blad-krytyczny-wordpress': ['/naprawa-wordpress/', 'Naprawa WordPress — zobacz zakres usługi'],
-  '/poradniki/woocommerce-checkout-nie-dziala': ['/naprawa-wordpress/', 'Naprawa WordPress — zobacz zakres usługi'],
-  '/poradniki/ile-kosztuje-naprawa-wordpress': ['/naprawa-wordpress/', 'Naprawa WordPress — cena i zakres'],
-  '/poradniki/ile-kosztuje-opieka-wordpress': ['/opieka-wordpress/', 'Opieka WordPress — abonament i zakres'],
-  '/poradniki/ile-kosztuje-strona-wordpress-dla-firmy': ['/strony-wordpress/', 'Strony WordPress dla firm — wycena'],
-};
+  '/poradniki/wordpress-nie-wysyla-maili': [
+    '/naprawa-wordpress/',
+    'Naprawa WordPress — zobacz zakres usługi',
+  ],
+  '/poradniki/blad-500-wordpress': [
+    '/naprawa-wordpress/',
+    'Naprawa WordPress — zobacz zakres usługi',
+  ],
+  '/poradniki/wordpress-zepsul-sie-po-aktualizacji': [
+    '/naprawa-wordpress/',
+    'Naprawa WordPress — zobacz zakres usługi',
+  ],
+  '/poradniki/wolny-wordpress-co-sprawdzic': [
+    '/opieka-wordpress/',
+    'Opieka WordPress — zobacz zakres usługi',
+  ],
+  '/poradniki/blad-krytyczny-wordpress': [
+    '/naprawa-wordpress/',
+    'Naprawa WordPress — zobacz zakres usługi',
+  ],
+  '/poradniki/woocommerce-checkout-nie-dziala': [
+    '/naprawa-wordpress/',
+    'Naprawa WordPress — zobacz zakres usługi',
+  ],
+  '/poradniki/ile-kosztuje-naprawa-wordpress': [
+    '/naprawa-wordpress/',
+    'Naprawa WordPress — cena i zakres',
+  ],
+  '/poradniki/ile-kosztuje-opieka-wordpress': [
+    '/opieka-wordpress/',
+    'Opieka WordPress — abonament i zakres',
+  ],
+  '/poradniki/ile-kosztuje-strona-wordpress-dla-firmy': [
+    '/strony-wordpress/',
+    'Strony WordPress dla firm — wycena',
+  ],
+}
 
-const serviceLinks = [
-  ['/naprawa-wordpress/', 'Naprawa WordPress — błędy, formularze i WooCommerce'],
-  ['/strony-wordpress/', 'Strony internetowe dla firm — WordPress + ACF PRO'],
-  ['/opieka-wordpress/', 'Opieka WordPress — aktualizacje, backupy i rozwój'],
-  ['/dla-agencji-wordpress/', 'WordPress white-label dla agencji — wsparcie overflow'],
-];
-
-const contactEmail = 'wwwcodefixit@gmail.com';
+const contactEmail = 'wwwcodefixit@gmail.com'
 
 const projectLinks = [
-  ['/realizacje/kancelaria-adwokacka-witkowska/', 'Kancelaria Adwokacka Witkowska — case współpracy agencyjnej'],
-  ['/realizacje/rzeczoznawca-marcin-dudek/', 'Rzeczoznawca Marcin Dudek — strona WordPress od zera'],
+  [
+    '/realizacje/kancelaria-adwokacka-witkowska/',
+    'Kancelaria Adwokacka Witkowska — case współpracy agencyjnej',
+  ],
+  [
+    '/realizacje/rzeczoznawca-marcin-dudek/',
+    'Rzeczoznawca Marcin Dudek — strona WordPress od zera',
+  ],
   ['/realizacje/em-air-system/', 'eM-aiR System — redesign WordPress + ACF PRO'],
-];
+]
 
 function escapeHtml(value) {
-  return value.replace(/[&<>"']/g, (character) => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#39;',
-  })[character] ?? character);
+  return value.replace(
+    /[&<>"']/g,
+    (character) =>
+      ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+      })[character] ?? character,
+  )
 }
 
 function metaContent(html, name) {
-  const pattern = new RegExp('<meta\\s+name=["\\\']' + name + '["\\\']\\s+content=["\\\']([^"\\\']+)["\\\']', 'i');
-  return html.match(pattern)?.[1] ?? '';
+  const pattern = new RegExp(
+    '<meta\\s+name=["\\\']' + name + '["\\\']\\s+content=["\\\']([^"\\\']+)["\\\']',
+    'i',
+  )
+  return html.match(pattern)?.[1] ?? ''
 }
 
 function titleContent(html) {
-  return html.match(/<title>([^<]+)<\/title>/i)?.[1] ?? 'CodeFix.IT';
+  return html.match(/<title>([^<]+)<\/title>/i)?.[1] ?? 'CodeFix.IT'
 }
 
 function links(items) {
-  return items.map(([href, label]) => `<li><a href="${href}">${escapeHtml(label)}</a></li>`).join('');
+  return items
+    .map(([href, label]) => `<li><a href="${href}">${escapeHtml(label)}</a></li>`)
+    .join('')
 }
 
 function pageHeading(path, title) {
-  if (path === '/') return 'CodeFix.IT — WordPress dla firm: naprawa, opieka i strony';
-  if (serviceHeadings[path]) return serviceHeadings[path];
-  if (path === '/poradniki') return 'Poradniki WordPress. Naprawa, opieka i wyceny.';
-  if (path === '/realizacje') return 'Realizacje WordPress, które możesz sprawdzić przed kontaktem.';
-  return title.replace(/\s*[|–—-]\s*CodeFix\.IT.*$/i, '').trim() || 'CodeFix.IT';
+  if (path === '/') return `${homepageContent.hero.title} ${homepageContent.hero.accent}`
+  if (serviceHeadings[path]) return serviceHeadings[path]
+  if (path === '/poradniki') return 'Poradniki WordPress. Naprawa, opieka i wyceny.'
+  if (path === '/realizacje') return 'Realizacje WordPress, które możesz sprawdzić przed kontaktem.'
+  return title.replace(/\s*[|–—-]\s*CodeFix\.IT.*$/i, '').trim() || 'CodeFix.IT'
 }
 
 function relatedBlock(path) {
   if (path === '/') {
     return `
-      <section>
-        <h2>Usługi WordPress CodeFix.IT</h2>
-        <ul>${links(serviceLinks)}</ul>
+      <section id="services">
+        <h2>Czego potrzebujesz?</h2>
+        <ul>${homepageContent.services.map(({ title, price, detailsHref }) => `<li><a href="${escapeHtml(detailsHref)}">${escapeHtml(title)} — ${escapeHtml(price)}</a></li>`).join('')}</ul>
+        <p><a href="/dla-agencji-wordpress/">Wsparcie dla agencji</a></p>
       </section>
-      <section>
-        <h2>Poradniki techniczne WordPress</h2>
-        <ul>${links(guideLinks)}</ul>
-      </section>
-      <section>
-        <h2>Dla agencji — wsparcie WordPress white-label</h2>
-        <p>Wsparcie overflow przy WordPress, ACF PRO, WooCommerce, front-endzie i mniejszych integracjach. Praca na stagingu i Git, także bez kontaktu z klientem końcowym.</p>
-        <p><a href="/dla-agencji-wordpress/">Zobacz współpracę WordPress white-label dla agencji</a></p>
-      </section>
-      <section>
-        <h2>Weryfikowalne realizacje i sposób pracy</h2>
-        <p>Trzy opisane realizacje mają publiczne adresy stron. Case Kancelarii Adwokackiej Witkowskiej dokumentuje współpracę agencyjną z SyloSoftware. Zakres i cena są potwierdzane przed rozpoczęciem prac.</p>
-        <p><a href="/realizacje/kancelaria-adwokacka-witkowska/">Sprawdź case współpracy agencyjnej</a></p>
-      </section>
-      <section>
-        <h2>Wybrane realizacje</h2>
+      <section id="work">
+        <h2>Wybrane projekty.</h2>
         <ul>
-          <li><a href="/realizacje/kancelaria-adwokacka-witkowska/">Kancelaria Adwokacka Witkowska — realizacja WordPress</a></li>
-          <li><a href="/realizacje/rzeczoznawca-marcin-dudek/">Rzeczoznawca Marcin Dudek — realizacja WordPress</a></li>
-          <li><a href="/realizacje/em-air-system/">EM Air System — realizacja WordPress</a></li>
+          <li><a href="/realizacje/kancelaria-adwokacka-witkowska/">Kancelaria Adwokacka Witkowska</a></li>
+          <li><a href="/realizacje/rzeczoznawca-marcin-dudek/">Rzeczoznawca Marcin Dudek</a></li>
+          <li><a href="/realizacje/em-air-system/">eM-aiR System</a></li>
         </ul>
-      </section>`;
+        <p><a href="/realizacje/">Wszystkie realizacje</a></p>
+      </section>
+      <section id="process">
+        <h2>Prosta współpraca.</h2>
+        <ol>${homepageContent.process.map(({ title, description }) => `<li><strong>${escapeHtml(title)}</strong> — ${escapeHtml(description)}</li>`).join('')}</ol>
+        <div id="faq"><h3>Przed pierwszą wiadomością</h3>
+        ${homepageContent.faqItems.map(({ question, answer }) => `<details><summary>${escapeHtml(question)}</summary><p>${escapeHtml(answer)}</p></details>`).join('')}</div>
+      </section>`
   }
 
   if (path === '/naprawa-wordpress') {
@@ -156,7 +194,7 @@ function relatedBlock(path) {
         </ul>
         <p><a href="/naprawa-wordpress/#realizacje">Sprawdź realizacje</a></p>
       </section>
-      <section><h2>Najczęstsze problemy WordPress</h2><ul>${links(quickFixGuideLinks)}</ul></section>`;
+      <section><h2>Najczęstsze problemy WordPress</h2><ul>${links(quickFixGuideLinks)}</ul></section>`
   }
 
   if (path === '/opieka-wordpress') {
@@ -171,7 +209,7 @@ function relatedBlock(path) {
         </ul>
         <p><a href="/opieka-wordpress/#kontakt">Zapytaj o opiekę</a></p>
       </section>
-      <section><h2>Powiązane materiały o opiece WordPress</h2><ul>${links(careGuideLinks)}</ul></section>`;
+      <section><h2>Powiązane materiały o opiece WordPress</h2><ul>${links(careGuideLinks)}</ul></section>`
   }
 
   if (path === '/strony-wordpress') {
@@ -186,7 +224,7 @@ function relatedBlock(path) {
         <p><a href="/realizacje/">Sprawdź 3 publiczne realizacje</a></p>
         <p><a href="/strony-wordpress/#kontakt">Wyceń stronę firmową</a></p>
       </section>
-      <section><h2>Poradniki o stronach WordPress dla firm</h2><ul>${links(businessSiteGuideLinks)}</ul></section>`;
+      <section><h2>Poradniki o stronach WordPress dla firm</h2><ul>${links(businessSiteGuideLinks)}</ul></section>`
   }
 
   if (path === '/dla-agencji-wordpress') {
@@ -201,7 +239,7 @@ function relatedBlock(path) {
         </ul>
         <p><a href="/realizacje/kancelaria-adwokacka-witkowska/">Sprawdź udokumentowany case współpracy agencyjnej z SyloSoftware</a></p>
       </section>
-      <p><a href="/dla-agencji-wordpress/#kontakt">Zapytaj o współpracę</a></p>`;
+      <p><a href="/dla-agencji-wordpress/#kontakt">Zapytaj o współpracę</a></p>`
   }
 
   if (path === '/realizacje') {
@@ -215,7 +253,7 @@ function relatedBlock(path) {
         <h2>Potrzebujesz podobnego wdrożenia?</h2>
         <p><a href="/strony-wordpress/">Strony WordPress dla firm — zakres i wycena</a></p>
         <p><a href="/dla-agencji-wordpress/">Wsparcie WordPress white-label dla agencji</a></p>
-      </section>`;
+      </section>`
   }
 
   if (path === '/poradniki') {
@@ -234,42 +272,61 @@ function relatedBlock(path) {
         <h2>Strony WordPress dla firm</h2>
         <ul>${links(businessSiteGuideLinks)}</ul>
         <p><a href="/strony-wordpress/">Strony WordPress — wycena</a></p>
-      </section>`;
+      </section>`
   }
 
   if (path.startsWith('/poradniki/')) {
-    const [serviceHref, serviceLabel] =
-      guideServiceLinks[path] ?? ['/naprawa-wordpress/', 'Naprawa WordPress — zobacz zakres usługi'];
+    const [serviceHref, serviceLabel] = guideServiceLinks[path] ?? [
+      '/naprawa-wordpress/',
+      'Naprawa WordPress — zobacz zakres usługi',
+    ]
     return `
       <p><a href="${serviceHref}">${escapeHtml(serviceLabel)}</a></p>
-      <p><a href="/poradniki/">Wszystkie poradniki WordPress</a></p>`;
+      <p><a href="/poradniki/">Wszystkie poradniki WordPress</a></p>`
   }
 
   if (path.startsWith('/realizacje/')) {
     return `
       <p><a href="/realizacje/">Zobacz wszystkie realizacje CodeFix.IT</a></p>
       <p><a href="/strony-wordpress/">Strony internetowe dla firm — zobacz zakres wdrożenia</a></p>
-      <p><a href="/dla-agencji-wordpress/">Wsparcie WordPress white-label dla agencji</a></p>`;
+      <p><a href="/dla-agencji-wordpress/">Wsparcie WordPress white-label dla agencji</a></p>`
   }
 
-  return `<p><a href="/">Wróć do strony głównej CodeFix.IT</a></p>`;
+  return `<p><a href="/">Wróć do strony głównej CodeFix.IT</a></p>`
 }
 
 function staticContactBlock(path) {
-  const isCommercialPage = path === '/' || Boolean(serviceHeadings[path]);
-  if (!isCommercialPage) return '';
+  const isCommercialPage = path === '/' || Boolean(serviceHeadings[path])
+  if (!isCommercialPage) return ''
 
   return `
     <section id="kontakt" aria-labelledby="static-contact-heading">
       <h2 id="static-contact-heading">Kontakt z CodeFix.IT</h2>
       <p>Jeśli interaktywny formularz chwilowo się nie załaduje, nadal możesz wysłać zgłoszenie bezpośrednio e-mailem.</p>
       <p><a href="mailto:${contactEmail}">${contactEmail}</a></p>
-    </section>`;
+    </section>`
 }
 
 function outputPath(pathname) {
-  if (pathname === '/') return join(distDir.pathname, 'index.html');
-  return join(distDir.pathname, pathname.replace(/^\//, ''), 'index.html');
+  if (pathname === '/') return join(distDir.pathname, 'index.html')
+  return join(distDir.pathname, pathname.replace(/^\//, ''), 'index.html')
+}
+
+function syncHomepageFaq(html) {
+  return html.replace(
+    /(<script\b[^>]*type=["']application\/ld\+json["'][^>]*>)([\s\S]*?)(<\/script>)/gi,
+    (tag, opening, content, closing) => {
+      const schema = JSON.parse(content)
+      const faq = schema['@graph']?.find((item) => item['@type'] === 'FAQPage')
+      if (!faq) return tag
+      faq.mainEntity = homepageContent.faqItems.map(({ question, answer }) => ({
+        '@type': 'Question',
+        name: question,
+        acceptedAnswer: { '@type': 'Answer', text: answer },
+      }))
+      return `${opening}${JSON.stringify(schema).replace(/</g, '\\u003c')}${closing}`
+    },
+  )
 }
 
 const style = `
@@ -285,15 +342,16 @@ const style = `
   .cf-static-prerender p,.cf-static-prerender li{max-width:780px;color:#a5a5ad;line-height:1.65}
   .cf-static-prerender a{color:#f2f2f4}
   .cf-static-prerender ul{display:grid;gap:10px;padding-left:20px}
-</style>`;
+</style>`
 
 for (const url of urls) {
-  const path = url.pathname === '/' ? '/' : url.pathname.replace(/\/$/, '');
-  const file = outputPath(path);
-  let html = await readFile(file, 'utf8');
-  const title = titleContent(html);
-  const description = metaContent(html, 'description');
-  const heading = pageHeading(path, title);
+  const path = url.pathname === '/' ? '/' : url.pathname.replace(/\/$/, '')
+  const file = outputPath(path)
+  let html = await readFile(file, 'utf8')
+  const title = titleContent(html)
+  const description =
+    path === '/' ? homepageContent.hero.description : metaContent(html, 'description')
+  const heading = pageHeading(path, title)
 
   const body = `<div id="root" data-static-prerender="true">
     <main class="cf-static-prerender" data-seo-static-content="true">
@@ -306,25 +364,26 @@ for (const url of urls) {
         ${staticContactBlock(path)}
       </div>
     </main>
-  </div>`;
+  </div>`
 
   if (!html.includes('<div id="root"></div>')) {
-    throw new Error(`Cannot inject static content into ${path}: root placeholder missing`);
+    throw new Error(`Cannot inject static content into ${path}: root placeholder missing`)
   }
 
-  html = html.replace('<div id="root"></div>', body);
+  html = html.replace('<div id="root"></div>', body)
+  if (path === '/') html = syncHomepageFaq(html)
   if (!html.includes('id="codefix-static-prerender-style"')) {
-    html = html.replace('</head>', `${style}\n  </head>`);
+    html = html.replace('</head>', `${style}\n  </head>`)
   }
 
-  const isCommercialPage = path === '/' || Boolean(serviceHeadings[path]);
+  const isCommercialPage = path === '/' || Boolean(serviceHeadings[path])
   if (
     isCommercialPage &&
     (!html.includes('id="kontakt"') || !html.includes(`mailto:${contactEmail}`))
   ) {
-    throw new Error(`Static contact fallback missing for ${path}`);
+    throw new Error(`Static contact fallback missing for ${path}`)
   }
 
-  await writeFile(file, html, 'utf8');
-  process.stdout.write(`Static HTML body: ${path}\n`);
+  await writeFile(file, html, 'utf8')
+  process.stdout.write(`Static HTML body: ${path}\n`)
 }

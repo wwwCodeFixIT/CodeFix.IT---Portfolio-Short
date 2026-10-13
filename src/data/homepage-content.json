@@ -1,0 +1,56 @@
+{
+  "hero": {
+    "eyebrow": "WordPress dla firm",
+    "title": "WordPress,",
+    "accent": "który działa.",
+    "description": "Tworzę strony, naprawiam błędy i dbam o WordPressa. Ty skupiasz się na swojej firmie."
+  },
+  "services": [
+    {
+      "title": "Naprawa WordPress",
+      "description": "Formularz, aktualizacja, WooCommerce. Znajduję przyczynę i naprawiam problem.",
+      "price": "Od 390 zł",
+      "detailsHref": "/naprawa-wordpress/"
+    },
+    {
+      "title": "Nowa strona",
+      "description": "Strona firmowa z wygodną edycją treści, dopracowana na telefonie.",
+      "price": "Wycena indywidualna",
+      "detailsHref": "/strony-wordpress/"
+    },
+    {
+      "title": "Stała opieka",
+      "description": "Aktualizacje, kopie zapasowe i bieżące wsparcie dla Twojej strony.",
+      "price": "Od 300 zł / mies.",
+      "detailsHref": "/opieka-wordpress/"
+    }
+  ],
+  "process": [
+    {
+      "title": "Opisujesz temat",
+      "description": "Kilka zdań i adres strony wystarczą na początek."
+    },
+    {
+      "title": "Ustalamy zakres",
+      "description": "Poznajesz cenę i termin przed rozpoczęciem prac."
+    },
+    {
+      "title": "Sprawdzasz efekt",
+      "description": "Pokazuję zmiany, testuję i wdrażam po Twojej akceptacji."
+    }
+  ],
+  "faqItems": [
+    {
+      "question": "Ile to kosztuje?",
+      "answer": "Naprawa od 390 zł, opieka od 300 zł/mies. Nowe strony wyceniam indywidualnie. Zakres i cenę potwierdzam przed startem."
+    },
+    {
+      "question": "Czy na początek potrzebujesz dostępów?",
+      "answer": "Wystarczy publiczny adres strony i opis problemu. Potrzebne dostępy ustalimy później."
+    },
+    {
+      "question": "Czy pomagasz po wdrożeniu?",
+      "answer": "Tak. Możemy umówić stałą opiekę lub pojedyncze zadanie, gdy potrzebujesz wsparcia."
+    }
+  ]
+}

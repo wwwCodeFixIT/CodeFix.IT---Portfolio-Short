@@ -169,7 +169,9 @@
   text-decoration: none;
   font-size: 13px;
   font-weight: 800;
-  transition: transform 160ms ease, background 160ms ease;
+  transition:
+    transform 160ms ease,
+    background 160ms ease;
 }
 
 .cf-nav-cta:hover {
@@ -205,14 +207,6 @@
   border-radius: 50%;
   background: var(--green);
   box-shadow: 0 0 18px rgba(52, 211, 153, 0.65);
-}
-
-.cf-stack-label {
-  margin: 26px 0 12px;
-  color: #ff6464;
-  font: 700 12px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
 }
 
 .cf-title {
@@ -256,7 +250,10 @@
   text-decoration: none;
   font-size: 14px;
   font-weight: 750;
-  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
 }
 
 .cf-button-primary {
@@ -282,25 +279,6 @@
   background: rgba(255, 255, 255, 0.055);
 }
 
-.cf-proof {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px 24px;
-  margin-top: 30px;
-  color: #74747c;
-  font-size: 13px;
-}
-
-.cf-proof-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-}
-
-.cf-proof-item svg {
-  color: var(--green);
-}
-
 .cf-section {
   padding-block: 94px;
 }
@@ -313,7 +291,11 @@
 .cf-section-kicker {
   margin: 0 0 12px;
   color: #ff6161;
-  font: 700 11px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
+  font:
+    700 11px/1.4 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
   text-transform: uppercase;
   letter-spacing: 0.2em;
 }
@@ -342,23 +324,14 @@
   border: 1px solid var(--line);
   border-radius: 18px;
   background: linear-gradient(180deg, rgba(17, 17, 18, 0.96), rgba(9, 9, 10, 0.96));
-  transition: transform 180ms ease, border-color 180ms ease;
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease;
 }
 
 .cf-service-card:hover {
   transform: translateY(-4px);
   border-color: rgba(239, 68, 68, 0.28);
-}
-
-.cf-service-art {
-  width: 100%;
-  max-width: 360px;
-  height: auto;
-  flex-shrink: 0;
-  align-self: center;
-  object-fit: contain;
-  border-radius: 12px;
-  background: #0b0b0d;
 }
 
 .cf-service-card h3 {
@@ -372,56 +345,6 @@
   color: #96969e;
   font-size: 14px;
   line-height: 1.65;
-}
-
-.cf-service-meta {
-  margin-top: auto !important;
-  padding-top: 22px;
-  color: #626269 !important;
-  font: 500 11px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace !important;
-}
-
-.cf-process-layout {
-  display: grid;
-  grid-template-columns: 0.8fr 1.2fr;
-  gap: 80px;
-  align-items: start;
-}
-
-.cf-process-intro p:last-child {
-  max-width: 440px;
-  margin: 20px 0 0;
-  color: #92929a;
-  line-height: 1.7;
-}
-
-.cf-process-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-.cf-process-card {
-  min-height: 145px;
-  padding: 22px;
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.018);
-}
-
-.cf-process-number {
-  color: #ff6363;
-  font: 700 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
-}
-
-.cf-process-card p {
-  margin: 18px 0 0;
-  color: #d1d1d5;
-  font-size: 14px;
-  line-height: 1.55;
 }
 
 .cf-footer {
@@ -454,11 +377,6 @@
 
   .cf-service-card {
     min-height: 220px;
-  }
-
-  .cf-process-layout {
-    grid-template-columns: 1fr;
-    gap: 44px;
   }
 }
 
@@ -513,9 +431,5 @@
 
   .cf-section {
     padding-block: 72px;
-  }
-
-  .cf-process-grid {
-    grid-template-columns: 1fr;
   }
 }
