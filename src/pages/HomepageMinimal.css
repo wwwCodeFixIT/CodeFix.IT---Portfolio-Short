@@ -1,11 +1,11 @@
 /* This modifier keeps the simpler home layout separate from service and guide pages. */
-.cf-home-minimal {
+.homepage-v1.cf-home-minimal {
   --page-bg: #08080a;
   --muted: #aaaab3;
   --muted-strong: #c4c4cc;
 }
-.cf-home-minimal::before,
-.cf-home-minimal::after,
+.homepage-v1.cf-home-minimal::before,
+.homepage-v1.cf-home-minimal::after,
 .cf-home-minimal .cf-hero-copy::before,
 .cf-home-minimal .cf-work-section::before,
 .cf-home-minimal .cf-contact-section::before {
@@ -22,6 +22,9 @@
   gap: 28px;
 }
 .cf-home-minimal .cf-nav-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   color: var(--muted);
 }
 .cf-home-minimal .cf-nav-cta {
@@ -222,6 +225,9 @@
 }
 .cf-home-minimal .cf-project-collaboration {
   margin-top: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
   color: var(--muted);
   font-size: 12px;
   line-height: 1.5;
@@ -329,6 +335,9 @@
   padding-block: 28px;
   border: 0;
   color: var(--muted);
+}
+.cf-home-minimal .cf-footer {
+  background: transparent;
 }
 .cf-home-footer-links {
   display: flex;
