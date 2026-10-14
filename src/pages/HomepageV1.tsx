@@ -19,6 +19,7 @@ import { ProjectPreview } from '../components/ProjectPreview';
 import { projects } from '../data/projects';
 import homepageContent from '../data/homepage-content.json';
 import { captureSessionAttribution } from '../lib/attribution';
+import { readLeadResponse } from '../lib/lead-response';
 import {
   measureAcceptedLead,
   openMeasurementSettings,
@@ -474,11 +475,7 @@ export function HomepageV1() {
         }),
       });
 
-      const result = (await response.json()) as {
-        error?: string;
-        duplicate?: boolean;
-        leadId?: string;
-      };
+      const result = await readLeadResponse(response);
 
       if (!response.ok) {
         throw new Error(result.error || 'Nie udało się wysłać formularza.');

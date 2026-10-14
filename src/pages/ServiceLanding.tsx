@@ -20,6 +20,7 @@ import type { ServiceLandingConfig } from '../data/service-landings';
 import { projects } from '../data/projects';
 import { guideSummaries } from '../data/guide-summaries';
 import { captureSessionAttribution } from '../lib/attribution';
+import { readLeadResponse } from '../lib/lead-response';
 import { clearConversionJourney, readConversionJourney } from '../lib/conversion-journey';
 import { measureAcceptedLead, trackMeasurementEvent } from '../lib/measurement';
 import {
@@ -253,7 +254,7 @@ export function ServiceLanding({
         }),
       });
 
-      const result = (await response.json()) as { error?: string; duplicate?: boolean; leadId?: string };
+      const result = await readLeadResponse(response);
       if (!response.ok) throw new Error(result.error || 'Nie udało się wysłać formularza.');
 
       if (result.duplicate) {

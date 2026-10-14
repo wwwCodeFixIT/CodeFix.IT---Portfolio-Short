@@ -214,7 +214,10 @@ for (const [engine, type] of [
           )
           assert.equal(conversions, test.conversions)
           if (!success && test.result !== 'rejected')
-            assert.ok((await feedback.innerText()).includes('Spróbuj ponownie'))
+            assert.ok(
+              (await feedback.innerText()).includes('Spróbuj ponownie'),
+              await feedback.innerText(),
+            )
           if (!test.analytics) assert.equal(funnelRequests, 0)
           assert.deepEqual(pageErrors, [])
           const result = {

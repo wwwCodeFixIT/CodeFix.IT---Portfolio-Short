@@ -6,6 +6,7 @@ on:
     paths:
       - 'src/lib/measurement.ts'
       - 'src/lib/sales-funnel.ts'
+      - 'src/lib/lead-response.ts'
       - 'src/pages/HomepageV1.tsx'
       - 'src/pages/ServiceLanding.tsx'
       - 'scripts/contact-submission-qa.mjs'
