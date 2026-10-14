@@ -165,6 +165,42 @@ export function HomepageV1() {
   const [layoutReady, setLayoutReady] = useState(false);
 
   useEffect(() => {
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+    let frame = 0;
+
+    const keepActiveFieldVisible = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        const input = document.activeElement;
+        if (
+          !(input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement) ||
+          !contactSectionRef.current?.contains(input) ||
+          !window.matchMedia('(max-width: 720px)').matches ||
+          viewport.scale !== 1
+        ) {
+          return;
+        }
+        const box = input.getBoundingClientRect();
+        const headerBottom =
+          document.querySelector('.cf-header')?.getBoundingClientRect().bottom ?? 0;
+        const top = Math.max(viewport.offsetTop, headerBottom) + 8;
+        const bottom = viewport.offsetTop + viewport.height - 8;
+        // Let the browser keep the caret visible if a field exceeds the available height.
+        if (box.height > bottom - top) return;
+        const delta = box.bottom > bottom ? box.bottom - bottom : box.top < top ? box.top - top : 0;
+        if (delta) window.scrollBy({ top: delta, behavior: 'instant' });
+      });
+    };
+
+    viewport.addEventListener('resize', keepActiveFieldVisible);
+    return () => {
+      viewport.removeEventListener('resize', keepActiveFieldVisible);
+      window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  useEffect(() => {
     const hash = window.location.hash;
     if (!hash) return;
 

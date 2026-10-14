@@ -16,15 +16,15 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  AUDIT_SITE_URL: https://320773b5.codefix-it---portfolio-short.pages.dev/
-  AUDIT_RUNTIME_COMMIT: eff52f9e298a9fdfc311ae1da021b5f91818a35f
-  AUDIT_EXPECTED_ENTRY: /assets/index-BxGA2aCr.js
+  AUDIT_SITE_URL: https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/
+  AUDIT_RUNTIME_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+  AUDIT_EXPECTED_ENTRY: /assets/index-CQajBJcS.js
 
 jobs:
   viewport:
     name: Contact fields after viewport resize
     runs-on: ubuntu-24.04
-    timeout-minutes: 8
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -35,11 +35,34 @@ jobs:
       - name: Install WebKit and system dependencies
         run: .qa-tools/node_modules/.bin/playwright install --with-deps webkit
       - name: Check deployed contact viewport geometry
-        run: node scripts/wait-preview-audit.mjs && node scripts/contact-viewport-qa.mjs
+        run: node scripts/wait-preview-audit.mjs && node scripts/contact-viewport-qa.mjs && node scripts/preview-mobile-qa.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: contact-viewport-${{ github.run_id }}
-          path: qa-results/contact-viewport/
+          path: |
+            qa-results/contact-viewport/
+            qa-results/mobile/
+          if-no-files-found: error
+          retention-days: 14
+
+  lighthouse:
+    name: Lighthouse on updated contact runtime
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install audit tool outside application dependencies
+        run: npm install --prefix .qa-tools --no-save --ignore-scripts lighthouse@13.5.0
+      - name: Audit deployed pages
+        run: node scripts/wait-preview-audit.mjs && node scripts/preview-lighthouse.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: contact-lighthouse-${{ github.run_id }}
+          path: qa-results/lighthouse/
           if-no-files-found: error
           retention-days: 14
