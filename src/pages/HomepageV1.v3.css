@@ -38,7 +38,7 @@
 .cf-section-sidecopy {
   max-width: 330px;
   margin: 0 0 4px;
-  color: #7f7f87;
+  color: #aaaab4;
   font-size: 14px;
   line-height: 1.65;
 }
@@ -161,7 +161,7 @@
 
 .cf-proof-fact span {
   color: #72727a;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.5;
 }
 
@@ -214,9 +214,9 @@
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  color: #5f5f67;
+  color: #aaaab4;
   font:
-    600 10px/1.4 ui-monospace,
+    600 12px/1.4 ui-monospace,
     SFMono-Regular,
     Menlo,
     monospace;
@@ -253,7 +253,7 @@
   background: rgba(255, 255, 255, 0.025);
   color: #7d7d85;
   font:
-    500 10px/1 ui-monospace,
+    500 12px/1 ui-monospace,
     SFMono-Regular,
     Menlo,
     monospace;
@@ -267,7 +267,7 @@
 
 .cf-project-proof-label {
   margin: 0 0 10px;
-  color: #66666e;
+  color: #aaaab4;
   font:
     700 9px/1.4 ui-monospace,
     SFMono-Regular,
@@ -291,7 +291,7 @@
   gap: 8px;
   align-items: start;
   color: #a5a5ad;
-  font-size: 11px;
+  font-size: 12px;
   line-height: 1.45;
 }
 
@@ -307,7 +307,7 @@
   border-radius: 9px;
   background: rgba(239, 68, 68, 0.04);
   color: #8f8f97;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.5;
 }
 
@@ -489,7 +489,7 @@
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.025);
   color: #85858d;
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .cf-contact-action {
@@ -1004,13 +1004,13 @@
 }
 .cf-service-proof small {
   color: #696971;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.5;
 }
 
 /* Live screenshot polish — tighter hierarchy, clearer proof and less dead space. */
 .cf-nav-cta {
-  min-height: 42px;
+  min-height: 44px;
   padding-inline: 20px;
 }
 .cf-hero {
@@ -1054,7 +1054,7 @@
   border-radius: 999px;
   background: #2a1114;
   color: #ff9b9f;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.04em;
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
@@ -1146,7 +1146,7 @@
 }
 .cf-faq-item summary svg {
   flex: 0 0 auto;
-  color: #777780;
+  color: #aaaab4;
   transition:
     transform 160ms ease,
     color 160ms ease;
@@ -1283,8 +1283,8 @@
   border: 1px solid rgba(255, 255, 255, 0.075);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.025);
-  color: #777780;
-  font-size: 10px;
+  color: #aaaab4;
+  font-size: 12px;
   font-weight: 650;
 }
 .cf-footer {
@@ -1301,7 +1301,7 @@
 .cf-footer-brand p {
   max-width: 470px;
   margin: 18px 0 0;
-  color: #777780;
+  color: #aaaab4;
   font-size: 13px;
   line-height: 1.65;
 }
@@ -1323,9 +1323,9 @@
   color: #fff;
 }
 .cf-footer-contact > span {
-  color: #66666e;
+  color: #aaaab4;
   font:
-    700 10px/1.4 ui-monospace,
+    700 12px/1.4 ui-monospace,
     SFMono-Regular,
     Menlo,
     monospace;
@@ -1339,8 +1339,8 @@
   justify-content: space-between;
   gap: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.065);
-  color: #686870;
-  font-size: 11px;
+  color: #aaaab4;
+  font-size: 12px;
 }
 @media (max-width: 800px) {
   .cf-revenue-action {
@@ -1391,7 +1391,7 @@
   gap: 14px;
 }
 .cf-footer-legal a {
-  color: #7b7b83;
+  color: #aaaab4;
   text-decoration: none;
 }
 .cf-footer-legal a:hover {
@@ -1563,8 +1563,8 @@
 
 .cf-hero-path-copy small {
   overflow: hidden;
-  color: #818189;
-  font-size: 10px;
+  color: #b1b1ba;
+  font-size: 13px;
   line-height: 1.35;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -1572,22 +1572,22 @@
 
 .cf-hero-path-price {
   color: #b8b8be;
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 750;
   line-height: 1.25;
   white-space: nowrap;
 }
 
 .cf-hero-path > svg {
-  color: #686870;
+  color: #aaaab4;
 }
 
 .cf-hero-path-help {
   position: relative;
   z-index: 1;
   margin: 18px 2px 0;
-  color: #a0a0a9;
-  font-size: 10px;
+  color: #b1b1ba;
+  font-size: 13px;
   line-height: 1.6;
 }
 
@@ -1665,7 +1665,7 @@
     padding: 9px 16px;
     border: 1px solid rgba(255, 115, 121, 0.46);
     border-radius: 14px;
-    background: #d92f3d;
+    background: #b91c1c;
     color: #fff;
     text-decoration: none;
     box-shadow: 0 18px 48px rgba(0, 0, 0, 0.52);
@@ -1684,8 +1684,8 @@
 
   .cf-mobile-sticky-cta small {
     overflow: hidden;
-    color: rgba(255, 255, 255, 0.78);
-    font-size: 9px;
+    color: #fff;
+    font-size: 12px;
     line-height: 1.35;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -1802,11 +1802,11 @@
   }
 
   .cf-proof-item {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .cf-eyebrow {
-    font-size: 11px;
+    font-size: 12px;
   }
 
   .cf-contact-section {
@@ -1836,7 +1836,7 @@
   position: relative;
   z-index: 1;
   margin: 12px 2px 0;
-  font-size: 10px;
+  font-size: 12px;
 }
 
 .cf-agency-strip {

@@ -153,13 +153,24 @@ function relatedBlock(path) {
   if (path === '/') {
     return `
       <section id="services">
-        <h2>Naprawa, nowa strona lub opieka.</h2>
+        <h2>Strony i wsparcie WordPress.</h2>
         <ul>${homepageContent.services.map(({ title, description, price, detailsHref }) => `<li><a href="${escapeHtml(detailsHref)}">${escapeHtml(title)} — ${escapeHtml(price)}</a><p>${escapeHtml(description)}</p></li>`).join('')}</ul>
-        <p>Zakres i cenę potwierdzam przed startem.</p>
+        <p>Zakres i cenę potwierdzamy przed startem.</p>
         <p><a href="/dla-agencji-wordpress/">Wsparcie WordPress dla agencji</a></p>
       </section>
+      <section id="applications">
+        <h2>${escapeHtml(homepageContent.application.title)}</h2>
+        <p>${escapeHtml(homepageContent.application.description)}</p>
+        <ul>${homepageContent.application.points.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
+        <p><a href="/?service=development#contact">${escapeHtml(homepageContent.application.cta)}</a></p>
+      </section>
+      <section id="team">
+        <h2>${escapeHtml(homepageContent.team.title)}</h2>
+        <p>${escapeHtml(homepageContent.team.description)}</p>
+        <ul>${homepageContent.team.advantages.map(({ title, description }) => `<li><strong>${escapeHtml(title)}</strong> — ${escapeHtml(description)}</li>`).join('')}</ul>
+      </section>
       <section id="work">
-        <h2>Zobacz, co wdrożyłem.</h2>
+        <h2>Wybrane wdrożenia CodeFix.IT.</h2>
         <ul>${links(projectLinks)}</ul>
         <p>Projekt Kancelarii Adwokackiej Witkowskiej powstał we współpracy z SyloSoftware.</p>
         <p><a href="/realizacje/">Wszystkie realizacje</a></p>
@@ -361,7 +372,7 @@ for (const url of urls) {
     <main class="cf-static-prerender" data-seo-static-content="true">
       <div class="cf-static-prerender-inner">
         <a class="brand" href="/" aria-label="CodeFix.IT — strona główna"><img src="/brand/codefix-mark.png" width="48" height="48" alt=""><span>Code<span class="brand-fix">Fix</span>.IT</span></a>
-        <p class="eyebrow">WordPress • zdalnie • cała Polska</p>
+        <p class="eyebrow">${escapeHtml(path === '/' ? homepageContent.hero.eyebrow : 'WordPress • zdalnie • cała Polska')}</p>
         <h1>${escapeHtml(heading)}</h1>
         <p>${escapeHtml(description)}</p>
         ${relatedBlock(path)}
@@ -375,7 +386,21 @@ for (const url of urls) {
   }
 
   html = html.replace('<div id="root"></div>', body)
-  if (path === '/') html = syncHomepageFaq(html)
+  if (path === '/') {
+    html = syncHomepageFaq(html)
+    html = html.replace(
+      /<title>[\s\S]*?<\/title>/i,
+      `<title>${escapeHtml(homepageContent.seo.title)}</title>`,
+    )
+    html = html.replace(
+      /(<meta\b[^>]*(?:name|property)=["'](?:description|og:description|twitter:description)["'][^>]*content=["'])[^"']*(["'])/gi,
+      (_, before, after) => `${before}${escapeHtml(homepageContent.seo.description)}${after}`,
+    )
+    html = html.replace(
+      /(<meta\b[^>]*(?:name|property)=["'](?:og:title|twitter:title)["'][^>]*content=["'])[^"']*(["'])/gi,
+      (_, before, after) => `${before}${escapeHtml(homepageContent.seo.title)}${after}`,
+    )
+  }
   if (!html.includes('id="codefix-static-prerender-style"')) {
     html = html.replace('</head>', `${style}\n  </head>`)
   }

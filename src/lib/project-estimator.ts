@@ -108,7 +108,7 @@ const money = (amount: number) => `${currency.format(amount)} zł`
 export function estimateProject(answers: EstimatorAnswers, rates: EstimatorRates | null) {
   const { service, label } = estimatorServices[answers.kind]
   let price = 'Wycena indywidualna'
-  let note = 'Cenę nowej strony ustalam po poznaniu zakresu, materiałów i integracji.'
+  let note = 'Cenę nowej strony ustalamy po poznaniu zakresu, materiałów i integracji.'
   let details: string[]
 
   switch (answers.kind) {
@@ -123,7 +123,7 @@ export function estimateProject(answers: EstimatorAnswers, rates: EstimatorRates
       break
     case 'fix':
       if (answers.issue !== 'multiple' && rates?.quickFix) price = `Od ${money(rates.quickFix)}`
-      note = 'Quick Fix obejmuje jeden uzgodniony problem. Po diagnozie potwierdzam zakres i cenę.'
+      note = 'Quick Fix obejmuje jeden uzgodniony problem. Po diagnozie potwierdzamy zakres i cenę.'
       details = [issueOptions[answers.issue], 'Diagnoza, uzgodniona naprawa i test po wdrożeniu']
       break
     case 'care': {
@@ -145,8 +145,8 @@ export function estimateProject(answers: EstimatorAnswers, rates: EstimatorRates
       ]
       if (rates?.agency) price = `${money(min * rates.agency)} – ${money(max * rates.agency)}`
       note = rates?.agency
-        ? `${money(rates.agency)} / h × wybrany zakres godzin. Czas konkretnego zadania potwierdzam po briefie.`
-        : 'Czas i stawkę konkretnego zadania potwierdzam po briefie.'
+        ? `${money(rates.agency)} / h × wybrany zakres godzin. Czas konkretnego zadania potwierdzamy po briefie.`
+        : 'Czas i stawkę konkretnego zadania potwierdzamy po briefie.'
       details = [
         `Planowana pula: ${agencyRanges[answers.hours]}`,
         'WordPress / ACF PRO / front-end, staging i Git',

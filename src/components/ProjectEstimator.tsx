@@ -173,7 +173,7 @@ export default function ProjectEstimator({
         <p className="cf-section-kicker">Twój projekt</p>
         <h3 id="cf-estimator-result-title">{result.label}</h3>
         <p className="cf-estimator-price" role="status" aria-live="polite" aria-atomic="true">
-          {awaitingPrice ? 'Sprawdzam aktualną cenę…' : result.price}
+          {awaitingPrice ? 'Sprawdzamy aktualną cenę…' : result.price}
         </p>
         <p>{result.note}</p>
         {rateStatus === 'error' && answers.kind !== 'site' && (
