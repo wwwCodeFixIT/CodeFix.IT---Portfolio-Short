@@ -843,6 +843,11 @@
   }
 }
 @media (max-width: 700px) {
+  /* The homepage footer already exposes this action; avoid covering the mobile offer. */
+  body:has(.cf-hero-picker) .cf-measurement-settings {
+    display: none;
+  }
+
   .cf-services-grid {
     grid-template-columns: minmax(0, 1fr);
   }

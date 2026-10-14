@@ -7,6 +7,7 @@ Celem jest wcześniejsza widoczność przycisków Strona / Aplikacja / Naprawa i
 - Informacje o standardzie pracy są za panelem wyboru w kolejności DOM. Desktop układa te same elementy w dotychczasowych dwóch kolumnach.
 - Znak 3D znajduje się pod wyborem i CTA; na małym ekranie ma mniejszy rozmiar.
 - Nagłówek mobilny jest odrobinę mniejszy, a dwa przyciski mieszczą się w jednym rzędzie. Pełna nazwa kalkulatora pozostaje nazwą dostępną.
+- Na telefonie zdublowany pływający przycisk prywatności ustępuje temu samemu działającemu przyciskowi w stopce; opisy pozostają czytelne. Banner i wybory pomiarów zachowują swoją logikę.
 - Focus obu głównych przycisków ma ten sam widoczny obrys. Usunięto nadpisane i zbędne deklaracje CSS, aby zachować limity.
 
 ## Metoda
