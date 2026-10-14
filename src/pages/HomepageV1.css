@@ -180,12 +180,8 @@
 }
 
 .cf-hero {
-  min-height: 690px;
   display: grid;
-  grid-template-columns: minmax(0, 1.04fr) minmax(440px, 0.96fr);
   align-items: center;
-  gap: 78px;
-  padding-block: 84px 94px;
 }
 
 .cf-eyebrow {
@@ -211,17 +207,11 @@
 
 .cf-title {
   margin: 0;
-  max-width: 760px;
-  font-size: clamp(58px, 6.1vw, 94px);
-  line-height: 0.94;
-  letter-spacing: -0.06em;
   font-weight: 760;
-  text-wrap: balance;
 }
 
 .cf-title-muted {
   display: block;
-  color: #aaaab4;
 }
 
 .cf-lead {

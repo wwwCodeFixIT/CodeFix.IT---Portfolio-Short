@@ -720,11 +720,6 @@
     grid-template-columns: 1fr;
     gap: 42px;
   }
-
-  .cf-nav-links a[href='#work'],
-  .cf-nav-links a[href='#contact'] {
-    display: none;
-  }
 }
 
 @media (max-width: 720px) {
@@ -838,7 +833,7 @@
   scroll-margin-top: 78px;
 }
 .cf-service-card a:focus-visible,
-.cf-actions a:focus-visible {
+.cf-actions .cf-button:focus-visible {
   outline: 3px solid #ff9a9e;
   outline-offset: 4px;
 }
@@ -1025,9 +1020,6 @@
   line-height: 0.98;
   letter-spacing: -0.055em;
   text-wrap: pretty;
-}
-.cf-title-muted {
-  color: #92929b;
 }
 .cf-lead {
   max-width: 720px;
@@ -1228,9 +1220,6 @@
   .cf-title {
     font-size: clamp(44px, 13.5vw, 62px);
     line-height: 1;
-  }
-  .cf-title-muted {
-    color: #a0a0a8;
   }
   .cf-contact-panel {
     padding: 24px 20px;
@@ -1756,7 +1745,7 @@
   }
 
   .cf-title {
-    font-size: clamp(42px, 12vw, 56px);
+    font-size: clamp(38px, 11vw, 48px);
   }
 
   .cf-lead {
@@ -1764,9 +1753,20 @@
     font-size: 15px;
   }
 
-  .cf-actions {
+  .cf-hero-interactive .cf-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     margin-top: 22px;
     gap: 8px;
+  }
+
+  .cf-hero-interactive .cf-actions .cf-button {
+    min-width: 0;
+    padding-inline: 10px;
+  }
+
+  .cf-action-scope {
+    display: none;
   }
 
   .cf-proof {

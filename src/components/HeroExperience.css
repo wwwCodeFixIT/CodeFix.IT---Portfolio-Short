@@ -1,10 +1,27 @@
-.cf-hero-interactive {
+.cf-hero.cf-hero-interactive {
   position: relative;
   isolation: isolate;
+  grid-template-areas: 'copy paths' 'proof paths';
+  row-gap: 0;
   --cf-rotate-x: 0deg;
   --cf-rotate-y: 0deg;
   --cf-light-x: 0px;
   --cf-light-y: 0px;
+}
+.cf-hero-interactive > .cf-hero-copy {
+  grid-area: copy;
+}
+.cf-hero-interactive > .cf-hero-paths {
+  grid-area: paths;
+}
+.cf-hero-followup {
+  grid-area: proof;
+}
+@media (max-width: 1100px) {
+  .cf-hero.cf-hero-interactive {
+    grid-template-areas: 'copy' 'paths' 'proof';
+    row-gap: 24px;
+  }
 }
 .cf-hero-atmosphere {
   position: absolute;
@@ -41,9 +58,9 @@
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 22px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid #ffffff14;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid #ffffff14;
 }
 .cf-hero-stage {
   position: relative;
@@ -105,8 +122,6 @@
   min-height: 44px;
   color: #c7c7cc;
   font-size: 12px;
-}
-.cf-hero-motion-control button {
   padding: 0;
   border: 0;
   background: transparent;
@@ -137,8 +152,15 @@
 }
 @media (max-width: 560px) {
   .cf-hero-stage {
-    flex-basis: 112px;
-    height: 112px;
+    flex-basis: 80px;
+    height: 80px;
+  }
+  .cf-hero-tilt {
+    scale: 0.7;
+  }
+  .cf-hero-orbit {
+    width: 80px;
+    height: 80px;
   }
   .cf-hero-emblem {
     gap: 12px;

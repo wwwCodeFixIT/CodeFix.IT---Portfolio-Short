@@ -1,5 +1,7 @@
 # CodeFix.IT — Patryk i widoczne interakcje
 
+> Poniższe wyniki dotyczą `f4a62cd`. Nowsze dopracowanie mobilne opisuje [mobile-home-v1](mobile-home-v1.md).
+
 CodeFix.IT prowadzi samodzielnie Patryk. Pierwszy ekran, sekcja „O mnie”, opisy, FAQ, formularz, kalkulator, metadane i statyczny HTML używają liczby pojedynczej. Oferta obejmuje strony, aplikacje i WordPress; AI wspiera pracę, a Patryk odpowiada za jej weryfikację i wdrożenie.
 
 ## Widoczne funkcje

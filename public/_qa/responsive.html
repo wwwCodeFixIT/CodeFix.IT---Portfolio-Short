@@ -13,7 +13,7 @@
       button[aria-pressed="true"] { border-color: #ff9a9e; background: #6c171c; }
       button:focus-visible { outline: 3px solid #ff9a9e; outline-offset: 3px; }
       main { display: flex; justify-content: center; padding: 0 16px 16px; }
-      iframe { flex: 0 0 auto; width: 390px; height: 844px; border: 1px solid #666; border-radius: 12px; background: #060606; }
+      iframe { flex: 0 0 auto; width: 390px; height: 844px; border: 0; outline: 1px solid #666; border-radius: 12px; background: #060606; }
       p { text-align: center; margin: 0 12px 10px; color: #ccc; font-size: 12px; }
     </style>
   </head>
@@ -51,6 +51,15 @@
         window.codefixConsentChoice = 'rejected';
         window.codefixAdConsentChoice = 'rejected';
         window.codefixAnalyticsAllowed = false;
+        window.addEventListener('click', event => {
+          const anchor = event.target.closest?.('a[href^="#"]');
+          if (!anchor) return;
+          const target = document.getElementById(anchor.getAttribute('href').slice(1));
+          if (target) {
+            event.preventDefault();
+            target.scrollIntoView({ behavior: 'auto' });
+          }
+        });
         window.addEventListener('submit', event => {
           event.preventDefault();
           event.stopImmediatePropagation();

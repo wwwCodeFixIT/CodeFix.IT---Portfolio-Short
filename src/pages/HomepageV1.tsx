@@ -510,13 +510,34 @@ export function HomepageV1() {
               <button
                 type="button"
                 className="cf-button cf-button-secondary"
+                aria-label="Kalkulator WordPress"
                 onClick={openEstimator}
               >
-                Kalkulator WordPress
+                Kalkulator <span className="cf-action-scope">WordPress</span>
                 <ArrowRight size={17} aria-hidden="true" />
               </button>
             </div>
+          </div>
 
+          <aside className="cf-hero-paths" aria-labelledby="cf-hero-paths-title">
+            <p className="cf-section-kicker">Kliknij i wybierz temat</p>
+            <h2 id="cf-hero-paths-title">Czego potrzebujesz?</h2>
+
+            <HeroServicePicker onChoose={contactFromHero} disabled={formState === 'submitting'} />
+            <a
+              href="/dla-agencji-wordpress/"
+              className="cf-mini-audit-link cf-hero-agency-link"
+              onClick={() =>
+                trackHomepageEvent('homepage_cta_click', { placement: 'hero_agency_landing' })
+              }
+            >
+              Dla agencji: współpraca white-label
+              <ArrowRight size={14} aria-hidden="true" />
+            </a>
+            <HeroEmblem />
+          </aside>
+
+          <div className="cf-hero-followup">
             <div className="cf-proof" aria-label="Standard pracy">
               <span className="cf-proof-item">
                 <CheckCircle2 size={15} aria-hidden="true" />
@@ -532,24 +553,6 @@ export function HomepageV1() {
               </span>
             </div>
           </div>
-
-          <aside className="cf-hero-paths" aria-labelledby="cf-hero-paths-title">
-            <HeroEmblem />
-            <p className="cf-section-kicker">Kliknij i wybierz temat</p>
-            <h2 id="cf-hero-paths-title">Czego potrzebujesz?</h2>
-
-            <HeroServicePicker onChoose={contactFromHero} disabled={formState === 'submitting'} />
-            <a
-              href="/dla-agencji-wordpress/"
-              className="cf-mini-audit-link cf-hero-agency-link"
-              onClick={() =>
-                trackHomepageEvent('homepage_cta_click', { placement: 'hero_agency_landing' })
-              }
-            >
-              Dla agencji: współpraca white-label
-              <ArrowRight size={14} aria-hidden="true" />
-            </a>
-          </aside>
         </HeroExperience>
 
         <section id="services" className="cf-section cf-section-bordered">
