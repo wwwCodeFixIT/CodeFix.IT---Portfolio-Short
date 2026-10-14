@@ -258,7 +258,7 @@ export function ServiceLanding({
 
       if (result.duplicate) {
         trackFunnelEvent('cf_duplicate_submit', { service: config.service });
-      } else {
+      } else if (result.leadId) {
         measureAcceptedLead();
         trackFunnelEvent('cf_lead_created', { service: config.service });
 

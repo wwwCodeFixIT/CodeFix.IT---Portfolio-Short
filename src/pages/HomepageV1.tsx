@@ -488,7 +488,7 @@ export function HomepageV1() {
         trackFunnelEvent('cf_duplicate_submit', {
           service: service || 'not_selected',
         });
-      } else {
+      } else if (result.leadId) {
         measureAcceptedLead();
         trackFunnelEvent('cf_lead_created', {
           service: service || 'not_selected',

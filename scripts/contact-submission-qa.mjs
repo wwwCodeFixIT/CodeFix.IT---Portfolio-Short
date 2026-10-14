@@ -25,6 +25,13 @@ const cases = [
   { name: 'ads', analytics: false, ads: true, result: 'accepted', conversions: 1 },
   { name: 'both', analytics: true, ads: true, result: 'accepted', conversions: 1 },
   { name: 'duplicate', analytics: true, ads: true, result: 'duplicate', conversions: 0 },
+  {
+    name: 'honeypot-acknowledgement',
+    analytics: true,
+    ads: true,
+    result: 'honeypot',
+    conversions: 0,
+  },
   { name: 'rejected', analytics: true, ads: true, result: 'rejected', conversions: 0 },
   { name: 'invalid-json', analytics: true, ads: true, result: 'invalid-json', conversions: 0 },
   { name: 'network-error', analytics: true, ads: true, result: 'network-error', conversions: 0 },
@@ -106,9 +113,11 @@ for (const [engine, type] of [
               status:
                 test.result === 'rejected' || test.result === 'invalid-json'
                   ? 500
-                  : test.result === 'duplicate'
-                    ? 200
-                    : 201,
+                  : test.result === 'honeypot'
+                    ? 202
+                    : test.result === 'duplicate'
+                      ? 200
+                      : 201,
               contentType: test.result === 'invalid-json' ? 'text/html' : 'application/json',
               headers: { 'Access-Control-Allow-Origin': target.origin },
               body:
@@ -120,11 +129,13 @@ for (const [engine, type] of [
                             error:
                               'Nie udało się wysłać zgłoszenia. Spróbuj ponownie lub napisz e-mail.',
                           }
-                        : {
-                            ok: true,
-                            leadId: '00000000-0000-4000-8000-000000000001',
-                            ...(test.result === 'duplicate' ? { duplicate: true } : {}),
-                          },
+                        : test.result === 'honeypot'
+                          ? { ok: true }
+                          : {
+                              ok: true,
+                              leadId: '00000000-0000-4000-8000-000000000001',
+                              ...(test.result === 'duplicate' ? { duplicate: true } : {}),
+                            },
                     ),
             })
           }
@@ -175,7 +186,7 @@ for (const [engine, type] of [
           await form.locator('button[type="submit"]').click()
           const feedback = form.locator('.cf-form-feedback')
           await feedback.waitFor()
-          const success = test.result === 'accepted' || test.result === 'duplicate'
+          const success = ['accepted', 'duplicate', 'honeypot'].includes(test.result)
           assert.equal(await feedback.getAttribute('role'), success ? 'status' : 'alert')
           assert.ok(
             (await feedback.getAttribute('class')).includes(success ? 'is-success' : 'is-error'),
