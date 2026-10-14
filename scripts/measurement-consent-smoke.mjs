@@ -60,17 +60,22 @@ assert.match(
 );
 const homepageAccepted = homepage.indexOf('if (!response.ok)');
 const homepageDuplicate = homepage.indexOf('if (result.duplicate)');
-const homepageEvent = homepage.indexOf("gtag?.('event', 'generate_lead'");
+const homepageEvent = homepage.indexOf("trackMeasurementEvent('generate_lead'");
 assert.ok(homepageAccepted >= 0 && homepageAccepted < homepageDuplicate);
 assert.ok(homepageDuplicate >= 0 && homepageDuplicate < homepageEvent);
 assert.match(
   homepage.slice(homepageDuplicate, homepageEvent),
-  /else \{[\s\S]*?measureAcceptedLead\(\)/,
-  'Only accepted, nonduplicate homepage leads may count as conversions.',
+  /else if \(result\.leadId\) \{[\s\S]*?measureAcceptedLead\(\)/,
+  'Only accepted, nonduplicate homepage leads with a CRM id may count as conversions.',
 );
 
 const responseGuard = serviceLanding.indexOf('if (!response.ok)');
-const leadEvent = serviceLanding.indexOf("gtag?.('event', 'generate_lead'");
+const leadEvent = serviceLanding.indexOf("trackMeasurementEvent('generate_lead'");
+assert.match(
+  serviceLanding.slice(serviceLanding.indexOf('if (result.duplicate)'), leadEvent),
+  /else if \(result\.leadId\) \{[\s\S]*?measureAcceptedLead\(\)/,
+  'Service conversions require a saved CRM lead, not a honeypot acknowledgement.',
+);
 assert.ok(responseGuard >= 0, 'Lead API success guard is missing.');
 assert.ok(
   leadEvent > responseGuard,

@@ -1,0 +1,57 @@
+name: Contact Submission Audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/lib/measurement.ts'
+      - 'src/lib/sales-funnel.ts'
+      - 'src/lib/lead-response.ts'
+      - 'src/pages/HomepageV1.tsx'
+      - 'src/pages/ServiceLanding.tsx'
+      - 'scripts/contact-submission-qa.mjs'
+      - '.github/workflows/contact-submission-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: contact-submission-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contact:
+    name: Contact submission in Chromium and WebKit
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Install isolated browser test tools
+        run: npm install --prefix .qa-tools --no-save --ignore-scripts playwright@1.64.0
+      - name: Install Chromium, WebKit and system dependencies
+        run: .qa-tools/node_modules/.bin/playwright install --with-deps chromium webkit
+      - name: Start local production build and verify contact submissions
+        shell: bash
+        run: |
+          npm run preview -- --host 127.0.0.1 --port 4173 --strictPort > /tmp/codefix-contact-preview.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid"' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then break; fi
+            sleep 1
+          done
+          node scripts/contact-submission-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: contact-submission-${{ github.run_id }}
+          path: qa-results/contact-submission/
+          if-no-files-found: error
+          retention-days: 14

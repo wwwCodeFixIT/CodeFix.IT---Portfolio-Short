@@ -19,7 +19,12 @@ import { ProjectPreview } from '../components/ProjectPreview';
 import { projects } from '../data/projects';
 import homepageContent from '../data/homepage-content.json';
 import { captureSessionAttribution } from '../lib/attribution';
-import { measureAcceptedLead, openMeasurementSettings } from '../lib/measurement';
+import { readLeadResponse } from '../lib/lead-response';
+import {
+  measureAcceptedLead,
+  openMeasurementSettings,
+  trackMeasurementEvent,
+} from '../lib/measurement';
 import { mergeProjectBrief } from '../lib/project-estimator';
 import type { ProjectBrief } from '../lib/project-estimator';
 import {
@@ -262,7 +267,7 @@ export function HomepageV1() {
         codefixAnalyticsAllowed?: boolean;
       };
       if (!analyticsWindow.codefixAnalyticsAllowed) return;
-      analyticsWindow.gtag?.('event', eventName, {
+      trackMeasurementEvent(eventName, {
         event_category: 'homepage_funnel',
         page_path: '/',
         ...parameters,
@@ -470,11 +475,7 @@ export function HomepageV1() {
         }),
       });
 
-      const result = (await response.json()) as {
-        error?: string;
-        duplicate?: boolean;
-        leadId?: string;
-      };
+      const result = await readLeadResponse(response);
 
       if (!response.ok) {
         throw new Error(result.error || 'Nie udało się wysłać formularza.');
@@ -484,7 +485,7 @@ export function HomepageV1() {
         trackFunnelEvent('cf_duplicate_submit', {
           service: service || 'not_selected',
         });
-      } else {
+      } else if (result.leadId) {
         measureAcceptedLead();
         trackFunnelEvent('cf_lead_created', {
           service: service || 'not_selected',
@@ -500,7 +501,7 @@ export function HomepageV1() {
           analyticsWindow.codefixAnalyticsAllowed ||
           analyticsWindow.codefixAdConsentChoice === 'accepted'
         )
-          analyticsWindow.gtag?.('event', 'generate_lead', {
+          trackMeasurementEvent('generate_lead', {
             event_category: 'lead',
             lead_source: 'website_form',
             service: service || 'not_selected',
