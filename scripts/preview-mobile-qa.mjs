@@ -141,14 +141,12 @@ for (const [engine, type] of [
             .locator('footer')
             .getByRole('button', { name: 'Ustawienia prywatności', exact: true })
             .click()
-          assert.ok(
-            await page.getByRole('dialog', { name: 'Ty wybierasz, co mierzymy' }).isVisible(),
-          )
+          await page
+            .getByRole('dialog', { name: 'Ty wybierasz, co mierzymy' })
+            .waitFor({ state: 'visible' })
           await page.getByRole('button', { name: 'Odrzuć wszystkie', exact: true }).click()
-          assert.ok(
-            await page
-              .locator('footer .cf-consent-settings')
-              .evaluate((el) => el === document.activeElement),
+          await page.waitForFunction(
+            () => document.querySelector('footer .cf-consent-settings') === document.activeElement,
           )
           await page.goto(new URL('/realizacje/kancelaria-adwokacka-witkowska/', target).href, {
             waitUntil: 'networkidle',
