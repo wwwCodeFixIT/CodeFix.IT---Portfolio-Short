@@ -1,49 +1,42 @@
-# CodeFix.IT — treść wspólnej agencji i czytelność
+# CodeFix.IT — Patryk i widoczne interakcje
 
-Założenie robocze: CodeFix.IT tworzy strony i aplikacje z wykorzystaniem AI jako narzędzia projektowania i programowania. Użytkownik wskazał wspólną agencję jego i Marka. Wariant przedstawia zespół jako „Patryk i Marek”; nie dodaje niepotwierdzonych biografii, specjalizacji, referencji ani wyników projektów. Dokładny podział ról i ewentualne osobne usługi wdrażania AI wymagają ustalenia przed docelową publikacją.
+CodeFix.IT prowadzi samodzielnie Patryk. Pierwszy ekran, sekcja „O mnie”, opisy, FAQ, formularz, kalkulator, metadane i statyczny HTML używają liczby pojedynczej. Oferta obejmuje strony, aplikacje i WordPress; AI wspiera pracę, a Patryk odpowiada za jej weryfikację i wdrożenie.
 
-Układ obecnej strony, czarno-czerwona identyfikacja, ilustracje, portfolio i hero 3D pozostają bazą. Pierwszy ekran przedstawia strony i aplikacje, narzędzia AI oraz trzy potrzeby: strona, aplikacja, naprawa WordPress. Ścieżka aplikacji używa już obsługiwanego przez CRM identyfikatora `development` i własnego opisu formularza. Dotychczasowy blok „Dla kogo” prezentuje aplikacje i integracje, a „Jak pracuję” staje się prezentacją zespołu i sposobu pracy. Są to zmiany istniejących sekcji.
+## Widoczne funkcje
 
-Oferta WordPress, cennik, cztery scenariusze kalkulatora i przypisanie współpracy z SyloSoftware są zachowane. Kalkulator jest oznaczony jako WordPress, żeby nie sugerował wyceny aplikacji. Teksty strony głównej i kalkulatora są w liczbie mnogiej. Główne treści, FAQ i meta są wspólne dla React oraz statycznego prerenderu. Title, description, OG/Twitter, opis organizacji i link schematu aplikacji odpowiadają nowej treści; canonical pozostaje produkcyjny.
+- W pierwszym ekranie trzy przyciski: Strona, Aplikacja, Naprawa. Wybrana opcja ma wyraźny stan aktywny i od razu zmienia opis, informację o cenie i CTA. Wynik jest ogłaszany przez `role="status"`.
+- CTA przenosi do formularza, wybiera właściwą usługę CRM i ustawia focus na imieniu. Zmiana opcji w panelu pozostaje lokalna; nie tworzy zgłoszenia ani konwersji.
+- Przycisk „Kalkulator WordPress” w pierwszym ekranie otwiera istniejący kalkulator, przewija do niego i przenosi focus na jego przełącznik. Kalkulator nadal ładuje się na żądanie i zachowuje odpowiedzi po zwinięciu.
+- Animowane tło i CSS 3D pozostają z pauzą oraz obsługą preferencji ograniczenia ruchu. Przyciski wyboru działają klawiaturą.
 
-Czytelność: małe opisy powiększono, przygaszone kolory rozjaśniono, przyciski mają ciemniejszą czerwień. Zmiany dotyczą współdzielonego arkusza, więc poprawiają też używające go podstrony. Nie dodano zależności, fontów ani dodatkowych plików CSS. Ruch i jego sterowanie zachowują dotychczasowe ograniczenia.
+Zachowano układ aktualnej strony, czarno-czerwoną identyfikację, ilustracje usług i portfolio. Stare style wierszy wyboru zastąpiono stylem kompaktowego panelu, dzięki czemu nowa funkcja nie zwiększa łącznego CSS. Nie dodano zależności.
 
-## Walidacja lokalna
+## Sprawdzenia lokalne
 
-PASS: typecheck, lint, production lint, format, clean build/prerender, estimator smoke, hero motion smoke, measurement consent smoke, mobile CTA source smoke i build budgets. Sprawdzono zgodność title/description/canonical/FAQ/Organization schema z katalogiem treści, statyczne sekcje aplikacji i zespołu oraz identyczność bootstrapów pomiarowych z poprzednią wersją.
+PASS: typecheck, lint, production lint, format, clean build/prerender, estimator smoke, hero motion smoke, measurement consent smoke, mobile CTA source smoke, build budgets i `git diff --check`.
 
-Aktualny domyślny kod backendu `wwwCodeFixIT/CodeFix.IT-App` przyjmuje `development` i originy podglądu Cloudflare. Sprawdzony produkcyjny preflight `OPTIONS https://app.codefix.it/api/public/leads` dla adresu gałęzi: HTTP 204, właściwy Access-Control-Allow-Origin, POST/OPTIONS i Content-Type.
+Sprawdzono zgodność FAQ/schema i metadanych z katalogiem treści, brak nieaktualnych treści zespołowych w głównych źródłach i statycznym HTML, kotwice `about` i `contact` oraz identyczność wszystkich skryptów bootstrapu pomiarów i zgód. Wszystkie dziewięć poradników jest nadal prerenderowanych.
 
 | Zasób | Rozmiar | Limit |
 | --- | ---: | ---: |
 | Entry JS | 200739 B | 215000 B |
-| Największy deferred JS | 43225 B | 50000 B |
-| Łączny JS | 308701 B | 320000 B |
-| Największy CSS | 34247 B | 40000 B |
-| Łączny CSS | 69743 B | 70000 B |
+| Największy deferred JS | 43854 B | 50000 B |
+| Łączny JS | 309329 B | 320000 B |
+| Największy CSS | 33889 B | 40000 B |
+| Łączny CSS | 69385 B | 70000 B |
 
-## Podgląd i publikacja
+## Podgląd
 
-Chrome desktop 1348 × 926 px: PASS na `5d93b71`, podgląd `https://fdc4b694.codefix-it---portfolio-short.pages.dev/`. Końcowy adres gałęzi: `https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/`. CI i Cloudflare dla kodu: success.
+Adres gałęzi: https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/
 
-![Pierwszy ekran agencji, z zatrzymanym ruchem](qa/codefix-agency-home-desktop-20261014.jpg)
+Raport weryfikacji bieżącego wdrożenia zostanie uzupełniony po sprawdzeniu podglądu. Zmiany są przygotowywane w PR #91; bez merge i publikacji produkcyjnej.
 
-PASS: prezentacja oferty i zespołu, sześć linków menu, jeden H1 i main, brak powtórzonych ID, brak uszkodzonych kotwic i poziomego przewijania. Opisy usług i małe teksty są czytelniejsze. Sprawdzono używane kolory: biały na czerwieni przycisku 6,47:1, hover 7,52:1; wyliczenie szarego opisu na górnym kolorze karty 7,25:1. Małe opisy panelu i metadane usług mają w przeglądarce 13 px. To kontrola wybranych kolorów, nie pełna certyfikacja WCAG.
+## Wcześniejszy test formularza i CRM
 
-PASS: pauza Enterem, wznowienie spacją, reakcja na mysz i wyzerowanie zmiennych przy pauzie. Kalkulator zachowuje wybrany okres po zwinięciu; opieka na trzy miesiące pokazuje od 900 zł. Brief wybiera właściwą usługę, przenosi focus do imienia i zachowuje uwagi. Po usunięciu zakresu focus wraca do opisu, a limit do 4000 znaków. FAQ o AI otwiera się Enterem. Statyczny HTML ma również kotwicę kontaktu dla ścieżki aplikacji, gdy JavaScript się nie załaduje.
+14.10.2026 o 11:48 Europe/Warsaw na `5d93b71` wysłano dokładnie jedno rzeczywiste zgłoszenie oznaczone „TEST QA CodeFix.IT”, z publicznym adresem marki. Opcjonalne pomiary zostały odrzucone. Formularz pokazał sukces, wyczyścił dane i ustawił focus na statusie. Neon potwierdził jeden lead `WEBSITE_FORM`, powiązaną notatkę z `service=development`, atrybucję oraz CTA `hero_path_application`. Rekord pozostaje wyraźnie oznaczony jako test w CRM.
 
-## Rzeczywisty test formularza i CRM
+Bieżąca zmiana zachowuje ten sam endpoint, payload, identyfikatory usług, zgody i wywołania konwersji. Testu tworzącego nowy rekord nie powtarza się dla samej zmiany tekstów i panelu wyboru. Zrzut wcześniejszego potwierdzenia: `qa/codefix-agency-form-success-20261014.jpg`.
 
-14.10.2026, godz. 11:48 Europe/Warsaw: wysłano dokładnie jedno zgłoszenie oznaczone „TEST QA CodeFix.IT”, z własnym publicznym adresem kontaktowym marki i unikalnym identyfikatorem kontrolnym. To test techniczny, nie zlecenie klienta. Opcjonalne pomiary zostały odrzucone przed testem.
+## Zakres weryfikacji
 
-PASS: ścieżka aplikacji wybrała `development`, pokazała właściwy opis i pole firmy. Po wysłaniu formularz pokazał „Wiadomość dotarła”, wyczyścił pola i ustawił focus na komunikacie z `role="status"`.
-
-![Potwierdzenie wysłania kontrolnego zapytania](qa/codefix-agency-form-success-20261014.jpg)
-
-PASS: odczyt bazy przez Neon potwierdził jeden kontrolny lead `WEBSITE_FORM` oraz powiązaną notatkę z `service=development`. Zapisana atrybucja ma landingPath i submitPath `/`; lejek wskazuje selectedService `development` oraz pierwsze i ostatnie CTA `hero_path_application`. Identyfikatory rekordów i dane innych klientów nie są publikowane w raporcie. Kontrolny rekord pozostaje w CRM z nazwą TEST QA.
-
-## Pozostałe bramki
-
-Mobilny audyt Google PageSpeed API nie zwrócił wyników: HTTP 429, wyczerpany dzienny limit zapytań po stronie Google. Nie publikujemy wymyślonych ocen ani metryk CWV. WPVibe nie ma podłączonej witryny WordPress; nie podłączano nowego serwisu do tego audytu strony statycznej.
-
-Telefon, fizyczny Safari/iPhone, realne CWV/Lighthouse i pełny ręczny audyt WCAG pozostają do kontroli. Dokładny podział ról w zespole i docelowy zakres oferty AI pozostają do potwierdzenia. PR pozostaje szkicem; nie wykonano merge ani publikacji strony produkcyjnej.
+Wcześniejsza próba PageSpeed API zwróciła HTTP 429 z powodu wyczerpanego limitu. Wyników Lighthouse ani CWV nie potwierdzono. Fizyczny telefon/Safari oraz pełny ręczny audyt WCAG pozostają poza wykonanymi sprawdzeniami.

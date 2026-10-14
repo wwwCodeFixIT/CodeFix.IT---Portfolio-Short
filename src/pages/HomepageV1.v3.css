@@ -1502,35 +1502,46 @@
   letter-spacing: -0.035em;
 }
 
-.cf-hero-path-list {
+.cf-hero-picker {
   position: relative;
   z-index: 1;
+}
+
+.cf-hero-path-list {
   display: grid;
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .cf-hero-path {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto auto;
+  display: flex;
   align-items: center;
-  gap: 12px;
-  min-height: 78px;
-  padding: 14px 15px;
-  border: 1px solid rgba(255, 255, 255, 0.075);
-  border-radius: 14px;
+  justify-content: center;
+  gap: 8px;
+  min-height: 60px;
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
   background: rgba(255, 255, 255, 0.025);
-  color: inherit;
-  text-decoration: none;
+  color: #c7c7cc;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  line-height: 1.35;
+  cursor: pointer;
   transition:
     border-color 160ms ease,
-    background 160ms ease,
-    transform 160ms ease;
+    background 160ms ease;
 }
 
 .cf-hero-path:hover {
-  border-color: rgba(239, 68, 68, 0.32);
-  background: rgba(239, 68, 68, 0.055);
-  transform: translateY(-1px);
+  border-color: #ff666d;
+}
+
+.cf-hero-path[aria-pressed='true'] {
+  border-color: #ff666d;
+  background: rgba(239, 68, 68, 0.15);
+  color: #fff;
 }
 
 .cf-hero-path:focus-visible {
@@ -1538,57 +1549,29 @@
   outline-offset: 3px;
 }
 
-.cf-hero-path-icon {
-  width: 38px;
-  height: 38px;
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(239, 68, 68, 0.2);
-  border-radius: 11px;
-  background: rgba(239, 68, 68, 0.075);
-  color: #ff666d;
+.cf-hero-recommendation {
+  min-height: 140px;
+  margin: 20px 0 12px;
 }
 
-.cf-hero-path-copy {
-  min-width: 0;
-  display: grid;
-  gap: 4px;
-}
-
-.cf-hero-path-copy strong {
-  color: #efeff1;
-  font-size: 13px;
-  line-height: 1.25;
-}
-
-.cf-hero-path-copy small {
-  overflow: hidden;
-  color: #b1b1ba;
-  font-size: 13px;
+.cf-hero-recommendation h3 {
+  margin: 0;
+  color: #f5f5f6;
+  font-size: 17px;
   line-height: 1.35;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
-.cf-hero-path-price {
-  color: #b8b8be;
-  font-size: 12px;
-  font-weight: 750;
-  line-height: 1.25;
-  white-space: nowrap;
-}
-
-.cf-hero-path > svg {
-  color: #aaaab4;
-}
-
-.cf-hero-path-help {
-  position: relative;
-  z-index: 1;
-  margin: 18px 2px 0;
+.cf-hero-recommendation p {
+  margin: 8px 0 12px;
   color: #b1b1ba;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.6;
+}
+
+.cf-hero-recommendation span {
+  color: #ff9a9e;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .cf-home-form-reassurance {
@@ -1616,22 +1599,12 @@
   }
 
   .cf-hero-path {
-    grid-template-columns: auto minmax(0, 1fr) auto;
-    min-height: 76px;
+    flex-direction: column;
+    padding: 10px 4px;
   }
 
-  .cf-hero-path-price {
-    grid-column: 2;
-    justify-self: start;
-  }
-
-  .cf-hero-path > svg {
-    grid-column: 3;
-    grid-row: 1 / span 2;
-  }
-
-  .cf-hero-path-copy small {
-    white-space: normal;
+  .cf-hero-recommendation {
+    min-height: 160px;
   }
 }
 

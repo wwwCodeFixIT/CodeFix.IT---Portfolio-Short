@@ -11,7 +11,7 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check package.json tsconfig.app.json .prettierrc.json .github/workflows/ci.yml src/components/ProjectEstimator.tsx src/components/ProjectEstimator.css src/lib/project-estimator.ts src/lib/wordpress-guide-catalog.ts scripts/export-guide-catalog.mjs scripts/project-estimator-smoke.mjs src/components/HeroExperience.tsx src/components/HeroExperience.css src/lib/hero-motion.ts scripts/hero-motion-smoke.mjs src/pages/HomepageV1.tsx src/pages/HomepageV1.css src/pages/HomepageV1.v3.css src/data/homepage-content.json scripts/prerender-visible-content.mjs",
+    "format:check": "prettier --check package.json tsconfig.app.json .prettierrc.json .github/workflows/ci.yml src/components/ProjectEstimator.tsx src/components/ProjectEstimator.css src/lib/project-estimator.ts src/lib/wordpress-guide-catalog.ts scripts/export-guide-catalog.mjs scripts/project-estimator-smoke.mjs src/components/HeroExperience.tsx src/components/HeroExperience.css src/lib/hero-motion.ts scripts/hero-motion-smoke.mjs src/pages/HomepageV1.tsx src/pages/HomepageV1.css src/pages/HomepageV1.v3.css src/data/homepage-content.json scripts/prerender-visible-content.mjs src/components/HeroServicePicker.tsx",
     "seo:smoke": "node scripts/seo-production-smoke.mjs",
     "build:budget": "node scripts/check-build-budgets.mjs",
     "lint:production": "eslint src --max-warnings=0",

@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { Brand } from '../components/Brand';
 import { HeroEmblem, HeroExperience } from '../components/HeroExperience';
+import { HeroServicePicker } from '../components/HeroServicePicker';
 import { ProjectPreview } from '../components/ProjectPreview';
 import { projects } from '../data/projects';
 import homepageContent from '../data/homepage-content.json';
@@ -69,7 +70,7 @@ function initialServiceFromUrl() {
 const services = homepageContent.services;
 const process = homepageContent.process;
 
-const advantages = homepageContent.team.advantages.map((item, index) => ({
+const advantages = homepageContent.about.advantages.map((item, index) => ({
   ...item,
   icon: [MessageSquareText, GitBranch, Layers3][index] ?? Layers3,
 }));
@@ -91,12 +92,12 @@ const serviceFormGuidance: Record<string, { submit: string; placeholder: string;
   [appService]: {
     submit: 'Zapytaj o aplikację',
     placeholder: 'Jaki cel ma aplikacja, kto będzie jej używać i jakie integracje są potrzebne?',
-    hint: 'Opisz cel, użytkowników i potrzebne integracje. Zakres i cenę ustalimy po briefie.',
+    hint: 'Opisz cel, użytkowników i potrzebne integracje. Zakres i cenę ustalę po briefie.',
   },
   [quickFixService]: {
     submit: 'Wyślij zgłoszenie Quick Fix',
     placeholder: 'Co dokładnie nie działa, od kiedy i co widzisz na ekranie?',
-    hint: 'Opisz jeden problem: co nie działa i od kiedy. Zakres i cenę potwierdzimy przed rozpoczęciem prac.',
+    hint: 'Opisz jeden problem: co nie działa i od kiedy. Zakres i cenę potwierdzę przed rozpoczęciem prac.',
   },
   [businessSiteService]: {
     submit: 'Wyślij brief do wyceny',
@@ -107,18 +108,17 @@ const serviceFormGuidance: Record<string, { submit: string; placeholder: string;
   [careService]: {
     submit: 'Zapytaj o stałą opiekę',
     placeholder: 'Jak wygląda obecna strona i czego oczekujesz w ramach stałej opieki?',
-    hint: 'Podeślij adres strony i napisz, co mamy regularnie aktualizować, sprawdzać lub poprawiać.',
+    hint: 'Podeślij adres strony i napisz, co mam regularnie aktualizować, sprawdzać lub poprawiać.',
   },
   [agencyService]: {
     submit: 'Zapytaj o współpracę white-label',
-    placeholder:
-      'Jakiego typu zadania chcesz oddelegować, w jakim stacku pracuje zespół i jak wygląda Wasz workflow?',
-    hint: 'Opisz zadanie, technologie i termin. Dodaj, czy mamy pracować bez kontaktu z klientem końcowym.',
+    placeholder: 'Jakie zadania chcesz zlecić, z jakich technologii korzystasz i jaki jest termin?',
+    hint: 'Opisz zadanie, technologie i termin. Dodaj, czy mam pracować bez kontaktu z klientem końcowym.',
   },
   [miniAuditService]: {
     submit: 'Poproś o mini-ocenę',
     placeholder: 'Co najbardziej Cię niepokoi na obecnej stronie?',
-    hint: 'Wklej publiczny adres strony i opisz, co Cię niepokoi. Nie potrzebujemy danych logowania.',
+    hint: 'Wklej publiczny adres strony i opisz, co Cię niepokoi. Nie potrzebuję danych logowania.',
   },
 };
 
@@ -134,6 +134,7 @@ export function HomepageV1() {
   const formStartTracked = useRef(false);
   const formViewTracked = useRef(false);
   const funnelViewTracked = useRef(false);
+  const estimatorToggleRef = useRef<HTMLButtonElement | null>(null);
   const contactSectionRef = useRef<HTMLElement | null>(null);
   const footerRef = useRef<HTMLElement | null>(null);
   const feedbackRef = useRef<HTMLDivElement | null>(null);
@@ -212,6 +213,31 @@ export function HomepageV1() {
         placement,
       });
     }
+  }
+
+  function contactFromHero(service: string, placement: string) {
+    if (formState === 'submitting') return;
+    chooseService(service, placement);
+    window.requestAnimationFrame(() => {
+      const section = contactSectionRef.current;
+      section?.scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      });
+      section?.querySelector<HTMLInputElement>('[name="name"]')?.focus({ preventScroll: true });
+    });
+  }
+
+  function openEstimator() {
+    setEstimatorStarted(true);
+    setEstimatorOpen(true);
+    window.requestAnimationFrame(() => {
+      const toggle = estimatorToggleRef.current;
+      toggle?.closest('#kalkulator')?.scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'start',
+      });
+      toggle?.focus({ preventScroll: true });
+    });
   }
 
   function useProjectBrief(project: ProjectBrief) {
@@ -398,14 +424,14 @@ export function HomepageV1() {
       }
 
       const successMessage = result.duplicate
-        ? 'To zgłoszenie już do nas trafiło — nie musisz wysyłać go ponownie.'
+        ? 'To zgłoszenie już do mnie trafiło — nie musisz wysyłać go ponownie.'
         : service === agencyService
-          ? 'Dzięki — mamy zapytanie o współpracę white-label. Odpowiemy z propozycją kolejnego kroku i modelu współpracy.'
+          ? 'Dzięki — mam zapytanie o współpracę white-label. Odpowiem z propozycją kolejnego kroku i modelu współpracy.'
           : service === businessSiteService
-            ? 'Dzięki — brief dotarł. Odpowiemy z pytaniami uzupełniającymi albo proponowanym zakresem i kolejnym krokiem.'
+            ? 'Dzięki — brief dotarł. Odpowiem z pytaniami uzupełniającymi albo proponowanym zakresem i kolejnym krokiem.'
             : service === quickFixService
-              ? 'Dzięki — zgłoszenie Quick Fix dotarło. Najpierw sprawdzimy opis i potwierdzimy zakres oraz cenę przed startem.'
-              : 'Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiemy po krótkiej analizie tematu.';
+              ? 'Dzięki — zgłoszenie Quick Fix dotarło. Najpierw sprawdzę opis i potwierdzę zakres oraz cenę przed startem.'
+              : 'Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiem po krótkiej analizie tematu.';
 
       form.reset();
       setProjectBrief(null);
@@ -439,7 +465,7 @@ export function HomepageV1() {
           <nav className="cf-nav-links" aria-label="Główna nawigacja">
             <a href="#services">Usługi</a>
             <a href="#work">Realizacje</a>
-            <a href="#team">Zespół</a>
+            <a href="#about">O mnie</a>
             <a href="#faq">FAQ</a>
             <a href="/poradniki/">Poradniki</a>
             <a href="#contact">Kontakt</a>
@@ -481,15 +507,14 @@ export function HomepageV1() {
                 Opisz temat
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
-              <a
-                href="#work"
+              <button
+                type="button"
                 className="cf-button cf-button-secondary"
-                onClick={() =>
-                  trackHomepageEvent('homepage_cta_click', { placement: 'hero_secondary_work' })
-                }
+                onClick={openEstimator}
               >
-                Zobacz realizacje
-              </a>
+                Kalkulator WordPress
+                <ArrowRight size={17} aria-hidden="true" />
+              </button>
             </div>
 
             <div className="cf-proof" aria-label="Standard pracy">
@@ -510,58 +535,10 @@ export function HomepageV1() {
 
           <aside className="cf-hero-paths" aria-labelledby="cf-hero-paths-title">
             <HeroEmblem />
-            <p className="cf-section-kicker">Od czego zaczynamy?</p>
+            <p className="cf-section-kicker">Kliknij i wybierz temat</p>
             <h2 id="cf-hero-paths-title">Czego potrzebujesz?</h2>
 
-            <div className="cf-hero-path-list">
-              <a
-                href="#contact"
-                className="cf-hero-path"
-                onClick={() => chooseService(businessSiteService, 'hero_path_business_site')}
-              >
-                <span className="cf-hero-path-icon">
-                  <Layers3 size={19} aria-hidden="true" />
-                </span>
-                <span className="cf-hero-path-copy">
-                  <strong>Potrzebuję strony</strong>
-                  <small>WordPress i wygodna edycja</small>
-                </span>
-                <span className="cf-hero-path-price">wycena</span>
-                <ArrowRight size={17} aria-hidden="true" />
-              </a>
-              <a
-                href="#contact"
-                className="cf-hero-path"
-                onClick={() => chooseService(appService, 'hero_path_application')}
-              >
-                <span className="cf-hero-path-icon">
-                  <Rocket size={19} aria-hidden="true" />
-                </span>
-                <span className="cf-hero-path-copy">
-                  <strong>Potrzebuję aplikacji</strong>
-                  <small>Panel, narzędzie lub API</small>
-                </span>
-                <span className="cf-hero-path-price">wycena</span>
-                <ArrowRight size={17} aria-hidden="true" />
-              </a>
-              <a
-                href="#contact"
-                className="cf-hero-path"
-                onClick={() => chooseService(quickFixService, 'hero_path_quickfix')}
-              >
-                <span className="cf-hero-path-icon">
-                  <Wrench size={19} aria-hidden="true" />
-                </span>
-                <span className="cf-hero-path-copy">
-                  <strong>WordPress nie działa</strong>
-                  <small>Błąd, formularz lub sklep</small>
-                </span>
-                <span className="cf-hero-path-price">od 390 zł</span>
-                <ArrowRight size={17} aria-hidden="true" />
-              </a>
-            </div>
-
-            <p className="cf-hero-path-help">Opisz cel — pomożemy dobrać rozwiązanie.</p>
+            <HeroServicePicker onChoose={contactFromHero} disabled={formState === 'submitting'} />
             <a
               href="/dla-agencji-wordpress/"
               className="cf-mini-audit-link cf-hero-agency-link"
@@ -613,7 +590,7 @@ export function HomepageV1() {
                       <p className="cf-service-price">{price}</p>
                       {service !== businessSiteService && (
                         <p className="cf-service-pricing-note">
-                          Zakres i cenę potwierdzamy przed startem.
+                          Zakres i cenę potwierdzam przed startem.
                         </p>
                       )}
                       <p className="cf-service-meta">{meta}</p>
@@ -652,6 +629,7 @@ export function HomepageV1() {
             </div>
             <div id="kalkulator" className="cf-estimator-entry">
               <button
+                ref={estimatorToggleRef}
                 type="button"
                 className="cf-button cf-button-secondary"
                 aria-expanded={estimatorOpen}
@@ -684,9 +662,7 @@ export function HomepageV1() {
             <div className="cf-agency-copy">
               <p className="cf-section-kicker">Dla agencji / white-label</p>
               <h2 id="cf-agency-title">Potrzebujesz wsparcia przy WordPressie?</h2>
-              <p>
-                WordPress, ACF PRO i WooCommerce. Pracujemy na stagingu i Git, także white-label.
-              </p>
+              <p>WordPress, ACF PRO i WooCommerce. Pracuję na stagingu i Git, także white-label.</p>
               <div
                 className="cf-revenue-proof cf-agency-tags"
                 aria-label="Zakres współpracy agencyjnej"
@@ -849,9 +825,7 @@ export function HomepageV1() {
             <div>
               <p className="cf-section-kicker">Szybki start</p>
               <h2 id="cf-revenue-strip-title">Nie wiesz, od czego zacząć?</h2>
-              <p>
-                Podeślij adres strony. Sprawdzimy trzy podstawowe punkty i wskażemy kolejny krok.
-              </p>
+              <p>Podeślij adres strony. Sprawdzę trzy podstawowe punkty i wskażę kolejny krok.</p>
             </div>
             <div className="cf-revenue-action">
               <div className="cf-revenue-proof" aria-label="Zakres mini-oceny">
@@ -871,14 +845,18 @@ export function HomepageV1() {
           </div>
         </section>
 
-        <section id="team" className="cf-section cf-why-section" aria-labelledby="cf-team-heading">
+        <section
+          id="about"
+          className="cf-section cf-why-section"
+          aria-labelledby="cf-about-heading"
+        >
           <div className="cf-container cf-why-layout">
             <div className="cf-why-intro">
-              <p className="cf-section-kicker">{homepageContent.team.kicker}</p>
-              <h2 id="cf-team-heading" className="cf-section-heading">
-                {homepageContent.team.title}
+              <p className="cf-section-kicker">{homepageContent.about.kicker}</p>
+              <h2 id="cf-about-heading" className="cf-section-heading">
+                {homepageContent.about.title}
               </h2>
-              <p>{homepageContent.team.description}</p>
+              <p>{homepageContent.about.description}</p>
             </div>
 
             <div className="cf-advantages-grid">
@@ -1179,7 +1157,7 @@ export function HomepageV1() {
                   )}
 
                   <p className="cf-home-form-reassurance">
-                    Prace zaczynamy po akceptacji zakresu i ceny. Na początek wystarczy opis, bez
+                    Prace zaczynam po akceptacji zakresu i ceny. Na początek wystarczy opis, bez
                     haseł.
                   </p>
 
@@ -1221,7 +1199,7 @@ export function HomepageV1() {
           <nav className="cf-footer-nav" aria-label="Nawigacja w stopce">
             <a href="#services">Usługi</a>
             <a href="#work">Realizacje</a>
-            <a href="#team">Zespół</a>
+            <a href="#about">O mnie</a>
             <a href="#process">Proces</a>
             <a href="#faq">FAQ</a>
             <a href="/poradniki/">Poradniki</a>

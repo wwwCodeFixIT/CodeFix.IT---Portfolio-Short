@@ -1,6 +1,6 @@
 # CodeFix.IT — obecny układ z dodatkami interaktywnymi
 
-> Ten dokument opisuje bazę układu z `61e0878`. Aktualną treść agencji i poprawki czytelności opisuje [agency-home-v1](agency-home-v1.md).
+> Ten dokument opisuje bazę układu z `61e0878`. Aktualną wersję jednoosobową, widoczne interakcje i poprawki czytelności opisuje [agency-home-v1](agency-home-v1.md).
 
 Bazą jest strona produkcyjna `https://codefix.it/`, obejrzana 14.10.2026, i odpowiadający jej `main` na `780420a`. Wersja w PR #91 zachowuje pełne menu, panel wyboru usługi w hero, ilustracje usług, podglądy realizacji, sekcje dla agencji i firm, proces, FAQ, kontakt oraz stopkę.
 

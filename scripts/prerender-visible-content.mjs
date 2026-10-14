@@ -155,7 +155,7 @@ function relatedBlock(path) {
       <section id="services">
         <h2>Strony i wsparcie WordPress.</h2>
         <ul>${homepageContent.services.map(({ title, description, price, detailsHref }) => `<li><a href="${escapeHtml(detailsHref)}">${escapeHtml(title)} — ${escapeHtml(price)}</a><p>${escapeHtml(description)}</p></li>`).join('')}</ul>
-        <p>Zakres i cenę potwierdzamy przed startem.</p>
+        <p>Zakres i cenę potwierdzam przed startem.</p>
         <p><a href="/dla-agencji-wordpress/">Wsparcie WordPress dla agencji</a></p>
       </section>
       <section id="applications">
@@ -164,10 +164,10 @@ function relatedBlock(path) {
         <ul>${homepageContent.application.points.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
         <p><a href="/?service=development#contact">${escapeHtml(homepageContent.application.cta)}</a></p>
       </section>
-      <section id="team">
-        <h2>${escapeHtml(homepageContent.team.title)}</h2>
-        <p>${escapeHtml(homepageContent.team.description)}</p>
-        <ul>${homepageContent.team.advantages.map(({ title, description }) => `<li><strong>${escapeHtml(title)}</strong> — ${escapeHtml(description)}</li>`).join('')}</ul>
+      <section id="about">
+        <h2>${escapeHtml(homepageContent.about.title)}</h2>
+        <p>${escapeHtml(homepageContent.about.description)}</p>
+        <ul>${homepageContent.about.advantages.map(({ title, description }) => `<li><strong>${escapeHtml(title)}</strong> — ${escapeHtml(description)}</li>`).join('')}</ul>
       </section>
       <section id="work">
         <h2>Wybrane wdrożenia CodeFix.IT.</h2>
@@ -234,7 +234,7 @@ function relatedBlock(path) {
         <ul>
           <li>Uzgodnione teksty, zdjęcia, usługi i realizacje edytujesz z panelu WordPress.</li>
           <li>Przed publikacją dostajesz działające preview do sprawdzenia.</li>
-          <li>Zakres i wycenę potwierdzamy przed rozpoczęciem prac.</li>
+          <li>Zakres i wycenę potwierdzam przed rozpoczęciem prac.</li>
         </ul>
         <p><a href="/realizacje/">Sprawdź 3 publiczne realizacje</a></p>
         <p><a href="/strony-wordpress/#kontakt">Wyceń stronę firmową</a></p>

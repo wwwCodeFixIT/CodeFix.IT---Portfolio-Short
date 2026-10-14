@@ -1,14 +1,14 @@
 {
   "hero": {
-    "eyebrow": "Agencja AI • zdalnie w całej Polsce",
+    "eyebrow": "Patryk • CodeFix.IT • zdalnie w całej Polsce",
     "title": "Strony i aplikacje dla firm.",
     "accent": "Od pomysłu do wdrożenia.",
-    "description": "Łączymy programowanie z narzędziami AI. Tworzymy strony i aplikacje, rozwijamy WordPressa. Zakres i cenę ustalamy przed startem."
+    "description": "Tworzę strony i aplikacje dla firm. Łączę kod z AI, dbając o działanie i czytelność. Zakres i cenę ustalam przed startem."
   },
   "services": [
     {
       "title": "WordPress Quick Fix",
-      "description": "Naprawiamy błędy, formularze i problemy po aktualizacjach. Sprawdzamy efekt po wdrożeniu.",
+      "description": "Naprawiam błędy, formularze i problemy po aktualizacjach. Sprawdzam efekt po wdrożeniu.",
       "meta": "Diagnoza • naprawa • test",
       "price": "Od 390 zł",
       "service": "WORDPRESS_QUICK_FIX",
@@ -39,48 +39,48 @@
   ],
   "process": [
     "Opisujesz cel lub problem i podajesz adres strony, jeśli już ją masz.",
-    "Ustalamy zakres, cenę i termin.",
-    "Przy większych zmianach pokazujemy podgląd przed publikacją.",
-    "Wdrażamy, testujemy i przekazujemy gotowe rozwiązanie."
+    "Ustalam z Tobą zakres, cenę i termin.",
+    "Przy większych zmianach pokazuję podgląd przed publikacją.",
+    "Wdrażam, testuję i przekazuję gotowe rozwiązanie."
   ],
   "faqItems": [
     {
       "question": "Ile kosztuje projekt?",
-      "answer": "Quick Fix od 390 zł, opieka WordPress od 300 zł/mies. Strony i aplikacje wyceniamy indywidualnie. Zakres i cenę potwierdzamy przed startem."
+      "answer": "Quick Fix od 390 zł, opieka WordPress od 300 zł/mies. Strony i aplikacje wyceniam indywidualnie. Zakres i cenę potwierdzam przed startem."
     },
     {
       "question": "Czy mogę zacząć od jednego małego zadania?",
-      "answer": "Tak. Możemy zacząć od jednego płatnego zadania, bez zobowiązania do dalszej współpracy."
+      "answer": "Tak. Mogę zacząć od jednego płatnego zadania, bez zobowiązania do dalszej współpracy."
     },
     {
-      "question": "Czy pracujecie na istniejących stronach WordPress?",
-      "answer": "Tak. Naprawiamy błędy, formularze, WooCommerce i problemy po aktualizacjach."
+      "question": "Czy pracujesz na istniejących stronach WordPress?",
+      "answer": "Tak. Naprawiam błędy, formularze, WooCommerce i problemy po aktualizacjach."
     },
     {
       "question": "Czy przy pierwszym kontakcie muszę podawać loginy?",
-      "answer": "Nie. Wystarczy opis celu lub problemu i publiczny adres strony, jeśli już ją masz. Potrzebne dostępy ustalimy później."
+      "answer": "Nie. Wystarczy opis celu lub problemu i publiczny adres strony, jeśli już ją masz. Potrzebne dostępy ustalę z Tobą później."
     },
     {
-      "question": "Jak wykorzystujecie AI?",
-      "answer": "AI pomaga nam w projektowaniu i programowaniu. Za dobór rozwiązania, weryfikację i wdrożenie odpowiada nasz zespół."
+      "question": "Jak korzystasz z AI?",
+      "answer": "AI wspiera mnie w projektowaniu i programowaniu. Sam sprawdzam kod i odpowiadam za wdrożenie."
     },
     {
-      "question": "Czy tworzycie aplikacje poza WordPressem?",
-      "answer": "Tak. Tworzymy i rozwijamy aplikacje React / Next.js oraz integracje API. Zakres i wycenę ustalamy po poznaniu potrzeb."
+      "question": "Czy tworzysz aplikacje poza WordPressem?",
+      "answer": "Tak. Tworzę i rozwijam aplikacje React / Next.js oraz integracje API. Zakres i wycenę ustalam po poznaniu potrzeb."
     },
     {
-      "question": "Czy oferujecie opiekę po wdrożeniu?",
-      "answer": "Tak. Możemy umówić opiekę WordPress lub pojedyncze zadania rozwojowe."
+      "question": "Czy oferujesz opiekę po wdrożeniu?",
+      "answer": "Tak. Mogę zapewnić opiekę WordPress lub wykonać pojedyncze zadania rozwojowe."
     },
     {
-      "question": "Czy pracujecie white-label dla agencji?",
-      "answer": "Tak. Pracujemy na stagingu i Git, także bez kontaktu z klientem końcowym."
+      "question": "Czy pracujesz white-label dla agencji?",
+      "answer": "Tak. Pracuję na stagingu i Git, także bez kontaktu z klientem końcowym."
     }
   ],
   "application": {
     "kicker": "Aplikacje i integracje",
     "title": "Narzędzie dopasowane do Twojej firmy.",
-    "description": "Panele, aplikacje firmowe i połączenia z API. Dobieramy rozwiązanie do tego, jak pracuje Twoja firma.",
+    "description": "Panele, aplikacje firmowe i połączenia z API. Dobieram rozwiązanie do tego, jak pracuje Twoja firma.",
     "cta": "Omów aplikację",
     "points": [
       "Panel klienta lub aplikacja firmowa.",
@@ -89,14 +89,18 @@
       "Indywidualna wycena po poznaniu zakresu."
     ]
   },
-  "team": {
-    "kicker": "Zespół CodeFix.IT",
-    "title": "Patryk i Marek. Wspólny projekt.",
-    "description": "Wspólnie rozwijamy CodeFix.IT. Stawiamy na jasne ustalenia, działające rozwiązania i bezpośredni kontakt.",
+  "seo": {
+    "title": "CodeFix.IT — strony i aplikacje dla firm, AI i WordPress",
+    "description": "Tworzę strony i aplikacje dla firm oraz rozwijam WordPressa. Łączę programowanie z narzędziami AI. Patryk — CodeFix.IT, zdalnie w całej Polsce."
+  },
+  "about": {
+    "kicker": "O mnie",
+    "title": "Cześć, jestem Patryk.",
+    "description": "Sam prowadzę CodeFix.IT. Od pierwszej rozmowy do wdrożenia masz kontakt bezpośrednio ze mną.",
     "advantages": [
       {
         "title": "Bezpośredni kontakt",
-        "description": "Rozmawiasz z zespołem, który realizuje Twój projekt."
+        "description": "Rozmawiasz ze mną. To ja realizuję Twój projekt."
       },
       {
         "title": "Zmiany pod kontrolą",
@@ -104,12 +108,8 @@
       },
       {
         "title": "AI wspiera pracę",
-        "description": "Korzystamy z AI przy tworzeniu. Rozwiązanie weryfikujemy przed wdrożeniem."
+        "description": "AI wspiera moją pracę. Sam weryfikuję rozwiązanie przed wdrożeniem."
       }
     ]
-  },
-  "seo": {
-    "title": "CodeFix.IT — strony i aplikacje dla firm, AI i WordPress",
-    "description": "Tworzymy strony i aplikacje dla firm oraz rozwijamy WordPressa. Łączymy programowanie z narzędziami AI. CodeFix.IT — zdalnie w całej Polsce."
   }
 }
