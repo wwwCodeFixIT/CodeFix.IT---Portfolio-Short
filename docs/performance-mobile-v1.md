@@ -1,5 +1,7 @@
 # CodeFix.IT — wydajność i testy mobilne, 14.10.2026
 
+Aktualizacja: nowszy kod, testy zmiany wysokości ekranu i ponowne pomiary są w [contact-viewport-v1](contact-viewport-v1.md). Poniższe wyniki dotyczą wcześniejszego kodu eff52f9.
+
 Końcowy kod eff52f9e298a9fdfc311ae1da021b5f91818a35f przeszedł CI #838 oraz oba zadania audytu #6: Lighthouse i 12 scenariuszy Chromium/WebKit. Mediana wydajności strony głównej na mobile wynosi 99/100; desktop 100/100. Podstrona naprawy uzyskała 95/100. Automatyczny wynik dostępności wszystkich pięciu pomiarów: 100/100.
 
 Sprawdzony podgląd: https://320773b5.codefix-it---portfolio-short.pages.dev/. Entry: /assets/index-BxGA2aCr.js. Publiczny podgląd gałęzi: https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/. PR #91 pozostaje szkicem; ten etap nie publikuje zmian na codefix.it.

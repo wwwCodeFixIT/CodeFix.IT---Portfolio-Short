@@ -1,11 +1,6 @@
 name: Contact Viewport Audit
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - '.github/workflows/contact-viewport-audit.yml'
-      - 'scripts/contact-viewport-qa.mjs'
   workflow_dispatch:
 
 permissions:
@@ -16,8 +11,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  AUDIT_SITE_URL: https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/
-  AUDIT_RUNTIME_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+  AUDIT_SITE_URL: https://0bf7e9a6.codefix-it---portfolio-short.pages.dev/
+  AUDIT_RUNTIME_COMMIT: e922209ddcd3546f418723b7b2a8a246f48ca0ae
   AUDIT_EXPECTED_ENTRY: /assets/index-CQajBJcS.js
 
 jobs:
