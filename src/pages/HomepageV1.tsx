@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import type { FormEvent } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import type { FormEvent, MouseEvent } from 'react';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -13,10 +13,15 @@ import {
   Wrench,
 } from 'lucide-react';
 import { Brand } from '../components/Brand';
+import { HeroEmblem, HeroExperience } from '../components/HeroExperience';
+import { HeroServicePicker } from '../components/HeroServicePicker';
 import { ProjectPreview } from '../components/ProjectPreview';
 import { projects } from '../data/projects';
+import homepageContent from '../data/homepage-content.json';
 import { captureSessionAttribution } from '../lib/attribution';
 import { measureAcceptedLead, openMeasurementSettings } from '../lib/measurement';
+import { mergeProjectBrief } from '../lib/project-estimator';
+import type { ProjectBrief } from '../lib/project-estimator';
 import {
   clearFunnelSession,
   markFunnelCta,
@@ -28,11 +33,47 @@ import {
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
 
+function EstimatorUnavailable() {
+  return (
+    <p role="status">
+      Kalkulator jest chwilowo niedostępny. <a href="#contact">Przejdź do formularza wyceny</a>.
+    </p>
+  );
+}
+
+const ProjectEstimator = lazy(() =>
+  import('../components/ProjectEstimator').catch(() => ({ default: EstimatorUnavailable })),
+);
+
+function focusContact(section: HTMLElement | null, behavior: ScrollBehavior) {
+  const input = section?.querySelector<HTMLInputElement>('[name="name"]');
+  if (!input) return;
+  // Focus renders the deferred sections before the scroll destination is measured.
+  input.focus({ preventScroll: true });
+  window.requestAnimationFrame(() => {
+    if (!input.isConnected) return;
+    if (window.matchMedia('(max-width: 720px)').matches) {
+      // WebKit resolves focus styles after the event; measure the final layout.
+      const box = input.getBoundingClientRect();
+      const viewport = window.visualViewport;
+      const height = viewport?.height ?? window.innerHeight;
+      const offset = viewport?.offsetTop ?? 0;
+      window.scrollTo({
+        top: Math.max(0, window.scrollY + box.top - offset - (height - box.height) / 2),
+        behavior: 'instant',
+      });
+    } else {
+      section?.scrollIntoView({ behavior, block: 'start' });
+    }
+  });
+}
+
 const quickFixService = 'WORDPRESS_QUICK_FIX';
 const businessSiteService = 'CODEFIX_BUSINESS_SITE';
 const miniAuditService = 'FREE_MINI_AUDIT';
 const careService = 'WORDPRESS_CARE';
 const agencyService = 'AGENCY_WHITE_LABEL';
+const appService = 'development';
 
 const allowedServiceDeepLinks = new Set([
   quickFixService,
@@ -49,129 +90,33 @@ function initialServiceFromUrl() {
   return allowedServiceDeepLinks.has(value) ? value : '';
 }
 
-const services = [
-  {
-    title: 'WordPress Quick Fix',
-    description:
-      'Formularz nie działa, aktualizacja coś zepsuła albo strona pokazuje błąd? Diagnozuję jeden konkretny problem, naprawiam go i sprawdzam efekt po wdrożeniu.',
-    meta: 'Jeden problem • diagnoza • test po naprawie',
-    price: 'Od 390 zł',
-    service: quickFixService,
-    cta: 'Zgłoś problem WordPress',
-    detailsHref: '/naprawa-wordpress/',
-    detailsLabel: 'Naprawa WordPress — pełny zakres',
-  },
-  {
-    title: 'Strony internetowe dla firm — WordPress + ACF PRO',
-    description:
-      'Nowoczesna strona firmy od podstaw: czytelna oferta, wersja mobilna, formularz, techniczne SEO i wygodna edycja treści z panelu WordPress.',
-    meta: 'Brief • projekt • preview • wdrożenie',
-    price: 'Wycena indywidualna',
-    service: businessSiteService,
-    cta: 'Wyceń stronę firmową',
-    detailsHref: '/strony-wordpress/',
-    detailsLabel: 'Strony WordPress dla firm — pełny zakres',
-  },
-  {
-    title: 'Opieka i rozwój WordPress',
-    description:
-      'Aktualizacje, backupy, drobne poprawki i rozwój istniejącej strony bez szukania wykonawcy od zera przy każdym kolejnym zadaniu.',
-    meta: 'Stała obsługa • aktualizacje • rozwój',
-    price: 'Od 300 zł / mies.',
-    service: careService,
-    cta: 'Zapytaj o opiekę',
-    detailsHref: '/opieka-wordpress/',
-    detailsLabel: 'Opieka WordPress — pełny zakres',
-  },
-];
+const services = homepageContent.services;
+const process = homepageContent.process;
 
-const process = [
-  'Opisujesz problem lub cel strony; możesz podać jej adres.',
-  'Potwierdzam zakres, cenę i warunki rozpoczęcia.',
-  'Przy większych zmianach pokazuję preview do akceptacji.',
-  'Wdrażam, testuję kontakt i przekazuję dalsze kroki.',
-];
+const advantages = homepageContent.about.advantages.map((item, index) => ({
+  ...item,
+  icon: [MessageSquareText, GitBranch, Layers3][index] ?? Layers3,
+}));
+const fitItems = homepageContent.application.points;
 
-const advantages = [
-  {
-    icon: MessageSquareText,
-    title: 'Bezpośredni kontakt',
-    description:
-      'Rozmawiasz bezpośrednio z osobą, która analizuje problem, przygotowuje wycenę i wdraża rozwiązanie.',
-  },
-  {
-    icon: GitBranch,
-    title: 'Zmiany pod kontrolą',
-    description:
-      'Większe poprawki przechodzą przez branch, automatyczne checki i preview przed publikacją na produkcji.',
-  },
-  {
-    icon: Layers3,
-    title: 'Strona, którą da się edytować',
-    description:
-      'Przy nowych wdrożeniach WordPress + ACF PRO przygotowuję treści tak, żeby typowe aktualizacje można było zrobić z panelu bez zmieniania kodu.',
-  },
-];
-
-const fitItems = [
-  'Twoja strona wygląda przestarzale lub źle działa na telefonie.',
-  'WordPress, formularz, WooCommerce lub aktualizacja wymagają naprawy.',
-  'Chcesz nowej strony firmowej z prostą edycją treści.',
-  'Szukasz stałego wsparcia przy poprawkach i rozwoju strony.',
-];
-
-const faqItems = [
-  {
-    question: 'Ile kosztuje praca przy WordPressie?',
-    answer:
-      'Quick Fix od 390 zł, opieka od 300 zł/mies. Nowe strony wyceniam indywidualnie. Kwotę i zakres potwierdzam przed startem.',
-  },
-  {
-    question: 'Czy mogę zacząć od jednego małego zadania?',
-    answer:
-      'Tak. Możemy zacząć od jednego płatnego zadania, bez zobowiązania do większej współpracy.',
-  },
-  {
-    question: 'Czy pracujesz na istniejących stronach WordPress?',
-    answer:
-      'Tak. Naprawiam błędy, formularze, WooCommerce, CSS, integracje i awarie po aktualizacjach.',
-  },
-  {
-    question: 'Czy przy pierwszym kontakcie muszę podawać loginy?',
-    answer:
-      'Nie. Na początek wystarczy publiczny adres strony i opis problemu. O dostęp poproszę tylko w razie potrzeby.',
-  },
-  {
-    question: 'Jak szybko dostanę odpowiedź i termin realizacji?',
-    answer:
-      'Odpowiadam zwykle w ciągu dnia roboczego. Termin realizacji ustalam po poznaniu zakresu.',
-  },
-  {
-    question: 'Czy po wdrożeniu samodzielnie zmienię treści?',
-    answer:
-      'Tak. W WordPress + ACF PRO możesz edytować typowe treści z panelu, bez programowania.',
-  },
-  {
-    question: 'Czy oferujesz opiekę po wdrożeniu?',
-    answer:
-      'Tak. Oferuję miesięczną opiekę lub pojedyncze zadania rozliczane osobno.',
-  },
-  {
-    question: 'Czy pracujesz white-label dla agencji?',
-    answer:
-      'Tak. Pracuję na stagingu i Git, także bez kontaktu z klientem końcowym.',
-  },
-]
+const faqItems = homepageContent.faqItems;
 
 const featuredProjects = projects.slice(0, 3);
 const publicProjectCount = featuredProjects.filter((project) => Boolean(project.demoUrl)).length;
-const agencyCollaborationCount = featuredProjects.filter((project) => Boolean(project.collaboration)).length;
+const agencyCollaborationCount = featuredProjects.filter((project) =>
+  Boolean(project.collaboration),
+).length;
 
 const contactEmail = 'wwwcodefixit@gmail.com';
 const contactHref = `mailto:${contactEmail}?subject=${encodeURIComponent('Zapytanie ze strony CodeFix.IT')}`;
 const leadApiUrl = 'https://app.codefix.it/api/public/leads';
 
 const serviceFormGuidance: Record<string, { submit: string; placeholder: string; hint: string }> = {
+  [appService]: {
+    submit: 'Zapytaj o aplikację',
+    placeholder: 'Jaki cel ma aplikacja, kto będzie jej używać i jakie integracje są potrzebne?',
+    hint: 'Opisz cel, użytkowników i potrzebne integracje. Zakres i cenę ustalę po briefie.',
+  },
   [quickFixService]: {
     submit: 'Wyślij zgłoszenie Quick Fix',
     placeholder: 'Co dokładnie nie działa, od kiedy i co widzisz na ekranie?',
@@ -179,7 +124,8 @@ const serviceFormGuidance: Record<string, { submit: string; placeholder: string;
   },
   [businessSiteService]: {
     submit: 'Wyślij brief do wyceny',
-    placeholder: 'Czym zajmuje się firma, jakich podstron potrzebujesz i jaki jest główny cel strony?',
+    placeholder:
+      'Czym zajmuje się firma, jakich podstron potrzebujesz i jaki jest główny cel strony?',
     hint: 'Napisz, czym zajmuje się firma, czego potrzebuje strona i czy masz już domenę, teksty oraz logo.',
   },
   [careService]: {
@@ -189,7 +135,7 @@ const serviceFormGuidance: Record<string, { submit: string; placeholder: string;
   },
   [agencyService]: {
     submit: 'Zapytaj o współpracę white-label',
-    placeholder: 'Jakiego typu zadania chcesz oddelegować, w jakim stacku pracuje zespół i jak wygląda Wasz workflow?',
+    placeholder: 'Jakie zadania chcesz zlecić, z jakich technologii korzystasz i jaki jest termin?',
     hint: 'Opisz zadanie, technologie i termin. Dodaj, czy mam pracować bez kontaktu z klientem końcowym.',
   },
   [miniAuditService]: {
@@ -204,14 +150,73 @@ export function HomepageV1() {
   const [formMessage, setFormMessage] = useState('');
   const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
   const [selectedService, setSelectedService] = useState(initialServiceFromUrl);
+  const [estimatorOpen, setEstimatorOpen] = useState(false);
+  const [estimatorStarted, setEstimatorStarted] = useState(false);
+  const [projectBrief, setProjectBrief] = useState<ProjectBrief | null>(null);
   const [attribution] = useState(captureSessionAttribution);
   const formStartTracked = useRef(false);
   const formViewTracked = useRef(false);
   const funnelViewTracked = useRef(false);
+  const estimatorToggleRef = useRef<HTMLButtonElement | null>(null);
   const contactSectionRef = useRef<HTMLElement | null>(null);
   const footerRef = useRef<HTMLElement | null>(null);
   const feedbackRef = useRef<HTMLDivElement | null>(null);
   const [contactAreaVisible, setContactAreaVisible] = useState(false);
+  const [layoutReady, setLayoutReady] = useState(false);
+
+  useEffect(() => {
+    const viewport = window.visualViewport;
+    if (!viewport) return;
+    let frame = 0;
+
+    const keepActiveFieldVisible = () => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(() => {
+        const input = document.activeElement;
+        if (
+          !(input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement) ||
+          !contactSectionRef.current?.contains(input) ||
+          !window.matchMedia('(max-width: 720px)').matches ||
+          viewport.scale !== 1
+        ) {
+          return;
+        }
+        const box = input.getBoundingClientRect();
+        const headerBottom =
+          document.querySelector('.cf-header')?.getBoundingClientRect().bottom ?? 0;
+        const top = Math.max(viewport.offsetTop, headerBottom) + 8;
+        const bottom = viewport.offsetTop + viewport.height - 8;
+        // Let the browser keep the caret visible if a field exceeds the available height.
+        if (box.height > bottom - top) return;
+        const delta = box.bottom > bottom ? box.bottom - bottom : box.top < top ? box.top - top : 0;
+        if (delta) window.scrollBy({ top: delta, behavior: 'instant' });
+      });
+    };
+
+    viewport.addEventListener('resize', keepActiveFieldVisible);
+    return () => {
+      viewport.removeEventListener('resize', keepActiveFieldVisible);
+      window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+
+    // The static page is replaced when this lazy route mounts. Restore the anchor
+    // against the final layout so links from portfolio and guides reach their target.
+    const frame = window.requestAnimationFrame(() => {
+      const target = document.getElementById(hash.slice(1));
+      if (!target) return;
+      if (hash === '#contact') {
+        focusContact(target, 'auto');
+      } else {
+        target.scrollIntoView({ behavior: 'auto', block: 'start' });
+      }
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
 
   useEffect(() => {
     if (typeof IntersectionObserver === 'undefined') return;
@@ -241,30 +246,34 @@ export function HomepageV1() {
     if (formState === 'success' || formState === 'error') feedbackRef.current?.focus();
   }, [formState]);
 
-  const trackHomepageEvent = useCallback((eventName: string, parameters: Record<string, string> = {}) => {
-    if (eventName === 'homepage_cta_click') {
-      const placement = parameters.placement || 'unknown';
-      markFunnelCta(placement, parameters.service || selectedService);
-      trackFunnelEvent('cf_cta_click', {
-        placement,
-        service: parameters.service || selectedService || 'not_selected',
-      });
-    }
+  const trackHomepageEvent = useCallback(
+    (eventName: string, parameters: Record<string, string> = {}) => {
+      if (eventName === 'homepage_cta_click') {
+        const placement = parameters.placement || 'unknown';
+        markFunnelCta(placement, parameters.service || selectedService);
+        trackFunnelEvent('cf_cta_click', {
+          placement,
+          service: parameters.service || selectedService || 'not_selected',
+        });
+      }
 
-    const analyticsWindow = window as Window & {
-      gtag?: (...args: unknown[]) => void;
-      codefixAnalyticsAllowed?: boolean;
-    };
-    if (!analyticsWindow.codefixAnalyticsAllowed) return;
-    analyticsWindow.gtag?.('event', eventName, {
-      event_category: 'homepage_funnel',
-      page_path: '/',
-      ...parameters,
-    });
-  }, [selectedService]);
+      const analyticsWindow = window as Window & {
+        gtag?: (...args: unknown[]) => void;
+        codefixAnalyticsAllowed?: boolean;
+      };
+      if (!analyticsWindow.codefixAnalyticsAllowed) return;
+      analyticsWindow.gtag?.('event', eventName, {
+        event_category: 'homepage_funnel',
+        page_path: '/',
+        ...parameters,
+      });
+    },
+    [selectedService],
+  );
 
   function chooseService(service: string, placement?: string) {
     if (formState === 'submitting') return;
+    setProjectBrief(null);
     setSelectedService(service);
     setFormMessage('');
     setFormState('idle');
@@ -284,6 +293,59 @@ export function HomepageV1() {
     }
   }
 
+  function chooseHeroService(service: string, placement: string) {
+    if (formState === 'submitting') return;
+    chooseService(service, placement);
+  }
+
+  function handleContactLink(event: MouseEvent<HTMLDivElement>) {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0)
+      return;
+    if (formState === 'submitting' || !(event.target instanceof Element)) return;
+    if (!event.target.closest('a[href="#contact"]')) return;
+    // Preserve each link's service selection, tracking and native URL fragment.
+    window.requestAnimationFrame(() => {
+      focusContact(
+        contactSectionRef.current,
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      );
+    });
+  }
+
+  function openEstimator() {
+    setEstimatorStarted(true);
+    setEstimatorOpen(true);
+    window.requestAnimationFrame(() => {
+      const toggle = estimatorToggleRef.current;
+      toggle?.closest('#kalkulator')?.scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'start',
+      });
+      toggle?.focus({ preventScroll: true });
+    });
+  }
+
+  function useProjectBrief(project: ProjectBrief) {
+    if (formState === 'submitting') return;
+    chooseService(project.service, 'estimator_contact');
+    setProjectBrief(project);
+    window.requestAnimationFrame(() => {
+      focusContact(
+        contactSectionRef.current,
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      );
+    });
+  }
+
+  function removeProjectBrief() {
+    setProjectBrief(null);
+    window.requestAnimationFrame(() => {
+      contactSectionRef.current
+        ?.querySelector<HTMLTextAreaElement>('[name="message"]')
+        ?.focus({ preventScroll: true });
+    });
+  }
+
   function handleFormStart() {
     if (formStartTracked.current) return;
     formStartTracked.current = true;
@@ -296,17 +358,20 @@ export function HomepageV1() {
     });
   }
   const [consentChoice, setConsentChoice] = useState<'accepted' | 'rejected' | null>(() => {
-    const value = (window as Window & { codefixConsentChoice?: string | null }).codefixConsentChoice;
+    const value = (window as Window & { codefixConsentChoice?: string | null })
+      .codefixConsentChoice;
     return value === 'accepted' || value === 'rejected' ? value : null;
   });
 
   useEffect(() => {
     function updateConsentChoice() {
-      const value = (window as Window & { codefixConsentChoice?: string | null }).codefixConsentChoice;
+      const value = (window as Window & { codefixConsentChoice?: string | null })
+        .codefixConsentChoice;
       setConsentChoice(value === 'accepted' || value === 'rejected' ? value : null);
     }
     window.addEventListener('codefix:measurement-consent-changed', updateConsentChoice);
-    return () => window.removeEventListener('codefix:measurement-consent-changed', updateConsentChoice);
+    return () =>
+      window.removeEventListener('codefix:measurement-consent-changed', updateConsentChoice);
   }, []);
 
   useEffect(() => {
@@ -350,16 +415,17 @@ export function HomepageV1() {
     return () => observer.disconnect();
   }, [consentChoice, selectedService, trackHomepageEvent]);
 
-
   const guidance = serviceFormGuidance[selectedService];
   const submitButtonLabel = guidance?.submit || 'Wyślij zapytanie';
 
   const showCompanyField =
     selectedService === businessSiteService ||
     selectedService === careService ||
-    selectedService === agencyService;
+    selectedService === agencyService ||
+    selectedService === appService;
 
-  const messagePlaceholder = guidance?.placeholder || 'Krótko opisz problem, zakres albo oczekiwany efekt.';
+  const messagePlaceholder =
+    guidance?.placeholder || 'Krótko opisz problem, zakres albo oczekiwany efekt.';
 
   async function handleLeadSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -368,6 +434,14 @@ export function HomepageV1() {
     const form = event.currentTarget;
     const data = new FormData(form);
     const service = selectedService;
+    const message = mergeProjectBrief(String(data.get('message') ?? ''), projectBrief);
+    if (message.length > 4000) {
+      setFormState('error');
+      setFormMessage(
+        'Opis razem z zakresem z kalkulatora może mieć maksymalnie 4000 znaków. Skróć dodatkowe informacje albo usuń załączony zakres.',
+      );
+      return;
+    }
 
     setFormState('submitting');
     setFormMessage('');
@@ -388,7 +462,7 @@ export function HomepageV1() {
           email: data.get('email'),
           service,
           pageUrl: data.get('pageUrl'),
-          message: data.get('message'),
+          message,
           companyWebsite: data.get('companyWebsite'),
           startedAt: formStartedAt,
           ...attribution,
@@ -396,7 +470,11 @@ export function HomepageV1() {
         }),
       });
 
-      const result = (await response.json()) as { error?: string; duplicate?: boolean; leadId?: string };
+      const result = (await response.json()) as {
+        error?: string;
+        duplicate?: boolean;
+        leadId?: string;
+      };
 
       if (!response.ok) {
         throw new Error(result.error || 'Nie udało się wysłać formularza.');
@@ -421,11 +499,12 @@ export function HomepageV1() {
         if (
           analyticsWindow.codefixAnalyticsAllowed ||
           analyticsWindow.codefixAdConsentChoice === 'accepted'
-        ) analyticsWindow.gtag?.('event', 'generate_lead', {
-          event_category: 'lead',
-          lead_source: 'website_form',
-          service: service || 'not_selected',
-        });
+        )
+          analyticsWindow.gtag?.('event', 'generate_lead', {
+            event_category: 'lead',
+            lead_source: 'website_form',
+            service: service || 'not_selected',
+          });
       }
 
       const successMessage = result.duplicate
@@ -439,6 +518,7 @@ export function HomepageV1() {
               : 'Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiem po krótkiej analizie tematu.';
 
       form.reset();
+      setProjectBrief(null);
       if (!result.duplicate) clearFunnelSession();
       setSelectedService('');
       setFormStartedAt(Date.now());
@@ -451,16 +531,21 @@ export function HomepageV1() {
       trackHomepageEvent('lead_form_error', {
         service: service || 'not_selected',
       });
-      const message = error instanceof Error && !(error instanceof TypeError || error instanceof SyntaxError)
-        ? error.message
-        : 'Nie udało się połączyć ze stroną. Spróbuj ponownie za chwilę.';
+      const message =
+        error instanceof Error && !(error instanceof TypeError || error instanceof SyntaxError)
+          ? error.message
+          : 'Nie udało się połączyć ze stroną. Spróbuj ponownie za chwilę.';
       setFormState('error');
       setFormMessage(message);
     }
   }
 
   return (
-    <div className={`homepage-v1 has-mobile-cta${contactAreaVisible ? ' cf-contact-in-view' : ''}`}>
+    <div
+      className={`homepage-v1 has-mobile-cta${contactAreaVisible ? ' cf-contact-in-view' : ''}${layoutReady ? ' cf-layout-ready' : ''}`}
+      onClick={handleContactLink}
+      onFocusCapture={() => setLayoutReady(true)}
+    >
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand href="#top" />
@@ -468,7 +553,7 @@ export function HomepageV1() {
           <nav className="cf-nav-links" aria-label="Główna nawigacja">
             <a href="#services">Usługi</a>
             <a href="#work">Realizacje</a>
-            <a href="#process">Proces</a>
+            <a href="#about">O mnie</a>
             <a href="#faq">FAQ</a>
             <a href="/poradniki/">Poradniki</a>
             <a href="#contact">Kontakt</a>
@@ -485,37 +570,61 @@ export function HomepageV1() {
       </header>
 
       <main id="top">
-        <section className="cf-container cf-hero">
+        <HeroExperience>
           <div className="cf-hero-copy">
             <div className="cf-eyebrow">
               <span className="cf-eyebrow-dot" />
-              WordPress dla firm i agencji • zdalnie cała Polska
+              {homepageContent.hero.eyebrow}
             </div>
 
-            <p className="cf-stack-label">Naprawa • nowe strony • opieka • white-label</p>
-
             <h1 className="cf-title">
-              CodeFix.IT — WordPress dla firm.
-              <span className="cf-title-muted">Naprawa, nowe strony i stała opieka.</span>
+              {homepageContent.hero.title}
+              <span className="cf-title-muted">{homepageContent.hero.accent}</span>
             </h1>
 
-            <p className="cf-lead">
-              Masz problem z WordPressem, potrzebujesz nowej strony albo chcesz oddać techniczną opiekę?
-              Opisz temat. Przed startem potwierdzam zakres, cenę i kolejny krok — zdalnie w całej Polsce.
-            </p>
+            <p className="cf-lead">{homepageContent.hero.description}</p>
 
             <div className="cf-actions">
-              <a href="#contact" className="cf-button cf-button-primary"
-                onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'hero_primary_generic' })}>
+              <a
+                href="#contact"
+                className="cf-button cf-button-primary"
+                onClick={() =>
+                  trackHomepageEvent('homepage_cta_click', { placement: 'hero_primary_generic' })
+                }
+              >
                 Opisz temat
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
-              <a href="#work" className="cf-button cf-button-secondary"
-                onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'hero_secondary_work' })}>
-                Zobacz realizacje
-              </a>
+              <button
+                type="button"
+                className="cf-button cf-button-secondary"
+                aria-label="Kalkulator WordPress"
+                onClick={openEstimator}
+              >
+                Kalkulator <span className="cf-action-scope">WordPress</span>
+                <ArrowRight size={17} aria-hidden="true" />
+              </button>
             </div>
+          </div>
 
+          <aside className="cf-hero-paths" aria-labelledby="cf-hero-paths-title">
+            <h2 id="cf-hero-paths-title">Czego potrzebujesz?</h2>
+
+            <HeroServicePicker onChoose={chooseHeroService} disabled={formState === 'submitting'} />
+            <a
+              href="/dla-agencji-wordpress/"
+              className="cf-mini-audit-link cf-hero-agency-link"
+              onClick={() =>
+                trackHomepageEvent('homepage_cta_click', { placement: 'hero_agency_landing' })
+              }
+            >
+              Dla agencji: współpraca white-label
+              <ArrowRight size={14} aria-hidden="true" />
+            </a>
+            <HeroEmblem />
+          </aside>
+
+          <div className="cf-hero-followup">
             <div className="cf-proof" aria-label="Standard pracy">
               <span className="cf-proof-item">
                 <CheckCircle2 size={15} aria-hidden="true" />
@@ -531,129 +640,109 @@ export function HomepageV1() {
               </span>
             </div>
           </div>
-
-          <aside className="cf-hero-paths" aria-labelledby="cf-hero-paths-title">
-            <p className="cf-section-kicker">Od czego zaczynamy?</p>
-            <h2 id="cf-hero-paths-title">Wybierz, czego potrzebujesz.</h2>
-
-            <div className="cf-hero-path-list">
-              <a
-                href="#contact"
-                className="cf-hero-path"
-                onClick={() => chooseService(quickFixService, 'hero_path_quickfix')}
-              >
-                <span className="cf-hero-path-icon"><Wrench size={19} aria-hidden="true" /></span>
-                <span className="cf-hero-path-copy">
-                  <strong>Coś nie działa</strong>
-                  <small>Błąd, formularz, WooCommerce, aktualizacja</small>
-                </span>
-                <span className="cf-hero-path-price">od 390 zł</span>
-                <ArrowRight size={17} aria-hidden="true" />
-              </a>
-
-              <a
-                href="#contact"
-                className="cf-hero-path"
-                onClick={() => chooseService(businessSiteService, 'hero_path_business_site')}
-              >
-                <span className="cf-hero-path-icon"><Layers3 size={19} aria-hidden="true" /></span>
-                <span className="cf-hero-path-copy">
-                  <strong>Potrzebuję nowej strony</strong>
-                  <small>WordPress + ACF PRO, mobile, SEO techniczne</small>
-                </span>
-                <span className="cf-hero-path-price">wycena</span>
-                <ArrowRight size={17} aria-hidden="true" />
-              </a>
-
-              <a
-                href="#contact"
-                className="cf-hero-path"
-                onClick={() => chooseService(careService, 'hero_path_care')}
-              >
-                <span className="cf-hero-path-icon"><MessageSquareText size={19} aria-hidden="true" /></span>
-                <span className="cf-hero-path-copy">
-                  <strong>Chcę stałej opieki</strong>
-                  <small>Aktualizacje, backupy, poprawki i rozwój</small>
-                </span>
-                <span className="cf-hero-path-price">od 300 zł/mies.</span>
-                <ArrowRight size={17} aria-hidden="true" />
-              </a>
-            </div>
-
-            <p className="cf-hero-path-help">
-              Nie wiesz? Podeślij URL i opisz problem — wskażę najkrótszą sensowną ścieżkę.
-            </p>
-            <a
-              href="/dla-agencji-wordpress/"
-              className="cf-mini-audit-link cf-hero-agency-link"
-              onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'hero_agency_landing' })}
-            >
-              Jesteś agencją? Zobacz współpracę white-label
-              <ArrowRight size={14} aria-hidden="true" />
-            </a>
-          </aside>
-        </section>
+        </HeroExperience>
 
         <section id="services" className="cf-section cf-section-bordered">
           <div className="cf-container">
             <div className="cf-section-head-row">
               <div>
                 <p className="cf-section-kicker">Usługi</p>
-                <h2 className="cf-section-heading">
-                  Trzy proste sposoby, żeby ruszyć ze stroną do przodu.
-                </h2>
+                <h2 className="cf-section-heading">Strony i wsparcie WordPress.</h2>
               </div>
-              <p className="cf-section-sidecopy">
-                Naprawa konkretnego problemu, nowa strona firmowa albo stała opieka nad WordPressem.
-              </p>
+              <p className="cf-section-sidecopy">Nowa strona, szybka naprawa lub stała opieka.</p>
             </div>
 
             <div className="cf-services-grid">
-              {services.map(({ title, description, meta, price, service, cta, detailsHref, detailsLabel }) => {
-                const artwork = `/graphics/${service}`;
-                return (
-                  <article key={title}
-                    className={`cf-service-card${service === quickFixService ? ' cf-service-card-featured' : ''}`}>
-                    {service === businessSiteService && (
-                      <span className="cf-service-badge">Najlepsze do nowej strony</span>
-                    )}
-                    <img className="cf-service-art"
-                      src={`${artwork}-720.webp`}
-                      srcSet={`${artwork}-360.webp 360w, ${artwork}-720.webp 720w`}
-                      sizes="(min-width: 801px) 350px, 85vw"
-                      width={720} height={480} alt="" loading="lazy" decoding="async" />
-                    <h3>{title}</h3>
-                    <p>{description}</p>
-                    <p className="cf-service-price">{price}</p>
-                    {service !== businessSiteService && <p className="cf-service-pricing-note">
-                      Cena orientacyjna. Dokładny zakres, kwotę i sposób rozliczenia
-                      potwierdzam przed rozpoczęciem prac.
-                    </p>}
-                    <p className="cf-service-meta">{meta}</p>
-                    <div className="cf-service-card-actions">
-                      <a href={detailsHref} className="cf-card-link cf-card-link-secondary">
-                        {detailsLabel}
-                        <ArrowRight size={15} aria-hidden="true" />
-                      </a>
-                      <a href="#contact" className="cf-card-link"
-                        onClick={() => chooseService(service, 'service_card')}>
-                        {cta}
-                        <ArrowRight size={15} aria-hidden="true" />
-                      </a>
-                    </div>
-                    {service === businessSiteService && (
-                      <div className="cf-service-proof">
-                        <a href="https://demo.codefix.it/" target="_blank"
-                          rel="noreferrer" className="cf-card-link cf-card-link-secondary">
-                          Zobacz demo WordPress + ACF PRO
-                          <ArrowUpRight size={15} aria-hidden="true" />
+              {services.map(
+                ({ title, description, meta, price, service, cta, detailsHref, detailsLabel }) => {
+                  const artwork = `/graphics/${service}`;
+                  return (
+                    <article
+                      key={title}
+                      className={`cf-service-card${service === quickFixService ? ' cf-service-card-featured' : ''}`}
+                    >
+                      {service === businessSiteService && (
+                        <span className="cf-service-badge">Nowa strona</span>
+                      )}
+                      <img
+                        className="cf-service-art"
+                        src={`${artwork}-720.webp`}
+                        srcSet={`${artwork}-360.webp 360w, ${artwork}-720.webp 720w`}
+                        sizes="(min-width: 801px) 350px, 85vw"
+                        width={720}
+                        height={480}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <h3>{title}</h3>
+                      <p>{description}</p>
+                      <p className="cf-service-price">{price}</p>
+                      {service !== businessSiteService && (
+                        <p className="cf-service-pricing-note">
+                          Zakres i cenę potwierdzam przed startem.
+                        </p>
+                      )}
+                      <p className="cf-service-meta">{meta}</p>
+                      <div className="cf-service-card-actions">
+                        <a href={detailsHref} className="cf-card-link cf-card-link-secondary">
+                          {detailsLabel}
+                          <ArrowRight size={15} aria-hidden="true" />
                         </a>
-                        <small>Własne demo techniczne CodeFix.IT — nie realizacja klienta.</small>
+                        <a
+                          href="#contact"
+                          className="cf-card-link"
+                          onClick={() => chooseService(service, 'service_card')}
+                        >
+                          {cta}
+                          <ArrowRight size={15} aria-hidden="true" />
+                        </a>
                       </div>
-                    )}
-                  </article>
-                );
-              })}
+                      {service === businessSiteService && (
+                        <div className="cf-service-proof">
+                          <a
+                            href="https://demo.codefix.it/"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="cf-card-link cf-card-link-secondary"
+                          >
+                            Zobacz demo
+                            <ArrowUpRight size={15} aria-hidden="true" />
+                          </a>
+                          <small>Własne demo techniczne CodeFix.IT.</small>
+                        </div>
+                      )}
+                    </article>
+                  );
+                },
+              )}
+            </div>
+            <div id="kalkulator" className="cf-estimator-entry">
+              <button
+                ref={estimatorToggleRef}
+                type="button"
+                className="cf-button cf-button-secondary"
+                aria-expanded={estimatorOpen}
+                aria-controls="cf-project-estimator"
+                onClick={() => {
+                  setEstimatorStarted(true);
+                  setEstimatorOpen((current) => !current);
+                }}
+              >
+                {estimatorOpen ? 'Zwiń kalkulator' : 'Otwórz kalkulator WordPress'}
+                <ArrowRight size={17} aria-hidden="true" />
+              </button>
+              <div id="cf-project-estimator" hidden={!estimatorOpen}>
+                {estimatorStarted && (
+                  <Suspense fallback={<p role="status">Ładuję kalkulator…</p>}>
+                    <ProjectEstimator
+                      initialService={selectedService}
+                      disabled={formState === 'submitting'}
+                      onUseBrief={useProjectBrief}
+                    />
+                  </Suspense>
+                )}
+              </div>
             </div>
           </div>
         </section>
@@ -662,12 +751,12 @@ export function HomepageV1() {
           <div className="cf-container cf-revenue-strip-inner cf-agency-strip-inner">
             <div className="cf-agency-copy">
               <p className="cf-section-kicker">Dla agencji / white-label</p>
-              <h2 id="cf-agency-title">Masz overflow WordPress? Mogę przejąć część kolejki.</h2>
-              <p>
-                WordPress, ACF PRO, WooCommerce, poprawki front-endowe i mniejsze integracje.
-                Mogę pracować na stagingu i Git, według Waszych standardów oraz bez kontaktu z klientem końcowym.
-              </p>
-              <div className="cf-revenue-proof cf-agency-tags" aria-label="Zakres współpracy agencyjnej">
+              <h2 id="cf-agency-title">Potrzebujesz wsparcia przy WordPressie?</h2>
+              <p>WordPress, ACF PRO i WooCommerce. Pracuję na stagingu i Git, także white-label.</p>
+              <div
+                className="cf-revenue-proof cf-agency-tags"
+                aria-label="Zakres współpracy agencyjnej"
+              >
                 <span>WordPress + ACF PRO</span>
                 <span>WooCommerce</span>
                 <span>Git / staging / preview</span>
@@ -679,7 +768,9 @@ export function HomepageV1() {
               <a
                 href="/dla-agencji-wordpress/"
                 className="cf-button cf-button-primary"
-                onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'agency_strip_landing' })}
+                onClick={() =>
+                  trackHomepageEvent('homepage_cta_click', { placement: 'agency_strip_landing' })
+                }
               >
                 Zobacz współpracę white-label
                 <ArrowRight size={17} aria-hidden="true" />
@@ -689,24 +780,33 @@ export function HomepageV1() {
                 className="cf-card-link cf-card-link-secondary"
                 onClick={() => chooseService(agencyService, 'agency_strip_contact')}
               >
-                Mam konkretny task
+                Zleć zadanie
                 <ArrowRight size={15} aria-hidden="true" />
               </a>
             </div>
           </div>
         </section>
 
-        <section className="cf-section cf-fit-section" aria-labelledby="cf-fit-title">
+        <section
+          id="applications"
+          className="cf-section cf-fit-section"
+          aria-labelledby="cf-fit-title"
+        >
           <div className="cf-container cf-fit-layout">
             <div className="cf-fit-copy">
-              <p className="cf-section-kicker">Dla kogo</p>
+              <p className="cf-section-kicker">{homepageContent.application.kicker}</p>
               <h2 id="cf-fit-title" className="cf-section-heading">
-                Gdy strona ma pomagać firmie, a nie być kolejnym problemem do pilnowania.
+                {homepageContent.application.title}
               </h2>
-              <p>
-                Nie musisz wiedzieć, czy problem leży w motywie, wtyczce, hostingu czy samym
-                projekcie. Na początku ustalamy cel i najkrótszą sensowną drogę do rozwiązania.
-              </p>
+              <p>{homepageContent.application.description}</p>
+              <a
+                href="#contact"
+                className="cf-card-link"
+                onClick={() => chooseService(appService, 'application_section')}
+              >
+                {homepageContent.application.cta}
+                <ArrowRight size={17} aria-hidden="true" />
+              </a>
             </div>
             <ul className="cf-fit-list">
               {fitItems.map((item) => (
@@ -724,11 +824,11 @@ export function HomepageV1() {
             <div className="cf-work-heading-row">
               <div>
                 <p className="cf-section-kicker">Wybrane projekty</p>
-                <h2 className="cf-section-heading">Przykłady stron i wdrożeń, przy których pracowałem.</h2>
+                <h2 className="cf-section-heading">Wybrane wdrożenia CodeFix.IT.</h2>
               </div>
               <p className="cf-section-sidecopy">
-                Każdy case prowadzi do działającej strony i opisuje konkretny zakres prac, technologie oraz sposób realizacji.
-                {' '}<a href="/realizacje/">Zobacz wszystkie realizacje</a>.
+                Szczegóły i zakres prac znajdziesz w case studies.{' '}
+                <a href="/realizacje/">Zobacz wszystkie realizacje</a>.
               </p>
             </div>
 
@@ -738,8 +838,10 @@ export function HomepageV1() {
                 <span>opisane realizacje</span>
               </div>
               <div className="cf-proof-fact">
-                <strong>{publicProjectCount}/{featuredProjects.length}</strong>
-                <span>case studies z publicznym adresem strony</span>
+                <strong>
+                  {publicProjectCount}/{featuredProjects.length}
+                </strong>
+                <span>publiczne adresy stron</span>
               </div>
               <div className="cf-proof-fact">
                 <strong>WordPress + ACF PRO</strong>
@@ -747,7 +849,7 @@ export function HomepageV1() {
               </div>
               <div className="cf-proof-fact">
                 <strong>{agencyCollaborationCount > 0 ? 'Tak' : '—'}</strong>
-                <span>współpraca agencyjna opisana w portfolio</span>
+                <span>opisany projekt agencyjny</span>
               </div>
             </div>
 
@@ -788,10 +890,7 @@ export function HomepageV1() {
                   </div>
 
                   <div className="cf-project-actions">
-                    <a
-                      href={`/realizacje/${project.slug}/`}
-                      className="cf-project-link"
-                    >
+                    <a href={`/realizacje/${project.slug}/`} className="cf-project-link">
                       Case study
                       <ArrowRight size={16} aria-hidden="true" />
                     </a>
@@ -801,14 +900,13 @@ export function HomepageV1() {
                       rel="noreferrer"
                       className="cf-project-live-link"
                     >
-                      Sprawdź stronę live
+                      Zobacz stronę
                       <ArrowUpRight size={15} aria-hidden="true" />
                     </a>
                   </div>
                 </article>
               ))}
             </div>
-
           </div>
         </section>
 
@@ -816,8 +914,8 @@ export function HomepageV1() {
           <div className="cf-container cf-revenue-strip-inner">
             <div>
               <p className="cf-section-kicker">Szybki start</p>
-              <h2 id="cf-revenue-strip-title">Masz już stronę i nie wiesz, od czego zacząć?</h2>
-              <p>Wyślij publiczny adres. Sprawdzę trzy podstawowe punkty techniczne i wskażę, czy sensowniejsza jest naprawa, optymalizacja czy większa przebudowa — bez proszenia o login.</p>
+              <h2 id="cf-revenue-strip-title">Nie wiesz, od czego zacząć?</h2>
+              <p>Podeślij adres strony. Sprawdzę trzy podstawowe punkty i wskażę kolejny krok.</p>
             </div>
             <div className="cf-revenue-action">
               <div className="cf-revenue-proof" aria-label="Zakres mini-oceny">
@@ -825,8 +923,11 @@ export function HomepageV1() {
                 <span>3 punkty</span>
                 <span>krótka odpowiedź</span>
               </div>
-              <a href="#contact" className="cf-button cf-button-primary"
-                onClick={() => chooseService(miniAuditService, 'revenue_strip')}>
+              <a
+                href="#contact"
+                className="cf-button cf-button-primary"
+                onClick={() => chooseService(miniAuditService, 'revenue_strip')}
+              >
                 Poproś o mini-ocenę
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
@@ -834,15 +935,18 @@ export function HomepageV1() {
           </div>
         </section>
 
-        <section className="cf-section cf-why-section">
+        <section
+          id="about"
+          className="cf-section cf-why-section"
+          aria-labelledby="cf-about-heading"
+        >
           <div className="cf-container cf-why-layout">
             <div className="cf-why-intro">
-              <p className="cf-section-kicker">Jak pracuję</p>
-              <h2 className="cf-section-heading">Mniej technicznego chaosu. Więcej jasnych ustaleń.</h2>
-              <p>
-                Przed startem ustalamy zakres, sposób rozliczenia i efekt, który ma zostać dostarczony.
-                Większe zmiany można zobaczyć przed publikacją.
-              </p>
+              <p className="cf-section-kicker">{homepageContent.about.kicker}</p>
+              <h2 id="cf-about-heading" className="cf-section-heading">
+                {homepageContent.about.title}
+              </h2>
+              <p>{homepageContent.about.description}</p>
             </div>
 
             <div className="cf-advantages-grid">
@@ -863,11 +967,8 @@ export function HomepageV1() {
           <div className="cf-container cf-process-layout">
             <div className="cf-process-intro">
               <p className="cf-section-kicker">Proces</p>
-              <h2 className="cf-section-heading">Od pierwszej wiadomości do działającej strony.</h2>
-              <p>
-                Najpierw ustalamy, co naprawdę trzeba zrobić. Dopiero później wycena, realizacja,
-                test i publikacja — bez dokładania przypadkowych funkcji po drodze.
-              </p>
+              <h2 className="cf-section-heading">Od wiadomości do wdrożenia.</h2>
+              <p>Cztery kroki i jasny zakres na każdym etapie.</p>
             </div>
 
             <ol className="cf-process-grid">
@@ -881,17 +982,14 @@ export function HomepageV1() {
           </div>
         </section>
 
-
         <section id="faq" className="cf-section cf-section-bordered">
           <div className="cf-container">
             <div className="cf-section-head-row">
               <div>
                 <p className="cf-section-kicker">FAQ</p>
-                <h2 className="cf-section-heading">Najważniejsze pytania przed pierwszym zleceniem.</h2>
+                <h2 className="cf-section-heading">Przed pierwszym zleceniem.</h2>
               </div>
-              <p className="cf-section-sidecopy">
-                Cena, mały pierwszy task, dostępy, termin i dalsza opieka — konkrety przed wysłaniem zapytania.
-              </p>
+              <p className="cf-section-sidecopy">Koszty, terminy i zasady współpracy.</p>
             </div>
 
             <div className="cf-faq-list">
@@ -911,13 +1009,9 @@ export function HomepageV1() {
         <section className="cf-revenue-strip" aria-labelledby="cf-trust-strip-title">
           <div className="cf-container cf-revenue-strip-inner">
             <div>
-              <p className="cf-section-kicker">Do sprawdzenia przed kontaktem</p>
-              <h2 id="cf-trust-strip-title">Nie musisz opierać decyzji tylko na opisie oferty.</h2>
-              <p>
-                W portfolio są trzy opisane wdrożenia z publicznymi adresami stron. Jedno z nich —
-                Kancelaria Adwokacka Witkowska — zostało wykonane we współpracy agencyjnej z SyloSoftware.
-                Możesz sprawdzić realizacje, zakres prac i sposób współpracy przed wysłaniem zapytania.
-              </p>
+              <p className="cf-section-kicker">Sprawdź przed kontaktem</p>
+              <h2 id="cf-trust-strip-title">Zobacz działające realizacje.</h2>
+              <p>Trzy publiczne wdrożenia i opisany projekt we współpracy z SyloSoftware.</p>
               <div className="cf-revenue-proof" aria-label="Weryfikowalne informacje o CodeFix.IT">
                 <span>3/3 publiczne realizacje</span>
                 <span>WordPress + ACF PRO</span>
@@ -930,7 +1024,9 @@ export function HomepageV1() {
               <a
                 href="#contact"
                 className="cf-button cf-button-primary"
-                onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'trust_strip_contact' })}
+                onClick={() =>
+                  trackHomepageEvent('homepage_cta_click', { placement: 'trust_strip_contact' })
+                }
               >
                 Opisz temat
                 <ArrowRight size={17} aria-hidden="true" />
@@ -938,7 +1034,11 @@ export function HomepageV1() {
               <a
                 href="/realizacje/kancelaria-adwokacka-witkowska/"
                 className="cf-card-link cf-card-link-secondary"
-                onClick={() => trackHomepageEvent('homepage_proof_click', { placement: 'trust_strip_agency_case' })}
+                onClick={() =>
+                  trackHomepageEvent('homepage_proof_click', {
+                    placement: 'trust_strip_agency_case',
+                  })
+                }
               >
                 Sprawdź case agencyjny
                 <ArrowRight size={15} aria-hidden="true" />
@@ -955,17 +1055,25 @@ export function HomepageV1() {
                   <Sparkles size={20} />
                 </div>
                 <p className="cf-section-kicker">Kontakt</p>
-                <h2>Powiedz, co ma działać lepiej. Resztę ustalimy razem.</h2>
-                <p>
-                  Opisz problem lub pomysł na stronę. Wystarczy kilka zdań i adres, jeśli już masz stronę.
-                </p>
+                <h2>Opisz temat. Ustalmy kolejny krok.</h2>
+                <p>Kilka zdań i adres strony wystarczą na początek.</p>
 
                 <div className="cf-contact-tags" aria-label="Przykładowe tematy">
-                  <span><Wrench size={14} /> Naprawa WordPress</span>
-                  <span><Layers3 size={14} /> Nowa strona firmowa</span>
-                  <span><MessageSquareText size={14} /> Stała opieka</span>
-                  <span><GitBranch size={14} /> White-label / overflow</span>
-                  <span><Rocket size={14} /> Mini-ocena techniczna</span>
+                  <span>
+                    <Wrench size={14} /> Naprawa WordPress
+                  </span>
+                  <span>
+                    <Layers3 size={14} /> Nowa strona firmowa
+                  </span>
+                  <span>
+                    <MessageSquareText size={14} /> Stała opieka
+                  </span>
+                  <span>
+                    <GitBranch size={14} /> White-label
+                  </span>
+                  <span>
+                    <Rocket size={14} /> Aplikacje i integracje
+                  </span>
                 </div>
               </div>
 
@@ -975,7 +1083,11 @@ export function HomepageV1() {
                   Odpowiedź zwykle do 1 dnia roboczego
                 </div>
 
-                <form className="cf-lead-form" onSubmit={handleLeadSubmit} onFocusCapture={handleFormStart}>
+                <form
+                  className="cf-lead-form"
+                  onSubmit={handleLeadSubmit}
+                  onFocusCapture={handleFormStart}
+                >
                   <fieldset disabled={formState === 'submitting'} aria-label="Dane zapytania">
                     <div className="cf-form-row">
                       <label>
@@ -1008,7 +1120,10 @@ export function HomepageV1() {
 
                     {showCompanyField && (
                       <label>
-                        <span>{selectedService === agencyService ? 'Nazwa agencji / firmy' : 'Firma'} <small>opcjonalnie</small></span>
+                        <span>
+                          {selectedService === agencyService ? 'Nazwa agencji / firmy' : 'Firma'}{' '}
+                          <small>opcjonalnie</small>
+                        </span>
                         <input
                           name="company"
                           type="text"
@@ -1028,24 +1143,35 @@ export function HomepageV1() {
                         onChange={(event) => chooseService(event.target.value)}
                         required
                       >
-                        <option value="" disabled>Wybierz temat</option>
-                        <option value={quickFixService}>WordPress Quick Fix — jeden konkretny problem</option>
-                        <option value={businessSiteService}>Nowa strona firmowa WordPress + ACF PRO</option>
+                        <option value="" disabled>
+                          Wybierz temat
+                        </option>
+                        <option value={quickFixService}>
+                          WordPress Quick Fix — jeden konkretny problem
+                        </option>
+                        <option value={businessSiteService}>
+                          Nowa strona firmowa WordPress + ACF PRO
+                        </option>
                         <option value={careService}>Opieka i rozwój WordPress</option>
                         <option value={agencyService}>Współpraca agencyjna / white-label</option>
-                        <option value={miniAuditService}>Mini-ocena techniczna publicznej strony</option>
-                        <option value="development">React / Next.js / API</option>
+                        <option value={miniAuditService}>
+                          Mini-ocena techniczna publicznej strony
+                        </option>
+                        <option value={appService}>Aplikacja / React / Next.js / API</option>
                         <option value="other">Inny temat</option>
                       </select>
                     </label>
 
                     {guidance && (
-                      <p className="cf-quickfix-selection" role="status">{guidance.hint}</p>
+                      <p className="cf-quickfix-selection" role="status">
+                        {guidance.hint}
+                      </p>
                     )}
 
                     <label>
                       <span>
-                        Adres strony {selectedService !== miniAuditService && <small>opcjonalnie</small>}
+                        Adres strony{' '}
+                        {selectedService !== miniAuditService && <small>opcjonalnie</small>}
                       </span>
                       <input
                         name="pageUrl"
@@ -1060,15 +1186,29 @@ export function HomepageV1() {
                       />
                     </label>
 
+                    {projectBrief && (
+                      <div className="cf-estimator-attachment">
+                        <details open>
+                          <summary>Zakres z kalkulatora dołączony do zapytania</summary>
+                          <pre>{projectBrief.brief}</pre>
+                        </details>
+                        <button type="button" onClick={removeProjectBrief}>
+                          Usuń dołączony zakres
+                        </button>
+                      </div>
+                    )}
+
                     <label>
-                      <span>Co trzeba zrobić?</span>
+                      <span>
+                        {projectBrief ? 'Dodatkowe informacje (opcjonalnie)' : 'Co trzeba zrobić?'}
+                      </span>
                       <textarea
                         name="message"
                         rows={5}
-                        minLength={10}
-                        maxLength={4000}
+                        minLength={projectBrief ? undefined : 10}
+                        maxLength={4000 - (projectBrief ? projectBrief.brief.length + 2 : 0)}
                         placeholder={messagePlaceholder}
-                        required
+                        required={!projectBrief}
                       />
                     </label>
 
@@ -1094,20 +1234,26 @@ export function HomepageV1() {
                       role={formState === 'success' ? 'status' : 'alert'}
                       tabIndex={-1}
                     >
-                      <strong>{formState === 'success' ? 'Wiadomość dotarła' : 'Nie udało się wysłać'}</strong>
+                      <strong>
+                        {formState === 'success' ? 'Wiadomość dotarła' : 'Nie udało się wysłać'}
+                      </strong>
                       <p>{formMessage}</p>
-                      {formState === 'error' && <p>Dane pozostały w formularzu. Spróbuj ponownie lub napisz e-mail poniżej.</p>}
+                      {formState === 'error' && (
+                        <p>
+                          Dane pozostały w formularzu. Spróbuj ponownie lub napisz e-mail poniżej.
+                        </p>
+                      )}
                     </div>
                   )}
 
                   <p className="cf-home-form-reassurance">
-                    Bez zobowiązań: najpierw poznasz zakres i cenę. Prace zaczynam po Twojej akceptacji.
-                    Na tym etapie nie podawaj haseł ani dostępów.
+                    Prace zaczynam po akceptacji zakresu i ceny. Na początek wystarczy opis, bez
+                    haseł.
                   </p>
 
                   <p className="cf-form-privacy">
-                    Wysyłając formularz, przekazujesz dane potrzebne do obsługi zapytania.
-                    Szczegóły znajdziesz w <a href="/polityka-prywatnosci/">polityce prywatności</a>.
+                    Wysyłając formularz, przekazujesz dane potrzebne do obsługi zapytania. Szczegóły
+                    znajdziesz w <a href="/polityka-prywatnosci/">polityce prywatności</a>.
                   </p>
                 </form>
 
@@ -1135,14 +1281,15 @@ export function HomepageV1() {
           <div className="cf-footer-brand">
             <Brand href="#top" tagline />
             <p>
-              Strony firmowe WordPress + ACF PRO, naprawy, dalsza opieka techniczna
-              i wsparcie white-label dla agencji.
+              Strony i aplikacje tworzone z wykorzystaniem AI. WordPress i wsparcie dla firm oraz
+              agencji.
             </p>
           </div>
 
           <nav className="cf-footer-nav" aria-label="Nawigacja w stopce">
             <a href="#services">Usługi</a>
             <a href="#work">Realizacje</a>
+            <a href="#about">O mnie</a>
             <a href="#process">Proces</a>
             <a href="#faq">FAQ</a>
             <a href="/poradniki/">Poradniki</a>
@@ -1162,7 +1309,15 @@ export function HomepageV1() {
           <span>© 2026 CodeFix.IT</span>
           <div className="cf-footer-legal">
             <a href="/polityka-prywatnosci/">Polityka prywatności</a>
-            <button className="cf-consent-settings" type="button" onClick={openMeasurementSettings}>
+            <button
+              className="cf-consent-settings"
+              type="button"
+              onClick={(event) => {
+                // Safari pointer clicks do not focus buttons automatically.
+                event.currentTarget.focus({ preventScroll: true });
+                openMeasurementSettings();
+              }}
+            >
               Ustawienia prywatności
             </button>
           </div>
@@ -1171,16 +1326,15 @@ export function HomepageV1() {
       </footer>
 
       <a
-          href="#contact"
-          className="cf-mobile-sticky-cta"
-          onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'sticky_mobile' })}
-          aria-label="Przejdź do formularza kontaktowego"
-        >
-          <span>
-            <strong>Opisz temat</strong>
-            <small>Zakres i cena przed startem</small>
-          </span>
-          <ArrowRight size={18} aria-hidden="true" />
+        href="#contact"
+        className="cf-mobile-sticky-cta"
+        onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'sticky_mobile' })}
+      >
+        <span>
+          <strong>Opisz temat</strong>
+          <small>Zakres i cena przed startem</small>
+        </span>
+        <ArrowRight size={18} aria-hidden="true" />
       </a>
     </div>
   );

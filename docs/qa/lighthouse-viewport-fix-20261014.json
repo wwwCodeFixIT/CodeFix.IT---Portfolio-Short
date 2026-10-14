@@ -1,0 +1,1267 @@
+{
+  "runtimeCommit": "e922209ddcd3546f418723b7b2a8a246f48ca0ae",
+  "workflowCommit": "07f9e766f4cd5d3752183c8a4985a6659da388db",
+  "target": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/",
+  "homeMobileMedian": "home-mobile-1",
+  "runs": [
+    {
+      "name": "home-mobile-1",
+      "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/",
+      "lighthouseVersion": "13.5.0",
+      "fetchTime": "2026-10-14T19:15:14.231Z",
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 69,
+        "agentic-browsing": 100
+      },
+      "metrics": {
+        "first-contentful-paint": 932.96,
+        "largest-contentful-paint": 978.96,
+        "total-blocking-time": 148,
+        "cumulative-layout-shift": 0,
+        "speed-index": 1243.235440237103
+      },
+      "issues": [
+        {
+          "id": "total-blocking-time",
+          "title": "Total Blocking Time",
+          "score": 0.95,
+          "displayValue": "150 ms"
+        },
+        {
+          "id": "max-potential-fid",
+          "title": "Max Potential First Input Delay",
+          "score": 0.91,
+          "displayValue": "130 ms"
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "score": 0.5,
+          "displayValue": "Est savings of 31 KiB",
+          "items": [
+            {
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CQajBJcS.js",
+              "totalBytes": 63915,
+              "wastedBytes": 31423,
+              "wastedPercent": 49.16323307409087
+            }
+          ]
+        },
+        {
+          "id": "is-crawlable",
+          "title": "Page is blocked from indexing",
+          "score": 0,
+          "items": [
+            {
+              "source": "x-robots-tag: noindex"
+            }
+          ]
+        },
+        {
+          "id": "image-delivery-insight",
+          "title": "Improve image delivery",
+          "score": 0,
+          "displayValue": "Est savings of 15 KiB",
+          "items": [
+            {
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/brand/codefix-mark.png",
+              "totalBytes": 10860,
+              "wastedBytes": 9960,
+              "subItems": {
+                "type": "subitems",
+                "items": [
+                  {
+                    "reason": "Using a modern image format (WebP, AVIF) or increasing the image compression could improve this image's download size.",
+                    "wastedBytes": 9324
+                  },
+                  {
+                    "reason": "This image file is larger than it needs to be (96x96) for its displayed dimensions (74x74). Use responsive images to reduce the image download size.",
+                    "wastedBytes": 4494
+                  }
+                ]
+              }
+            },
+            {
+              "node": {
+                "type": "node",
+                "lhId": "page-0-IMG",
+                "path": "1,HTML,1,BODY,0,DIV,0,DIV,1,MAIN,0,SECTION,2,ASIDE,3,DIV,0,DIV,1,DIV,0,DIV,0,SPAN,0,IMG",
+                "selector": "div.cf-hero-tilt > div.cf-hero-cube > span.cf-face > img",
+                "boundingRect": {
+                  "top": 1001,
+                  "bottom": 1064,
+                  "left": 56,
+                  "right": 108,
+                  "width": 53,
+                  "height": 63
+                },
+                "snippet": "<img width=\"76\" height=\"76\" alt=\"\" decoding=\"async\" loading=\"lazy\" fetchpriority=\"low\" src=\"/brand/codefix-devil-mark.webp\">",
+                "nodeLabel": "div.cf-hero-tilt > div.cf-hero-cube > span.cf-face > img"
+              },
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/brand/codefix-devil-mark.webp",
+              "totalBytes": 8344,
+              "wastedBytes": 5613,
+              "subItems": {
+                "type": "subitems",
+                "items": [
+                  {
+                    "reason": "Increasing the image compression factor could improve this image's download size.",
+                    "wastedBytes": 5613
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "title": "Network dependency tree",
+          "score": 0,
+          "items": [
+            {
+              "type": "list-section",
+              "value": {
+                "type": "network-tree",
+                "chains": {
+                  "720E37DCD37C6209E54F705CC5BDD05A": {
+                    "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/",
+                    "navStartToEndTime": 200,
+                    "transferSize": 7430,
+                    "isLongest": true,
+                    "children": {
+                      "2498.2": {
+                        "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CQajBJcS.js",
+                        "navStartToEndTime": 331,
+                        "transferSize": 64270,
+                        "isLongest": true,
+                        "children": {
+                          "2498.11": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/createLucideIcon-Dl_oVnlj.js",
+                            "navStartToEndTime": 484,
+                            "transferSize": 1289,
+                            "isLongest": true,
+                            "children": {}
+                          },
+                          "2498.9": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/HomepageV1-DftVbO2q.js",
+                            "navStartToEndTime": 473,
+                            "transferSize": 15448,
+                            "children": {}
+                          },
+                          "2498.10": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/Brand-Cr-3d1xk.js",
+                            "navStartToEndTime": 465,
+                            "transferSize": 1125,
+                            "children": {}
+                          },
+                          "2498.17": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/HomepageV1-BAlvMIii.css",
+                            "navStartToEndTime": 457,
+                            "transferSize": 8512,
+                            "children": {}
+                          },
+                          "2498.13": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/ProjectPreview-DQRe10xH.js",
+                            "navStartToEndTime": 448,
+                            "transferSize": 1277,
+                            "children": {}
+                          },
+                          "2498.15": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/projects-81W6KJsn.js",
+                            "navStartToEndTime": 439,
+                            "transferSize": 1764,
+                            "children": {}
+                          },
+                          "2498.14": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/ProjectPreview-tm3AsMhQ.css",
+                            "navStartToEndTime": 434,
+                            "transferSize": 1246,
+                            "children": {}
+                          },
+                          "2498.12": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/sales-funnel-szbS0Ln9.js",
+                            "navStartToEndTime": 424,
+                            "transferSize": 2795,
+                            "children": {}
+                          },
+                          "2498.16": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/HomepageV1-DEgrD5Gz.css",
+                            "navStartToEndTime": 412,
+                            "transferSize": 1804,
+                            "children": {}
+                          }
+                        }
+                      },
+                      "2498.8": {
+                        "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/manifest.json",
+                        "navStartToEndTime": 314,
+                        "transferSize": 1004,
+                        "children": {}
+                      },
+                      "2498.3": {
+                        "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CnGW5J8Z.css",
+                        "navStartToEndTime": 242,
+                        "transferSize": 1622,
+                        "children": {}
+                      }
+                    }
+                  }
+                },
+                "longestChain": {
+                  "duration": 484
+                }
+              }
+            },
+            {
+              "type": "list-section",
+              "title": "Preconnected origins",
+              "description": "[preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints help the browser establish a connection earlier in the page load, saving time when the first request for that origin is made. The following are the origins that the page preconnected to.",
+              "value": {
+                "type": "text",
+                "value": "no origins were preconnected"
+              }
+            },
+            {
+              "type": "list-section",
+              "title": "Preconnect candidates",
+              "description": "Add [preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints to your most important origins, but try to use no more than 4.",
+              "value": {
+                "type": "text",
+                "value": "No additional origins are good candidates for preconnecting"
+              }
+            }
+          ]
+        },
+        {
+          "id": "render-blocking-insight",
+          "title": "Render-blocking requests",
+          "score": 0.5,
+          "items": [
+            {
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CnGW5J8Z.css",
+              "totalBytes": 1622
+            }
+          ]
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "name": "home-mobile-2",
+      "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/",
+      "lighthouseVersion": "13.5.0",
+      "fetchTime": "2026-10-14T19:15:27.278Z",
+      "scores": {
+        "performance": 92,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 69,
+        "agentic-browsing": 100
+      },
+      "metrics": {
+        "first-contentful-paint": 2049.9175,
+        "largest-contentful-paint": 2624.0845,
+        "total-blocking-time": 19.5,
+        "cumulative-layout-shift": 0,
+        "speed-index": 4387.015136881571
+      },
+      "issues": [
+        {
+          "id": "first-contentful-paint",
+          "title": "First Contentful Paint",
+          "score": 0.83,
+          "displayValue": "2.0 s"
+        },
+        {
+          "id": "largest-contentful-paint",
+          "title": "Largest Contentful Paint",
+          "score": 0.87,
+          "displayValue": "2.6 s"
+        },
+        {
+          "id": "speed-index",
+          "title": "Speed Index",
+          "score": 0.74,
+          "displayValue": "4.4 s"
+        },
+        {
+          "id": "interactive",
+          "title": "Time to Interactive",
+          "score": 0.98,
+          "displayValue": "2.6 s"
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "score": 0,
+          "displayValue": "Est savings of 31 KiB",
+          "items": [
+            {
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CQajBJcS.js",
+              "totalBytes": 63893,
+              "wastedBytes": 31412,
+              "wastedPercent": 49.16323307409087
+            }
+          ]
+        },
+        {
+          "id": "is-crawlable",
+          "title": "Page is blocked from indexing",
+          "score": 0,
+          "items": [
+            {
+              "source": "x-robots-tag: noindex"
+            }
+          ]
+        },
+        {
+          "id": "image-delivery-insight",
+          "title": "Improve image delivery",
+          "score": 0.5,
+          "displayValue": "Est savings of 7 KiB",
+          "items": [
+            {
+              "node": {
+                "type": "node",
+                "lhId": "page-1-IMG",
+                "path": "1,HTML,1,BODY,0,DIV,0,DIV,1,MAIN,0,SECTION,2,ASIDE,3,DIV,0,DIV,1,DIV,0,DIV,0,SPAN,0,IMG",
+                "selector": "div.cf-hero-tilt > div.cf-hero-cube > span.cf-face > img",
+                "boundingRect": {
+                  "top": 1001,
+                  "bottom": 1064,
+                  "left": 56,
+                  "right": 108,
+                  "width": 53,
+                  "height": 63
+                },
+                "snippet": "<img width=\"76\" height=\"76\" alt=\"\" decoding=\"async\" loading=\"lazy\" fetchpriority=\"low\" src=\"/brand/codefix-devil-mark.webp\">",
+                "nodeLabel": "div.cf-hero-tilt > div.cf-hero-cube > span.cf-face > img"
+              },
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/brand/codefix-devil-mark.webp",
+              "totalBytes": 8344,
+              "wastedBytes": 7381,
+              "subItems": {
+                "type": "subitems",
+                "items": [
+                  {
+                    "reason": "Increasing the image compression factor could improve this image's download size.",
+                    "wastedBytes": 5613
+                  },
+                  {
+                    "reason": "This image file is larger than it needs to be (128x128) for its displayed dimensions (76x76). Use responsive images to reduce the image download size.",
+                    "wastedBytes": 5402
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "title": "Network dependency tree",
+          "score": 0,
+          "items": [
+            {
+              "type": "list-section",
+              "value": {
+                "type": "network-tree",
+                "chains": {
+                  "AB3DD56B6DCE0071BC547FDA15FACE27": {
+                    "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/",
+                    "navStartToEndTime": 258,
+                    "transferSize": 7417,
+                    "isLongest": true,
+                    "children": {
+                      "2685.2": {
+                        "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CQajBJcS.js",
+                        "navStartToEndTime": 395,
+                        "transferSize": 64523,
+                        "isLongest": true,
+                        "children": {
+                          "2685.16": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/HomepageV1-DEgrD5Gz.css",
+                            "navStartToEndTime": 531,
+                            "transferSize": 1769,
+                            "isLongest": true,
+                            "children": {}
+                          },
+                          "2685.12": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/sales-funnel-szbS0Ln9.js",
+                            "navStartToEndTime": 523,
+                            "transferSize": 2794,
+                            "children": {}
+                          },
+                          "2685.9": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/HomepageV1-DftVbO2q.js",
+                            "navStartToEndTime": 522,
+                            "transferSize": 15430,
+                            "children": {}
+                          },
+                          "2685.15": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/projects-81W6KJsn.js",
+                            "navStartToEndTime": 506,
+                            "transferSize": 1763,
+                            "children": {}
+                          },
+                          "2685.17": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/HomepageV1-BAlvMIii.css",
+                            "navStartToEndTime": 495,
+                            "transferSize": 8506,
+                            "children": {}
+                          },
+                          "2685.11": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/createLucideIcon-Dl_oVnlj.js",
+                            "navStartToEndTime": 492,
+                            "transferSize": 1289,
+                            "children": {}
+                          },
+                          "2685.14": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/ProjectPreview-tm3AsMhQ.css",
+                            "navStartToEndTime": 492,
+                            "transferSize": 1253,
+                            "children": {}
+                          },
+                          "2685.13": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/ProjectPreview-DQRe10xH.js",
+                            "navStartToEndTime": 474,
+                            "transferSize": 1267,
+                            "children": {}
+                          },
+                          "2685.10": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/Brand-Cr-3d1xk.js",
+                            "navStartToEndTime": 473,
+                            "transferSize": 1115,
+                            "children": {}
+                          }
+                        }
+                      },
+                      "2685.8": {
+                        "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/manifest.json",
+                        "navStartToEndTime": 458,
+                        "transferSize": 1000,
+                        "children": {}
+                      },
+                      "2685.3": {
+                        "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CnGW5J8Z.css",
+                        "navStartToEndTime": 382,
+                        "transferSize": 1871,
+                        "children": {}
+                      }
+                    }
+                  }
+                },
+                "longestChain": {
+                  "duration": 531
+                }
+              }
+            },
+            {
+              "type": "list-section",
+              "title": "Preconnected origins",
+              "description": "[preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints help the browser establish a connection earlier in the page load, saving time when the first request for that origin is made. The following are the origins that the page preconnected to.",
+              "value": {
+                "type": "text",
+                "value": "no origins were preconnected"
+              }
+            },
+            {
+              "type": "list-section",
+              "title": "Preconnect candidates",
+              "description": "Add [preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints to your most important origins, but try to use no more than 4.",
+              "value": {
+                "type": "text",
+                "value": "No additional origins are good candidates for preconnecting"
+              }
+            }
+          ]
+        },
+        {
+          "id": "render-blocking-insight",
+          "title": "Render-blocking requests",
+          "score": 0,
+          "displayValue": "Est savings of 300 ms",
+          "items": [
+            {
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CnGW5J8Z.css",
+              "totalBytes": 1871,
+              "wastedMs": 193
+            }
+          ]
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "name": "home-mobile-3",
+      "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/",
+      "lighthouseVersion": "13.5.0",
+      "fetchTime": "2026-10-14T19:15:41.949Z",
+      "scores": {
+        "performance": 99,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 69,
+        "agentic-browsing": 100
+      },
+      "metrics": {
+        "first-contentful-paint": 1543.221,
+        "largest-contentful-paint": 1618.221,
+        "total-blocking-time": 23,
+        "cumulative-layout-shift": 0,
+        "speed-index": 1543.221
+      },
+      "issues": [
+        {
+          "id": "first-contentful-paint",
+          "title": "First Contentful Paint",
+          "score": 0.95,
+          "displayValue": "1.5 s"
+        },
+        {
+          "id": "largest-contentful-paint",
+          "title": "Largest Contentful Paint",
+          "score": 0.99,
+          "displayValue": "1.6 s"
+        },
+        {
+          "id": "max-potential-fid",
+          "title": "Max Potential First Input Delay",
+          "score": 0.97,
+          "displayValue": "100 ms"
+        },
+        {
+          "id": "interactive",
+          "title": "Time to Interactive",
+          "score": 0.99,
+          "displayValue": "2.0 s"
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "score": 0,
+          "displayValue": "Est savings of 31 KiB",
+          "items": [
+            {
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CQajBJcS.js",
+              "totalBytes": 63893,
+              "wastedBytes": 31412,
+              "wastedPercent": 49.16323307409087
+            }
+          ]
+        },
+        {
+          "id": "is-crawlable",
+          "title": "Page is blocked from indexing",
+          "score": 0,
+          "items": [
+            {
+              "source": "x-robots-tag: noindex"
+            }
+          ]
+        },
+        {
+          "id": "image-delivery-insight",
+          "title": "Improve image delivery",
+          "score": 0.5,
+          "displayValue": "Est savings of 15 KiB",
+          "items": [
+            {
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/brand/codefix-mark.png",
+              "totalBytes": 10860,
+              "wastedBytes": 9960,
+              "subItems": {
+                "type": "subitems",
+                "items": [
+                  {
+                    "reason": "Using a modern image format (WebP, AVIF) or increasing the image compression could improve this image's download size.",
+                    "wastedBytes": 9324
+                  },
+                  {
+                    "reason": "This image file is larger than it needs to be (96x96) for its displayed dimensions (74x74). Use responsive images to reduce the image download size.",
+                    "wastedBytes": 4494
+                  }
+                ]
+              }
+            },
+            {
+              "node": {
+                "type": "node",
+                "lhId": "page-0-IMG",
+                "path": "1,HTML,1,BODY,0,DIV,0,DIV,1,MAIN,0,SECTION,2,ASIDE,3,DIV,0,DIV,1,DIV,0,DIV,0,SPAN,0,IMG",
+                "selector": "div.cf-hero-tilt > div.cf-hero-cube > span.cf-face > img",
+                "boundingRect": {
+                  "top": 1001,
+                  "bottom": 1064,
+                  "left": 56,
+                  "right": 108,
+                  "width": 53,
+                  "height": 63
+                },
+                "snippet": "<img width=\"76\" height=\"76\" alt=\"\" decoding=\"async\" loading=\"lazy\" fetchpriority=\"low\" src=\"/brand/codefix-devil-mark.webp\">",
+                "nodeLabel": "div.cf-hero-tilt > div.cf-hero-cube > span.cf-face > img"
+              },
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/brand/codefix-devil-mark.webp",
+              "totalBytes": 8344,
+              "wastedBytes": 5613,
+              "subItems": {
+                "type": "subitems",
+                "items": [
+                  {
+                    "reason": "Increasing the image compression factor could improve this image's download size.",
+                    "wastedBytes": 5613
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "title": "Network dependency tree",
+          "score": 0,
+          "items": [
+            {
+              "type": "list-section",
+              "value": {
+                "type": "network-tree",
+                "chains": {
+                  "716EDD7EEFF55CB93160531FD6E5E2EA": {
+                    "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/",
+                    "navStartToEndTime": 109,
+                    "transferSize": 7423,
+                    "isLongest": true,
+                    "children": {
+                      "2865.2": {
+                        "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CQajBJcS.js",
+                        "navStartToEndTime": 206,
+                        "transferSize": 64524,
+                        "isLongest": true,
+                        "children": {
+                          "2865.15": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/projects-81W6KJsn.js",
+                            "navStartToEndTime": 327,
+                            "transferSize": 1762,
+                            "isLongest": true,
+                            "children": {}
+                          },
+                          "2865.10": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/Brand-Cr-3d1xk.js",
+                            "navStartToEndTime": 298,
+                            "transferSize": 1108,
+                            "children": {}
+                          },
+                          "2865.14": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/ProjectPreview-tm3AsMhQ.css",
+                            "navStartToEndTime": 298,
+                            "transferSize": 1251,
+                            "children": {}
+                          },
+                          "2865.13": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/ProjectPreview-DQRe10xH.js",
+                            "navStartToEndTime": 296,
+                            "transferSize": 1269,
+                            "children": {}
+                          },
+                          "2865.12": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/sales-funnel-szbS0Ln9.js",
+                            "navStartToEndTime": 281,
+                            "transferSize": 2789,
+                            "children": {}
+                          },
+                          "2865.17": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/HomepageV1-BAlvMIii.css",
+                            "navStartToEndTime": 281,
+                            "transferSize": 8518,
+                            "children": {}
+                          },
+                          "2865.9": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/HomepageV1-DftVbO2q.js",
+                            "navStartToEndTime": 269,
+                            "transferSize": 15437,
+                            "children": {}
+                          },
+                          "2865.11": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/createLucideIcon-Dl_oVnlj.js",
+                            "navStartToEndTime": 269,
+                            "transferSize": 1291,
+                            "children": {}
+                          },
+                          "2865.16": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/HomepageV1-DEgrD5Gz.css",
+                            "navStartToEndTime": 265,
+                            "transferSize": 1765,
+                            "children": {}
+                          }
+                        }
+                      },
+                      "2865.8": {
+                        "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/manifest.json",
+                        "navStartToEndTime": 291,
+                        "transferSize": 998,
+                        "children": {}
+                      },
+                      "2865.3": {
+                        "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CnGW5J8Z.css",
+                        "navStartToEndTime": 181,
+                        "transferSize": 1882,
+                        "children": {}
+                      }
+                    }
+                  }
+                },
+                "longestChain": {
+                  "duration": 327
+                }
+              }
+            },
+            {
+              "type": "list-section",
+              "title": "Preconnected origins",
+              "description": "[preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints help the browser establish a connection earlier in the page load, saving time when the first request for that origin is made. The following are the origins that the page preconnected to.",
+              "value": {
+                "type": "text",
+                "value": "no origins were preconnected"
+              }
+            },
+            {
+              "type": "list-section",
+              "title": "Preconnect candidates",
+              "description": "Add [preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints to your most important origins, but try to use no more than 4.",
+              "value": {
+                "type": "text",
+                "value": "No additional origins are good candidates for preconnecting"
+              }
+            }
+          ]
+        },
+        {
+          "id": "render-blocking-insight",
+          "title": "Render-blocking requests",
+          "score": 0,
+          "displayValue": "Est savings of 300 ms",
+          "items": [
+            {
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CnGW5J8Z.css",
+              "totalBytes": 1882,
+              "wastedMs": 172
+            }
+          ]
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "name": "home-desktop",
+      "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/",
+      "lighthouseVersion": "13.5.0",
+      "fetchTime": "2026-10-14T19:15:54.613Z",
+      "scores": {
+        "performance": 100,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 69,
+        "agentic-browsing": 100
+      },
+      "metrics": {
+        "first-contentful-paint": 434.93600000000004,
+        "largest-contentful-paint": 434.93600000000004,
+        "total-blocking-time": 0,
+        "cumulative-layout-shift": 0,
+        "speed-index": 467.6437263333338
+      },
+      "issues": [
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "score": 0,
+          "displayValue": "Est savings of 31 KiB",
+          "items": [
+            {
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CQajBJcS.js",
+              "totalBytes": 63836,
+              "wastedBytes": 31384,
+              "wastedPercent": 49.16323307409087
+            }
+          ]
+        },
+        {
+          "id": "is-crawlable",
+          "title": "Page is blocked from indexing",
+          "score": 0,
+          "items": [
+            {
+              "source": "x-robots-tag: noindex"
+            }
+          ]
+        },
+        {
+          "id": "image-delivery-insight",
+          "title": "Improve image delivery",
+          "score": 0.5,
+          "displayValue": "Est savings of 18 KiB",
+          "items": [
+            {
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/brand/codefix-mark.png",
+              "totalBytes": 10860,
+              "wastedBytes": 10566,
+              "subItems": {
+                "type": "subitems",
+                "items": [
+                  {
+                    "reason": "Using a modern image format (WebP, AVIF) or increasing the image compression could improve this image's download size.",
+                    "wastedBytes": 9324
+                  },
+                  {
+                    "reason": "This image file is larger than it needs to be (96x96) for its displayed dimensions (42x42). Use responsive images to reduce the image download size.",
+                    "wastedBytes": 8781
+                  }
+                ]
+              }
+            },
+            {
+              "node": {
+                "type": "node",
+                "lhId": "page-0-IMG",
+                "path": "1,HTML,1,BODY,0,DIV,0,DIV,1,MAIN,0,SECTION,2,ASIDE,3,DIV,0,DIV,1,DIV,0,DIV,0,SPAN,0,IMG",
+                "selector": "div.cf-hero-tilt > div.cf-hero-cube > span.cf-face > img",
+                "boundingRect": {
+                  "top": 597,
+                  "bottom": 688,
+                  "left": 853,
+                  "right": 929,
+                  "width": 76,
+                  "height": 91
+                },
+                "snippet": "<img width=\"76\" height=\"76\" alt=\"\" decoding=\"async\" loading=\"lazy\" fetchpriority=\"low\" src=\"/brand/codefix-devil-mark.webp\">",
+                "nodeLabel": "div.cf-hero-tilt > div.cf-hero-cube > span.cf-face > img"
+              },
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/brand/codefix-devil-mark.webp",
+              "totalBytes": 8344,
+              "wastedBytes": 7381,
+              "subItems": {
+                "type": "subitems",
+                "items": [
+                  {
+                    "reason": "Increasing the image compression factor could improve this image's download size.",
+                    "wastedBytes": 5613
+                  },
+                  {
+                    "reason": "This image file is larger than it needs to be (128x128) for its displayed dimensions (76x76). Use responsive images to reduce the image download size.",
+                    "wastedBytes": 5402
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "title": "Network dependency tree",
+          "score": 0,
+          "items": [
+            {
+              "type": "list-section",
+              "value": {
+                "type": "network-tree",
+                "chains": {
+                  "E150DD4900F8FBB4DDA3A6187E51B135": {
+                    "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/",
+                    "navStartToEndTime": 112,
+                    "transferSize": 7417,
+                    "isLongest": true,
+                    "children": {
+                      "3049.2": {
+                        "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CQajBJcS.js",
+                        "navStartToEndTime": 181,
+                        "transferSize": 64465,
+                        "isLongest": true,
+                        "children": {
+                          "3049.13": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/ProjectPreview-DQRe10xH.js",
+                            "navStartToEndTime": 288,
+                            "transferSize": 1274,
+                            "isLongest": true,
+                            "children": {}
+                          },
+                          "3049.16": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/HomepageV1-DEgrD5Gz.css",
+                            "navStartToEndTime": 287,
+                            "transferSize": 1767,
+                            "children": {}
+                          },
+                          "3049.11": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/createLucideIcon-Dl_oVnlj.js",
+                            "navStartToEndTime": 272,
+                            "transferSize": 1294,
+                            "children": {}
+                          },
+                          "3049.15": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/projects-81W6KJsn.js",
+                            "navStartToEndTime": 263,
+                            "transferSize": 1764,
+                            "children": {}
+                          },
+                          "3049.10": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/Brand-Cr-3d1xk.js",
+                            "navStartToEndTime": 245,
+                            "transferSize": 1116,
+                            "children": {}
+                          },
+                          "3049.17": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/HomepageV1-BAlvMIii.css",
+                            "navStartToEndTime": 245,
+                            "transferSize": 8554,
+                            "children": {}
+                          },
+                          "3049.14": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/ProjectPreview-tm3AsMhQ.css",
+                            "navStartToEndTime": 241,
+                            "transferSize": 1247,
+                            "children": {}
+                          },
+                          "3049.9": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/HomepageV1-DftVbO2q.js",
+                            "navStartToEndTime": 241,
+                            "transferSize": 15442,
+                            "children": {}
+                          },
+                          "3049.12": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/sales-funnel-szbS0Ln9.js",
+                            "navStartToEndTime": 238,
+                            "transferSize": 2786,
+                            "children": {}
+                          }
+                        }
+                      },
+                      "3049.8": {
+                        "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/manifest.json",
+                        "navStartToEndTime": 202,
+                        "transferSize": 1005,
+                        "children": {}
+                      },
+                      "3049.3": {
+                        "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CnGW5J8Z.css",
+                        "navStartToEndTime": 150,
+                        "transferSize": 1881,
+                        "children": {}
+                      }
+                    }
+                  }
+                },
+                "longestChain": {
+                  "duration": 288
+                }
+              }
+            },
+            {
+              "type": "list-section",
+              "title": "Preconnected origins",
+              "description": "[preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints help the browser establish a connection earlier in the page load, saving time when the first request for that origin is made. The following are the origins that the page preconnected to.",
+              "value": {
+                "type": "text",
+                "value": "no origins were preconnected"
+              }
+            },
+            {
+              "type": "list-section",
+              "title": "Preconnect candidates",
+              "description": "Add [preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints to your most important origins, but try to use no more than 4.",
+              "value": {
+                "type": "text",
+                "value": "No additional origins are good candidates for preconnecting"
+              }
+            }
+          ]
+        },
+        {
+          "id": "render-blocking-insight",
+          "title": "Render-blocking requests",
+          "score": 0,
+          "displayValue": "Est savings of 80 ms",
+          "items": [
+            {
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CnGW5J8Z.css",
+              "totalBytes": 1881,
+              "wastedMs": 57
+            }
+          ]
+        }
+      ],
+      "warnings": []
+    },
+    {
+      "name": "repair-mobile",
+      "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/naprawa-wordpress/",
+      "lighthouseVersion": "13.5.0",
+      "fetchTime": "2026-10-14T19:16:07.266Z",
+      "scores": {
+        "performance": 96,
+        "accessibility": 100,
+        "best-practices": 100,
+        "seo": 66,
+        "agentic-browsing": 100
+      },
+      "metrics": {
+        "first-contentful-paint": 974.038,
+        "largest-contentful-paint": 2765.0950000000003,
+        "total-blocking-time": 32,
+        "cumulative-layout-shift": 0,
+        "speed-index": 1116.0648400000082
+      },
+      "issues": [
+        {
+          "id": "largest-contentful-paint",
+          "title": "Largest Contentful Paint",
+          "score": 0.84,
+          "displayValue": "2.8 s"
+        },
+        {
+          "id": "max-potential-fid",
+          "title": "Max Potential First Input Delay",
+          "score": 0.98,
+          "displayValue": "80 ms"
+        },
+        {
+          "id": "interactive",
+          "title": "Time to Interactive",
+          "score": 0.97,
+          "displayValue": "2.8 s"
+        },
+        {
+          "id": "unused-javascript",
+          "title": "Reduce unused JavaScript",
+          "score": 0,
+          "displayValue": "Est savings of 31 KiB",
+          "items": [
+            {
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CQajBJcS.js",
+              "totalBytes": 63893,
+              "wastedBytes": 31943,
+              "wastedPercent": 49.99476864976359
+            }
+          ]
+        },
+        {
+          "id": "is-crawlable",
+          "title": "Page is blocked from indexing",
+          "score": 0,
+          "items": [
+            {
+              "source": "x-robots-tag: noindex"
+            }
+          ]
+        },
+        {
+          "id": "image-delivery-insight",
+          "title": "Improve image delivery",
+          "score": 0.5,
+          "displayValue": "Est savings of 17 KiB",
+          "items": [
+            {
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/brand/codefix-mark.png",
+              "totalBytes": 10860,
+              "wastedBytes": 9960,
+              "subItems": {
+                "type": "subitems",
+                "items": [
+                  {
+                    "reason": "Using a modern image format (WebP, AVIF) or increasing the image compression could improve this image's download size.",
+                    "wastedBytes": 9324
+                  },
+                  {
+                    "reason": "This image file is larger than it needs to be (96x96) for its displayed dimensions (74x74). Use responsive images to reduce the image download size.",
+                    "wastedBytes": 4494
+                  }
+                ]
+              }
+            },
+            {
+              "node": {
+                "type": "node",
+                "lhId": "page-1-IMG",
+                "path": "1,HTML,1,BODY,0,DIV,0,DIV,0,HEADER,0,DIV,0,A,0,SPAN,0,IMG",
+                "selector": "div.cf-container > a.cf-brand > span.cf-brand-mark > img.cf-brand-logo",
+                "boundingRect": {
+                  "top": 12,
+                  "bottom": 52,
+                  "left": 16,
+                  "right": 56,
+                  "width": 40,
+                  "height": 40
+                },
+                "snippet": "<img class=\"cf-brand-logo\" width=\"128\" height=\"128\" alt=\"\" decoding=\"sync\" loading=\"eager\" fetchpriority=\"high\" src=\"/brand/codefix-devil-mark.webp\" style=\"display: block; width: 100%; height: 100%; max-width: none; opacity: 1;\">",
+                "nodeLabel": "div.cf-container > a.cf-brand > span.cf-brand-mark > img.cf-brand-logo"
+              },
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/brand/codefix-devil-mark.webp",
+              "totalBytes": 8344,
+              "wastedBytes": 7527,
+              "subItems": {
+                "type": "subitems",
+                "items": [
+                  {
+                    "reason": "Increasing the image compression factor could improve this image's download size.",
+                    "wastedBytes": 5613
+                  },
+                  {
+                    "reason": "This image file is larger than it needs to be (128x128) for its displayed dimensions (70x70). Use responsive images to reduce the image download size.",
+                    "wastedBytes": 5849
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "id": "network-dependency-tree-insight",
+          "title": "Network dependency tree",
+          "score": 0,
+          "items": [
+            {
+              "type": "list-section",
+              "value": {
+                "type": "network-tree",
+                "chains": {
+                  "A5D1DD37E071DA29BCD4CB524780F176": {
+                    "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/naprawa-wordpress/",
+                    "navStartToEndTime": 152,
+                    "transferSize": 5996,
+                    "isLongest": true,
+                    "children": {
+                      "3232.2": {
+                        "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CQajBJcS.js",
+                        "navStartToEndTime": 274,
+                        "transferSize": 64523,
+                        "isLongest": true,
+                        "children": {
+                          "3232.18": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/service-landing-catalog-Bi5RlKQ7.js",
+                            "navStartToEndTime": 359,
+                            "transferSize": 854,
+                            "isLongest": true,
+                            "children": {
+                              "3232.21": {
+                                "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/data/service-landings.json",
+                                "navStartToEndTime": 541,
+                                "transferSize": 8912,
+                                "isLongest": true,
+                                "children": {}
+                              }
+                            }
+                          },
+                          "3232.9": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/ServiceLanding-BgD_wbNu.js",
+                            "navStartToEndTime": 492,
+                            "transferSize": 7560,
+                            "children": {}
+                          },
+                          "3232.12": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/sales-funnel-szbS0Ln9.js",
+                            "navStartToEndTime": 460,
+                            "transferSize": 2799,
+                            "children": {}
+                          },
+                          "3232.15": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/shield-check-CaSY0aQE.js",
+                            "navStartToEndTime": 447,
+                            "transferSize": 869,
+                            "children": {}
+                          },
+                          "3232.14": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/conversion-journey-JmeKnS3e.js",
+                            "navStartToEndTime": 371,
+                            "transferSize": 1029,
+                            "children": {}
+                          },
+                          "3232.11": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/projects-81W6KJsn.js",
+                            "navStartToEndTime": 362,
+                            "transferSize": 1763,
+                            "children": {}
+                          },
+                          "3232.17": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/HomepageV1-BAlvMIii.css",
+                            "navStartToEndTime": 357,
+                            "transferSize": 8520,
+                            "children": {}
+                          },
+                          "3232.16": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/ServiceLanding-CJNfPzOL.css",
+                            "navStartToEndTime": 356,
+                            "transferSize": 3199,
+                            "children": {}
+                          },
+                          "3232.13": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/createLucideIcon-Dl_oVnlj.js",
+                            "navStartToEndTime": 337,
+                            "transferSize": 1290,
+                            "children": {}
+                          },
+                          "3232.10": {
+                            "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/Brand-Cr-3d1xk.js",
+                            "navStartToEndTime": 329,
+                            "transferSize": 1118,
+                            "children": {}
+                          }
+                        }
+                      },
+                      "3232.8": {
+                        "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/manifest.json",
+                        "navStartToEndTime": 272,
+                        "transferSize": 1007,
+                        "children": {}
+                      },
+                      "3232.3": {
+                        "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CnGW5J8Z.css",
+                        "navStartToEndTime": 231,
+                        "transferSize": 1873,
+                        "children": {}
+                      }
+                    }
+                  }
+                },
+                "longestChain": {
+                  "duration": 541
+                }
+              }
+            },
+            {
+              "type": "list-section",
+              "title": "Preconnected origins",
+              "description": "[preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints help the browser establish a connection earlier in the page load, saving time when the first request for that origin is made. The following are the origins that the page preconnected to.",
+              "value": {
+                "type": "text",
+                "value": "no origins were preconnected"
+              }
+            },
+            {
+              "type": "list-section",
+              "title": "Preconnect candidates",
+              "description": "Add [preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints to your most important origins, but try to use no more than 4.",
+              "value": {
+                "type": "text",
+                "value": "No additional origins are good candidates for preconnecting"
+              }
+            }
+          ]
+        },
+        {
+          "id": "render-blocking-insight",
+          "title": "Render-blocking requests",
+          "score": 0,
+          "displayValue": "Est savings of 140 ms",
+          "items": [
+            {
+              "url": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/assets/index-CnGW5J8Z.css",
+              "totalBytes": 1873,
+              "wastedMs": 187
+            }
+          ]
+        }
+      ],
+      "warnings": []
+    }
+  ]
+}

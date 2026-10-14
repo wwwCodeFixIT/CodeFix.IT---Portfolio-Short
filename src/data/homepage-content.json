@@ -1,0 +1,115 @@
+{
+  "hero": {
+    "eyebrow": "Patryk • zdalnie w całej Polsce",
+    "title": "Strony i aplikacje dla firm.",
+    "accent": "Od pomysłu do wdrożenia.",
+    "description": "Tworzę, rozwijam i naprawiam. AI wspiera moją pracę, a za kod i wdrożenie odpowiadam osobiście."
+  },
+  "services": [
+    {
+      "title": "WordPress Quick Fix",
+      "description": "Naprawiam błędy, formularze i problemy po aktualizacjach. Sprawdzam efekt po wdrożeniu.",
+      "meta": "Diagnoza • naprawa • test",
+      "price": "Od 390 zł",
+      "service": "WORDPRESS_QUICK_FIX",
+      "cta": "Zgłoś problem",
+      "detailsHref": "/naprawa-wordpress/",
+      "detailsLabel": "Zakres naprawy"
+    },
+    {
+      "title": "Strony firmowe WordPress",
+      "description": "Strona z czytelną ofertą, formularzem i wygodną edycją treści. Dopracowana także na telefonie.",
+      "meta": "WordPress • ACF PRO",
+      "price": "Wycena indywidualna",
+      "service": "CODEFIX_BUSINESS_SITE",
+      "cta": "Wyceń nową stronę",
+      "detailsHref": "/strony-wordpress/",
+      "detailsLabel": "Zakres wdrożenia"
+    },
+    {
+      "title": "Opieka i rozwój WordPress",
+      "description": "Aktualizacje, kopie zapasowe i bieżące poprawki. Stałe wsparcie dla Twojej strony.",
+      "meta": "Aktualizacje • backupy • rozwój",
+      "price": "Od 300 zł / mies.",
+      "service": "WORDPRESS_CARE",
+      "cta": "Zapytaj o opiekę",
+      "detailsHref": "/opieka-wordpress/",
+      "detailsLabel": "Zakres opieki"
+    }
+  ],
+  "process": [
+    "Opisujesz cel lub problem i podajesz adres strony, jeśli już ją masz.",
+    "Ustalam z Tobą zakres, cenę i termin.",
+    "Przy większych zmianach pokazuję podgląd przed publikacją.",
+    "Wdrażam, testuję i przekazuję gotowe rozwiązanie."
+  ],
+  "faqItems": [
+    {
+      "question": "Ile kosztuje projekt?",
+      "answer": "Quick Fix od 390 zł, opieka WordPress od 300 zł/mies. Strony i aplikacje wyceniam indywidualnie. Zakres i cenę potwierdzam przed startem."
+    },
+    {
+      "question": "Czy mogę zacząć od jednego małego zadania?",
+      "answer": "Tak. Mogę zacząć od jednego płatnego zadania, bez zobowiązania do dalszej współpracy."
+    },
+    {
+      "question": "Czy pracujesz na istniejących stronach WordPress?",
+      "answer": "Tak. Naprawiam błędy, formularze, WooCommerce i problemy po aktualizacjach."
+    },
+    {
+      "question": "Czy przy pierwszym kontakcie muszę podawać loginy?",
+      "answer": "Nie. Wystarczy opis celu lub problemu i publiczny adres strony, jeśli już ją masz. Potrzebne dostępy ustalę z Tobą później."
+    },
+    {
+      "question": "Jak korzystasz z AI?",
+      "answer": "AI wspiera mnie w projektowaniu i programowaniu. Sam sprawdzam kod i odpowiadam za wdrożenie."
+    },
+    {
+      "question": "Czy tworzysz aplikacje poza WordPressem?",
+      "answer": "Tak. Tworzę i rozwijam aplikacje React / Next.js oraz integracje API. Zakres i wycenę ustalam po poznaniu potrzeb."
+    },
+    {
+      "question": "Czy oferujesz opiekę po wdrożeniu?",
+      "answer": "Tak. Mogę zapewnić opiekę WordPress lub wykonać pojedyncze zadania rozwojowe."
+    },
+    {
+      "question": "Czy pracujesz white-label dla agencji?",
+      "answer": "Tak. Pracuję na stagingu i Git, także bez kontaktu z klientem końcowym."
+    }
+  ],
+  "application": {
+    "kicker": "Aplikacje i integracje",
+    "title": "Narzędzie dopasowane do Twojej firmy.",
+    "description": "Panele, aplikacje firmowe i połączenia z API. Dobieram rozwiązanie do tego, jak pracuje Twoja firma.",
+    "cta": "Omów aplikację",
+    "points": [
+      "Panel klienta lub aplikacja firmowa.",
+      "Połączenie strony z API i systemami firmy.",
+      "Rozwój aplikacji React / Next.js.",
+      "Indywidualna wycena po poznaniu zakresu."
+    ]
+  },
+  "seo": {
+    "title": "CodeFix.IT — strony i aplikacje dla firm, AI i WordPress",
+    "description": "Tworzę strony i aplikacje dla firm oraz rozwijam WordPressa. Łączę programowanie z narzędziami AI. Patryk — CodeFix.IT, zdalnie w całej Polsce."
+  },
+  "about": {
+    "kicker": "O mnie",
+    "title": "Cześć, jestem Patryk.",
+    "description": "Sam prowadzę CodeFix.IT. Od pierwszej rozmowy do wdrożenia masz kontakt bezpośrednio ze mną.",
+    "advantages": [
+      {
+        "title": "Bezpośredni kontakt",
+        "description": "Rozmawiasz ze mną. To ja realizuję Twój projekt."
+      },
+      {
+        "title": "Zmiany pod kontrolą",
+        "description": "Większe zmiany sprawdzasz w podglądzie przed publikacją."
+      },
+      {
+        "title": "AI wspiera pracę",
+        "description": "AI wspiera moją pracę. Sam weryfikuję rozwiązanie przed wdrożeniem."
+      }
+    ]
+  }
+}

@@ -1,0 +1,608 @@
+{
+  "runtimeCommit": "eff52f9e298a9fdfc311ae1da021b5f91818a35f",
+  "workflowCommit": "640aa8a5729458da55576211bd92705432c2748b",
+  "target": "https://320773b5.codefix-it---portfolio-short.pages.dev/",
+  "method": "Resize both layout and visual viewports; no physical keyboard emulation",
+  "results": [
+    {
+      "engine": "chromium",
+      "browserVersion": "155.0.8059.39",
+      "width": 320,
+      "height": 360,
+      "states": [
+        {
+          "phase": "before-resize",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 395.9375,
+            "width": 246,
+            "height": 52,
+            "top": 395.9375,
+            "right": 283,
+            "bottom": 447.9375,
+            "left": 37
+          },
+          "viewport": {
+            "height": 844,
+            "offsetTop": 0,
+            "layoutHeight": 844
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        },
+        {
+          "phase": "immediately-after-resize",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 395.9375,
+            "width": 246,
+            "height": 52,
+            "top": 395.9375,
+            "right": 283,
+            "bottom": 447.9375,
+            "left": 37
+          },
+          "viewport": {
+            "height": 360,
+            "offsetTop": 0,
+            "layoutHeight": 360
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        },
+        {
+          "phase": "failure",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 395.9375,
+            "width": 246,
+            "height": 52,
+            "top": 395.9375,
+            "right": 283,
+            "bottom": 447.9375,
+            "left": 37
+          },
+          "viewport": {
+            "height": 360,
+            "offsetTop": 0,
+            "layoutHeight": 360
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        }
+      ],
+      "status": "fail",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at visibleField (/home/runner/work/CodeFix.IT---Portfolio-Short/CodeFix.IT---Portfolio-Short/scripts/contact-viewport-qa.mjs:39:14)\n    at /home/runner/work/CodeFix.IT---Portfolio-Short/CodeFix.IT---Portfolio-Short/scripts/contact-viewport-qa.mjs:99:17",
+      "pageErrors": [],
+      "leadRequests": 0
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "155.0.8059.39",
+      "width": 320,
+      "height": 430,
+      "states": [
+        {
+          "phase": "before-resize",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 395.9375,
+            "width": 246,
+            "height": 52,
+            "top": 395.9375,
+            "right": 283,
+            "bottom": 447.9375,
+            "left": 37
+          },
+          "viewport": {
+            "height": 844,
+            "offsetTop": 0,
+            "layoutHeight": 844
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        },
+        {
+          "phase": "immediately-after-resize",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 395.9375,
+            "width": 246,
+            "height": 52,
+            "top": 395.9375,
+            "right": 283,
+            "bottom": 447.9375,
+            "left": 37
+          },
+          "viewport": {
+            "height": 430,
+            "offsetTop": 0,
+            "layoutHeight": 430
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        },
+        {
+          "phase": "failure",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 395.9375,
+            "width": 246,
+            "height": 52,
+            "top": 395.9375,
+            "right": 283,
+            "bottom": 447.9375,
+            "left": 37
+          },
+          "viewport": {
+            "height": 430,
+            "offsetTop": 0,
+            "layoutHeight": 430
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        }
+      ],
+      "status": "fail",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at visibleField (/home/runner/work/CodeFix.IT---Portfolio-Short/CodeFix.IT---Portfolio-Short/scripts/contact-viewport-qa.mjs:39:14)\n    at /home/runner/work/CodeFix.IT---Portfolio-Short/CodeFix.IT---Portfolio-Short/scripts/contact-viewport-qa.mjs:99:17",
+      "pageErrors": [],
+      "leadRequests": 0
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "155.0.8059.39",
+      "width": 390,
+      "height": 360,
+      "states": [
+        {
+          "phase": "before-resize",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.21875,
+            "width": 316,
+            "height": 52,
+            "top": 396.21875,
+            "right": 353,
+            "bottom": 448.21875,
+            "left": 37
+          },
+          "viewport": {
+            "height": 844,
+            "offsetTop": 0,
+            "layoutHeight": 844
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        },
+        {
+          "phase": "immediately-after-resize",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.21875,
+            "width": 316,
+            "height": 52,
+            "top": 396.21875,
+            "right": 353,
+            "bottom": 448.21875,
+            "left": 37
+          },
+          "viewport": {
+            "height": 360,
+            "offsetTop": 0,
+            "layoutHeight": 360
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        },
+        {
+          "phase": "failure",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.21875,
+            "width": 316,
+            "height": 52,
+            "top": 396.21875,
+            "right": 353,
+            "bottom": 448.21875,
+            "left": 37
+          },
+          "viewport": {
+            "height": 360,
+            "offsetTop": 0,
+            "layoutHeight": 360
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        }
+      ],
+      "status": "fail",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at visibleField (/home/runner/work/CodeFix.IT---Portfolio-Short/CodeFix.IT---Portfolio-Short/scripts/contact-viewport-qa.mjs:39:14)\n    at /home/runner/work/CodeFix.IT---Portfolio-Short/CodeFix.IT---Portfolio-Short/scripts/contact-viewport-qa.mjs:99:17",
+      "pageErrors": [],
+      "leadRequests": 0
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "155.0.8059.39",
+      "width": 390,
+      "height": 430,
+      "states": [
+        {
+          "phase": "before-resize",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.21875,
+            "width": 316,
+            "height": 52,
+            "top": 396.21875,
+            "right": 353,
+            "bottom": 448.21875,
+            "left": 37
+          },
+          "viewport": {
+            "height": 844,
+            "offsetTop": 0,
+            "layoutHeight": 844
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        },
+        {
+          "phase": "immediately-after-resize",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.21875,
+            "width": 316,
+            "height": 52,
+            "top": 396.21875,
+            "right": 353,
+            "bottom": 448.21875,
+            "left": 37
+          },
+          "viewport": {
+            "height": 430,
+            "offsetTop": 0,
+            "layoutHeight": 430
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        },
+        {
+          "phase": "failure",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.21875,
+            "width": 316,
+            "height": 52,
+            "top": 396.21875,
+            "right": 353,
+            "bottom": 448.21875,
+            "left": 37
+          },
+          "viewport": {
+            "height": 430,
+            "offsetTop": 0,
+            "layoutHeight": 430
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        }
+      ],
+      "status": "fail",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at visibleField (/home/runner/work/CodeFix.IT---Portfolio-Short/CodeFix.IT---Portfolio-Short/scripts/contact-viewport-qa.mjs:39:14)\n    at /home/runner/work/CodeFix.IT---Portfolio-Short/CodeFix.IT---Portfolio-Short/scripts/contact-viewport-qa.mjs:99:17",
+      "pageErrors": [],
+      "leadRequests": 0
+    },
+    {
+      "engine": "webkit",
+      "browserVersion": "27.2",
+      "width": 320,
+      "height": 360,
+      "states": [
+        {
+          "phase": "before-resize",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.9375,
+            "width": 246,
+            "height": 52,
+            "top": 396.9375,
+            "right": 283,
+            "bottom": 448.9375,
+            "left": 37
+          },
+          "viewport": {
+            "height": 844,
+            "offsetTop": 0,
+            "layoutHeight": 844
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        },
+        {
+          "phase": "immediately-after-resize",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.9375,
+            "width": 246,
+            "height": 52,
+            "top": 396.9375,
+            "right": 283,
+            "bottom": 448.9375,
+            "left": 37
+          },
+          "viewport": {
+            "height": 360,
+            "offsetTop": 0,
+            "layoutHeight": 360
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        },
+        {
+          "phase": "failure",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.9375,
+            "width": 246,
+            "height": 52,
+            "top": 396.9375,
+            "right": 283,
+            "bottom": 448.9375,
+            "left": 37
+          },
+          "viewport": {
+            "height": 360,
+            "offsetTop": 0,
+            "layoutHeight": 360
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        }
+      ],
+      "status": "fail",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at visibleField (/home/runner/work/CodeFix.IT---Portfolio-Short/CodeFix.IT---Portfolio-Short/scripts/contact-viewport-qa.mjs:39:14)\n    at /home/runner/work/CodeFix.IT---Portfolio-Short/CodeFix.IT---Portfolio-Short/scripts/contact-viewport-qa.mjs:99:17",
+      "pageErrors": [],
+      "leadRequests": 0
+    },
+    {
+      "engine": "webkit",
+      "browserVersion": "27.2",
+      "width": 320,
+      "height": 430,
+      "states": [
+        {
+          "phase": "before-resize",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.9375,
+            "width": 246,
+            "height": 52,
+            "top": 396.9375,
+            "right": 283,
+            "bottom": 448.9375,
+            "left": 37
+          },
+          "viewport": {
+            "height": 844,
+            "offsetTop": 0,
+            "layoutHeight": 844
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        },
+        {
+          "phase": "immediately-after-resize",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.9375,
+            "width": 246,
+            "height": 52,
+            "top": 396.9375,
+            "right": 283,
+            "bottom": 448.9375,
+            "left": 37
+          },
+          "viewport": {
+            "height": 430,
+            "offsetTop": 0,
+            "layoutHeight": 430
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        },
+        {
+          "phase": "failure",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.9375,
+            "width": 246,
+            "height": 52,
+            "top": 396.9375,
+            "right": 283,
+            "bottom": 448.9375,
+            "left": 37
+          },
+          "viewport": {
+            "height": 430,
+            "offsetTop": 0,
+            "layoutHeight": 430
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        }
+      ],
+      "status": "fail",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at visibleField (/home/runner/work/CodeFix.IT---Portfolio-Short/CodeFix.IT---Portfolio-Short/scripts/contact-viewport-qa.mjs:39:14)\n    at /home/runner/work/CodeFix.IT---Portfolio-Short/CodeFix.IT---Portfolio-Short/scripts/contact-viewport-qa.mjs:99:17",
+      "pageErrors": [],
+      "leadRequests": 0
+    },
+    {
+      "engine": "webkit",
+      "browserVersion": "27.2",
+      "width": 390,
+      "height": 360,
+      "states": [
+        {
+          "phase": "before-resize",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.125,
+            "width": 316,
+            "height": 52,
+            "top": 396.125,
+            "right": 353,
+            "bottom": 448.125,
+            "left": 37
+          },
+          "viewport": {
+            "height": 844,
+            "offsetTop": 0,
+            "layoutHeight": 844
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        },
+        {
+          "phase": "immediately-after-resize",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.125,
+            "width": 316,
+            "height": 52,
+            "top": 396.125,
+            "right": 353,
+            "bottom": 448.125,
+            "left": 37
+          },
+          "viewport": {
+            "height": 360,
+            "offsetTop": 0,
+            "layoutHeight": 360
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        },
+        {
+          "phase": "failure",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.125,
+            "width": 316,
+            "height": 52,
+            "top": 396.125,
+            "right": 353,
+            "bottom": 448.125,
+            "left": 37
+          },
+          "viewport": {
+            "height": 360,
+            "offsetTop": 0,
+            "layoutHeight": 360
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        }
+      ],
+      "status": "fail",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at visibleField (/home/runner/work/CodeFix.IT---Portfolio-Short/CodeFix.IT---Portfolio-Short/scripts/contact-viewport-qa.mjs:39:14)\n    at /home/runner/work/CodeFix.IT---Portfolio-Short/CodeFix.IT---Portfolio-Short/scripts/contact-viewport-qa.mjs:99:17",
+      "pageErrors": [],
+      "leadRequests": 0
+    },
+    {
+      "engine": "webkit",
+      "browserVersion": "27.2",
+      "width": 390,
+      "height": 430,
+      "states": [
+        {
+          "phase": "before-resize",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.125,
+            "width": 316,
+            "height": 52,
+            "top": 396.125,
+            "right": 353,
+            "bottom": 448.125,
+            "left": 37
+          },
+          "viewport": {
+            "height": 844,
+            "offsetTop": 0,
+            "layoutHeight": 844
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        },
+        {
+          "phase": "immediately-after-resize",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.125,
+            "width": 316,
+            "height": 52,
+            "top": 396.125,
+            "right": 353,
+            "bottom": 448.125,
+            "left": 37
+          },
+          "viewport": {
+            "height": 430,
+            "offsetTop": 0,
+            "layoutHeight": 430
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        },
+        {
+          "phase": "failure",
+          "active": "name",
+          "box": {
+            "x": 37,
+            "y": 396.125,
+            "width": 316,
+            "height": 52,
+            "top": 396.125,
+            "right": 353,
+            "bottom": 448.125,
+            "left": 37
+          },
+          "viewport": {
+            "height": 430,
+            "offsetTop": 0,
+            "layoutHeight": 430
+          },
+          "headerBottom": 65,
+          "overflow": 0
+        }
+      ],
+      "status": "fail",
+      "error": "page.waitForFunction: Timeout 5000ms exceeded.\n    at visibleField (/home/runner/work/CodeFix.IT---Portfolio-Short/CodeFix.IT---Portfolio-Short/scripts/contact-viewport-qa.mjs:39:14)\n    at /home/runner/work/CodeFix.IT---Portfolio-Short/CodeFix.IT---Portfolio-Short/scripts/contact-viewport-qa.mjs:99:17",
+      "pageErrors": [],
+      "leadRequests": 0
+    }
+  ]
+}

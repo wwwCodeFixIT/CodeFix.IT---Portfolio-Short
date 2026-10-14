@@ -6,3 +6,5 @@ dist/
 .vscode/
 .DS_Store
 *.log
+.qa-tools/
+qa-results/

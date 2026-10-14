@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import type { WordPressGuide } from '../data/wordpress-guides';
 import { Brand } from '../components/Brand';
-import { wordpressGuides } from '../data/wordpress-guides';
 import { markGuideToServiceJourney } from '../lib/conversion-journey';
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
@@ -99,7 +98,7 @@ function schemaFor(guide: WordPressGuide) {
   };
 }
 
-export function GuidesIndex() {
+export function GuidesIndex({ wordpressGuides }: { wordpressGuides: WordPressGuide[] }) {
   useEffect(() => {
     document.title = 'Poradniki WordPress — naprawa, opieka i wyceny | CodeFix.IT';
     const description =
@@ -197,7 +196,7 @@ export function GuidesIndex() {
   );
 }
 
-export function GuidePage({ guide }: { guide: WordPressGuide }) {
+export function GuidePage({ guide, wordpressGuides }: { guide: WordPressGuide; wordpressGuides: WordPressGuide[] }) {
   useEffect(() => {
     const canonical = `https://codefix.it/poradniki/${guide.slug}/`;
     document.title = guide.metaTitle;

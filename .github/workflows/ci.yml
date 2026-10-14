@@ -54,8 +54,17 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Check static SEO pages and internal links
+        run: npm run seo:static
+
       - name: Check conversion measurement contract
         run: npm run measurement:smoke
+
+      - name: Check estimator and guide catalog
+        run: npm run estimator:smoke
+
+      - name: Check hero pointer motion
+        run: npm run hero:smoke
 
       - name: Check mobile contact CTA regression
         run: node scripts/mobile-cta-smoke.mjs
