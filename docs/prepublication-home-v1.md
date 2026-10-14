@@ -34,3 +34,13 @@ Sprawdzono także ścieżkę poradnik o cenie naprawy → usługa naprawy oraz w
 ## Zakres gotowości
 
 Sprawdzone ścieżki i automatyczne kontrole przechodzą. Wcześniejszą kontrolę mobilną opisuje [mobile-home-v1](mobile-home-v1.md); niniejszy etap dodaje efekt obsługi kotwic. Fizyczny iPhone/Safari, aktualny wynik Lighthouse, dane CWV użytkowników i pełny ręczny audyt WCAG nie zostały potwierdzone. PR #91 pozostaje szkicem do oceny przed publikacją na codefix.it.
+
+## Uproszczenie pierwszego ekranu
+
+Nowszy kod `6a5e8c1` skraca opis pod H1 do 95 znaków i usuwa powtórzenie marki z etykiety przy imieniu. Panel wyboru ma jedno pytanie „Czego potrzebujesz?” zamiast dodatkowej instrukcji. Widoczne przyciski, formularz, kalkulator i obsługa ruchu pozostają dostępne. Nie dodano nowych sekcji ani zależności.
+
+PASS: typecheck, production lint, format, czysty build, zgodność tekstów React i statycznego HTML, SEO static smoke oraz budżety. Pełne CI #824 i Cloudflare zakończyły się sukcesem. Entry JS: 200739 B; największy deferred JS: 44200 B; cały JS: 309599 B; cały CSS: 69609 B. Łączny JS jest mniejszy o 123 B od wcześniejszej wersji w tym raporcie.
+
+Na wdrożeniu https://e9a12ea1.codefix-it---portfolio-short.pages.dev/ Chrome potwierdził nowe teksty, jedno pytanie panelu, działające zaznaczenie opcji „Aplikacja” oraz zero poziomego przepełnienia. Ten etap nie obejmował nowego testu na fizycznym telefonie ani pomiaru Lighthouse.
+
+![Uproszczony pierwszy ekran z aktywną opcją aplikacji](qa/codefix-hero-clear-20261014.jpg)
