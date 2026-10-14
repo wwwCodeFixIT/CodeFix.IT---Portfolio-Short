@@ -17,17 +17,15 @@ concurrency:
   group: preview-audit-${{ github.ref }}
   cancel-in-progress: true
 
-# Explicit immutable deployment: update all three values for a new audit target.
-# The audited runtime commit is separate from the commit containing these tests.
+# Wait for this pull request's expected entry before auditing the branch preview.
+# Freeze the verified immutable target when recording the final results.
 env:
-  AUDIT_SITE_URL: https://ce0a6cd9.codefix-it---portfolio-short.pages.dev/
-  AUDIT_RUNTIME_COMMIT: ced4a5c38d284d54668e8ffea98dc9c7a871b8ce
-  AUDIT_EXPECTED_ENTRY: /assets/index-i7-iRY6J.js
+  AUDIT_SITE_URL: https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/
+  AUDIT_RUNTIME_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+  AUDIT_EXPECTED_ENTRY: /assets/index-BxGA2aCr.js
 
 jobs:
   lighthouse:
-    # Lighthouse passed on this runtime; only a manual full audit repeats it.
-    if: ${{ github.event_name == 'workflow_dispatch' }}
     name: Lighthouse mobile and desktop
     runs-on: ubuntu-24.04
     timeout-minutes: 12

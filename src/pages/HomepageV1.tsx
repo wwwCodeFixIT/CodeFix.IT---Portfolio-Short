@@ -162,6 +162,7 @@ export function HomepageV1() {
   const footerRef = useRef<HTMLElement | null>(null);
   const feedbackRef = useRef<HTMLDivElement | null>(null);
   const [contactAreaVisible, setContactAreaVisible] = useState(false);
+  const [layoutReady, setLayoutReady] = useState(false);
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -505,8 +506,9 @@ export function HomepageV1() {
 
   return (
     <div
-      className={`homepage-v1 has-mobile-cta${contactAreaVisible ? ' cf-contact-in-view' : ''}`}
+      className={`homepage-v1 has-mobile-cta${contactAreaVisible ? ' cf-contact-in-view' : ''}${layoutReady ? ' cf-layout-ready' : ''}`}
       onClick={handleContactLink}
+      onFocusCapture={() => setLayoutReady(true)}
     >
       <header className="cf-header">
         <div className="cf-container cf-nav">
@@ -1271,7 +1273,15 @@ export function HomepageV1() {
           <span>© 2026 CodeFix.IT</span>
           <div className="cf-footer-legal">
             <a href="/polityka-prywatnosci/">Polityka prywatności</a>
-            <button className="cf-consent-settings" type="button" onClick={openMeasurementSettings}>
+            <button
+              className="cf-consent-settings"
+              type="button"
+              onClick={(event) => {
+                // Safari pointer clicks do not focus buttons automatically.
+                event.currentTarget.focus({ preventScroll: true });
+                openMeasurementSettings();
+              }}
+            >
               Ustawienia prywatności
             </button>
           </div>
