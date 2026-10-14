@@ -29,7 +29,11 @@ Sprawdzono zgodność FAQ/schema i metadanych z katalogiem treści, brak nieaktu
 
 Adres gałęzi: https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/
 
-Raport weryfikacji bieżącego wdrożenia zostanie uzupełniony po sprawdzeniu podglądu. Zmiany są przygotowywane w PR #91; bez merge i publikacji produkcyjnej.
+Chrome desktop: PASS na `f4a62cd`, wdrożenie https://b9b55ba0.codefix-it---portfolio-short.pages.dev/. CI #802 i Cloudflare: success. PR #91 pozostaje szkicem; bez merge i publikacji produkcyjnej.
+
+PASS: wszystkie trzy opcje zmieniają zaznaczenie, opis, cenę i CTA; Enter/Spacja obsługują przyciski. Każde CTA wybiera właściwy temat formularza i ustawia focus na imieniu; własna notatka pozostaje. Przycisk kalkulatora otwiera panel i przekazuje focus na jego przełącznik. Po zwinięciu i ponownym otwarciu z pierwszego ekranu zachowuje się wariant opieki na 3 miesiące oraz wynik od 900 zł. Sprawdzono pauzę/wznowienie ruchu klawiaturą, nawigację „O mnie”, jeden H1/main, brak powtórzonych ID, uszkodzonych kotwic, nieaktualnej treści zespołowej i poziomego przewijania na desktopie. W odczytanych logach błędy pochodziły z rozszerzenia przeglądarki.
+
+![Pierwszy ekran z aktywnym wyborem aplikacji](qa/codefix-solo-home-20261014.jpg)
 
 ## Wcześniejszy test formularza i CRM
 
