@@ -1,13 +1,6 @@
 name: Preview Quality Audit
 
 on:
-  pull_request:
-    branches: [main]
-    paths:
-      - '.github/workflows/preview-audit.yml'
-      - 'scripts/preview-lighthouse.mjs'
-      - 'scripts/preview-mobile-qa.mjs'
-      - 'scripts/wait-preview-audit.mjs'
   workflow_dispatch:
 
 permissions:
@@ -17,11 +10,11 @@ concurrency:
   group: preview-audit-${{ github.ref }}
   cancel-in-progress: true
 
-# Wait for this pull request's expected entry before auditing the branch preview.
-# Freeze the verified immutable target when recording the final results.
+# Manual audit of the verified immutable deployment. Update all three values
+# together when choosing a new runtime; documentation edits do not rerun it.
 env:
-  AUDIT_SITE_URL: https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/
-  AUDIT_RUNTIME_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+  AUDIT_SITE_URL: https://320773b5.codefix-it---portfolio-short.pages.dev/
+  AUDIT_RUNTIME_COMMIT: eff52f9e298a9fdfc311ae1da021b5f91818a35f
   AUDIT_EXPECTED_ENTRY: /assets/index-BxGA2aCr.js
 
 jobs:

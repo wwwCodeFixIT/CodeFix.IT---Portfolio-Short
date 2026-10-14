@@ -1,5 +1,7 @@
 # CodeFix.IT — kontrola przed publikacją, 14.10.2026
 
+Aktualizacja: nowsze wyniki wydajności oraz Chromium/WebKit, wraz z poprawkami kontaktu i prywatności, są w [performance-mobile-v1](performance-mobile-v1.md). Poniższe pomiary opisują wcześniejsze etapy.
+
 Sprawdzono ofertę jednoosobową Patryka, podstrony oraz ścieżki prowadzące do kontaktu. Zachowano aktualny wygląd i widoczne interakcje strony głównej. Wyniki końcowe dotyczą kodu `b368b81` i wdrożenia https://ceb688aa.codefix-it---portfolio-short.pages.dev/. CI #820: success.
 
 ## Wykryte i poprawione problemy

@@ -1,0 +1,239 @@
+{
+  "runtimeCommit": "eff52f9e298a9fdfc311ae1da021b5f91818a35f",
+  "workflowCommit": "2e40cc4dae0cd5d417a6cd0336f8edafec689450",
+  "target": "https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/",
+  "results": [
+    {
+      "engine": "chromium",
+      "browserVersion": "155.0.8059.39",
+      "width": 320,
+      "layout": {
+        "width": 320,
+        "overflow": 0,
+        "cardScroll": 0,
+        "headingTop": 532.25,
+        "pickerTop": 603.90625,
+        "motion": "off"
+      },
+      "form": {
+        "fontSize": "16px",
+        "focus": "name",
+        "stickyVisible": false
+      },
+      "extendedFlows": false,
+      "pageErrors": [],
+      "leadRequests": 0,
+      "status": "pass"
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "155.0.8059.39",
+      "width": 375,
+      "layout": {
+        "width": 375,
+        "overflow": 0,
+        "cardScroll": 0,
+        "headingTop": 548.5,
+        "pickerTop": 595.328125,
+        "motion": "off"
+      },
+      "form": {
+        "fontSize": "16px",
+        "focus": "name",
+        "stickyVisible": false
+      },
+      "extendedFlows": true,
+      "pageErrors": [],
+      "leadRequests": 0,
+      "status": "pass"
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "155.0.8059.39",
+      "width": 390,
+      "layout": {
+        "width": 390,
+        "overflow": 0,
+        "cardScroll": 0,
+        "headingTop": 556.78125,
+        "pickerTop": 603.609375,
+        "motion": "off"
+      },
+      "form": {
+        "fontSize": "16px",
+        "focus": "name",
+        "stickyVisible": false
+      },
+      "extendedFlows": false,
+      "pageErrors": [],
+      "leadRequests": 0,
+      "status": "pass"
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "155.0.8059.39",
+      "width": 430,
+      "layout": {
+        "width": 430,
+        "overflow": 0,
+        "cardScroll": 0,
+        "headingTop": 553.984375,
+        "pickerTop": 600.8125,
+        "motion": "off"
+      },
+      "form": {
+        "fontSize": "16px",
+        "focus": "name",
+        "stickyVisible": false
+      },
+      "extendedFlows": false,
+      "pageErrors": [],
+      "leadRequests": 0,
+      "status": "pass"
+    },
+    {
+      "engine": "chromium",
+      "browserVersion": "155.0.8059.39",
+      "width": 768,
+      "layout": {
+        "width": 768,
+        "overflow": 0,
+        "cardScroll": 0,
+        "headingTop": 611.71875,
+        "pickerTop": 658.546875,
+        "motion": "off"
+      },
+      "form": {
+        "fontSize": "16px",
+        "focus": "name",
+        "stickyVisible": false
+      },
+      "extendedFlows": false,
+      "pageErrors": [],
+      "leadRequests": 0,
+      "status": "pass"
+    },
+    {
+      "engine": "chromium",
+      "width": 1440,
+      "reducedMotion": true,
+      "status": "pass"
+    },
+    {
+      "engine": "webkit",
+      "browserVersion": "27.2",
+      "width": 320,
+      "layout": {
+        "width": 320,
+        "overflow": 0,
+        "cardScroll": 0,
+        "headingTop": 532.25,
+        "pickerTop": 603.90625,
+        "motion": "off"
+      },
+      "form": {
+        "fontSize": "16px",
+        "focus": "name",
+        "stickyVisible": false
+      },
+      "extendedFlows": false,
+      "pageErrors": [],
+      "leadRequests": 0,
+      "status": "pass"
+    },
+    {
+      "engine": "webkit",
+      "browserVersion": "27.2",
+      "width": 375,
+      "layout": {
+        "width": 375,
+        "overflow": 0,
+        "cardScroll": 0,
+        "headingTop": 548.5,
+        "pickerTop": 595.328125,
+        "motion": "off"
+      },
+      "form": {
+        "fontSize": "16px",
+        "focus": "name",
+        "stickyVisible": false
+      },
+      "extendedFlows": true,
+      "pageErrors": [],
+      "leadRequests": 0,
+      "status": "pass"
+    },
+    {
+      "engine": "webkit",
+      "browserVersion": "27.2",
+      "width": 390,
+      "layout": {
+        "width": 390,
+        "overflow": 0,
+        "cardScroll": 0,
+        "headingTop": 556.703125,
+        "pickerTop": 603.53125,
+        "motion": "off"
+      },
+      "form": {
+        "fontSize": "16px",
+        "focus": "name",
+        "stickyVisible": false
+      },
+      "extendedFlows": false,
+      "pageErrors": [],
+      "leadRequests": 0,
+      "status": "pass"
+    },
+    {
+      "engine": "webkit",
+      "browserVersion": "27.2",
+      "width": 430,
+      "layout": {
+        "width": 430,
+        "overflow": 0,
+        "cardScroll": 0,
+        "headingTop": 553.984375,
+        "pickerTop": 600.8125,
+        "motion": "off"
+      },
+      "form": {
+        "fontSize": "16px",
+        "focus": "name",
+        "stickyVisible": false
+      },
+      "extendedFlows": false,
+      "pageErrors": [],
+      "leadRequests": 0,
+      "status": "pass"
+    },
+    {
+      "engine": "webkit",
+      "browserVersion": "27.2",
+      "width": 768,
+      "layout": {
+        "width": 768,
+        "overflow": 0,
+        "cardScroll": 0,
+        "headingTop": 611.71875,
+        "pickerTop": 658.546875,
+        "motion": "off"
+      },
+      "form": {
+        "fontSize": "16px",
+        "focus": "name",
+        "stickyVisible": false
+      },
+      "extendedFlows": false,
+      "pageErrors": [],
+      "leadRequests": 0,
+      "status": "pass"
+    },
+    {
+      "engine": "webkit",
+      "width": 1440,
+      "reducedMotion": true,
+      "status": "pass"
+    }
+  ]
+}
