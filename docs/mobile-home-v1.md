@@ -20,6 +20,6 @@ Początkowy widok nominalnie 390 px miał 388 px obszaru dokumentu z powodu obra
 
 PASS: typecheck, lint, production lint, format, czysty build/prerender, budżety, estimator, hero motion, measurement consent, mobile CTA source smoke i diff check. Teksty, SEO, ceny, formularz CRM i dziewięć poradników zachowują wcześniejszą logikę.
 
-Rozmiary: entry JS 200739 B, największy deferred JS 43999 B, łączny JS 309474 B, największy CSS 33720 B, łączny CSS 69547 B. Limity nie są zmieniane.
+Rozmiary: entry JS 200739 B, największy deferred JS 43999 B, łączny JS 309474 B, największy CSS 33784 B, łączny CSS 69611 B. Limity nie są zmieniane.
 
 Wyniki kontroli podglądu zostaną uzupełnione po wdrożeniu zmian. PR #91 pozostaje szkicem bez merge i publikacji produkcyjnej.
