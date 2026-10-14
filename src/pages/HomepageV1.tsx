@@ -537,7 +537,6 @@ export function HomepageV1() {
           </div>
 
           <aside className="cf-hero-paths" aria-labelledby="cf-hero-paths-title">
-            <p className="cf-section-kicker">Kliknij i wybierz temat</p>
             <h2 id="cf-hero-paths-title">Czego potrzebujesz?</h2>
 
             <HeroServicePicker onChoose={contactFromHero} disabled={formState === 'submitting'} />
