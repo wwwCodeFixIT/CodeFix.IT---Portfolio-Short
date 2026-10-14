@@ -180,6 +180,7 @@ for (const [engine, type] of [
           const note = 'TEST QA — isolated request, no production lead is created.'
           await form.locator('[name="name"]').fill('Contact QA')
           await form.locator('[name="email"]').fill('contact-qa@example.invalid')
+          await form.locator('[name="pageUrl"]').fill('https://example.invalid/')
           if (pageKind === 'homepage')
             await form.locator('[name="service"]').selectOption('development')
           await form.locator('[name="message"]').fill(note)
@@ -228,7 +229,40 @@ for (const [engine, type] of [
             liveLeadRequests: 0,
           }
           results.push(result)
+          await writeFile(
+            new URL('results.json', output),
+            JSON.stringify({ target: target.href, cases: results.length, results }, null, 2),
+          )
           console.log(JSON.stringify(result))
+        } catch (error) {
+          const fields = await page
+            .locator(
+              'form.cf-lead-form input, form.cf-lead-form textarea, form.cf-lead-form select',
+            )
+            .evaluateAll((elements) =>
+              elements.map((element) => ({
+                name: element.name,
+                valid: element.validity.valid,
+                message: element.validationMessage,
+              })),
+            )
+          await writeFile(
+            new URL('failure.json', output),
+            JSON.stringify(
+              {
+                engine,
+                pageKind,
+                case: test.name,
+                mockLeadRequests: payloads.length,
+                pageErrors,
+                fields,
+                error: String(error),
+              },
+              null,
+              2,
+            ),
+          )
+          throw error
         } finally {
           await context.close()
         }
