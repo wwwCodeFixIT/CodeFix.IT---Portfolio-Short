@@ -1,5 +1,5 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
-import type { FormEvent } from 'react';
+import type { FormEvent, MouseEvent } from 'react';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -44,6 +44,18 @@ function EstimatorUnavailable() {
 const ProjectEstimator = lazy(() =>
   import('../components/ProjectEstimator').catch(() => ({ default: EstimatorUnavailable })),
 );
+
+function focusContact(section: HTMLElement | null, behavior: ScrollBehavior) {
+  const input = section?.querySelector<HTMLInputElement>('[name="name"]');
+  if (!input) return;
+  // Focus renders the deferred sections before the scroll destination is measured.
+  input.focus({ preventScroll: true });
+  const mobile = window.matchMedia('(max-width: 720px)').matches;
+  (mobile ? input : section)?.scrollIntoView({
+    behavior,
+    block: mobile ? 'center' : 'start',
+  });
+}
 
 const quickFixService = 'WORDPRESS_QUICK_FIX';
 const businessSiteService = 'CODEFIX_BUSINESS_SITE';
@@ -149,9 +161,10 @@ export function HomepageV1() {
     const frame = window.requestAnimationFrame(() => {
       const target = document.getElementById(hash.slice(1));
       if (!target) return;
-      target.scrollIntoView({ behavior: 'auto', block: 'start' });
       if (hash === '#contact') {
-        target.querySelector<HTMLInputElement>('[name="name"]')?.focus({ preventScroll: true });
+        focusContact(target, 'auto');
+      } else {
+        target.scrollIntoView({ behavior: 'auto', block: 'start' });
       }
     });
     return () => window.cancelAnimationFrame(frame);
@@ -232,15 +245,22 @@ export function HomepageV1() {
     }
   }
 
-  function contactFromHero(service: string, placement: string) {
+  function chooseHeroService(service: string, placement: string) {
     if (formState === 'submitting') return;
     chooseService(service, placement);
+  }
+
+  function handleContactLink(event: MouseEvent<HTMLDivElement>) {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0)
+      return;
+    if (formState === 'submitting' || !(event.target instanceof Element)) return;
+    if (!event.target.closest('a[href="#contact"]')) return;
+    // Preserve each link's service selection, tracking and native URL fragment.
     window.requestAnimationFrame(() => {
-      const section = contactSectionRef.current;
-      section?.scrollIntoView({
-        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-      });
-      section?.querySelector<HTMLInputElement>('[name="name"]')?.focus({ preventScroll: true });
+      focusContact(
+        contactSectionRef.current,
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      );
     });
   }
 
@@ -262,11 +282,10 @@ export function HomepageV1() {
     chooseService(project.service, 'estimator_contact');
     setProjectBrief(project);
     window.requestAnimationFrame(() => {
-      const section = contactSectionRef.current;
-      section?.scrollIntoView({
-        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-      });
-      section?.querySelector<HTMLInputElement>('[name="name"]')?.focus({ preventScroll: true });
+      focusContact(
+        contactSectionRef.current,
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+      );
     });
   }
 
@@ -474,7 +493,10 @@ export function HomepageV1() {
   }
 
   return (
-    <div className={`homepage-v1 has-mobile-cta${contactAreaVisible ? ' cf-contact-in-view' : ''}`}>
+    <div
+      className={`homepage-v1 has-mobile-cta${contactAreaVisible ? ' cf-contact-in-view' : ''}`}
+      onClick={handleContactLink}
+    >
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand href="#top" />
@@ -539,7 +561,7 @@ export function HomepageV1() {
           <aside className="cf-hero-paths" aria-labelledby="cf-hero-paths-title">
             <h2 id="cf-hero-paths-title">Czego potrzebujesz?</h2>
 
-            <HeroServicePicker onChoose={contactFromHero} disabled={formState === 'submitting'} />
+            <HeroServicePicker onChoose={chooseHeroService} disabled={formState === 'submitting'} />
             <a
               href="/dla-agencji-wordpress/"
               className="cf-mini-audit-link cf-hero-agency-link"
@@ -1250,7 +1272,6 @@ export function HomepageV1() {
         href="#contact"
         className="cf-mobile-sticky-cta"
         onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'sticky_mobile' })}
-        aria-label="Przejdź do formularza kontaktowego"
       >
         <span>
           <strong>Opisz temat</strong>

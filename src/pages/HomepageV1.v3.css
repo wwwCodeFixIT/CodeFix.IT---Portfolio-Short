@@ -10,6 +10,11 @@
   .homepage-v1 .cf-contact-section {
     contain-intrinsic-size: auto 940px;
   }
+
+  /* Contact navigation needs real section heights while a form field has focus. */
+  .homepage-v1:has(.cf-lead-form:focus-within) :is(.cf-section, .cf-revenue-strip, .cf-footer) {
+    content-visibility: visible;
+  }
 }
 
 @media (max-width: 800px) {
