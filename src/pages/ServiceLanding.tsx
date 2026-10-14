@@ -21,7 +21,7 @@ import { projects } from '../data/projects';
 import { guideSummaries } from '../data/guide-summaries';
 import { captureSessionAttribution } from '../lib/attribution';
 import { clearConversionJourney, readConversionJourney } from '../lib/conversion-journey';
-import { measureAcceptedLead } from '../lib/measurement';
+import { measureAcceptedLead, trackMeasurementEvent } from '../lib/measurement';
 import {
   clearFunnelSession,
   markFunnelCta,
@@ -116,6 +116,11 @@ export function ServiceLanding({
   const formViewTracked = useRef(false);
   const funnelViewTracked = useRef(false);
   const contactSectionRef = useRef<HTMLElement | null>(null);
+  const feedbackRef = useRef<HTMLParagraphElement | null>(null);
+
+  useEffect(() => {
+    if (formState === 'success' || formState === 'error') feedbackRef.current?.focus();
+  }, [formState]);
 
   useEffect(() => {
     document.title = config.metaTitle;
@@ -144,7 +149,7 @@ export function ServiceLanding({
         codefixAnalyticsAllowed?: boolean;
       };
       if (!analyticsWindow.codefixAnalyticsAllowed) return;
-      analyticsWindow.gtag?.('event', eventName, {
+      trackMeasurementEvent(eventName, {
         event_category: 'lead_funnel',
         service: config.service,
         landing_path: config.path,
@@ -220,6 +225,7 @@ export function ServiceLanding({
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (formState === 'submitting') return;
     const form = event.currentTarget;
     const data = new FormData(form);
 
@@ -265,7 +271,7 @@ export function ServiceLanding({
           analyticsWindow.codefixAnalyticsAllowed ||
           analyticsWindow.codefixAdConsentChoice === 'accepted'
         ) {
-          analyticsWindow.gtag?.('event', 'generate_lead', {
+          trackMeasurementEvent('generate_lead', {
             lead_source: 'service_landing',
             service: config.service,
             landing_path: config.path,
@@ -290,7 +296,11 @@ export function ServiceLanding({
       trackFunnelEvent('cf_form_error', { service: config.service });
       trackLeadEvent('lead_form_error');
       setFormState('error');
-      setFormMessage(error instanceof Error ? error.message : 'Nie udało się wysłać formularza.');
+      setFormMessage(
+        error instanceof Error && !(error instanceof TypeError || error instanceof SyntaxError)
+          ? error.message
+          : 'Nie udało się połączyć ze stroną. Spróbuj ponownie za chwilę.',
+      );
     }
   }
 
@@ -615,8 +625,10 @@ export function ServiceLanding({
 
                   {formMessage && (
                     <p
+                      ref={feedbackRef}
                       className={`cf-form-feedback ${formState === 'success' ? 'is-success' : 'is-error'}`}
-                      role="status"
+                      role={formState === 'success' ? 'status' : 'alert'}
+                      tabIndex={-1}
                     >
                       {formMessage}
                     </p>

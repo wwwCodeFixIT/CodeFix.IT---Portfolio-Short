@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import type { WordPressGuide } from '../data/wordpress-guides';
 import { Brand } from '../components/Brand';
 import { markGuideToServiceJourney } from '../lib/conversion-journey';
+import { trackMeasurementEvent } from '../lib/measurement';
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
 import './GuidePage.css';
@@ -231,7 +232,7 @@ export function GuidePage({ guide, wordpressGuides }: { guide: WordPressGuide; w
       codefixAnalyticsAllowed?: boolean;
     };
     if (!analyticsWindow.codefixAnalyticsAllowed) return;
-    analyticsWindow.gtag?.('event', 'service_cta_click', {
+    trackMeasurementEvent('service_cta_click', {
       event_category: 'conversion_path',
       journey_source: 'GUIDE',
       journey_guide: guide.slug,

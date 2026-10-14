@@ -19,7 +19,11 @@ import { ProjectPreview } from '../components/ProjectPreview';
 import { projects } from '../data/projects';
 import homepageContent from '../data/homepage-content.json';
 import { captureSessionAttribution } from '../lib/attribution';
-import { measureAcceptedLead, openMeasurementSettings } from '../lib/measurement';
+import {
+  measureAcceptedLead,
+  openMeasurementSettings,
+  trackMeasurementEvent,
+} from '../lib/measurement';
 import { mergeProjectBrief } from '../lib/project-estimator';
 import type { ProjectBrief } from '../lib/project-estimator';
 import {
@@ -262,7 +266,7 @@ export function HomepageV1() {
         codefixAnalyticsAllowed?: boolean;
       };
       if (!analyticsWindow.codefixAnalyticsAllowed) return;
-      analyticsWindow.gtag?.('event', eventName, {
+      trackMeasurementEvent(eventName, {
         event_category: 'homepage_funnel',
         page_path: '/',
         ...parameters,
@@ -500,7 +504,7 @@ export function HomepageV1() {
           analyticsWindow.codefixAnalyticsAllowed ||
           analyticsWindow.codefixAdConsentChoice === 'accepted'
         )
-          analyticsWindow.gtag?.('event', 'generate_lead', {
+          trackMeasurementEvent('generate_lead', {
             event_category: 'lead',
             lead_source: 'website_form',
             service: service || 'not_selected',

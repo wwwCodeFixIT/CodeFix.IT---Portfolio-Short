@@ -1,4 +1,5 @@
 import { captureSessionAttribution } from './attribution';
+import { trackMeasurementEvent } from './measurement';
 
 export const funnelVersion = '14f_v1';
 export const activeCroExperimentId = 'baseline-stage-14h-v1';
@@ -162,7 +163,7 @@ export function trackFunnelEvent(
   const service = parameters.service || state.selectedService || 'not_selected';
   const placement = parameters.placement || '';
 
-  analyticsWindow.gtag?.('event', eventName, {
+  trackMeasurementEvent(eventName, {
     event_category: 'sales_funnel',
     funnel_version: funnelVersion,
     experiment_id: state.experimentId,

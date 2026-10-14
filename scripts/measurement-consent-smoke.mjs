@@ -60,7 +60,7 @@ assert.match(
 );
 const homepageAccepted = homepage.indexOf('if (!response.ok)');
 const homepageDuplicate = homepage.indexOf('if (result.duplicate)');
-const homepageEvent = homepage.indexOf("gtag?.('event', 'generate_lead'");
+const homepageEvent = homepage.indexOf("trackMeasurementEvent('generate_lead'");
 assert.ok(homepageAccepted >= 0 && homepageAccepted < homepageDuplicate);
 assert.ok(homepageDuplicate >= 0 && homepageDuplicate < homepageEvent);
 assert.match(
@@ -70,7 +70,7 @@ assert.match(
 );
 
 const responseGuard = serviceLanding.indexOf('if (!response.ok)');
-const leadEvent = serviceLanding.indexOf("gtag?.('event', 'generate_lead'");
+const leadEvent = serviceLanding.indexOf("trackMeasurementEvent('generate_lead'");
 assert.ok(responseGuard >= 0, 'Lead API success guard is missing.');
 assert.ok(
   leadEvent > responseGuard,
