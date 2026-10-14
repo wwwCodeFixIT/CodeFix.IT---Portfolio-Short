@@ -1436,7 +1436,7 @@
   width: min(100%, 540px);
   justify-self: end;
   padding: 28px;
-  overflow: hidden;
+  overflow: clip;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 22px;
   background:
