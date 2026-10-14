@@ -1,11 +1,22 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  CheckCircle2,
+  ChevronDown,
+  GitBranch,
+  Layers3,
+  MessageSquareText,
+  Rocket,
+  Sparkles,
+  Wrench,
+} from 'lucide-react';
 import { Brand } from '../components/Brand';
 import { HeroEmblem, HeroExperience } from '../components/HeroExperience';
-import { HomeProjectCard } from '../components/HomeProjectCard';
-import homepageContent from '../data/homepage-content.json';
+import { ProjectPreview } from '../components/ProjectPreview';
 import { projects } from '../data/projects';
+import homepageContent from '../data/homepage-content.json';
 import { captureSessionAttribution } from '../lib/attribution';
 import { measureAcceptedLead, openMeasurementSettings } from '../lib/measurement';
 import { mergeProjectBrief } from '../lib/project-estimator';
@@ -20,7 +31,6 @@ import {
 } from '../lib/sales-funnel';
 import './HomepageV1.css';
 import './HomepageV1.v3.css';
-import './HomepageMinimal.css';
 
 function EstimatorUnavailable() {
   return (
@@ -55,8 +65,41 @@ function initialServiceFromUrl() {
   return allowedServiceDeepLinks.has(value) ? value : '';
 }
 
-const { hero, services, process, faqItems } = homepageContent;
+const services = homepageContent.services;
+const process = homepageContent.process;
+
+const advantages = [
+  {
+    icon: MessageSquareText,
+    title: 'Bezpośredni kontakt',
+    description: 'Rozmawiasz z osobą, która wykonuje Twoje zlecenie.',
+  },
+  {
+    icon: GitBranch,
+    title: 'Zmiany pod kontrolą',
+    description: 'Większe zmiany sprawdzasz w podglądzie przed publikacją.',
+  },
+  {
+    icon: Layers3,
+    title: 'Strona, którą da się edytować',
+    description: 'Teksty, zdjęcia i ofertę aktualizujesz z panelu WordPress.',
+  },
+];
+
+const fitItems = [
+  'Strona wymaga odświeżenia lub lepszej wersji mobilnej.',
+  'WordPress, formularz lub sklep wymagają naprawy.',
+  'Potrzebujesz nowej strony z prostą edycją treści.',
+  'Szukasz stałego wsparcia technicznego.',
+];
+
+const faqItems = homepageContent.faqItems;
+
 const featuredProjects = projects.slice(0, 3);
+const publicProjectCount = featuredProjects.filter((project) => Boolean(project.demoUrl)).length;
+const agencyCollaborationCount = featuredProjects.filter((project) =>
+  Boolean(project.collaboration),
+).length;
 
 const contactEmail = 'wwwcodefixit@gmail.com';
 const contactHref = `mailto:${contactEmail}?subject=${encodeURIComponent('Zapytanie ze strony CodeFix.IT')}`;
@@ -400,23 +443,26 @@ export function HomepageV1() {
   }
 
   return (
-    <div
-      className={`homepage-v1 cf-home-minimal has-mobile-cta${contactAreaVisible ? ' cf-contact-in-view' : ''}`}
-    >
+    <div className={`homepage-v1 has-mobile-cta${contactAreaVisible ? ' cf-contact-in-view' : ''}`}>
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand href="#top" />
+
           <nav className="cf-nav-links" aria-label="Główna nawigacja">
             <a href="#services">Usługi</a>
             <a href="#work">Realizacje</a>
+            <a href="#process">Proces</a>
+            <a href="#faq">FAQ</a>
             <a href="/poradniki/">Poradniki</a>
+            <a href="#contact">Kontakt</a>
           </nav>
+
           <a
             href="#contact"
             className="cf-nav-cta"
             onClick={() => trackHomepageEvent('homepage_cta_click', { placement: 'nav' })}
           >
-            Kontakt
+            Opisz temat
           </a>
         </div>
       </header>
@@ -424,11 +470,18 @@ export function HomepageV1() {
       <main id="top">
         <HeroExperience>
           <div className="cf-hero-copy">
-            <p className="cf-home-eyebrow">{hero.eyebrow}</p>
+            <div className="cf-eyebrow">
+              <span className="cf-eyebrow-dot" />
+              {homepageContent.hero.eyebrow}
+            </div>
+
             <h1 className="cf-title">
-              {hero.title} <span className="cf-title-muted">{hero.accent}</span>
+              {homepageContent.hero.title}
+              <span className="cf-title-muted">{homepageContent.hero.accent}</span>
             </h1>
-            <p className="cf-lead">{hero.description}</p>
+
+            <p className="cf-lead">{homepageContent.hero.description}</p>
+
             <div className="cf-actions">
               <a
                 href="#contact"
@@ -437,11 +490,12 @@ export function HomepageV1() {
                   trackHomepageEvent('homepage_cta_click', { placement: 'hero_primary_generic' })
                 }
               >
-                Opisz temat <ArrowRight size={17} aria-hidden="true" />
+                Opisz temat
+                <ArrowRight size={17} aria-hidden="true" />
               </a>
               <a
                 href="#work"
-                className="cf-home-text-link"
+                className="cf-button cf-button-secondary"
                 onClick={() =>
                   trackHomepageEvent('homepage_cta_click', { placement: 'hero_secondary_work' })
                 }
@@ -449,67 +503,181 @@ export function HomepageV1() {
                 Zobacz realizacje
               </a>
             </div>
-            <p className="cf-home-hero-note">Zdalnie • cała Polska</p>
+
+            <div className="cf-proof" aria-label="Standard pracy">
+              <span className="cf-proof-item">
+                <CheckCircle2 size={15} aria-hidden="true" />
+                Odpowiedź zwykle w 1 dzień roboczy
+              </span>
+              <span className="cf-proof-item">
+                <CheckCircle2 size={15} aria-hidden="true" />
+                Zakres i cena przed startem
+              </span>
+              <span className="cf-proof-item">
+                <CheckCircle2 size={15} aria-hidden="true" />
+                Preview przy większych zmianach
+              </span>
+            </div>
           </div>
-          <div className="cf-hero-visual">
+
+          <aside className="cf-hero-paths" aria-labelledby="cf-hero-paths-title">
             <HeroEmblem />
-          </div>
+            <p className="cf-section-kicker">Od czego zaczynamy?</p>
+            <h2 id="cf-hero-paths-title">Czego potrzebujesz?</h2>
+
+            <div className="cf-hero-path-list">
+              <a
+                href="#contact"
+                className="cf-hero-path"
+                onClick={() => chooseService(quickFixService, 'hero_path_quickfix')}
+              >
+                <span className="cf-hero-path-icon">
+                  <Wrench size={19} aria-hidden="true" />
+                </span>
+                <span className="cf-hero-path-copy">
+                  <strong>Coś nie działa</strong>
+                  <small>Błąd, formularz lub sklep</small>
+                </span>
+                <span className="cf-hero-path-price">od 390 zł</span>
+                <ArrowRight size={17} aria-hidden="true" />
+              </a>
+
+              <a
+                href="#contact"
+                className="cf-hero-path"
+                onClick={() => chooseService(businessSiteService, 'hero_path_business_site')}
+              >
+                <span className="cf-hero-path-icon">
+                  <Layers3 size={19} aria-hidden="true" />
+                </span>
+                <span className="cf-hero-path-copy">
+                  <strong>Potrzebuję nowej strony</strong>
+                  <small>WordPress z prostą edycją treści</small>
+                </span>
+                <span className="cf-hero-path-price">wycena</span>
+                <ArrowRight size={17} aria-hidden="true" />
+              </a>
+
+              <a
+                href="#contact"
+                className="cf-hero-path"
+                onClick={() => chooseService(careService, 'hero_path_care')}
+              >
+                <span className="cf-hero-path-icon">
+                  <MessageSquareText size={19} aria-hidden="true" />
+                </span>
+                <span className="cf-hero-path-copy">
+                  <strong>Chcę stałej opieki</strong>
+                  <small>Aktualizacje, backupy i poprawki</small>
+                </span>
+                <span className="cf-hero-path-price">od 300 zł/mies.</span>
+                <ArrowRight size={17} aria-hidden="true" />
+              </a>
+            </div>
+
+            <p className="cf-hero-path-help">Nie wiesz? Podeślij adres strony — pomogę wybrać.</p>
+            <a
+              href="/dla-agencji-wordpress/"
+              className="cf-mini-audit-link cf-hero-agency-link"
+              onClick={() =>
+                trackHomepageEvent('homepage_cta_click', { placement: 'hero_agency_landing' })
+              }
+            >
+              Dla agencji: współpraca white-label
+              <ArrowRight size={14} aria-hidden="true" />
+            </a>
+          </aside>
         </HeroExperience>
 
-        <section
-          id="services"
-          className="cf-section cf-section-bordered"
-          aria-labelledby="cf-services-title"
-        >
+        <section id="services" className="cf-section cf-section-bordered">
           <div className="cf-container">
-            <p className="cf-section-kicker">Usługi</p>
-            <h2 id="cf-services-title" className="cf-section-heading">
-              Czego potrzebujesz?
-            </h2>
-            <div className="cf-services-grid">
-              {services.map(({ title, description, price, detailsHref }) => (
-                <article key={detailsHref} className="cf-service-card">
-                  <h3>{title}</h3>
-                  <p>{description}</p>
-                  <p className="cf-service-price">{price}</p>
-                  <a
-                    href={detailsHref}
-                    className="cf-home-text-link cf-home-service-link"
-                    aria-label={`Zobacz zakres: ${title}`}
-                  >
-                    Zobacz zakres <ArrowRight size={15} aria-hidden="true" />
-                  </a>
-                </article>
-              ))}
-            </div>
-            <p className="cf-home-pricing-note">
-              Ceny startowe. Dokładny zakres i cenę potwierdzam przed rozpoczęciem prac.
-            </p>
-            <div id="kalkulator" className="cf-home-tools">
-              <div className="cf-home-tools-row">
-                <button
-                  type="button"
-                  className="cf-home-text-link cf-home-estimator-toggle"
-                  aria-expanded={estimatorOpen}
-                  aria-controls="cf-project-estimator"
-                  onClick={() => {
-                    setEstimatorStarted(true);
-                    setEstimatorOpen((current) => !current);
-                  }}
-                >
-                  {estimatorOpen ? 'Zwiń kalkulator' : 'Otwórz kalkulator'}
-                  <ChevronDown size={16} aria-hidden="true" />
-                </button>
-                <a
-                  href="/dla-agencji-wordpress/"
-                  className="cf-home-text-link"
-                  onClick={() =>
-                    trackHomepageEvent('homepage_cta_click', { placement: 'agency_landing' })
-                  }
-                >
-                  Wsparcie dla agencji <ArrowRight size={15} aria-hidden="true" />
-                </a>
+            <div className="cf-section-head-row">
+              <div>
+                <p className="cf-section-kicker">Usługi</p>
+                <h2 className="cf-section-heading">Naprawa, nowa strona lub opieka.</h2>
               </div>
+              <p className="cf-section-sidecopy">Doraźna pomoc lub stałe wsparcie.</p>
+            </div>
+
+            <div className="cf-services-grid">
+              {services.map(
+                ({ title, description, meta, price, service, cta, detailsHref, detailsLabel }) => {
+                  const artwork = `/graphics/${service}`;
+                  return (
+                    <article
+                      key={title}
+                      className={`cf-service-card${service === quickFixService ? ' cf-service-card-featured' : ''}`}
+                    >
+                      {service === businessSiteService && (
+                        <span className="cf-service-badge">Nowa strona</span>
+                      )}
+                      <img
+                        className="cf-service-art"
+                        src={`${artwork}-720.webp`}
+                        srcSet={`${artwork}-360.webp 360w, ${artwork}-720.webp 720w`}
+                        sizes="(min-width: 801px) 350px, 85vw"
+                        width={720}
+                        height={480}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      />
+                      <h3>{title}</h3>
+                      <p>{description}</p>
+                      <p className="cf-service-price">{price}</p>
+                      {service !== businessSiteService && (
+                        <p className="cf-service-pricing-note">
+                          Zakres i cenę potwierdzam przed startem.
+                        </p>
+                      )}
+                      <p className="cf-service-meta">{meta}</p>
+                      <div className="cf-service-card-actions">
+                        <a href={detailsHref} className="cf-card-link cf-card-link-secondary">
+                          {detailsLabel}
+                          <ArrowRight size={15} aria-hidden="true" />
+                        </a>
+                        <a
+                          href="#contact"
+                          className="cf-card-link"
+                          onClick={() => chooseService(service, 'service_card')}
+                        >
+                          {cta}
+                          <ArrowRight size={15} aria-hidden="true" />
+                        </a>
+                      </div>
+                      {service === businessSiteService && (
+                        <div className="cf-service-proof">
+                          <a
+                            href="https://demo.codefix.it/"
+                            target="_blank"
+                            rel="noreferrer"
+                            className="cf-card-link cf-card-link-secondary"
+                          >
+                            Zobacz demo
+                            <ArrowUpRight size={15} aria-hidden="true" />
+                          </a>
+                          <small>Własne demo techniczne CodeFix.IT.</small>
+                        </div>
+                      )}
+                    </article>
+                  );
+                },
+              )}
+            </div>
+            <div id="kalkulator" className="cf-estimator-entry">
+              <button
+                type="button"
+                className="cf-button cf-button-secondary"
+                aria-expanded={estimatorOpen}
+                aria-controls="cf-project-estimator"
+                onClick={() => {
+                  setEstimatorStarted(true);
+                  setEstimatorOpen((current) => !current);
+                }}
+              >
+                {estimatorOpen ? 'Zwiń kalkulator' : 'Otwórz kalkulator'}
+                <ArrowRight size={17} aria-hidden="true" />
+              </button>
               <div id="cf-project-estimator" hidden={!estimatorOpen}>
                 {estimatorStarted && (
                   <Suspense fallback={<p role="status">Ładuję kalkulator…</p>}>
@@ -525,83 +693,326 @@ export function HomepageV1() {
           </div>
         </section>
 
-        <section id="work" className="cf-section" aria-labelledby="cf-work-title">
-          <div className="cf-container">
-            <div className="cf-section-head-row">
-              <div>
-                <p className="cf-section-kicker">Realizacje</p>
-                <h2 id="cf-work-title" className="cf-section-heading">
-                  Wybrane projekty.
-                </h2>
+        <section id="agencies" className="cf-agency-strip" aria-labelledby="cf-agency-title">
+          <div className="cf-container cf-revenue-strip-inner cf-agency-strip-inner">
+            <div className="cf-agency-copy">
+              <p className="cf-section-kicker">Dla agencji / white-label</p>
+              <h2 id="cf-agency-title">Potrzebujesz wsparcia przy WordPressie?</h2>
+              <p>WordPress, ACF PRO i WooCommerce. Pracuję na stagingu i Git, także white-label.</p>
+              <div
+                className="cf-revenue-proof cf-agency-tags"
+                aria-label="Zakres współpracy agencyjnej"
+              >
+                <span>WordPress + ACF PRO</span>
+                <span>WooCommerce</span>
+                <span>Git / staging / preview</span>
+                <span>white-label</span>
               </div>
-              <a href="/realizacje/" className="cf-home-text-link">
-                Wszystkie realizacje <ArrowRight size={15} aria-hidden="true" />
+            </div>
+
+            <div className="cf-revenue-action cf-agency-actions">
+              <a
+                href="/dla-agencji-wordpress/"
+                className="cf-button cf-button-primary"
+                onClick={() =>
+                  trackHomepageEvent('homepage_cta_click', { placement: 'agency_strip_landing' })
+                }
+              >
+                Zobacz współpracę white-label
+                <ArrowRight size={17} aria-hidden="true" />
+              </a>
+              <a
+                href="#contact"
+                className="cf-card-link cf-card-link-secondary"
+                onClick={() => chooseService(agencyService, 'agency_strip_contact')}
+              >
+                Zleć zadanie
+                <ArrowRight size={15} aria-hidden="true" />
               </a>
             </div>
-            <div className="cf-home-projects">
+          </div>
+        </section>
+
+        <section className="cf-section cf-fit-section" aria-labelledby="cf-fit-title">
+          <div className="cf-container cf-fit-layout">
+            <div className="cf-fit-copy">
+              <p className="cf-section-kicker">Dla kogo</p>
+              <h2 id="cf-fit-title" className="cf-section-heading">
+                Dla firm, które potrzebują sprawnej strony.
+              </h2>
+              <p>Opisz cel lub problem. Dobiorę rozwiązanie.</p>
+            </div>
+            <ul className="cf-fit-list">
+              {fitItems.map((item) => (
+                <li key={item}>
+                  <CheckCircle2 size={18} aria-hidden="true" />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
+        <section id="work" className="cf-section cf-work-section">
+          <div className="cf-container">
+            <div className="cf-work-heading-row">
+              <div>
+                <p className="cf-section-kicker">Wybrane projekty</p>
+                <h2 className="cf-section-heading">Zobacz, co wdrożyłem.</h2>
+              </div>
+              <p className="cf-section-sidecopy">
+                Szczegóły i zakres prac znajdziesz w case studies.{' '}
+                <a href="/realizacje/">Zobacz wszystkie realizacje</a>.
+              </p>
+            </div>
+
+            <div className="cf-proof-facts" aria-label="Weryfikowalne informacje o realizacjach">
+              <div className="cf-proof-fact">
+                <strong>{featuredProjects.length}</strong>
+                <span>opisane realizacje</span>
+              </div>
+              <div className="cf-proof-fact">
+                <strong>
+                  {publicProjectCount}/{featuredProjects.length}
+                </strong>
+                <span>publiczne adresy stron</span>
+              </div>
+              <div className="cf-proof-fact">
+                <strong>WordPress + ACF PRO</strong>
+                <span>w każdym pokazanym wdrożeniu</span>
+              </div>
+              <div className="cf-proof-fact">
+                <strong>{agencyCollaborationCount > 0 ? 'Tak' : '—'}</strong>
+                <span>opisany projekt agencyjny</span>
+              </div>
+            </div>
+
+            <div className="cf-projects-grid">
               {featuredProjects.map((project) => (
-                <HomeProjectCard key={project.id} project={project} />
+                <article key={project.id} className="cf-project-card">
+                  <ProjectPreview project={project} />
+
+                  <div className="cf-project-topline">
+                    <span>{project.year}</span>
+                    <span>{project.collaboration ? 'Współpraca agencyjna' : 'Strona firmowa'}</span>
+                  </div>
+
+                  <h3>{project.title}</h3>
+                  <p className="cf-project-description">{project.shortDescription}</p>
+
+                  <div className="cf-project-tech">
+                    {project.technologies.slice(0, 4).map((technology) => (
+                      <span key={technology}>{technology}</span>
+                    ))}
+                  </div>
+
+                  <div className="cf-project-proof">
+                    <p className="cf-project-proof-label">Zakres wykonany</p>
+                    <ul className="cf-project-scope-preview">
+                      {project.scope.slice(0, 3).map((item) => (
+                        <li key={item}>
+                          <CheckCircle2 size={14} aria-hidden="true" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    {project.collaboration && (
+                      <p className="cf-project-collaboration">
+                        Współpraca: <strong>{project.collaboration}</strong>
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="cf-project-actions">
+                    <a href={`/realizacje/${project.slug}/`} className="cf-project-link">
+                      Case study
+                      <ArrowRight size={16} aria-hidden="true" />
+                    </a>
+                    <a
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="cf-project-live-link"
+                    >
+                      Zobacz stronę
+                      <ArrowUpRight size={15} aria-hidden="true" />
+                    </a>
+                  </div>
+                </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section
-          id="process"
-          className="cf-section cf-section-bordered"
-          aria-labelledby="cf-process-title"
-        >
-          <div className="cf-container">
-            <p className="cf-section-kicker">Jak pracuję</p>
-            <h2 id="cf-process-title" className="cf-section-heading">
-              Prosta współpraca.
-            </h2>
-            <ol className="cf-home-process-steps">
-              {process.map(({ title, description }, index) => (
-                <li key={title}>
-                  <span className="cf-home-step-number" aria-hidden="true">
-                    0{index + 1}
+        <section className="cf-revenue-strip" aria-labelledby="cf-revenue-strip-title">
+          <div className="cf-container cf-revenue-strip-inner">
+            <div>
+              <p className="cf-section-kicker">Szybki start</p>
+              <h2 id="cf-revenue-strip-title">Nie wiesz, od czego zacząć?</h2>
+              <p>Podeślij adres strony. Sprawdzę trzy podstawowe punkty i wskażę kolejny krok.</p>
+            </div>
+            <div className="cf-revenue-action">
+              <div className="cf-revenue-proof" aria-label="Zakres mini-oceny">
+                <span>bez loginu</span>
+                <span>3 punkty</span>
+                <span>krótka odpowiedź</span>
+              </div>
+              <a
+                href="#contact"
+                className="cf-button cf-button-primary"
+                onClick={() => chooseService(miniAuditService, 'revenue_strip')}
+              >
+                Poproś o mini-ocenę
+                <ArrowRight size={17} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section className="cf-section cf-why-section">
+          <div className="cf-container cf-why-layout">
+            <div className="cf-why-intro">
+              <p className="cf-section-kicker">Jak pracuję</p>
+              <h2 className="cf-section-heading">Jasne ustalenia od początku.</h2>
+              <p>
+                Wiesz, co powstanie i ile to kosztuje. Większe zmiany sprawdzasz przed publikacją.
+              </p>
+            </div>
+
+            <div className="cf-advantages-grid">
+              {advantages.map(({ icon: Icon, title, description }) => (
+                <article key={title} className="cf-advantage-card">
+                  <span className="cf-advantage-icon">
+                    <Icon size={19} aria-hidden="true" />
                   </span>
                   <h3>{title}</h3>
                   <p>{description}</p>
-                </li>
+                </article>
               ))}
-            </ol>
-            <div id="faq" className="cf-home-faq" aria-labelledby="cf-home-faq-title">
-              <h3 id="cf-home-faq-title">Przed pierwszą wiadomością</h3>
-              <div className="cf-faq-list">
-                {faqItems.map(({ question, answer }) => (
-                  <details key={question} className="cf-faq-item">
-                    <summary>
-                      <span>{question}</span>
-                      <ChevronDown size={18} aria-hidden="true" />
-                    </summary>
-                    <p>{answer}</p>
-                  </details>
-                ))}
-              </div>
             </div>
           </div>
         </section>
 
-        <section
-          id="contact"
-          ref={contactSectionRef}
-          className="cf-section cf-contact-section cf-section-bordered"
-          aria-labelledby="cf-contact-title"
-        >
+        <section id="process" className="cf-section cf-section-bordered">
+          <div className="cf-container cf-process-layout">
+            <div className="cf-process-intro">
+              <p className="cf-section-kicker">Proces</p>
+              <h2 className="cf-section-heading">Od wiadomości do wdrożenia.</h2>
+              <p>Cztery kroki i jasny zakres na każdym etapie.</p>
+            </div>
+
+            <ol className="cf-process-grid">
+              {process.map((item, index) => (
+                <li key={item} className="cf-process-card">
+                  <span className="cf-process-number">0{index + 1}</span>
+                  <p>{item}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        <section id="faq" className="cf-section cf-section-bordered">
+          <div className="cf-container">
+            <div className="cf-section-head-row">
+              <div>
+                <p className="cf-section-kicker">FAQ</p>
+                <h2 className="cf-section-heading">Przed pierwszym zleceniem.</h2>
+              </div>
+              <p className="cf-section-sidecopy">Koszty, terminy i zasady współpracy.</p>
+            </div>
+
+            <div className="cf-faq-list">
+              {faqItems.map((item) => (
+                <details key={item.question} className="cf-faq-item">
+                  <summary>
+                    <span>{item.question}</span>
+                    <ChevronDown size={18} aria-hidden="true" />
+                  </summary>
+                  <p>{item.answer}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="cf-revenue-strip" aria-labelledby="cf-trust-strip-title">
+          <div className="cf-container cf-revenue-strip-inner">
+            <div>
+              <p className="cf-section-kicker">Sprawdź przed kontaktem</p>
+              <h2 id="cf-trust-strip-title">Zobacz działające realizacje.</h2>
+              <p>Trzy publiczne wdrożenia i opisany projekt we współpracy z SyloSoftware.</p>
+              <div className="cf-revenue-proof" aria-label="Weryfikowalne informacje o CodeFix.IT">
+                <span>3/3 publiczne realizacje</span>
+                <span>WordPress + ACF PRO</span>
+                <span>udokumentowany case agencyjny</span>
+                <span>zakres i cena przed startem</span>
+              </div>
+            </div>
+
+            <div className="cf-revenue-action">
+              <a
+                href="#contact"
+                className="cf-button cf-button-primary"
+                onClick={() =>
+                  trackHomepageEvent('homepage_cta_click', { placement: 'trust_strip_contact' })
+                }
+              >
+                Opisz temat
+                <ArrowRight size={17} aria-hidden="true" />
+              </a>
+              <a
+                href="/realizacje/kancelaria-adwokacka-witkowska/"
+                className="cf-card-link cf-card-link-secondary"
+                onClick={() =>
+                  trackHomepageEvent('homepage_proof_click', {
+                    placement: 'trust_strip_agency_case',
+                  })
+                }
+              >
+                Sprawdź case agencyjny
+                <ArrowRight size={15} aria-hidden="true" />
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section id="contact" ref={contactSectionRef} className="cf-section cf-contact-section">
           <div className="cf-container">
             <div className="cf-contact-panel">
               <div className="cf-contact-copy">
+                <div className="cf-contact-icon" aria-hidden="true">
+                  <Sparkles size={20} />
+                </div>
                 <p className="cf-section-kicker">Kontakt</p>
-                <h2 id="cf-contact-title">Porozmawiajmy o Twojej stronie.</h2>
-                <p>Wystarczy opis i adres strony.</p>
-                <p className="cf-home-response-note">Odpowiedź zwykle w 1 dzień roboczy.</p>
-                <a className="cf-home-text-link cf-home-contact-email" href={contactHref}>
-                  {contactEmail}
-                </a>
+                <h2>Opisz temat. Ustalmy kolejny krok.</h2>
+                <p>Kilka zdań i adres strony wystarczą na początek.</p>
+
+                <div className="cf-contact-tags" aria-label="Przykładowe tematy">
+                  <span>
+                    <Wrench size={14} /> Naprawa WordPress
+                  </span>
+                  <span>
+                    <Layers3 size={14} /> Nowa strona firmowa
+                  </span>
+                  <span>
+                    <MessageSquareText size={14} /> Stała opieka
+                  </span>
+                  <span>
+                    <GitBranch size={14} /> White-label / overflow
+                  </span>
+                  <span>
+                    <Rocket size={14} /> Mini-ocena techniczna
+                  </span>
+                </div>
               </div>
+
               <div className="cf-contact-action">
+                <div className="cf-contact-status">
+                  <span className="cf-eyebrow-dot" />
+                  Odpowiedź zwykle do 1 dnia roboczego
+                </div>
+
                 <form
                   className="cf-lead-form"
                   onSubmit={handleLeadSubmit}
@@ -610,7 +1021,7 @@ export function HomepageV1() {
                   <fieldset disabled={formState === 'submitting'} aria-label="Dane zapytania">
                     <div className="cf-form-row">
                       <label>
-                        <span>Imię</span>
+                        <span>Imię / osoba kontaktowa</span>
                         <input
                           name="name"
                           type="text"
@@ -665,12 +1076,18 @@ export function HomepageV1() {
                         <option value="" disabled>
                           Wybierz temat
                         </option>
-                        <option value={quickFixService}>Naprawa WordPress</option>
-                        <option value={businessSiteService}>Nowa strona</option>
-                        <option value={careService}>Stała opieka</option>
-                        <option value={agencyService}>Dla agencji</option>
-                        <option value={miniAuditService}>Darmowa mini-ocena</option>
-                        <option value="development">Aplikacja lub integracja</option>
+                        <option value={quickFixService}>
+                          WordPress Quick Fix — jeden konkretny problem
+                        </option>
+                        <option value={businessSiteService}>
+                          Nowa strona firmowa WordPress + ACF PRO
+                        </option>
+                        <option value={careService}>Opieka i rozwój WordPress</option>
+                        <option value={agencyService}>Współpraca agencyjna / white-label</option>
+                        <option value={miniAuditService}>
+                          Mini-ocena techniczna publicznej strony
+                        </option>
+                        <option value="development">React / Next.js / API</option>
                         <option value="other">Inny temat</option>
                       </select>
                     </label>
@@ -760,14 +1177,29 @@ export function HomepageV1() {
                   )}
 
                   <p className="cf-home-form-reassurance">
-                    Najpierw zakres i cena. Nie podawaj haseł w formularzu.
+                    Prace zaczynam po akceptacji zakresu i ceny. Na początek wystarczy opis, bez
+                    haseł.
                   </p>
 
                   <p className="cf-form-privacy">
-                    Dane wykorzystuję do obsługi zapytania. Szczegóły w{' '}
-                    <a href="/polityka-prywatnosci/">polityce prywatności</a>.
+                    Wysyłając formularz, przekazujesz dane potrzebne do obsługi zapytania. Szczegóły
+                    znajdziesz w <a href="/polityka-prywatnosci/">polityce prywatności</a>.
                   </p>
                 </form>
+
+                <p className="cf-contact-fallback">
+                  Wolisz e-mail? <a href={contactHref}>{contactEmail}</a>
+                </p>
+
+                <a
+                  href="https://github.com/wwwCodeFixIT"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="cf-github-link"
+                >
+                  Zobacz GitHub CodeFix.IT
+                  <ArrowUpRight size={15} aria-hidden="true" />
+                </a>
               </div>
             </div>
           </div>
@@ -775,21 +1207,42 @@ export function HomepageV1() {
       </main>
 
       <footer className="cf-footer" ref={footerRef}>
-        <div className="cf-container cf-footer-bottom">
-          <span>© 2026 CodeFix.IT</span>
-          <nav className="cf-home-footer-links" aria-label="Nawigacja w stopce">
+        <div className="cf-container cf-footer-main">
+          <div className="cf-footer-brand">
+            <Brand href="#top" tagline />
+            <p>Strony, naprawy i opieka WordPress. Wsparcie dla firm i agencji.</p>
+          </div>
+
+          <nav className="cf-footer-nav" aria-label="Nawigacja w stopce">
+            <a href="#services">Usługi</a>
+            <a href="#work">Realizacje</a>
+            <a href="#process">Proces</a>
             <a href="#faq">FAQ</a>
             <a href="/poradniki/">Poradniki</a>
+            <a href="#contact">Kontakt</a>
+          </nav>
+
+          <div className="cf-footer-contact">
+            <span>Kontakt</span>
+            <a href={contactHref}>{contactEmail}</a>
             <a href="https://github.com/wwwCodeFixIT" target="_blank" rel="noreferrer">
-              GitHub
+              GitHub CodeFix.IT ↗
             </a>
-            <a href="/polityka-prywatnosci/">Prywatność</a>
+          </div>
+        </div>
+
+        <div className="cf-container cf-footer-bottom">
+          <span>© 2026 CodeFix.IT</span>
+          <div className="cf-footer-legal">
+            <a href="/polityka-prywatnosci/">Polityka prywatności</a>
             <button className="cf-consent-settings" type="button" onClick={openMeasurementSettings}>
               Ustawienia prywatności
             </button>
-          </nav>
+          </div>
+          <span className="cf-footer-code">Zdalnie • cała Polska</span>
         </div>
       </footer>
+
       <a
         href="#contact"
         className="cf-mobile-sticky-cta"
@@ -798,6 +1251,7 @@ export function HomepageV1() {
       >
         <span>
           <strong>Opisz temat</strong>
+          <small>Zakres i cena przed startem</small>
         </span>
         <ArrowRight size={18} aria-hidden="true" />
       </a>

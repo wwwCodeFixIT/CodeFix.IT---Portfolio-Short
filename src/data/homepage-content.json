@@ -1,56 +1,80 @@
 {
   "hero": {
-    "eyebrow": "WordPress dla firm",
-    "title": "WordPress,",
-    "accent": "który działa.",
-    "description": "Tworzę strony, naprawiam błędy i dbam o WordPressa. Ty skupiasz się na swojej firmie."
+    "eyebrow": "Dla firm i agencji • zdalnie w całej Polsce",
+    "title": "CodeFix.IT — WordPress dla firm.",
+    "accent": "Naprawa, strony i opieka.",
+    "description": "Naprawiam WordPressa, tworzę strony i zapewniam stałe wsparcie. Opisz temat — ustalimy zakres i cenę."
   },
   "services": [
     {
-      "title": "Naprawa WordPress",
-      "description": "Formularz, aktualizacja, WooCommerce. Znajduję przyczynę i naprawiam problem.",
+      "title": "WordPress Quick Fix",
+      "description": "Naprawiam błędy, formularze i problemy po aktualizacjach. Sprawdzam efekt po wdrożeniu.",
+      "meta": "Diagnoza • naprawa • test",
       "price": "Od 390 zł",
-      "detailsHref": "/naprawa-wordpress/"
+      "service": "WORDPRESS_QUICK_FIX",
+      "cta": "Zgłoś problem",
+      "detailsHref": "/naprawa-wordpress/",
+      "detailsLabel": "Zakres naprawy"
     },
     {
-      "title": "Nowa strona",
-      "description": "Strona firmowa z wygodną edycją treści, dopracowana na telefonie.",
+      "title": "Strony firmowe WordPress",
+      "description": "Strona z czytelną ofertą, formularzem i wygodną edycją treści. Dopracowana także na telefonie.",
+      "meta": "WordPress • ACF PRO • SEO techniczne",
       "price": "Wycena indywidualna",
-      "detailsHref": "/strony-wordpress/"
+      "service": "CODEFIX_BUSINESS_SITE",
+      "cta": "Wyceń nową stronę",
+      "detailsHref": "/strony-wordpress/",
+      "detailsLabel": "Zakres wdrożenia"
     },
     {
-      "title": "Stała opieka",
-      "description": "Aktualizacje, kopie zapasowe i bieżące wsparcie dla Twojej strony.",
+      "title": "Opieka i rozwój WordPress",
+      "description": "Aktualizacje, kopie zapasowe i bieżące poprawki. Stałe wsparcie dla Twojej strony.",
+      "meta": "Aktualizacje • backupy • rozwój",
       "price": "Od 300 zł / mies.",
-      "detailsHref": "/opieka-wordpress/"
+      "service": "WORDPRESS_CARE",
+      "cta": "Zapytaj o opiekę",
+      "detailsHref": "/opieka-wordpress/",
+      "detailsLabel": "Zakres opieki"
     }
   ],
   "process": [
-    {
-      "title": "Opisujesz temat",
-      "description": "Kilka zdań i adres strony wystarczą na początek."
-    },
-    {
-      "title": "Ustalamy zakres",
-      "description": "Poznajesz cenę i termin przed rozpoczęciem prac."
-    },
-    {
-      "title": "Sprawdzasz efekt",
-      "description": "Pokazuję zmiany, testuję i wdrażam po Twojej akceptacji."
-    }
+    "Opisujesz problem lub cel. Podajesz adres strony, jeśli już ją masz.",
+    "Ustalamy zakres, cenę i termin.",
+    "Przy większych zmianach sprawdzasz podgląd przed publikacją.",
+    "Wdrażam, testuję i przekazuję gotowe rozwiązanie."
   ],
   "faqItems": [
     {
-      "question": "Ile to kosztuje?",
-      "answer": "Naprawa od 390 zł, opieka od 300 zł/mies. Nowe strony wyceniam indywidualnie. Zakres i cenę potwierdzam przed startem."
+      "question": "Ile kosztuje praca przy WordPressie?",
+      "answer": "Quick Fix od 390 zł, opieka od 300 zł/mies. Nowe strony wyceniam indywidualnie. Zakres i cenę potwierdzam przed startem."
     },
     {
-      "question": "Czy na początek potrzebujesz dostępów?",
-      "answer": "Wystarczy publiczny adres strony i opis problemu. Potrzebne dostępy ustalimy później."
+      "question": "Czy mogę zacząć od jednego małego zadania?",
+      "answer": "Tak. Możemy zacząć od jednego płatnego zadania, bez zobowiązania do dalszej współpracy."
     },
     {
-      "question": "Czy pomagasz po wdrożeniu?",
-      "answer": "Tak. Możemy umówić stałą opiekę lub pojedyncze zadanie, gdy potrzebujesz wsparcia."
+      "question": "Czy pracujesz na istniejących stronach WordPress?",
+      "answer": "Tak. Naprawiam błędy, formularze, WooCommerce i problemy po aktualizacjach."
+    },
+    {
+      "question": "Czy przy pierwszym kontakcie muszę podawać loginy?",
+      "answer": "Nie. Wystarczy publiczny adres strony i opis problemu. Potrzebne dostępy ustalimy później."
+    },
+    {
+      "question": "Jak szybko dostanę odpowiedź i termin realizacji?",
+      "answer": "Odpowiadam zwykle w ciągu dnia roboczego. Termin ustalam po poznaniu zakresu."
+    },
+    {
+      "question": "Czy po wdrożeniu samodzielnie zmienię treści?",
+      "answer": "Tak. Typowe treści edytujesz w panelu WordPress, bez programowania."
+    },
+    {
+      "question": "Czy oferujesz opiekę po wdrożeniu?",
+      "answer": "Tak. Możemy umówić miesięczną opiekę lub pojedyncze zadania."
+    },
+    {
+      "question": "Czy pracujesz white-label dla agencji?",
+      "answer": "Tak. Pracuję na stagingu i Git, także bez kontaktu z klientem końcowym."
     }
   ]
 }

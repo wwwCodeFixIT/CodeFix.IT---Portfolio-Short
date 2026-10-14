@@ -153,24 +153,28 @@ function relatedBlock(path) {
   if (path === '/') {
     return `
       <section id="services">
-        <h2>Czego potrzebujesz?</h2>
-        <ul>${homepageContent.services.map(({ title, price, detailsHref }) => `<li><a href="${escapeHtml(detailsHref)}">${escapeHtml(title)} — ${escapeHtml(price)}</a></li>`).join('')}</ul>
-        <p><a href="/dla-agencji-wordpress/">Wsparcie dla agencji</a></p>
+        <h2>Naprawa, nowa strona lub opieka.</h2>
+        <ul>${homepageContent.services.map(({ title, description, price, detailsHref }) => `<li><a href="${escapeHtml(detailsHref)}">${escapeHtml(title)} — ${escapeHtml(price)}</a><p>${escapeHtml(description)}</p></li>`).join('')}</ul>
+        <p>Zakres i cenę potwierdzam przed startem.</p>
+        <p><a href="/dla-agencji-wordpress/">Wsparcie WordPress dla agencji</a></p>
       </section>
       <section id="work">
-        <h2>Wybrane projekty.</h2>
-        <ul>
-          <li><a href="/realizacje/kancelaria-adwokacka-witkowska/">Kancelaria Adwokacka Witkowska</a></li>
-          <li><a href="/realizacje/rzeczoznawca-marcin-dudek/">Rzeczoznawca Marcin Dudek</a></li>
-          <li><a href="/realizacje/em-air-system/">eM-aiR System</a></li>
-        </ul>
+        <h2>Zobacz, co wdrożyłem.</h2>
+        <ul>${links(projectLinks)}</ul>
+        <p>Projekt Kancelarii Adwokackiej Witkowskiej powstał we współpracy z SyloSoftware.</p>
         <p><a href="/realizacje/">Wszystkie realizacje</a></p>
       </section>
       <section id="process">
-        <h2>Prosta współpraca.</h2>
-        <ol>${homepageContent.process.map(({ title, description }) => `<li><strong>${escapeHtml(title)}</strong> — ${escapeHtml(description)}</li>`).join('')}</ol>
-        <div id="faq"><h3>Przed pierwszą wiadomością</h3>
-        ${homepageContent.faqItems.map(({ question, answer }) => `<details><summary>${escapeHtml(question)}</summary><p>${escapeHtml(answer)}</p></details>`).join('')}</div>
+        <h2>Od wiadomości do wdrożenia.</h2>
+        <ol>${homepageContent.process.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ol>
+      </section>
+      <section id="faq">
+        <h2>Przed pierwszym zleceniem.</h2>
+        ${homepageContent.faqItems.map(({ question, answer }) => `<details><summary>${escapeHtml(question)}</summary><p>${escapeHtml(answer)}</p></details>`).join('')}
+      </section>
+      <section>
+        <h2>Poradniki WordPress</h2>
+        <ul>${links(guideLinks)}</ul>
       </section>`
   }
 

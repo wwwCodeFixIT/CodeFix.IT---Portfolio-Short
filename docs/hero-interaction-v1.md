@@ -14,7 +14,7 @@ Sześć ścianek jest opisanych jako geometria komponentu. Położenia powierzch
 
 ## Budżety
 
-Poniższe porównanie opisuje pierwszą wersję hero i kalkulatora. Bieżący, krótszy układ strony oraz jego walidację opisuje [dokument uproszczenia](homepage-minimal-v1.md) i aktualny opis PR #91.
+Poniższe porównanie opisuje pierwszą wersję hero i kalkulatora. Bieżący układ oparty na stronie produkcyjnej oraz jego walidację opisuje [dokument aktualnego wariantu](homepage-current-layout-v1.md) i aktualny opis PR #91.
 
 Usunięto nieużywane style wcześniejszego bannera zgód, fragmentów portfolio i stopki oraz dwie identyczne wcześniejsze deklaracje. Nie podniesiono limitów paczek.
 

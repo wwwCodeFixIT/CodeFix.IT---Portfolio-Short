@@ -134,7 +134,7 @@ export function HeroEmblem() {
             aria-pressed={motion.enabled}
             onClick={motion.toggle}
           >
-            {motion.enabled ? 'Zatrzymaj animację' : 'Włącz animację'}
+            {motion.enabled ? 'Zatrzymaj ruch' : 'Włącz ruch'}
           </button>
         ) : null}
       </div>

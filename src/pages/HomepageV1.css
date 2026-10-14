@@ -279,6 +279,25 @@
   background: rgba(255, 255, 255, 0.055);
 }
 
+.cf-proof {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px 24px;
+  margin-top: 30px;
+  color: #74747c;
+  font-size: 13px;
+}
+
+.cf-proof-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.cf-proof-item svg {
+  color: var(--green);
+}
+
 .cf-section {
   padding-block: 94px;
 }
@@ -334,6 +353,17 @@
   border-color: rgba(239, 68, 68, 0.28);
 }
 
+.cf-service-art {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  flex-shrink: 0;
+  align-self: center;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #0b0b0d;
+}
+
 .cf-service-card h3 {
   margin: 28px 0 0;
   font-size: 20px;
@@ -345,6 +375,64 @@
   color: #96969e;
   font-size: 14px;
   line-height: 1.65;
+}
+
+.cf-service-meta {
+  margin-top: auto !important;
+  padding-top: 22px;
+  color: #626269 !important;
+  font:
+    500 11px/1.5 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace !important;
+}
+
+.cf-process-layout {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.cf-process-intro p:last-child {
+  max-width: 440px;
+  margin: 20px 0 0;
+  color: #92929a;
+  line-height: 1.7;
+}
+
+.cf-process-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cf-process-card {
+  min-height: 145px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.cf-process-number {
+  color: #ff6363;
+  font:
+    700 11px/1 ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    monospace;
+}
+
+.cf-process-card p {
+  margin: 18px 0 0;
+  color: #d1d1d5;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 .cf-footer {
@@ -377,6 +465,11 @@
 
   .cf-service-card {
     min-height: 220px;
+  }
+
+  .cf-process-layout {
+    grid-template-columns: 1fr;
+    gap: 44px;
   }
 }
 
@@ -432,4 +525,12 @@
   .cf-section {
     padding-block: 72px;
   }
+
+  .cf-process-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cf-estimator-entry {
+  margin-top: 24px;
 }

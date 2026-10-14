@@ -25,7 +25,6 @@
     linear-gradient(#ef444412 1px, transparent 1px),
     linear-gradient(90deg, #ef444412 1px, transparent 1px);
   background-size: 44px 44px;
-  opacity: 0.16;
   animation: cf-ambient-grid 16s ease-in-out infinite;
 }
 .cf-hero-atmosphere::after {
@@ -33,29 +32,32 @@
   height: 400px;
   top: 12%;
   right: 0;
-  background: radial-gradient(ellipse, #dc262619, transparent 68%);
+  background: radial-gradient(ellipse, #dc262635, transparent 68%);
   transform: translate3d(var(--cf-light-x), var(--cf-light-y), 0);
 }
 .cf-hero-emblem {
   position: relative;
   z-index: 1;
-  display: grid;
-  justify-items: center;
-  gap: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #ffffff14;
 }
 .cf-hero-stage {
   position: relative;
-  width: 100%;
-  height: 250px;
+  flex: 0 0 136px;
+  height: 128px;
   display: grid;
   place-items: center;
   perspective: 700px;
 }
 .cf-hero-orbit {
   position: absolute;
-  width: 230px;
-  height: 230px;
-  border: 1px solid #ef444430;
+  width: 126px;
+  height: 126px;
+  border: 1px solid #ef44446b;
   border-radius: 50%;
   transform: rotateX(72deg) rotateZ(-18deg);
 }
@@ -68,7 +70,7 @@
 }
 .cf-hero-tilt {
   transform: rotateX(calc(12deg + var(--cf-rotate-x))) rotateY(calc(-28deg + var(--cf-rotate-y)))
-    rotateZ(-5deg) scale3d(1.85, 1.85, 1.85);
+    rotateZ(-7deg);
 }
 .cf-hero-cube {
   animation: cf-emblem-float 7s ease-in-out infinite;
@@ -90,20 +92,14 @@
 }
 .cf-hero-motion-control {
   min-width: 0;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 4px 16px;
 }
 .cf-hero-motion-control p {
   margin: 0;
-  color: #b6b6bf;
+  color: #f2f2f4;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 750;
 }
-.cf-hero-motion-control button,
-.cf-hero-motion-control > span {
+.cf-hero-motion-control button {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
@@ -136,20 +132,13 @@
 @keyframes cf-ambient-grid {
   50% {
     transform: translate3d(12px, 8px, 0);
-    opacity: 0.08;
+    opacity: 0.5;
   }
 }
-@media (max-width: 760px) {
+@media (max-width: 560px) {
   .cf-hero-stage {
-    height: 160px;
-  }
-  .cf-hero-tilt {
-    transform: rotateX(calc(12deg + var(--cf-rotate-x))) rotateY(calc(-28deg + var(--cf-rotate-y)))
-      rotateZ(-5deg) scale3d(1.25, 1.25, 1.25);
-  }
-  .cf-hero-orbit {
-    width: 160px;
-    height: 160px;
+    flex-basis: 112px;
+    height: 112px;
   }
   .cf-hero-emblem {
     gap: 12px;

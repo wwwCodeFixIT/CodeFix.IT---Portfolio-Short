@@ -1,6 +1,6 @@
 # Kalkulator projektu — wersja 1
 
-Kalkulator na stronie głównej pozwala wybrać usługę i zakres, a następnie dołączyć czytelny brief do istniejącego formularza kontaktowego. W uproszczonym układzie znajduje się na końcu sekcji usług, pod jednym przyciskiem. Jest rozwijany na żądanie i zachowuje odpowiedzi po zwinięciu. Bieżący wariant opisuje [dokument uproszczenia strony](homepage-minimal-v1.md).
+Kalkulator na stronie głównej pozwala wybrać usługę i zakres, a następnie dołączyć czytelny brief do istniejącego formularza kontaktowego. Znajduje się na końcu sekcji usług, pod jednym przyciskiem. Jest rozwijany na żądanie i zachowuje odpowiedzi po zwinięciu. Bieżący wariant zachowuje układ strony produkcyjnej; opisuje go [dokument aktualnego wariantu](homepage-current-layout-v1.md).
 
 ## Ceny i zakres
 

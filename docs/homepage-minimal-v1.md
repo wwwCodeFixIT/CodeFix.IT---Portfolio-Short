@@ -1,5 +1,7 @@
 # CodeFix.IT — spokojniejsza strona główna
 
+> Wariant historyczny, zastąpiony 14.10.2026 na prośbę właściciela. Bieżąca wersja zachowuje układ strony produkcyjnej i jest opisana w [home current layout](homepage-current-layout-v1.md).
+
 Strona główna otrzymuje krótszą treść i prostszą hierarchię. Wcześniej zawierała 12 sekcji i 6 linków głównego menu. Nowa wersja ma 5 sekcji i 3 linki menu; kontakt pozostaje wyraźnym przyciskiem.
 
 1. Hero: „WordPress, który działa.”, jedno krótkie wprowadzenie, główne CTA i link do realizacji. Przestrzenny znak marki jest samodzielnym akcentem.
