@@ -1,0 +1,69 @@
+name: Preview Quality Audit
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/preview-audit.yml'
+      - 'scripts/preview-lighthouse.mjs'
+      - 'scripts/preview-mobile-qa.mjs'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: preview-audit-${{ github.ref }}
+  cancel-in-progress: true
+
+# Explicit immutable deployment: update all three values for a new audit target.
+# The audited runtime commit is separate from the commit containing these tests.
+env:
+  AUDIT_SITE_URL: https://a0706b5b.codefix-it---portfolio-short.pages.dev/
+  AUDIT_RUNTIME_COMMIT: 1fa49ecb2a67d51e269ec6c472d56d50a249726b
+  AUDIT_EXPECTED_ENTRY: /assets/index-BTaW3Ouh.js
+
+jobs:
+  lighthouse:
+    name: Lighthouse mobile and desktop
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install audit tool outside application dependencies
+        run: npm install --prefix .qa-tools --no-save --ignore-scripts lighthouse@13.5.0
+      - name: Audit deployed pages
+        run: node scripts/preview-lighthouse.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: preview-lighthouse-${{ github.run_id }}
+          path: qa-results/lighthouse/
+          if-no-files-found: error
+          retention-days: 14
+
+  mobile:
+    name: Chromium and WebKit mobile flows
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install browser test tools outside application dependencies
+        run: npm install --prefix .qa-tools --no-save --ignore-scripts playwright@1.64.0
+      - name: Install WebKit and system dependencies
+        run: .qa-tools/node_modules/.bin/playwright install --with-deps webkit
+      - name: Check deployed mobile flows
+        run: node scripts/preview-mobile-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: preview-mobile-${{ github.run_id }}
+          path: qa-results/mobile/
+          if-no-files-found: error
+          retention-days: 14
