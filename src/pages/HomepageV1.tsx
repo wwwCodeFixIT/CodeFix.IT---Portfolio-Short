@@ -141,6 +141,23 @@ export function HomepageV1() {
   const [contactAreaVisible, setContactAreaVisible] = useState(false);
 
   useEffect(() => {
+    const hash = window.location.hash;
+    if (!hash) return;
+
+    // The static page is replaced when this lazy route mounts. Restore the anchor
+    // against the final layout so links from portfolio and guides reach their target.
+    const frame = window.requestAnimationFrame(() => {
+      const target = document.getElementById(hash.slice(1));
+      if (!target) return;
+      target.scrollIntoView({ behavior: 'auto', block: 'start' });
+      if (hash === '#contact') {
+        target.querySelector<HTMLInputElement>('[name="name"]')?.focus({ preventScroll: true });
+      }
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  useEffect(() => {
     if (typeof IntersectionObserver === 'undefined') return;
 
     // Avoid showing a redundant fixed CTA above the actual contact form or footer.

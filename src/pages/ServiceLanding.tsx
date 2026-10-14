@@ -521,7 +521,6 @@ export function ServiceLanding({
                 <div className="cf-contact-tags">
                   <span><ShieldCheck size={14} /> Zakres przed startem</span>
                   <span><MessageSquareText size={14} /> Bezpośredni kontakt</span>
-                  <span><CheckCircle2 size={14} /> Zgłoszenie trafia do CRM</span>
                 </div>
               </div>
 

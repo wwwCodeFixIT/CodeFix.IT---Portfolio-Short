@@ -200,7 +200,7 @@ function relatedBlock(path) {
         </ul>
         <p><a href="/naprawa-wordpress/#kontakt">Zgłoś problem WordPress</a></p>
       </section>
-      <section>
+      <section id="realizacje">
         <h2>Sprawdź realizacje przed zgłoszeniem.</h2>
         <p>To publiczne, opisane wdrożenia CodeFix.IT. Możesz sprawdzić zakres prac przed wysłaniem swojego problemu.</p>
         <ul>

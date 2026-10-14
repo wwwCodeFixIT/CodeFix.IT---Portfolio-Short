@@ -54,6 +54,9 @@ jobs:
       - name: Build project
         run: npm run build
 
+      - name: Check static SEO pages and internal links
+        run: npm run seo:static
+
       - name: Check conversion measurement contract
         run: npm run measurement:smoke
 
