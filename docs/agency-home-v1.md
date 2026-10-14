@@ -24,4 +24,26 @@ Aktualny domyślny kod backendu `wwwCodeFixIT/CodeFix.IT-App` przyjmuje `develop
 
 ## Podgląd i publikacja
 
-Kontrola przeglądarkowa oraz końcowe CI zostaną dopisane po wdrożeniu. Próba rzeczywistego formularza i odczyt kontrolnego leada w CRM nie są jeszcze oznaczone jako PASS. Telefon, fizyczny Safari/iPhone, realne CWV/Lighthouse i pełny audyt WCAG wymagają osobnej kontroli. PR pozostaje szkicem; ta zmiana nie publikuje strony produkcyjnej.
+Chrome desktop 1348 × 926 px: PASS na `5d93b71`, podgląd `https://fdc4b694.codefix-it---portfolio-short.pages.dev/`. Końcowy adres gałęzi: `https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/`. CI i Cloudflare dla kodu: success.
+
+![Pierwszy ekran agencji, z zatrzymanym ruchem](qa/codefix-agency-home-desktop-20261014.jpg)
+
+PASS: prezentacja oferty i zespołu, sześć linków menu, jeden H1 i main, brak powtórzonych ID, brak uszkodzonych kotwic i poziomego przewijania. Opisy usług i małe teksty są czytelniejsze. Sprawdzono używane kolory: biały na czerwieni przycisku 6,47:1, hover 7,52:1; wyliczenie szarego opisu na górnym kolorze karty 7,25:1. Małe opisy panelu i metadane usług mają w przeglądarce 13 px. To kontrola wybranych kolorów, nie pełna certyfikacja WCAG.
+
+PASS: pauza Enterem, wznowienie spacją, reakcja na mysz i wyzerowanie zmiennych przy pauzie. Kalkulator zachowuje wybrany okres po zwinięciu; opieka na trzy miesiące pokazuje od 900 zł. Brief wybiera właściwą usługę, przenosi focus do imienia i zachowuje uwagi. Po usunięciu zakresu focus wraca do opisu, a limit do 4000 znaków. FAQ o AI otwiera się Enterem. Statyczny HTML ma również kotwicę kontaktu dla ścieżki aplikacji, gdy JavaScript się nie załaduje.
+
+## Rzeczywisty test formularza i CRM
+
+14.10.2026, godz. 11:48 Europe/Warsaw: wysłano dokładnie jedno zgłoszenie oznaczone „TEST QA CodeFix.IT”, z własnym publicznym adresem kontaktowym marki i unikalnym identyfikatorem kontrolnym. To test techniczny, nie zlecenie klienta. Opcjonalne pomiary zostały odrzucone przed testem.
+
+PASS: ścieżka aplikacji wybrała `development`, pokazała właściwy opis i pole firmy. Po wysłaniu formularz pokazał „Wiadomość dotarła”, wyczyścił pola i ustawił focus na komunikacie z `role="status"`.
+
+![Potwierdzenie wysłania kontrolnego zapytania](qa/codefix-agency-form-success-20261014.jpg)
+
+PASS: odczyt bazy przez Neon potwierdził jeden kontrolny lead `WEBSITE_FORM` oraz powiązaną notatkę z `service=development`. Zapisana atrybucja ma landingPath i submitPath `/`; lejek wskazuje selectedService `development` oraz pierwsze i ostatnie CTA `hero_path_application`. Identyfikatory rekordów i dane innych klientów nie są publikowane w raporcie. Kontrolny rekord pozostaje w CRM z nazwą TEST QA.
+
+## Pozostałe bramki
+
+Mobilny audyt Google PageSpeed API nie zwrócił wyników: HTTP 429, wyczerpany dzienny limit zapytań po stronie Google. Nie publikujemy wymyślonych ocen ani metryk CWV. WPVibe nie ma podłączonej witryny WordPress; nie podłączano nowego serwisu do tego audytu strony statycznej.
+
+Telefon, fizyczny Safari/iPhone, realne CWV/Lighthouse i pełny ręczny audyt WCAG pozostają do kontroli. Dokładny podział ról w zespole i docelowy zakres oferty AI pozostają do potwierdzenia. PR pozostaje szkicem; nie wykonano merge ani publikacji strony produkcyjnej.

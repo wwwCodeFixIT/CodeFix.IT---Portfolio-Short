@@ -316,6 +316,7 @@ function staticContactBlock(path) {
 
   return `
     <section id="kontakt" aria-labelledby="static-contact-heading">
+      ${path === '/' ? '<span id="contact"></span>' : ''}
       <h2 id="static-contact-heading">Kontakt z CodeFix.IT</h2>
       <p>Jeśli interaktywny formularz chwilowo się nie załaduje, nadal możesz wysłać zgłoszenie bezpośrednio e-mailem.</p>
       <p><a href="mailto:${contactEmail}">${contactEmail}</a></p>
