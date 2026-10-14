@@ -13,9 +13,7 @@ export function Brand({ href = '/', tagline = false, className = '' }: BrandProp
     <a
       href={href}
       className={classes}
-      aria-label={
-        tagline ? 'CodeFix.IT — Diabeł tkwi w kodzie — strona główna' : 'CodeFix.IT — strona główna'
-      }
+      aria-label={tagline ? undefined : 'CodeFix.IT — strona główna'}
     >
       <span className="cf-brand-mark" aria-hidden="true">
         <img

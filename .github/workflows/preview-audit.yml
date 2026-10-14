@@ -7,6 +7,7 @@ on:
       - '.github/workflows/preview-audit.yml'
       - 'scripts/preview-lighthouse.mjs'
       - 'scripts/preview-mobile-qa.mjs'
+      - 'scripts/wait-preview-audit.mjs'
   workflow_dispatch:
 
 permissions:
@@ -16,12 +17,12 @@ concurrency:
   group: preview-audit-${{ github.ref }}
   cancel-in-progress: true
 
-# Explicit immutable deployment: update all three values for a new audit target.
-# The audited runtime commit is separate from the commit containing these tests.
+# Wait for this pull request's expected entry before auditing the branch preview.
+# Freeze the verified immutable target when recording the final results.
 env:
-  AUDIT_SITE_URL: https://40f72617.codefix-it---portfolio-short.pages.dev/
-  AUDIT_RUNTIME_COMMIT: 300c6bf6777b6b7da9cca321b16e0a0632cbac17
-  AUDIT_EXPECTED_ENTRY: /assets/index-Coo1B7T5.js
+  AUDIT_SITE_URL: https://feat-project-estimator-v1.codefix-it---portfolio-short.pages.dev/
+  AUDIT_RUNTIME_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+  AUDIT_EXPECTED_ENTRY: /assets/index-i7-iRY6J.js
 
 jobs:
   lighthouse:
@@ -36,7 +37,7 @@ jobs:
       - name: Install audit tool outside application dependencies
         run: npm install --prefix .qa-tools --no-save --ignore-scripts lighthouse@13.5.0
       - name: Audit deployed pages
-        run: node scripts/preview-lighthouse.mjs
+        run: node scripts/wait-preview-audit.mjs && node scripts/preview-lighthouse.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -59,7 +60,7 @@ jobs:
       - name: Install WebKit and system dependencies
         run: .qa-tools/node_modules/.bin/playwright install --with-deps webkit
       - name: Check deployed mobile flows
-        run: node scripts/preview-mobile-qa.mjs
+        run: node scripts/wait-preview-audit.mjs && node scripts/preview-mobile-qa.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

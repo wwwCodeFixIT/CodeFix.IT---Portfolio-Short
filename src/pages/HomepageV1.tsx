@@ -50,10 +50,21 @@ function focusContact(section: HTMLElement | null, behavior: ScrollBehavior) {
   if (!input) return;
   // Focus renders the deferred sections before the scroll destination is measured.
   input.focus({ preventScroll: true });
-  const mobile = window.matchMedia('(max-width: 720px)').matches;
-  (mobile ? input : section)?.scrollIntoView({
-    behavior,
-    block: mobile ? 'center' : 'start',
+  window.requestAnimationFrame(() => {
+    if (!input.isConnected) return;
+    if (window.matchMedia('(max-width: 720px)').matches) {
+      // WebKit resolves focus styles after the event; measure the final layout.
+      const box = input.getBoundingClientRect();
+      const viewport = window.visualViewport;
+      const height = viewport?.height ?? window.innerHeight;
+      const offset = viewport?.offsetTop ?? 0;
+      window.scrollTo({
+        top: Math.max(0, window.scrollY + box.top - offset - (height - box.height) / 2),
+        behavior: 'instant',
+      });
+    } else {
+      section?.scrollIntoView({ behavior, block: 'start' });
+    }
   });
 }
 
