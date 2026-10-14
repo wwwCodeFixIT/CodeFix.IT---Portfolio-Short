@@ -19,9 +19,9 @@ concurrency:
 # Explicit immutable deployment: update all three values for a new audit target.
 # The audited runtime commit is separate from the commit containing these tests.
 env:
-  AUDIT_SITE_URL: https://a0706b5b.codefix-it---portfolio-short.pages.dev/
-  AUDIT_RUNTIME_COMMIT: 1fa49ecb2a67d51e269ec6c472d56d50a249726b
-  AUDIT_EXPECTED_ENTRY: /assets/index-BTaW3Ouh.js
+  AUDIT_SITE_URL: https://40f72617.codefix-it---portfolio-short.pages.dev/
+  AUDIT_RUNTIME_COMMIT: 300c6bf6777b6b7da9cca321b16e0a0632cbac17
+  AUDIT_EXPECTED_ENTRY: /assets/index-Coo1B7T5.js
 
 jobs:
   lighthouse:

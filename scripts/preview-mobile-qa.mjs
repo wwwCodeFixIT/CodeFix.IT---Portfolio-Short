@@ -88,6 +88,11 @@ for (const [engine, type] of [
           type: 'jpeg',
           quality: 80,
         })
+        await page
+          .locator('.cf-hero-copy')
+          .getByRole('link', { name: 'Opisz temat', exact: true })
+          .click()
+        await contactReady(page, '')
         const picker = page.locator('.cf-hero-picker')
         for (const label of ['Strona', 'Naprawa', 'Aplikacja']) {
           await picker.getByRole('button', { name: label, exact: true }).click()
@@ -102,14 +107,18 @@ for (const [engine, type] of [
         await contactReady(page, 'development')
         const form = await page.evaluate(() => ({
           fontSize: getComputedStyle(document.querySelector('input[name="name"]')).fontSize,
-          stickyVisible: getComputedStyle(document.querySelector('.cf-mobile-sticky-cta'))
-            .visibility,
           focus: document.activeElement?.getAttribute('name'),
         }))
+        form.stickyVisible = await page.locator('.cf-mobile-sticky-cta').isVisible()
         if (width <= 720) {
           assert.ok(parseFloat(form.fontSize) >= 16)
-          assert.equal(form.stickyVisible, 'hidden')
+          assert.equal(form.stickyVisible, false)
         }
+        await page.screenshot({
+          path: new URL(`${engine}-${width}-contact.jpg`, output).pathname,
+          type: 'jpeg',
+          quality: 80,
+        })
         if (width === 375) {
           const note = 'Notatka QA — test interfejsu bez wysyłki.'
           await page.locator('textarea[name="message"]').fill(note)
@@ -170,7 +179,14 @@ for (const [engine, type] of [
           type: 'jpeg',
           quality: 80,
         })
-        results.push({ engine, width, status: 'fail', error: error.stack })
+        const state = await page.evaluate(() => ({
+          active: document.activeElement?.getAttribute('name'),
+          service: document.querySelector('select[name="service"]')?.value,
+          nameBox: document.querySelector('input[name="name"]')?.getBoundingClientRect().toJSON(),
+          contactBox: document.querySelector('#contact')?.getBoundingClientRect().toJSON(),
+          viewport: innerHeight,
+        }))
+        results.push({ engine, width, status: 'fail', error: error.stack, state })
         await writeFile(
           new URL('summary.json', output),
           JSON.stringify({ runtimeCommit: process.env.AUDIT_RUNTIME_COMMIT, results }, null, 2),
