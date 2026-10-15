@@ -102,14 +102,6 @@ for (const [engine, type] of [
           await form.locator('.cf-brief-scope').innerText(),
           'Wybrany zakres: Szybkość działania, Formularz kontaktowy.',
         )
-        await form.locator('[name="name"]').fill('Wizard QA')
-        await form.locator('[name="email"]').fill('invalid')
-        await form.locator('button[type="submit"]').click()
-        assert.equal(await step(), '2')
-        assert.equal(
-          await form.locator('[name="email"]').evaluate((el) => el.validity.valid),
-          false,
-        )
         const changeTopic = form.getByRole('button', { name: 'Zmień temat', exact: true })
         const editDescription = form.getByRole('button', { name: 'Popraw opis', exact: true })
         await changeTopic.press('Tab')
@@ -119,6 +111,16 @@ for (const [engine, type] of [
           await form.locator('[name="name"]').evaluate((el) => el === document.activeElement),
           true,
         )
+        await form.locator('[name="name"]').fill('Wizard QA')
+        await form.locator('[name="email"]').fill('invalid')
+        await form.locator('button[type="submit"]').click()
+        assert.equal(await step(), '2')
+        assert.equal(
+          await form.locator('[name="email"]').evaluate((el) => el.validity.valid),
+          false,
+        )
+        // Native validation focuses the field on the next animation frame.
+        await page.waitForFunction(() => document.activeElement?.getAttribute('name') === 'email')
         await changeTopic.press('Enter')
         assert.equal(await step(), '0')
         assert.equal(
