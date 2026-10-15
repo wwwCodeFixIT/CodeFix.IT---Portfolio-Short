@@ -15,6 +15,11 @@ on:
       - 'src/pages/HomepageV1.v3.css'
       - 'src/components/BriefScopePicker.tsx'
       - 'src/components/AutomationDemo.tsx'
+      - 'src/components/ProjectPreview.tsx'
+      - 'src/components/ProjectPreview.css'
+      - 'src/components/ProjectQuickView.tsx'
+      - 'src/components/ProjectQuickView.css'
+      - 'scripts/project-quick-view-qa.mjs'
       - 'scripts/automation-demo-qa.mjs'
       - 'src/lib/measurement.ts'
       - 'src/lib/sales-funnel.ts'
@@ -59,6 +64,7 @@ jobs:
             if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then break; fi
             sleep 1
           done
+          node scripts/project-quick-view-qa.mjs
           node scripts/contact-wizard-qa.mjs
           node scripts/contact-submission-qa.mjs
           node scripts/content-paths-qa.mjs

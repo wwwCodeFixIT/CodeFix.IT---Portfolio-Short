@@ -45,10 +45,11 @@ const totalCss = css.reduce((sum, asset) => sum + asset.bytes, 0);
 const budgets = {
   entryJs: 215_000,
   largestDeferredJs: 50_000,
-  totalJs: 320_000,
+  // Native project quick view: shared triggers + dialog loaded only on demand (~5 KB).
+  totalJs: 326_000,
   largestCss: 40_000,
-  // Dedicated workflow and topic-list styling replaces shared widget styles (~1.8 KB).
-  totalCss: 74_000,
+  // Includes the isolated quick-view stylesheet and reference attachment (~3.7 KB).
+  totalCss: 78_000,
 };
 
 console.log(`Entry JS: ${entry.bytes} B / ${budgets.entryJs} B — ${entry.name}`);
