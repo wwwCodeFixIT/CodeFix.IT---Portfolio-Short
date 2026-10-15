@@ -1,4 +1,4 @@
-/* global document, window */
+/* global document, window, getComputedStyle */
 import assert from 'node:assert/strict'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
@@ -14,10 +14,12 @@ for (const [engine, type] of [
 ]) {
   const browser = await type.launch()
   try {
-    for (const width of [320, 390, 1280]) {
+    for (const { width, motion } of [320, 390, 1280].flatMap((width) =>
+      ['reduce', 'no-preference'].map((motion) => ({ width, motion })),
+    )) {
       const context = await browser.newContext({
         viewport: { width, height: 844 },
-        reducedMotion: 'reduce',
+        reducedMotion: motion,
         locale: 'pl-PL',
       })
       const page = await context.newPage()
@@ -25,8 +27,30 @@ for (const [engine, type] of [
       const errors = []
       let externalRequests = 0
       let scopeChunkRequests = 0
+      let copyChunkRequests = 0
       page.on('request', (request) => {
         if (new URL(request.url()).pathname.includes('/BriefScopePicker-')) scopeChunkRequests++
+        if (new URL(request.url()).pathname.includes('/BriefCopy-')) copyChunkRequests++
+      })
+      await context.addInitScript(() => {
+        window.__briefCopyMode = 'success'
+        window.__briefCopies = []
+        window.__briefClipboard = {
+          writeText(text) {
+            window.__briefCopies.push(text)
+            if (window.__briefCopyMode === 'denied')
+              return Promise.reject(new DOMException('Clipboard denied', 'NotAllowedError'))
+            if (window.__briefCopyMode === 'hold')
+              return new Promise((resolve) => {
+                window.__finishBriefCopy = resolve
+              })
+            return Promise.resolve()
+          },
+        }
+        Object.defineProperty(navigator, 'clipboard', {
+          configurable: true,
+          value: window.__briefClipboard,
+        })
       })
       page.on('pageerror', (e) => errors.push(e.message))
       await context.route('**/*', (route) => {
@@ -56,6 +80,8 @@ for (const [engine, type] of [
         }
         const form = page.locator('form.cf-lead-form')
         const next = form.getByRole('button', { name: 'Dalej', exact: true })
+        const copy = () => form.getByRole('button', { name: 'Skopiuj brief', exact: true })
+        const copied = () => form.getByRole('button', { name: 'Skopiowano', exact: true })
         const step = () => form.locator('[data-brief-step]:visible').getAttribute('data-brief-step')
         assert.deepEqual(await form.locator('.cf-brief-progress li').allTextContents(), [
           'Temat',
@@ -77,6 +103,26 @@ for (const [engine, type] of [
         assert.match(await form.locator('#cf-topic-hint').innerText(), /Pierwsze wskazówki/)
         await next.click()
         assert.equal(await step(), '1')
+        assert.equal(copyChunkRequests, 0)
+        const animation = await form.locator('[data-brief-step="1"]').evaluate((el) => ({
+          name: getComputedStyle(el).animationName,
+          transform: getComputedStyle(el).transform,
+        }))
+        assert.equal(animation.name, motion === 'reduce' ? 'none' : 'cf-brief-enter')
+        assert.equal(animation.transform, 'none')
+        // Fast keyboard navigation must work before the 140 ms fade completes.
+        await form.getByRole('button', { name: 'Wstecz', exact: true }).press('Enter')
+        assert.equal(await step(), '0')
+        assert.equal(
+          await form.locator('[data-step-heading]:focus').innerText(),
+          'Czego potrzebujesz?',
+        )
+        await next.press('Enter')
+        assert.equal(await step(), '1')
+        assert.equal(
+          await form.locator('[data-step-heading]:focus').innerText(),
+          'Co trzeba zrobić?',
+        )
         assert.equal(
           await form.locator('.cf-brief-progress [aria-current]').innerText(),
           'Szczegóły',
@@ -139,7 +185,62 @@ for (const [engine, type] of [
         )
         // Native validation focuses the field on the next animation frame.
         await page.waitForFunction(() => document.activeElement?.getAttribute('name') === 'email')
+        const expectedBrief = `Temat: Mini-ocena strony\n\nAdres strony: https://example.invalid/\n\n${note}\n\nWybrany zakres: Szybkość działania, Formularz kontaktowy.`
+        await copy().press('Enter')
+        await copied().waitFor()
+        assert.equal(copyChunkRequests, 1)
+        assert.deepEqual(await page.evaluate(() => window.__briefCopies), [expectedBrief])
+        assert.equal(await step(), '2')
+        await copied().press('Tab')
+        assert.equal(await changeTopic.evaluate((el) => el === document.activeElement), true)
+
+        // Clipboard denial and a missing API provide a selected read-only fallback.
+        await page.evaluate(() => {
+          window.__briefCopyMode = 'denied'
+        })
+        await copied().press('Enter')
+        const manual = form.getByRole('textbox', {
+          name: 'Skopiuj poniższy brief ręcznie',
+          exact: true,
+        })
+        await manual.waitFor()
+        assert.equal(await manual.inputValue(), expectedBrief)
+        assert.deepEqual(
+          await manual.evaluate((el) => [
+            el === document.activeElement,
+            el.readOnly,
+            el.selectionStart,
+            el.selectionEnd,
+          ]),
+          [true, true, 0, expectedBrief.length],
+        )
+        await page.evaluate(() => {
+          Object.defineProperty(navigator, 'clipboard', { configurable: true, value: undefined })
+        })
+        await copy().press('Enter')
+        await page.waitForFunction(() => document.activeElement?.readOnly === true)
+        assert.equal(await manual.inputValue(), expectedBrief)
+        assert.equal(await form.locator('[name="name"]').inputValue(), 'Wizard QA')
+        assert.equal(await form.locator('[name="email"]').inputValue(), 'invalid')
+
+        // A pending clipboard promise must not block editing or announce success after remount.
+        await page.evaluate(() => {
+          Object.defineProperty(navigator, 'clipboard', {
+            configurable: true,
+            value: window.__briefClipboard,
+          })
+          window.__briefCopyMode = 'hold'
+        })
+        await copy().press('Enter')
+        assert.equal(
+          await form.getByRole('button', { name: 'Kopiuję…', exact: true }).isDisabled(),
+          true,
+        )
         await changeTopic.press('Enter')
+        await page.evaluate(() => {
+          window.__finishBriefCopy()
+          window.__briefCopyMode = 'success'
+        })
         assert.equal(await step(), '0')
         assert.equal(
           await form
@@ -157,6 +258,8 @@ for (const [engine, type] of [
           'true',
         )
         await next.click()
+        await copy().waitFor()
+        assert.equal(await copied().count(), 0)
         assert.equal(await form.locator('[name="name"]').inputValue(), 'Wizard QA')
         assert.equal(await form.locator('[name="email"]').inputValue(), 'invalid')
         await editDescription.press('Enter')
@@ -172,6 +275,12 @@ for (const [engine, type] of [
         await next.click()
         assert.match(await form.locator('.cf-brief-summary').innerText(), /Poprawiony opis/)
         assert.equal((await form.locator('.cf-brief-summary').innerText()).includes(note), false)
+        await copy().press('Enter')
+        await copied().waitFor()
+        assert.equal(
+          await page.evaluate(() => window.__briefCopies.at(-1)),
+          expectedBrief.replace(note, editedNote),
+        )
         await changeTopic.press('Enter')
         await form.getByRole('button', { name: 'Aplikacja / integracja', exact: true }).click()
         await next.click()
@@ -182,6 +291,12 @@ for (const [engine, type] of [
         assert.match(await form.locator('.cf-brief-summary').innerText(), /Aplikacja \/ integracja/)
         assert.match(await form.locator('.cf-brief-summary').innerText(), /Poprawiony opis/)
         assert.equal(await form.locator('.cf-brief-scope').count(), 0)
+        await copy().press('Enter')
+        await copied().waitFor()
+        assert.equal(
+          await page.evaluate(() => window.__briefCopies.at(-1)),
+          `Temat: Aplikacja / integracja\n\nAdres strony: https://example.invalid/\n\n${editedNote}`,
+        )
         assert.equal(
           await page.evaluate(
             () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
@@ -206,6 +321,20 @@ for (const [engine, type] of [
           await form.locator('.cf-brief-summary').innerText(),
           /Zakres z kalkulatora dołączony/,
         )
+        await copy().press('Enter')
+        await copied().waitFor()
+        assert.equal(
+          await page.evaluate(() => window.__briefCopies.at(-1)),
+          `Temat: Nowa strona\n\nAdres strony: https://example.invalid/\n\n${attached}`,
+        )
+        assert.equal(
+          await page.evaluate(() =>
+            window.__briefCopies.some(
+              (text) => text.includes('Wizard QA') || text.includes('\nE-mail:'),
+            ),
+          ),
+          false,
+        )
         await changeTopic.press('Enter')
         await form.getByRole('button', { name: 'Nowa strona', exact: true }).click()
         await next.click()
@@ -223,16 +352,40 @@ for (const [engine, type] of [
         const result = {
           engine,
           width,
+          motion,
+          kind: 'contact-wizard',
           status: 'pass',
           validation: true,
           backPreservesData: true,
           keyboard: true,
           reviewEdit: true,
           estimator: true,
+          clipboard: ['success', 'denied', 'unavailable', 'pending', 'edited', 'calculator'],
+          copyLazyChunkRequests: copyChunkRequests,
+          motionPreference: true,
           liveLeadRequests: 0,
         }
         results.push(result)
         console.log(JSON.stringify(result))
+      } catch (error) {
+        await page.screenshot({
+          path: new URL(`wizard-${engine}-${width}-${motion}-failure.jpg`, output).pathname,
+        })
+        await writeFile(
+          new URL('wizard-failure.json', output),
+          JSON.stringify(
+            {
+              engine,
+              width,
+              motion,
+              error: error.stack,
+              active: await page.evaluate(() => document.activeElement?.outerHTML),
+            },
+            null,
+            2,
+          ),
+        )
+        throw error
       } finally {
         await context.close()
       }

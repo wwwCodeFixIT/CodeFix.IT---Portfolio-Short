@@ -60,6 +60,12 @@ const BriefScopePicker = lazy(() =>
   })),
 );
 
+const BriefCopy = lazy(() =>
+  import('../components/BriefCopy').catch(() => ({
+    default: () => <p role="status">Zaznacz podsumowanie, aby skopiować je ręcznie.</p>,
+  })),
+);
+
 const AutomationDemo = lazy(() =>
   import('../components/AutomationDemo').catch(() => ({
     default: () => <p>Opisz swój proces — zaproponuję możliwe usprawnienia.</p>,
@@ -146,34 +152,33 @@ const leadApiUrl = 'https://app.codefix.it/api/public/leads';
 const serviceFormGuidance: Record<string, { submit: string; placeholder: string; hint: string }> = {
   [appService]: {
     submit: 'Zapytaj o aplikację',
-    placeholder: 'Jaki cel ma aplikacja, kto będzie jej używać i jakie integracje są potrzebne?',
-    hint: 'Opisz cel, użytkowników i potrzebne integracje. Zakres i cenę ustalę po briefie.',
+    placeholder: 'Kto będzie używać aplikacji i jakie zadania ma ułatwiać?',
+    hint: 'Opisz cel aplikacji i potrzebne integracje.',
   },
   [quickFixService]: {
     submit: 'Wyślij zgłoszenie Quick Fix',
     placeholder: 'Co dokładnie nie działa, od kiedy i co widzisz na ekranie?',
-    hint: 'Opisz jeden problem: co nie działa i od kiedy. Zakres i cenę potwierdzę przed rozpoczęciem prac.',
+    hint: 'Co nie działa i od kiedy? Zakres i cenę potwierdzę przed pracą.',
   },
   [businessSiteService]: {
     submit: 'Wyślij brief do wyceny',
-    placeholder:
-      'Czym zajmuje się firma, jakich podstron potrzebujesz i jaki jest główny cel strony?',
-    hint: 'Napisz, czym zajmuje się firma, czego potrzebuje strona i czy masz już domenę, teksty oraz logo.',
+    placeholder: 'Co oferuje firma i co użytkownik ma zrobić na stronie?',
+    hint: 'Opisz firmę i cel strony. Daj znać, czy masz domenę, teksty i logo.',
   },
   [careService]: {
     submit: 'Zapytaj o stałą opiekę',
-    placeholder: 'Jak wygląda obecna strona i czego oczekujesz w ramach stałej opieki?',
-    hint: 'Podeślij adres strony i napisz, co mam regularnie aktualizować, sprawdzać lub poprawiać.',
+    placeholder: 'Jakiej pomocy potrzebujesz przy obecnej stronie?',
+    hint: 'Podaj adres strony i zakres regularnego wsparcia.',
   },
   [agencyService]: {
     submit: 'Zapytaj o współpracę white-label',
-    placeholder: 'Jakie zadania chcesz zlecić, z jakich technologii korzystasz i jaki jest termin?',
-    hint: 'Opisz zadanie, technologie i termin. Dodaj, czy mam pracować bez kontaktu z klientem końcowym.',
+    placeholder: 'Jakie zadania chcesz zlecić i na kiedy?',
+    hint: 'Opisz zadania, technologie i termin.',
   },
   [miniAuditService]: {
     submit: 'Poproś o mini-ocenę',
-    placeholder: 'Co najbardziej Cię niepokoi na obecnej stronie?',
-    hint: 'Wklej publiczny adres strony i opisz, co Cię niepokoi. Nie potrzebuję danych logowania.',
+    placeholder: 'Co warto sprawdzić na stronie?',
+    hint: 'Podaj publiczny adres strony i opisz problem.',
   },
 };
 
@@ -518,6 +523,7 @@ export function HomepageV1() {
     ? `Punkt odniesienia: ${referenceProject.title} — https://codefix.it/realizacje/${referenceProject.slug}/`
     : '';
   const supplementText = [scopeText, referenceText].filter(Boolean).join('\n\n');
+  const serviceLabel = briefServices.find(([value]) => value === selectedService)?.[1] ?? '';
   const messageLimit = Math.max(
     0,
     4000 -
@@ -528,6 +534,13 @@ export function HomepageV1() {
   function toggleBriefOption(option: string) {
     setBriefOptions((current) =>
       current.includes(option) ? current.filter((item) => item !== option) : [...current, option],
+    );
+  }
+
+  function briefMessage(description: string) {
+    return mergeProjectBrief(
+      [description.trim(), supplementText].filter(Boolean).join('\n\n'),
+      projectBrief,
     );
   }
 
@@ -586,10 +599,7 @@ export function HomepageV1() {
     const journey = readConversionJourney();
     const data = new FormData(form);
     const service = selectedService;
-    const message = mergeProjectBrief(
-      [String(data.get('message') ?? '').trim(), supplementText].filter(Boolean).join('\n\n'),
-      projectBrief,
-    );
+    const message = briefMessage(String(data.get('message') ?? ''));
     if (message.length > 4000) {
       setFormState('error');
       setFormMessage(
@@ -1372,9 +1382,7 @@ export function HomepageV1() {
                         role="group"
                         aria-label="Podsumowanie zapytania"
                       >
-                        <strong>
-                          {briefServices.find(([value]) => value === selectedService)?.[1]}
-                        </strong>
+                        <strong>{serviceLabel}</strong>
                         {briefSummary.pageUrl && <p>{briefSummary.pageUrl}</p>}
                         <p>{briefSummary.message}</p>
                         {scopeText && <p className="cf-brief-scope">{scopeText}</p>}
@@ -1384,6 +1392,17 @@ export function HomepageV1() {
                             project={referenceProject}
                             onRemove={() => setReferenceProject(null)}
                           />
+                        )}
+                        {briefStep === 2 && (
+                          <div className="cf-brief-copy">
+                            <Suspense fallback={null}>
+                              <BriefCopy
+                                service={serviceLabel}
+                                pageUrl={briefSummary.pageUrl}
+                                message={briefMessage(briefSummary.message)}
+                              />
+                            </Suspense>
+                          </div>
                         )}
                         <div className="cf-brief-review-actions">
                           <button type="button" onClick={() => goToBriefStep(0)}>
