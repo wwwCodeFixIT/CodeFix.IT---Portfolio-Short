@@ -1,4 +1,4 @@
-/* global document */
+/* global document, window */
 import assert from 'node:assert/strict'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
@@ -103,7 +103,11 @@ for (const [engine, type] of [
             await page.waitForTimeout(2800)
             assert.ok((await status.innerText()).includes('Krok 1 z 4'))
             await demo.getByRole('button', { name: 'Uruchom pokaz', exact: true }).click()
-            await page.locator('#top').scrollIntoViewIfNeeded()
+            await page.locator('.cf-title').scrollIntoViewIfNeeded()
+            await page.waitForFunction(() => {
+              const box = document.querySelector('.cf-auto-demo').getBoundingClientRect()
+              return box.bottom <= 0 || box.top >= window.innerHeight
+            })
             await demo.getByRole('button', { name: 'Uruchom pokaz', exact: true }).waitFor()
             const outside = await status.innerText()
             await page.waitForTimeout(2800)
