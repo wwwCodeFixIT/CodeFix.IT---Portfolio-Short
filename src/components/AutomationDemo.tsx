@@ -1,187 +1,108 @@
-import { useEffect, useRef, useState } from 'react'
+import { useState } from 'react'
 
-const scenarios = [
+const examples = [
   {
     label: 'Zapytania',
-    steps: [
-      ['Wiadomość', 'Klient opisuje potrzebę.', '„Potrzebuję strony dla studia jogi.”'],
-      [
-        'Propozycja AI',
-        'Dane zostają uporządkowane do sprawdzenia.',
-        'Temat: nowa strona\nCel: zapisy na zajęcia',
-      ],
-      [
-        'CRM',
-        'Zapytanie pojawia się na liście.',
-        'DEMO-01 · Nowe zapytanie\nDo ustalenia: zakres i termin',
-      ],
-      [
-        'Szkic odpowiedzi',
-        'Człowiek sprawdza treść przed wysyłką.',
-        '„Czy masz już system zapisów?”\nStatus: czeka na akceptację',
-      ],
+    input: 'Wiadomość z formularza',
+    source: '„Prowadzę studio jogi. Potrzebuję strony z zapisami na zajęcia.”',
+    output: 'Zapytanie w CRM',
+    rows: [
+      ['Temat', 'Strona firmowa'],
+      ['Cel', 'Zapisy na zajęcia'],
+      ['Status', 'Do doprecyzowania'],
     ],
+    action: 'Podejrzyj odpowiedź',
+    close: 'Zwiń odpowiedź',
+    detail:
+      'Dziękuję za opis. Czy masz już system zapisów, z którym strona powinna się połączyć? To szkic do sprawdzenia przed wysyłką.',
   },
   {
     label: 'Dokumenty',
-    steps: [
-      [
-        'Notatka',
-        'Zaczynamy od przykładowego zamówienia.',
-        '„Studio Joga: 12 mat, dostawa w piątek.”',
-      ],
-      [
-        'Odczyt danych',
-        'Informacje trafiają do osobnych pól.',
-        'Produkt: mata\nLiczba: 12\nTermin: piątek',
-      ],
-      [
-        'Weryfikacja',
-        'Operator sprawdza i uzupełnia dane.',
-        'Adres: ul. Przykładowa 10\nWeryfikacja: zatwierdzona',
-      ],
-      [
-        'Zestawienie',
-        'Gotowe dane trafiają do wspólnej listy.',
-        'Studio Joga · 12 mat · piątek\nStatus: zatwierdzone',
-      ],
+    input: 'Notatka z zamówienia',
+    source: '„Studio Joga — 12 mat do ćwiczeń. Dostawa w piątek.”',
+    output: 'Dane do sprawdzenia',
+    rows: [
+      ['Produkt', 'Maty do ćwiczeń'],
+      ['Liczba', '12'],
+      ['Dostawa', 'Piątek'],
     ],
+    action: 'Sprawdź kompletność',
+    close: 'Zwiń uwagę',
+    detail:
+      'W notatce brakuje adresu dostawy. Ten element wymaga uzupełnienia przed przekazaniem zamówienia dalej.',
   },
   {
     label: 'Panel klienta',
-    steps: [
-      [
-        'Projekt',
-        'Klient ma podgląd swojego projektu.',
-        'Strona studia jogi\nStatus: w realizacji',
-      ],
-      ['Postęp', 'Widać aktualny etap pracy.', 'Projekt graficzny: gotowy\nWdrożenie: w toku'],
-      [
-        'Uwagi',
-        'Podgląd i uwagi są w jednym miejscu.',
-        'Podgląd: dostępny\nUwaga klienta: zmiana zdjęcia',
-      ],
-      [
-        'Akceptacja',
-        'Po sprawdzeniu zmian wiadomo, co dalej.',
-        'Poprawki: zaakceptowane\nNastępny krok: publikacja',
-      ],
+    input: 'Podgląd projektu',
+    source: 'Strona studia jogi. Projekt graficzny jest gotowy do sprawdzenia przez klienta.',
+    output: 'Etapy projektu',
+    rows: [
+      ['Projekt graficzny', 'Do sprawdzenia', 'Zaakceptowany'],
+      ['Wdrożenie', 'Po akceptacji', 'Gotowe do startu'],
     ],
+    action: 'Zaakceptuj podgląd',
+    close: 'Cofnij akceptację',
+    detail:
+      'Akceptacja zapisana w tym przykładzie. Kolejny etap: wdrożenie zaakceptowanego projektu.',
   },
 ]
 
 export default function AutomationDemo() {
-  const [scenario, setScenario] = useState(0)
-  const [step, setStep] = useState(0)
-  const [playing, setPlaying] = useState(false)
-  const [reduced, setReduced] = useState(
-    () => window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-  )
-  const root = useRef<HTMLDivElement>(null)
-  const current = scenarios[scenario]
-  const [title, description, sample] = current.steps[step]
-
-  useEffect(() => {
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const pause = () => setPlaying(false)
-    const preference = () => {
-      setReduced(media.matches)
-      pause()
-    }
-    media.addEventListener('change', preference)
-    document.addEventListener('visibilitychange', pause)
-    const observer =
-      typeof IntersectionObserver === 'undefined'
-        ? null
-        : new IntersectionObserver(([entry]) => {
-            if (!entry.isIntersecting) pause()
-          })
-    if (root.current) observer?.observe(root.current)
-    return () => {
-      media.removeEventListener('change', preference)
-      document.removeEventListener('visibilitychange', pause)
-      observer?.disconnect()
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!playing) return
-    const timer = window.setTimeout(() => {
-      setStep(step + 1)
-      if (step === 2) setPlaying(false)
-    }, 2600)
-    return () => window.clearTimeout(timer)
-  }, [playing, step])
-
-  function selectStep(index: number) {
-    setPlaying(false)
-    setStep(index)
-  }
+  const [selected, setSelected] = useState(0)
+  const [expanded, setExpanded] = useState(false)
+  const example = examples[selected]
 
   return (
-    <div className="cf-auto-demo" ref={root} role="group" aria-label="Demo automatyzacji">
-      <p className="cf-section-kicker">Interaktywne demo</p>
-      <p className="cf-demo-note">Symulacja na fikcyjnych danych. Wybierz przykład.</p>
-      <div className="cf-hero-path-list" role="group" aria-label="Wybierz scenariusz">
-        {scenarios.map(({ label }, index) => (
+    <div className="cf-auto-demo" role="group" aria-label="Przykład automatyzacji">
+      <div className="cf-demo-heading">
+        <strong>Przepływ pracy</strong>
+        <span>Dane przykładowe</span>
+      </div>
+      <div className="cf-demo-tabs" role="group" aria-label="Wybierz scenariusz">
+        {examples.map(({ label }, index) => (
           <button
-            className="cf-hero-path"
             type="button"
             key={label}
-            aria-pressed={scenario === index}
+            aria-pressed={selected === index}
             onClick={() => {
-              setScenario(index)
-              selectStep(0)
+              setSelected(index)
+              setExpanded(false)
             }}
           >
             {label}
           </button>
         ))}
       </div>
-      <div data-demo-steps role="group" aria-label="Kroki demonstracji">
-        {current.steps.map(([label], index) => (
+      <div className="cf-demo-flow">
+        <section aria-labelledby="cf-demo-input">
+          <h3 id="cf-demo-input">{example.input}</h3>
+          <p>{example.source}</p>
+        </section>
+        <section aria-labelledby="cf-demo-output">
+          <h3 id="cf-demo-output">{example.output}</h3>
+          <dl aria-live="polite" aria-atomic="true">
+            {example.rows.map(([label, value, confirmed]) => (
+              <div key={label}>
+                <dt>{label}</dt>
+                <dd>{expanded && confirmed ? confirmed : value}</dd>
+              </div>
+            ))}
+          </dl>
           <button
-            className="cf-hero-path"
+            className="cf-demo-action"
             type="button"
-            key={label}
-            aria-label={`Krok ${index + 1}: ${label}`}
-            aria-pressed={step === index}
-            onClick={() => selectStep(index)}
+            aria-expanded={expanded}
+            aria-controls="cf-demo-detail"
+            onClick={() => setExpanded((value) => !value)}
           >
-            {index + 1}
+            {expanded ? example.close : example.action}
+            <span aria-hidden="true">{expanded ? '−' : '+'}</span>
           </button>
-        ))}
+          <p id="cf-demo-detail" className="cf-demo-detail" role="status">
+            {expanded ? example.detail : ''}
+          </p>
+        </section>
       </div>
-      <div className="cf-hero-recommendation" role="status" aria-atomic="true">
-        <span>
-          Krok {step + 1} z 4 · {current.label}
-        </span>
-        <h3>{title}</h3>
-        <p>{description}</p>
-        <p className="cf-demo-sample">{sample}</p>
-      </div>
-      <div className="cf-brief-review-actions">
-        {!reduced && (
-          <button
-            className="cf-button cf-button-primary"
-            type="button"
-            onClick={() => {
-              if (step === 3) setStep(0)
-              setPlaying((value) => !value)
-            }}
-          >
-            {playing ? 'Zatrzymaj' : step === 3 ? 'Powtórz pokaz' : 'Uruchom pokaz'}
-          </button>
-        )}
-        <button
-          className="cf-button cf-button-secondary"
-          type="button"
-          onClick={() => selectStep((step + 1) % 4)}
-        >
-          {step === 3 ? 'Od początku' : 'Następny krok'}
-        </button>
-      </div>
-      {reduced && <p className="cf-demo-note">Tryb ręczny — wybieraj kolejne kroki.</p>}
     </div>
   )
 }

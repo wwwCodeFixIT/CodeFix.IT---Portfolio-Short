@@ -47,8 +47,8 @@ const budgets = {
   largestDeferredJs: 50_000,
   totalJs: 320_000,
   largestCss: 40_000,
-  // Three-step brief adds ~1.3 KB of CSS; retain a tight, explicit cap.
-  totalCss: 72_000,
+  // Dedicated workflow and topic-list styling replaces shared widget styles (~1.8 KB).
+  totalCss: 74_000,
 };
 
 console.log(`Entry JS: ${entry.bytes} B / ${budgets.entryJs} B — ${entry.name}`);
