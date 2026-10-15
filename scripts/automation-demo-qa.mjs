@@ -1,4 +1,4 @@
-/* global document, window */
+/* global document */
 import assert from 'node:assert/strict'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
@@ -35,15 +35,20 @@ for (const [engine, type] of [
         })
         try {
           await page.goto(new URL('#applications', target).href, { waitUntil: 'networkidle' })
-          const demo = page.getByRole('group', { name: 'Demo automatyzacji', exact: true })
+          const demo = page.getByRole('group', { name: 'Przykład automatyzacji', exact: true })
           await demo.waitFor()
           const reject = page.getByRole('button', { name: 'Odrzuć wszystkie', exact: true })
           if (await reject.isVisible()) await reject.click()
           await demo.scrollIntoViewIfNeeded()
-          const status = demo.getByRole('status')
           const scenarios = demo.getByRole('group', { name: 'Wybierz scenariusz', exact: true })
-          const steps = demo.getByRole('group', { name: 'Kroki demonstracji', exact: true })
-          assert.match(await demo.innerText(), /Symulacja na fikcyjnych danych/)
+          const detail = demo.locator('#cf-demo-detail')
+          assert.match(await demo.innerText(), /Dane przykładowe/)
+          assert.equal(
+            await demo
+              .getByRole('button', { name: /Uruchom pokaz|Następny krok|Powtórz pokaz/ })
+              .count(),
+            0,
+          )
           await scenarios.getByRole('button', { name: 'Zapytania', exact: true }).press('Tab')
           assert.equal(
             await scenarios
@@ -51,90 +56,65 @@ for (const [engine, type] of [
               .evaluate((el) => el === document.activeElement),
             true,
           )
-          for (const [label, lastTitle] of [
-            ['Zapytania', 'Szkic odpowiedzi'],
-            ['Dokumenty', 'Zestawienie'],
-            ['Panel klienta', 'Akceptacja'],
+
+          for (const [label, action, close, expected] of [
+            ['Zapytania', 'Podejrzyj odpowiedź', 'Zwiń odpowiedź', /szkic do sprawdzenia/],
+            ['Dokumenty', 'Sprawdź kompletność', 'Zwiń uwagę', /brakuje adresu dostawy/],
+            ['Panel klienta', 'Zaakceptuj podgląd', 'Cofnij akceptację', /Kolejny etap: wdrożenie/],
           ]) {
-            await scenarios.getByRole('button', { name: label, exact: true }).press('Enter')
+            const choice = scenarios.getByRole('button', { name: label, exact: true })
+            await choice.press('Enter')
             assert.equal(await scenarios.locator('[aria-pressed="true"]').count(), 1)
-            assert.ok((await status.innerText()).includes('Krok 1 z 4'))
-            for (let step = 1; step <= 4; step++) {
-              await steps.getByRole('button', { name: new RegExp(`^Krok ${step}:`) }).press('Enter')
-              assert.ok((await status.innerText()).includes(`Krok ${step} z 4`))
-              assert.equal(await steps.locator('[aria-pressed="true"]').count(), 1)
-              assert.equal(
-                await page.evaluate(
-                  () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
-                ),
-                0,
-              )
-            }
-            assert.equal(await status.locator('h3').innerText(), lastTitle)
-            await demo.getByRole('button', { name: 'Od początku', exact: true }).click()
-            assert.ok((await status.innerText()).includes('Krok 1 z 4'))
+            assert.equal(await choice.getAttribute('aria-pressed'), 'true')
+            assert.equal(await detail.textContent(), '')
+            const control = demo.getByRole('button', { name: action, exact: true })
+            await control.press('Enter')
+            assert.equal(await control.getAttribute('aria-expanded'), 'true')
+            assert.match(await detail.innerText(), expected)
+            assert.equal(
+              await demo
+                .getByRole('button', { name: close, exact: true })
+                .evaluate((el) => el === document.activeElement),
+              true,
+            )
+            if (label === 'Panel klienta')
+              assert.match(await demo.locator('dl').innerText(), /Zaakceptowany/)
+            assert.equal(
+              await page.evaluate(
+                () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+              ),
+              0,
+            )
+            await demo.getByRole('button', { name: close, exact: true }).press('Enter')
+            assert.equal(await detail.textContent(), '')
+            assert.equal(await control.getAttribute('aria-expanded'), 'false')
+            if (label === 'Panel klienta')
+              assert.match(await demo.locator('dl').innerText(), /Do sprawdzenia/)
           }
+          await demo.getByRole('button', { name: 'Zaakceptuj podgląd', exact: true }).click()
+          await scenarios.getByRole('button', { name: 'Dokumenty', exact: true }).click()
+          assert.equal(await detail.textContent(), '')
+          assert.match(await demo.locator('dl').innerText(), /Maty do ćwiczeń/)
           for (const button of await demo.getByRole('button').all()) {
             const box = await button.boundingBox()
             assert.ok(box.width >= 44 && box.height >= 44, JSON.stringify(box))
           }
-          if (motion === 'reduce') {
-            assert.equal(
-              await demo.getByRole('button', { name: 'Uruchom pokaz', exact: true }).count(),
-              0,
-            )
-            assert.match(await demo.innerText(), /Tryb ręczny/)
-            await page.waitForTimeout(2800)
-            assert.ok((await status.innerText()).includes('Krok 1 z 4'))
-          } else if (width === 390) {
-            await scenarios.getByRole('button', { name: 'Zapytania', exact: true }).click()
-            await demo.getByRole('button', { name: 'Uruchom pokaz', exact: true }).click()
-            await status.filter({ hasText: 'Krok 2 z 4' }).waitFor()
-            await demo.getByRole('button', { name: 'Zatrzymaj', exact: true }).click()
-            const paused = await status.innerText()
-            await page.waitForTimeout(2800)
-            assert.equal(await status.innerText(), paused)
-            await demo.getByRole('button', { name: 'Uruchom pokaz', exact: true }).click()
-            await status.filter({ hasText: 'Krok 4 z 4' }).waitFor()
-            await demo.getByRole('button', { name: 'Powtórz pokaz', exact: true }).waitFor()
-            await demo.getByRole('button', { name: 'Powtórz pokaz', exact: true }).click()
-            await status.filter({ hasText: 'Krok 1 z 4' }).waitFor()
-            await scenarios.getByRole('button', { name: 'Dokumenty', exact: true }).click()
-            await page.waitForTimeout(2800)
-            assert.ok((await status.innerText()).includes('Krok 1 z 4'))
-            await demo.getByRole('button', { name: 'Uruchom pokaz', exact: true }).click()
-            await page.locator('.cf-title').scrollIntoViewIfNeeded()
-            await page.waitForFunction(() => {
-              const box = document.querySelector('.cf-auto-demo').getBoundingClientRect()
-              return box.bottom <= 0 || box.top >= window.innerHeight
-            })
-            await demo.getByRole('button', { name: 'Uruchom pokaz', exact: true }).waitFor()
-            const outside = await status.innerText()
-            await page.waitForTimeout(2800)
-            assert.equal(await status.innerText(), outside)
-            await demo.scrollIntoViewIfNeeded()
-            await demo.getByRole('button', { name: 'Uruchom pokaz', exact: true }).click()
-            await page.emulateMedia({ reducedMotion: 'reduce' })
-            await demo.getByText('Tryb ręczny', { exact: false }).waitFor()
-            const reduced = await status.innerText()
-            await page.waitForTimeout(2800)
-            assert.equal(await status.innerText(), reduced)
-            assert.equal(
-              await demo.getByRole('button', { name: 'Zatrzymaj', exact: true }).count(),
-              0,
-            )
-          }
+          const stable = await demo.innerText()
+          await page.emulateMedia({
+            reducedMotion: motion === 'reduce' ? 'no-preference' : 'reduce',
+          })
+          assert.equal(await demo.innerText(), stable)
           assert.deepEqual(errors, [])
           assert.equal(externalRequests, 0)
           const result = {
             engine,
             width,
             motion,
-            kind: 'automation-demo',
+            kind: 'automation-example',
             status: 'pass',
             scenarios: 3,
-            steps: 12,
-            playback: motion === 'no-preference' && width === 390,
+            reversibleActions: 3,
+            scenarioReset: true,
             externalRequests,
             liveLeadRequests: 0,
           }
@@ -142,10 +122,11 @@ for (const [engine, type] of [
           console.log(JSON.stringify(result))
         } catch (error) {
           await page.screenshot({
-            path: new URL(`demo-${engine}-${width}-${motion}-failure.jpg`, output).pathname,
+            path: new URL('example-' + engine + '-' + width + '-' + motion + '-failure.jpg', output)
+              .pathname,
           })
           await writeFile(
-            new URL('demo-failure.json', output),
+            new URL('example-failure.json', output),
             JSON.stringify(
               {
                 engine,
@@ -169,7 +150,9 @@ for (const [engine, type] of [
   }
 }
 await writeFile(
-  new URL('automation-demo.json', output),
+  new URL('automation-example.json', output),
   JSON.stringify({ cases: results.length, results }, null, 2),
 )
-console.log(`Automation demo QA passed: ${results.length} engine/viewport/motion combinations.`)
+console.log(
+  'Automation example QA passed: ' + results.length + ' engine/viewport/motion combinations.',
+)

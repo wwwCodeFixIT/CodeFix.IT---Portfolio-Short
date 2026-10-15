@@ -57,12 +57,30 @@ for (const [engine, type] of [
         const form = page.locator('form.cf-lead-form')
         const next = form.getByRole('button', { name: 'Dalej', exact: true })
         const step = () => form.locator('[data-brief-step]:visible').getAttribute('data-brief-step')
+        assert.deepEqual(await form.locator('.cf-brief-progress li').allTextContents(), [
+          'Temat',
+          'Szczegóły',
+          'Kontakt',
+        ])
+        assert.equal(await form.locator('.cf-brief-progress [aria-current]').innerText(), 'Temat')
+        for (const choice of await form
+          .getByRole('group', { name: 'Wybierz temat', exact: true })
+          .getByRole('button')
+          .all()) {
+          const box = await choice.boundingBox()
+          assert.ok(box.width >= 44 && box.height >= 44)
+        }
         await next.click()
         assert.equal(await step(), '0')
         assert.match(await form.getByRole('alert').innerText(), /Wybierz temat/)
         await form.getByRole('button', { name: 'Mini-ocena strony', exact: true }).press('Enter')
+        assert.match(await form.locator('#cf-topic-hint').innerText(), /Pierwsze wskazówki/)
         await next.click()
         assert.equal(await step(), '1')
+        assert.equal(
+          await form.locator('.cf-brief-progress [aria-current]').innerText(),
+          'Szczegóły',
+        )
         await form.locator('[name="message"]').fill('Krótki opis problemu na stronie.')
         await next.click()
         assert.equal(await step(), '1')

@@ -94,13 +94,13 @@ const agencyService = 'AGENCY_WHITE_LABEL';
 const appService = 'development';
 
 const briefServices = [
-  [businessSiteService, 'Nowa strona'],
-  [appService, 'Aplikacja / integracja'],
-  [quickFixService, 'Naprawa WordPress'],
-  [careService, 'Stała opieka'],
-  [agencyService, 'Dla agencji'],
-  [miniAuditService, 'Mini-ocena strony'],
-  ['other', 'Inny temat'],
+  [businessSiteService, 'Nowa strona', 'Od pomysłu do publikacji.'],
+  [appService, 'Aplikacja / integracja', 'Panel, narzędzie lub połączenie systemów.'],
+  [quickFixService, 'Naprawa WordPress', 'Błąd, formularz albo problem ze sklepem.'],
+  [careService, 'Stała opieka', 'Aktualizacje i bieżący rozwój.'],
+  [agencyService, 'Dla agencji', 'Wsparcie przy projektach Twoich klientów.'],
+  [miniAuditService, 'Mini-ocena strony', 'Pierwsze wskazówki do istniejącej strony.'],
+  ['other', 'Inny temat', 'Opisz, czego potrzebujesz.'],
 ];
 
 const allowedServiceDeepLinks = new Set([
@@ -1197,10 +1197,14 @@ export function HomepageV1() {
                   onSubmit={handleLeadSubmit}
                   onFocusCapture={handleFormStart}
                 >
-                  <ol className="cf-brief-progress" aria-label="Etapy zapytania">
-                    {['Potrzeba', 'Opis', 'Kontakt'].map((label, index) => (
-                      <li key={label} aria-current={briefStep === index ? 'step' : undefined}>
-                        <span aria-hidden="true">{index + 1}.</span> {label}
+                  <ol className="cf-brief-progress" role="list" aria-label="Etapy zapytania">
+                    {['Temat', 'Szczegóły', 'Kontakt'].map((label, index) => (
+                      <li
+                        key={label}
+                        aria-current={briefStep === index ? 'step' : undefined}
+                        data-complete={index < briefStep || undefined}
+                      >
+                        {label}
                       </li>
                     ))}
                   </ol>
@@ -1213,17 +1217,31 @@ export function HomepageV1() {
                         Czego potrzebujesz?
                       </h3>
                       <p>Wybierz temat. Dopasuję kolejne pytania.</p>
-                      <div className="cf-brief-choices" role="group" aria-label="Wybierz temat">
-                        {briefServices.map(([value, label]) => (
+                      <div
+                        className="cf-brief-choices cf-topic-list"
+                        role="group"
+                        aria-label="Wybierz temat"
+                      >
+                        {briefServices.map(([value, label, hint]) => (
                           <button
                             key={value}
                             type="button"
+                            aria-label={label}
+                            aria-describedby={
+                              selectedService === value ? 'cf-topic-hint' : undefined
+                            }
                             aria-pressed={selectedService === value}
                             onClick={() => {
                               if (selectedService !== value) chooseService(value);
                             }}
                           >
-                            {label}
+                            <span>{label}</span>
+                            {selectedService === value && <small id="cf-topic-hint">{hint}</small>}
+                            {selectedService === value ? (
+                              <CheckCircle2 size={18} aria-hidden="true" />
+                            ) : (
+                              <ArrowRight size={16} aria-hidden="true" />
+                            )}
                           </button>
                         ))}
                       </div>
