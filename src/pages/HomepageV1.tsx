@@ -193,6 +193,7 @@ export function HomepageV1() {
   const [estimatorStarted, setEstimatorStarted] = useState(false);
   const [projectBrief, setProjectBrief] = useState<ProjectBrief | null>(null);
   const [referenceProject, setReferenceProject] = useState<Project | null>(null);
+  const referenceFocusPending = useRef(false);
   const [attribution] = useState(captureSessionAttribution);
   const formStartTracked = useRef(false);
   const formViewTracked = useRef(false);
@@ -205,14 +206,15 @@ export function HomepageV1() {
   const [layoutReady, setLayoutReady] = useState(false);
 
   useLayoutEffect(() => {
-    if (previousBriefStep.current === briefStep) return;
+    if (previousBriefStep.current === briefStep && !referenceFocusPending.current) return;
     previousBriefStep.current = briefStep;
+    referenceFocusPending.current = false;
     const heading = briefFormRef.current?.querySelector<HTMLElement>(
       `[data-brief-step="${briefStep}"] [data-step-heading]`,
     );
     heading?.focus({ preventScroll: true });
     heading?.scrollIntoView({ block: 'center', behavior: 'instant' });
-  }, [briefStep]);
+  }, [briefStep, referenceProject]);
 
   useEffect(() => {
     const viewport = window.visualViewport;
@@ -420,18 +422,14 @@ export function HomepageV1() {
   function useProjectReference(project: Project) {
     if (formState === 'submitting') return;
     if (selectedService !== businessSiteService) chooseService(businessSiteService);
-    setReferenceProject(project);
+    referenceFocusPending.current = true;
+    setReferenceProject({ ...project });
     setBriefStep(1);
     setFormMessage('');
     setFormState('idle');
     trackHomepageEvent('homepage_cta_click', {
       placement: 'project_preview',
       service: businessSiteService,
-    });
-    window.requestAnimationFrame(() => {
-      const heading = briefFormRef.current?.querySelector<HTMLElement>('[data-brief-step="1"] h3');
-      heading?.focus({ preventScroll: true });
-      heading?.scrollIntoView({ block: 'center', behavior: 'instant' });
     });
   }
 
