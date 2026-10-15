@@ -13,8 +13,13 @@ import {
 import { Brand } from '../components/Brand';
 import { HeroEmblem, HeroExperience } from '../components/HeroExperience';
 import { HeroServicePicker } from '../components/HeroServicePicker';
-import { ProjectPreview } from '../components/ProjectPreview';
+import {
+  ProjectPreview,
+  ProjectPreviewGroup,
+  ProjectReference,
+} from '../components/ProjectPreview';
 import { projects } from '../data/projects';
+import type { Project } from '../data/projects';
 import homepageContent from '../data/homepage-content.json';
 import { captureSessionAttribution } from '../lib/attribution';
 import { clearConversionJourney, readConversionJourney } from '../lib/conversion-journey';
@@ -187,6 +192,7 @@ export function HomepageV1() {
   const [estimatorOpen, setEstimatorOpen] = useState(false);
   const [estimatorStarted, setEstimatorStarted] = useState(false);
   const [projectBrief, setProjectBrief] = useState<ProjectBrief | null>(null);
+  const [referenceProject, setReferenceProject] = useState<Project | null>(null);
   const [attribution] = useState(captureSessionAttribution);
   const formStartTracked = useRef(false);
   const formViewTracked = useRef(false);
@@ -333,6 +339,7 @@ export function HomepageV1() {
 
   function chooseService(service: string, placement?: string) {
     if (formState === 'submitting') return;
+    setReferenceProject(null);
     setProjectBrief(null);
     setBriefStep(0);
     setBriefError('');
@@ -407,6 +414,24 @@ export function HomepageV1() {
       contactSectionRef.current
         ?.querySelector<HTMLTextAreaElement>('[name="message"]')
         ?.focus({ preventScroll: true });
+    });
+  }
+
+  function useProjectReference(project: Project) {
+    if (formState === 'submitting') return;
+    if (selectedService !== businessSiteService) chooseService(businessSiteService);
+    setReferenceProject(project);
+    setBriefStep(1);
+    setFormMessage('');
+    setFormState('idle');
+    trackHomepageEvent('homepage_cta_click', {
+      placement: 'project_preview',
+      service: businessSiteService,
+    });
+    window.requestAnimationFrame(() => {
+      const heading = briefFormRef.current?.querySelector<HTMLElement>('[data-brief-step="1"] h3');
+      heading?.focus({ preventScroll: true });
+      heading?.scrollIntoView({ block: 'center', behavior: 'instant' });
     });
   }
 
@@ -491,11 +516,15 @@ export function HomepageV1() {
   const messagePlaceholder =
     guidance?.placeholder || 'Krótko opisz problem, zakres albo oczekiwany efekt.';
   const scopeText = briefOptions.length ? `Wybrany zakres: ${briefOptions.join(', ')}.` : '';
+  const referenceText = referenceProject
+    ? `Punkt odniesienia: ${referenceProject.title} — https://codefix.it/realizacje/${referenceProject.slug}/`
+    : '';
+  const supplementText = [scopeText, referenceText].filter(Boolean).join('\n\n');
   const messageLimit = Math.max(
     0,
     4000 -
       (projectBrief ? projectBrief.brief.length + 2 : 0) -
-      (scopeText ? scopeText.length + 2 : 0),
+      (supplementText ? supplementText.length + 2 : 0),
   );
 
   function toggleBriefOption(option: string) {
@@ -560,7 +589,7 @@ export function HomepageV1() {
     const data = new FormData(form);
     const service = selectedService;
     const message = mergeProjectBrief(
-      [String(data.get('message') ?? '').trim(), scopeText].filter(Boolean).join('\n\n'),
+      [String(data.get('message') ?? '').trim(), supplementText].filter(Boolean).join('\n\n'),
       projectBrief,
     );
     if (message.length > 4000) {
@@ -645,6 +674,7 @@ export function HomepageV1() {
       form.reset();
       clearConversionJourney();
       setProjectBrief(null);
+      setReferenceProject(null);
       if (!result.duplicate) clearFunnelSession();
       setSelectedService('');
       setBriefStep(0);
@@ -978,60 +1008,64 @@ export function HomepageV1() {
               </div>
             </div>
 
-            <div className="cf-projects-grid">
-              {featuredProjects.map((project) => (
-                <article key={project.id} className="cf-project-card">
-                  <ProjectPreview project={project} />
+            <ProjectPreviewGroup onEnquire={useProjectReference}>
+              <div className="cf-projects-grid">
+                {featuredProjects.map((project) => (
+                  <article key={project.id} className="cf-project-card">
+                    <ProjectPreview project={project} />
 
-                  <div className="cf-project-topline">
-                    <span>{project.year}</span>
-                    <span>{project.collaboration ? 'Współpraca agencyjna' : 'Strona firmowa'}</span>
-                  </div>
+                    <div className="cf-project-topline">
+                      <span>{project.year}</span>
+                      <span>
+                        {project.collaboration ? 'Współpraca agencyjna' : 'Strona firmowa'}
+                      </span>
+                    </div>
 
-                  <h3>{project.title}</h3>
-                  <p className="cf-project-description">{project.shortDescription}</p>
+                    <h3>{project.title}</h3>
+                    <p className="cf-project-description">{project.shortDescription}</p>
 
-                  <div className="cf-project-tech">
-                    {project.technologies.slice(0, 4).map((technology) => (
-                      <span key={technology}>{technology}</span>
-                    ))}
-                  </div>
-
-                  <div className="cf-project-proof">
-                    <p className="cf-project-proof-label">Zakres wykonany</p>
-                    <ul className="cf-project-scope-preview">
-                      {project.scope.slice(0, 3).map((item) => (
-                        <li key={item}>
-                          <CheckCircle2 size={14} aria-hidden="true" />
-                          <span>{item}</span>
-                        </li>
+                    <div className="cf-project-tech">
+                      {project.technologies.slice(0, 4).map((technology) => (
+                        <span key={technology}>{technology}</span>
                       ))}
-                    </ul>
-                    {project.collaboration && (
-                      <p className="cf-project-collaboration">
-                        Współpraca: <strong>{project.collaboration}</strong>
-                      </p>
-                    )}
-                  </div>
+                    </div>
 
-                  <div className="cf-project-actions">
-                    <a href={`/realizacje/${project.slug}/`} className="cf-project-link">
-                      Case study
-                      <ArrowRight size={16} aria-hidden="true" />
-                    </a>
-                    <a
-                      href={project.demoUrl}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="cf-project-live-link"
-                    >
-                      Zobacz stronę
-                      <ArrowUpRight size={15} aria-hidden="true" />
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
+                    <div className="cf-project-proof">
+                      <p className="cf-project-proof-label">Zakres wykonany</p>
+                      <ul className="cf-project-scope-preview">
+                        {project.scope.slice(0, 3).map((item) => (
+                          <li key={item}>
+                            <CheckCircle2 size={14} aria-hidden="true" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      {project.collaboration && (
+                        <p className="cf-project-collaboration">
+                          Współpraca: <strong>{project.collaboration}</strong>
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="cf-project-actions">
+                      <a href={`/realizacje/${project.slug}/`} className="cf-project-link">
+                        Case study
+                        <ArrowRight size={16} aria-hidden="true" />
+                      </a>
+                      <a
+                        href={project.demoUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="cf-project-live-link"
+                      >
+                        Zobacz stronę
+                        <ArrowUpRight size={15} aria-hidden="true" />
+                      </a>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </ProjectPreviewGroup>
           </div>
         </section>
 
@@ -1258,6 +1292,13 @@ export function HomepageV1() {
                         </p>
                       )}
 
+                      {referenceProject && (
+                        <ProjectReference
+                          project={referenceProject}
+                          onRemove={() => setReferenceProject(null)}
+                        />
+                      )}
+
                       <details
                         className="cf-brief-help"
                         open={scopeHelpOpen}
@@ -1340,6 +1381,12 @@ export function HomepageV1() {
                         <p>{briefSummary.message}</p>
                         {scopeText && <p className="cf-brief-scope">{scopeText}</p>}
                         {projectBrief && <p>Zakres z kalkulatora dołączony.</p>}
+                        {referenceProject && (
+                          <ProjectReference
+                            project={referenceProject}
+                            onRemove={() => setReferenceProject(null)}
+                          />
+                        )}
                         <div className="cf-brief-review-actions">
                           <button type="button" onClick={() => goToBriefStep(0)}>
                             Zmień temat

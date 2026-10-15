@@ -1,12 +1,88 @@
+import { createContext, lazy, Suspense, useContext, useState } from 'react'
+import type { ReactNode } from 'react'
 import type { Project } from '../data/projects'
 import './ProjectPreview.css'
+
+const ProjectQuickView = lazy(() =>
+  import('./ProjectQuickView').catch(() => ({
+    default: ({ project, onClose }: { project: Project; onClose: () => void }) => (
+      <p role="status">
+        Podgląd jest chwilowo niedostępny.{' '}
+        <a href={`/realizacje/${project.slug}/`}>Przejdź do opisu realizacji</a>.{' '}
+        <button type="button" onClick={onClose}>
+          Zamknij komunikat
+        </button>
+      </p>
+    ),
+  })),
+)
 
 type ProjectPreviewProps = {
   project: Project
   gallery?: boolean
 }
 
+const QuickViewContext = createContext<((project: Project) => void) | null>(null)
+
+export function ProjectPreviewGroup({
+  children,
+  onEnquire,
+}: {
+  children: ReactNode
+  onEnquire: (project: Project) => void
+}) {
+  const [active, setActive] = useState<Project | null>(null)
+  return (
+    <QuickViewContext.Provider value={setActive}>
+      {children}
+      {active && (
+        <Suspense fallback={<p role="status">Ładuję podgląd realizacji…</p>}>
+          <ProjectQuickView
+            key={active.slug}
+            project={active}
+            onClose={() => setActive(null)}
+            onEnquire={(project) => {
+              setActive(null)
+              onEnquire(project)
+            }}
+          />
+        </Suspense>
+      )}
+    </QuickViewContext.Provider>
+  )
+}
+
+export function ProjectReference({
+  project,
+  onRemove,
+}: {
+  project: Project
+  onRemove: () => void
+}) {
+  return (
+    <div className="project-reference" role="group" aria-label="Wybrana realizacja">
+      <p>
+        Punkt odniesienia<strong>{project.title}</strong>
+      </p>
+      <button
+        type="button"
+        onClick={(event) => {
+          onRemove()
+          event.currentTarget
+            .closest('[data-brief-step]')
+            ?.querySelector<HTMLElement>('[data-step-heading]')
+            ?.focus({ preventScroll: true })
+        }}
+        aria-label="Usuń wybraną realizację"
+      >
+        Usuń
+      </button>
+    </div>
+  )
+}
+
 export function ProjectPreview({ project, gallery = false }: ProjectPreviewProps) {
+  const openQuickView = useContext(QuickViewContext)
   const desktop = `/portfolio/${project.slug}-desktop-1200.webp`
   const desktopSmall = `/portfolio/${project.slug}-desktop-600.webp`
   const mobile = `/portfolio/${project.slug}-mobile-375.webp`
@@ -56,12 +132,8 @@ export function ProjectPreview({ project, gallery = false }: ProjectPreviewProps
     )
   }
 
-  return (
-    <a
-      className="project-preview"
-      href={`/realizacje/${project.slug}/`}
-      aria-label={`Zobacz realizację: ${project.title}`}
-    >
+  const thumbnail = (
+    <>
       <div className="project-preview-desktop" aria-hidden="true">
         <div className="project-preview-bar">
           <span />
@@ -88,6 +160,36 @@ export function ProjectPreview({ project, gallery = false }: ProjectPreviewProps
         decoding="async"
         alt=""
       />
-    </a>
+    </>
+  )
+
+  return (
+    <>
+      {openQuickView ? (
+        <button
+          className="project-preview"
+          type="button"
+          aria-label={`Podgląd realizacji: ${project.title}`}
+          aria-haspopup="dialog"
+          onClick={(event) => {
+            event.currentTarget.focus({ preventScroll: true })
+            openQuickView(project)
+          }}
+        >
+          {thumbnail}
+          <span className="project-preview-label" aria-hidden="true">
+            Podgląd ↗
+          </span>
+        </button>
+      ) : (
+        <a
+          className="project-preview"
+          href={`/realizacje/${project.slug}/`}
+          aria-label={`Zobacz realizację: ${project.title}`}
+        >
+          {thumbnail}
+        </a>
+      )}
+    </>
   )
 }

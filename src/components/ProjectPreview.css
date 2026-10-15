@@ -62,6 +62,69 @@
   outline-offset: 5px;
 }
 
+button.project-preview {
+  width: 100%;
+  padding: 0;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.project-preview-label {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  z-index: 2;
+  padding: 6px 10px;
+  color: #f3f3f3;
+  background: #101011;
+  border: 1px solid #45454e;
+  border-radius: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.project-reference {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-block: 16px;
+  padding: 14px;
+  border: 1px solid #754048;
+  border-radius: 10px;
+}
+
+.project-reference p {
+  min-width: 0;
+  margin: 0;
+  color: #b5b5bc;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.project-reference strong {
+  display: block;
+  color: #f3f3f3;
+  font-size: 14px;
+}
+.project-reference button {
+  flex-shrink: 0;
+  min-width: 44px;
+  min-height: 44px;
+  margin-left: auto;
+  padding: 8px;
+  color: #ffadb3;
+  background: transparent;
+  border: 0;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+.project-reference button:focus-visible {
+  outline: 2px solid #ff858c;
+  outline-offset: 2px;
+}
+
 .project-preview-gallery {
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(0, 1fr);
