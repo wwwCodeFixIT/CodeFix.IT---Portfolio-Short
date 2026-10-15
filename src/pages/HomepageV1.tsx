@@ -55,6 +55,12 @@ const BriefScopePicker = lazy(() =>
   })),
 );
 
+const AutomationDemo = lazy(() =>
+  import('../components/AutomationDemo').catch(() => ({
+    default: () => <p>Opisz swój proces — zaproponuję możliwe usprawnienia.</p>,
+  })),
+);
+
 function focusContact(section: HTMLElement | null, behavior: ScrollBehavior) {
   const input = section?.querySelector<HTMLElement>(
     '[data-brief-step]:not([hidden]) input, [data-brief-step]:not([hidden]) button, [data-brief-step]:not([hidden]) textarea',
@@ -119,7 +125,6 @@ const advantages = homepageContent.about.advantages.map((item, index) => ({
   ...item,
   icon: [MessageSquareText, GitBranch, Layers3][index] ?? Layers3,
 }));
-const fitItems = homepageContent.application.points;
 
 const faqItems = homepageContent.faqItems;
 
@@ -933,14 +938,9 @@ export function HomepageV1() {
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
             </div>
-            <ul className="cf-fit-list">
-              {fitItems.map((item) => (
-                <li key={item}>
-                  <CheckCircle2 size={18} aria-hidden="true" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
+            <Suspense fallback={<p role="status">Ładuję demo…</p>}>
+              <AutomationDemo />
+            </Suspense>
           </div>
         </section>
 
