@@ -494,6 +494,11 @@ export function HomepageV1() {
       `[data-brief-step="${step}"] input, [data-brief-step="${step}"] textarea`,
     );
     for (const field of fields ?? []) {
+      field.setCustomValidity('');
+      // WebKit does not consistently apply minlength to restored/programmatic values.
+      if (field.value && field.minLength > 0 && field.value.trim().length < field.minLength) {
+        field.setCustomValidity(`Minimalna liczba znaków: ${field.minLength}.`);
+      }
       if (!field.checkValidity()) {
         if (briefStep !== step) goToBriefStep(step);
         window.requestAnimationFrame(() => field.reportValidity());
