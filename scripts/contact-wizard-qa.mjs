@@ -1,4 +1,4 @@
-/* global document */
+/* global document, window */
 import assert from 'node:assert/strict'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
@@ -35,6 +35,21 @@ for (const [engine, type] of [
         await page.locator('.cf-brief-choices').waitFor()
         const reject = page.getByRole('button', { name: 'Odrzuć wszystkie', exact: true })
         if (await reject.isVisible()) await reject.click()
+        {
+          await page
+            .locator('.cf-hero-copy')
+            .getByRole('link', { name: 'Opisz temat', exact: true })
+            .click()
+          await page.waitForFunction(() => {
+            const active = document.activeElement
+            const box = active?.getBoundingClientRect()
+            return (
+              active?.closest('.cf-brief-choices') &&
+              box.top >= 0 &&
+              box.bottom <= window.innerHeight
+            )
+          })
+        }
         const form = page.locator('form.cf-lead-form')
         const next = form.getByRole('button', { name: 'Dalej', exact: true })
         const step = () => form.locator('[data-brief-step]:visible').getAttribute('data-brief-step')

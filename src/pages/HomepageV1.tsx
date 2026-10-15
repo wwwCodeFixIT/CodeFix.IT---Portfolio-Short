@@ -241,6 +241,19 @@ export function HomepageV1() {
   useEffect(() => {
     if (typeof IntersectionObserver === 'undefined') return;
 
+    // Resolve deferred section heights before a visitor reaches the brief.
+    // Otherwise focusing the first tile can move the next pointer target.
+    const layoutObserver = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setLayoutReady(true);
+          layoutObserver.disconnect();
+        }
+      },
+      { rootMargin: '1200px 0px' },
+    );
+    if (contactSectionRef.current) layoutObserver.observe(contactSectionRef.current);
+
     // Avoid showing a redundant fixed CTA above the actual contact form or footer.
     // Track both targets, since a single observer callback may contain only one entry.
     const targets = [contactSectionRef.current, footerRef.current].filter(
@@ -259,7 +272,10 @@ export function HomepageV1() {
     );
 
     targets.forEach((target) => observer.observe(target));
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      layoutObserver.disconnect();
+    };
   }, []);
 
   useEffect(() => {

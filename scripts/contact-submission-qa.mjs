@@ -198,6 +198,21 @@ for (const [engine, type] of [
                     window.__contactQaEvents.push(['ad-sdk', ...args])
                   }
           }, test)
+          if (pageKind === 'homepage') {
+            await page
+              .locator('.cf-hero-copy')
+              .getByRole('link', { name: 'Opisz temat', exact: true })
+              .click()
+            await page.waitForFunction(() => {
+              const active = document.activeElement
+              const box = active?.getBoundingClientRect()
+              return (
+                active?.closest('.cf-brief-choices') &&
+                box.top >= 0 &&
+                box.bottom <= window.innerHeight
+              )
+            })
+          }
           const form = page.locator('form.cf-lead-form')
           const note = 'TEST QA — isolated request, no production lead is created.'
           if (pageKind === 'homepage') {
