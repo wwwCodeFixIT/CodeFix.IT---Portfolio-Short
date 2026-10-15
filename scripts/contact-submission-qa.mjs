@@ -219,6 +219,13 @@ for (const [engine, type] of [
             await form.getByRole('button', { name: 'Aplikacja / integracja', exact: true }).click()
             await form.getByRole('button', { name: 'Dalej', exact: true }).click()
           }
+          const withScope = pageKind === 'homepage' && ['both', 'rejected'].includes(test.name)
+          const selectedScope = 'Wybrany zakres: Panel klienta, Integracja z API.'
+          if (withScope) {
+            await form.locator('.cf-brief-help summary').click()
+            await form.getByRole('button', { name: 'Panel klienta', exact: true }).click()
+            await form.getByRole('button', { name: 'Integracja z API', exact: true }).click()
+          }
           await form.locator('[name="pageUrl"]').fill('https://example.invalid/')
           await form.locator('[name="message"]').fill(note)
           if (pageKind === 'homepage')
@@ -246,7 +253,12 @@ for (const [engine, type] of [
             payloads[0].service,
             pageKind === 'homepage' ? 'development' : 'WORDPRESS_QUICK_FIX',
           )
-          assert.equal(payloads[0].message, note)
+          assert.equal(payloads[0].message, withScope ? note + '\n\n' + selectedScope : note)
+          if (withScope) {
+            assert.equal(await form.locator('.cf-brief-scope').count(), success ? 0 : 1)
+            if (!success)
+              assert.equal(await form.locator('.cf-brief-scope').innerText(), selectedScope)
+          }
           if (pageKind === 'homepage') {
             assert.equal(payloads[0].journeySource, 'GUIDE')
             assert.equal(payloads[0].journeyGuide, 'blad-500-wordpress')
@@ -289,6 +301,7 @@ for (const [engine, type] of [
             assert.equal(payloads[1].journeySource, '')
             assert.equal(payloads[1].journeyGuide, '')
             assert.equal(payloads[1].utmSource, 'contact_qa')
+            assert.equal(payloads[1].message, 'Second isolated request after success.')
             conversions = await page.evaluate(
               () =>
                 window.__contactQaEvents.filter(

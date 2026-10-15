@@ -1941,6 +1941,32 @@
 .cf-brief-summary p {
   white-space: pre-wrap;
 }
+.cf-brief-help {
+  border: 1px solid #484848;
+  border-radius: 12px;
+  padding: 14px;
+}
+.cf-brief-help summary {
+  cursor: pointer;
+  min-height: 28px;
+  padding-block: 8px;
+}
+.cf-brief-help small {
+  color: #bcbcbc;
+  font-weight: 400;
+}
+.cf-brief-help > p {
+  color: #bcbcbc;
+  font-size: 14px;
+  line-height: 1.6;
+}
+.cf-brief-help button {
+  overflow-wrap: anywhere;
+}
+.cf-brief-help summary:focus-visible {
+  outline: 2px solid #ff878c;
+  outline-offset: 3px;
+}
 .cf-brief-summary button {
   color: #fff;
   background: transparent;

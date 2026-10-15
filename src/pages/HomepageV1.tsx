@@ -49,6 +49,12 @@ const ProjectEstimator = lazy(() =>
   import('../components/ProjectEstimator').catch(() => ({ default: EstimatorUnavailable })),
 );
 
+const BriefScopePicker = lazy(() =>
+  import('../components/BriefScopePicker').catch(() => ({
+    default: () => <p role="status">Wpisz wybrany zakres w opisie poniżej.</p>,
+  })),
+);
+
 function focusContact(section: HTMLElement | null, behavior: ScrollBehavior) {
   const input = section?.querySelector<HTMLElement>(
     '[data-brief-step]:not([hidden]) input, [data-brief-step]:not([hidden]) button, [data-brief-step]:not([hidden]) textarea',
@@ -168,6 +174,8 @@ export function HomepageV1() {
   const [selectedService, setSelectedService] = useState(initialServiceFromUrl);
   const [briefStep, setBriefStep] = useState(0);
   const [briefError, setBriefError] = useState('');
+  const [scopeHelpOpen, setScopeHelpOpen] = useState(false);
+  const [briefOptions, setBriefOptions] = useState<string[]>([]);
   const previousBriefStep = useRef(0);
   const [briefSummary, setBriefSummary] = useState({ pageUrl: '', message: '' });
   const briefFormRef = useRef<HTMLFormElement | null>(null);
@@ -323,6 +331,8 @@ export function HomepageV1() {
     setProjectBrief(null);
     setBriefStep(0);
     setBriefError('');
+    setBriefOptions([]);
+    setScopeHelpOpen(false);
     setSelectedService(service);
     setFormMessage('');
     setFormState('idle');
@@ -475,6 +485,19 @@ export function HomepageV1() {
 
   const messagePlaceholder =
     guidance?.placeholder || 'Krótko opisz problem, zakres albo oczekiwany efekt.';
+  const scopeText = briefOptions.length ? `Wybrany zakres: ${briefOptions.join(', ')}.` : '';
+  const messageLimit = Math.max(
+    0,
+    4000 -
+      (projectBrief ? projectBrief.brief.length + 2 : 0) -
+      (scopeText ? scopeText.length + 2 : 0),
+  );
+
+  function toggleBriefOption(option: string) {
+    setBriefOptions((current) =>
+      current.includes(option) ? current.filter((item) => item !== option) : [...current, option],
+    );
+  }
 
   function goToBriefStep(step: number) {
     const form = briefFormRef.current;
@@ -503,6 +526,9 @@ export function HomepageV1() {
       if (field.value && field.minLength > 0 && field.value.trim().length < field.minLength) {
         field.setCustomValidity(`Minimalna liczba znaków: ${field.minLength}.`);
       }
+      if (field.maxLength >= 0 && field.value.length > field.maxLength) {
+        field.setCustomValidity(`Maksymalna liczba znaków: ${field.maxLength}.`);
+      }
       if (!field.checkValidity()) {
         if (briefStep !== step) goToBriefStep(step);
         window.requestAnimationFrame(() => field.reportValidity());
@@ -528,11 +554,14 @@ export function HomepageV1() {
     const journey = readConversionJourney();
     const data = new FormData(form);
     const service = selectedService;
-    const message = mergeProjectBrief(String(data.get('message') ?? ''), projectBrief);
+    const message = mergeProjectBrief(
+      [String(data.get('message') ?? '').trim(), scopeText].filter(Boolean).join('\n\n'),
+      projectBrief,
+    );
     if (message.length > 4000) {
       setFormState('error');
       setFormMessage(
-        'Opis razem z zakresem z kalkulatora może mieć maksymalnie 4000 znaków. Skróć dodatkowe informacje albo usuń załączony zakres.',
+        'Opis i dołączony zakres mogą mieć łącznie maksymalnie 4000 znaków. Skróć opis lub zmniejsz zakres.',
       );
       return;
     }
@@ -615,6 +644,8 @@ export function HomepageV1() {
       setSelectedService('');
       setBriefStep(0);
       setBriefSummary({ pageUrl: '', message: '' });
+      setBriefOptions([]);
+      setScopeHelpOpen(false);
       setFormStartedAt(Date.now());
       setFormState('success');
       setFormMessage(successMessage);
@@ -1209,6 +1240,26 @@ export function HomepageV1() {
                         </p>
                       )}
 
+                      <details
+                        className="cf-brief-help"
+                        open={scopeHelpOpen}
+                        onToggle={(event) => setScopeHelpOpen(event.currentTarget.open)}
+                      >
+                        <summary>
+                          Pomóż mi wybrać zakres <small>opcjonalnie</small>
+                        </summary>
+                        <p>Zaznacz pasujące elementy. Dołączę je do podsumowania zapytania.</p>
+                        {scopeHelpOpen && (
+                          <Suspense fallback={<p role="status">Ładuję podpowiedzi…</p>}>
+                            <BriefScopePicker
+                              service={selectedService}
+                              selected={briefOptions}
+                              onToggle={toggleBriefOption}
+                            />
+                          </Suspense>
+                        )}
+                      </details>
+
                       <label>
                         <span>
                           Adres strony{' '}
@@ -1249,7 +1300,7 @@ export function HomepageV1() {
                           name="message"
                           rows={5}
                           minLength={projectBrief ? undefined : 10}
-                          maxLength={4000 - (projectBrief ? projectBrief.brief.length + 2 : 0)}
+                          maxLength={messageLimit}
                           placeholder={messagePlaceholder}
                           required={!projectBrief}
                         />
@@ -1265,6 +1316,7 @@ export function HomepageV1() {
                         </strong>
                         {briefSummary.pageUrl && <p>{briefSummary.pageUrl}</p>}
                         <p>{briefSummary.message}</p>
+                        {scopeText && <p className="cf-brief-scope">{scopeText}</p>}
                         {projectBrief && <p>Zakres z kalkulatora dołączony.</p>}
                         <button type="button" onClick={() => goToBriefStep(1)}>
                           Popraw opis

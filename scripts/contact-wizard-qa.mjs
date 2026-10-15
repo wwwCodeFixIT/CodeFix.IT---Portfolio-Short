@@ -24,6 +24,10 @@ for (const [engine, type] of [
       page.setDefaultTimeout(15000)
       const errors = []
       let externalRequests = 0
+      let scopeChunkRequests = 0
+      page.on('request', (request) => {
+        if (new URL(request.url()).pathname.includes('/BriefScopePicker-')) scopeChunkRequests++
+      })
       page.on('pageerror', (e) => errors.push(e.message))
       await context.route('**/*', (route) => {
         if (new URL(route.request().url()).origin === target.origin) return route.continue()
@@ -66,12 +70,38 @@ for (const [engine, type] of [
         await form.locator('[name="message"]').fill('Krótko')
         await next.click()
         assert.equal(await step(), '1')
+        // Adding scope must preserve long text and enforce the combined CRM limit.
+        await form.locator('[name="message"]').fill('x'.repeat(3999))
+        assert.equal(scopeChunkRequests, 0)
+        await form.locator('.cf-brief-help summary').click()
+        await form.getByRole('button', { name: 'Szybkość działania', exact: true }).click()
+        assert.equal(scopeChunkRequests, 1)
+        await form.getByRole('button', { name: 'Formularz kontaktowy', exact: true }).click()
+        await form.getByRole('button', { name: 'Formularz kontaktowy', exact: true }).click()
+        assert.equal(
+          await form
+            .getByRole('button', { name: 'Formularz kontaktowy', exact: true })
+            .getAttribute('aria-pressed'),
+          'false',
+        )
+        await form.getByRole('button', { name: 'Formularz kontaktowy', exact: true }).click()
+        await next.click()
+        assert.equal(await step(), '1')
+        assert.equal((await form.locator('[name="message"]').inputValue()).length, 3999)
+        assert.match(
+          await form.locator('[name="message"]').evaluate((el) => el.validationMessage),
+          /Maksymalna/,
+        )
         const note = 'Formularz nie wysyła wiadomości po aktualizacji.'
         await form.locator('[name="message"]').fill(note)
         await next.click()
         assert.equal(await step(), '2')
         assert.match(await form.locator('.cf-brief-summary').innerText(), /example.invalid/)
         assert.match(await form.locator('.cf-brief-summary').innerText(), /Formularz nie wysyła/)
+        assert.equal(
+          await form.locator('.cf-brief-scope').innerText(),
+          'Wybrany zakres: Szybkość działania, Formularz kontaktowy.',
+        )
         await form.locator('[name="name"]').fill('Wizard QA')
         await form.locator('[name="email"]').fill('invalid')
         await form.locator('button[type="submit"]').click()
@@ -82,6 +112,12 @@ for (const [engine, type] of [
         )
         await form.getByRole('button', { name: 'Popraw opis', exact: true }).click()
         assert.equal(await form.locator('[name="message"]').inputValue(), note)
+        assert.equal(
+          await form
+            .getByRole('button', { name: 'Szybkość działania', exact: true })
+            .getAttribute('aria-pressed'),
+          'true',
+        )
         await form.getByRole('button', { name: 'Wstecz', exact: true }).click()
         await form.getByRole('button', { name: 'Aplikacja / integracja', exact: true }).click()
         await next.click()
@@ -90,6 +126,7 @@ for (const [engine, type] of [
         assert.equal(await form.locator('[name="name"]').inputValue(), 'Wizard QA')
         assert.equal(await form.locator('[name="email"]').inputValue(), 'invalid')
         assert.match(await form.locator('.cf-brief-summary').innerText(), /Aplikacja \/ integracja/)
+        assert.equal(await form.locator('.cf-brief-scope').count(), 0)
         assert.equal(
           await page.evaluate(
             () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
