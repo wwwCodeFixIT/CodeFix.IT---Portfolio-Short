@@ -69,7 +69,12 @@ for (const [engine, type] of [
             assert.equal(await detail.textContent(), '')
             const control = demo.getByRole('button', { name: action, exact: true })
             await control.press('Enter')
-            assert.equal(await control.getAttribute('aria-expanded'), 'true')
+            assert.equal(
+              await demo
+                .getByRole('button', { name: close, exact: true })
+                .getAttribute('aria-expanded'),
+              'true',
+            )
             assert.match(await detail.innerText(), expected)
             assert.equal(
               await demo
