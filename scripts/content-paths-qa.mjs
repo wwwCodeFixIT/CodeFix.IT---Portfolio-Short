@@ -50,7 +50,7 @@ for (const [engine, type] of [
           await page.waitForURL(new URL(item.serviceHref + '/', target).href)
           await page.locator('form.cf-lead-form').waitFor()
         } else {
-          await page.locator(`a[href="/realizacje/${item.slug}/"]`).click()
+          await page.locator(`a.cf-button-primary[href="/realizacje/${item.slug}/"]`).click()
           await page.waitForURL(new URL(`/realizacje/${item.slug}/`, target).href)
           await page.getByRole('link', { name: /Zapytaj o podobne wdrożenie/ }).click()
           await page.waitForURL(new URL('/?service=CODEFIX_BUSINESS_SITE#contact', target).href)
