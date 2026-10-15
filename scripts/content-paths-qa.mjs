@@ -43,6 +43,7 @@ for (const [engine, type] of [
         const entry = new URL(entryPath, target)
         entry.searchParams.set('utm_source', 'content_qa')
         await page.goto(entry.href, { waitUntil: 'networkidle' })
+        await page.waitForFunction(() => !document.querySelector('#root[data-static-prerender]'))
         const reject = page.getByRole('button', { name: 'Odrzuć wszystkie', exact: true })
         if (await reject.isVisible()) await reject.click()
         if (item.kind === 'guide') {
@@ -50,7 +51,7 @@ for (const [engine, type] of [
           await page.waitForURL(new URL(item.serviceHref + '/', target).href)
           await page.locator('form.cf-lead-form').waitFor()
         } else {
-          await page.locator(`a.cf-button-primary[href="/realizacje/${item.slug}/"]`).click()
+          await page.locator(`a.cf-button-primary[href="/realizacje/${item.slug}/"]`).press('Enter')
           await page.waitForURL(new URL(`/realizacje/${item.slug}/`, target).href)
           await page.getByRole('link', { name: /Zapytaj o podobne wdrożenie/ }).click()
           await page.waitForURL(new URL('/?service=CODEFIX_BUSINESS_SITE#contact', target).href)
