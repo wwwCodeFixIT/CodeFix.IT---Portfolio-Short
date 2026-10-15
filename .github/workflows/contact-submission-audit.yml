@@ -13,6 +13,7 @@ on:
       - 'scripts/content-paths-qa.mjs'
       - 'scripts/contact-wizard-qa.mjs'
       - 'src/pages/HomepageV1.v3.css'
+      - 'src/components/BriefScopePicker.tsx'
       - 'src/lib/measurement.ts'
       - 'src/lib/sales-funnel.ts'
       - 'src/lib/lead-response.ts'
