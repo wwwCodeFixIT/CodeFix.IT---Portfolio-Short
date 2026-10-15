@@ -57,14 +57,16 @@ for (const [engine, type] of [
           await page.waitForURL(new URL('/?service=CODEFIX_BUSINESS_SITE#contact', target).href)
           await page.waitForFunction(
             () =>
-              document.querySelector('select[name="service"]')?.value === 'CODEFIX_BUSINESS_SITE' &&
-              document.activeElement?.getAttribute('name') === 'name',
+              document.querySelector('input[name="service"]')?.value === 'CODEFIX_BUSINESS_SITE' &&
+              document.activeElement
+                ?.closest('[data-brief-step]')
+                ?.getAttribute('data-brief-step') === '0',
           )
           await page.waitForFunction(() => {
-            const box = document.querySelector('input[name="name"]')?.getBoundingClientRect()
+            const box = document.querySelector('.cf-brief-choices button')?.getBoundingClientRect()
             return box && box.top >= 0 && box.bottom <= window.innerHeight
           })
-          const box = await page.locator('input[name="name"]').boundingBox()
+          const box = await page.locator('.cf-brief-choices button').first().boundingBox()
           assert.ok(box && box.y >= 0 && box.y + box.height <= 844)
         }
         const attribution = await page.evaluate(() =>

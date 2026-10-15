@@ -200,12 +200,16 @@ for (const [engine, type] of [
           }, test)
           const form = page.locator('form.cf-lead-form')
           const note = 'TEST QA — isolated request, no production lead is created.'
+          if (pageKind === 'homepage') {
+            await form.getByRole('button', { name: 'Aplikacja / integracja', exact: true }).click()
+            await form.getByRole('button', { name: 'Dalej', exact: true }).click()
+          }
+          await form.locator('[name="pageUrl"]').fill('https://example.invalid/')
+          await form.locator('[name="message"]').fill(note)
+          if (pageKind === 'homepage')
+            await form.getByRole('button', { name: 'Dalej', exact: true }).click()
           await form.locator('[name="name"]').fill('Contact QA')
           await form.locator('[name="email"]').fill('contact-qa@example.invalid')
-          await form.locator('[name="pageUrl"]').fill('https://example.invalid/')
-          if (pageKind === 'homepage')
-            await form.locator('[name="service"]').selectOption('development')
-          await form.locator('[name="message"]').fill(note)
           await form.locator('button[type="submit"]').click()
           const feedback = form.locator('.cf-form-feedback')
           await feedback.waitFor()
@@ -258,10 +262,12 @@ for (const [engine, type] of [
           assert.deepEqual(pageErrors, [])
           let repeatContextCleared = false
           if (pageKind === 'homepage' && test.name === 'both') {
+            await form.getByRole('button', { name: 'Stała opieka', exact: true }).click()
+            await form.getByRole('button', { name: 'Dalej', exact: true }).click()
+            await form.locator('[name="message"]').fill('Second isolated request after success.')
+            await form.getByRole('button', { name: 'Dalej', exact: true }).click()
             await form.locator('[name="name"]').fill('Second Contact QA')
             await form.locator('[name="email"]').fill('second-contact-qa@example.invalid')
-            await form.locator('[name="service"]').selectOption('WORDPRESS_CARE')
-            await form.locator('[name="message"]').fill('Second isolated request after success.')
             await form.locator('button[type="submit"]').click()
             await form.locator('.cf-form-feedback.is-success').waitFor()
             assert.equal(payloads.length, 2)

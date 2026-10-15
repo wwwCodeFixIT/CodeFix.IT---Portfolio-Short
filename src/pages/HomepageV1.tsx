@@ -8,9 +8,7 @@ import {
   GitBranch,
   Layers3,
   MessageSquareText,
-  Rocket,
   Sparkles,
-  Wrench,
 } from 'lucide-react';
 import { Brand } from '../components/Brand';
 import { HeroEmblem, HeroExperience } from '../components/HeroExperience';
@@ -52,7 +50,9 @@ const ProjectEstimator = lazy(() =>
 );
 
 function focusContact(section: HTMLElement | null, behavior: ScrollBehavior) {
-  const input = section?.querySelector<HTMLInputElement>('[name="name"]');
+  const input = section?.querySelector<HTMLElement>(
+    '[data-brief-step]:not([hidden]) input, [data-brief-step]:not([hidden]) button, [data-brief-step]:not([hidden]) textarea',
+  );
   if (!input) return;
   // Focus renders the deferred sections before the scroll destination is measured.
   input.focus({ preventScroll: true });
@@ -80,6 +80,16 @@ const miniAuditService = 'FREE_MINI_AUDIT';
 const careService = 'WORDPRESS_CARE';
 const agencyService = 'AGENCY_WHITE_LABEL';
 const appService = 'development';
+
+const briefServices = [
+  [businessSiteService, 'Nowa strona'],
+  [appService, 'Aplikacja / integracja'],
+  [quickFixService, 'Naprawa WordPress'],
+  [careService, 'Stała opieka'],
+  [agencyService, 'Dla agencji'],
+  [miniAuditService, 'Mini-ocena strony'],
+  ['other', 'Inny temat'],
+];
 
 const allowedServiceDeepLinks = new Set([
   quickFixService,
@@ -156,6 +166,10 @@ export function HomepageV1() {
   const [formMessage, setFormMessage] = useState('');
   const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
   const [selectedService, setSelectedService] = useState(initialServiceFromUrl);
+  const [briefStep, setBriefStep] = useState(0);
+  const [briefError, setBriefError] = useState('');
+  const [briefSummary, setBriefSummary] = useState({ pageUrl: '', message: '' });
+  const briefFormRef = useRef<HTMLFormElement | null>(null);
   const [estimatorOpen, setEstimatorOpen] = useState(false);
   const [estimatorStarted, setEstimatorStarted] = useState(false);
   const [projectBrief, setProjectBrief] = useState<ProjectBrief | null>(null);
@@ -280,6 +294,8 @@ export function HomepageV1() {
   function chooseService(service: string, placement?: string) {
     if (formState === 'submitting') return;
     setProjectBrief(null);
+    setBriefStep(0);
+    setBriefError('');
     setSelectedService(service);
     setFormMessage('');
     setFormState('idle');
@@ -433,11 +449,57 @@ export function HomepageV1() {
   const messagePlaceholder =
     guidance?.placeholder || 'Krótko opisz problem, zakres albo oczekiwany efekt.';
 
+  function goToBriefStep(step: number) {
+    const form = briefFormRef.current;
+    if (step === 2 && form) {
+      const data = new FormData(form);
+      setBriefSummary({
+        pageUrl: String(data.get('pageUrl') ?? ''),
+        message: String(data.get('message') ?? ''),
+      });
+    }
+    setBriefStep(step);
+    window.requestAnimationFrame(() => {
+      const heading = form?.querySelector<HTMLElement>(
+        `[data-brief-step="${step}"] [data-step-heading]`,
+      );
+      heading?.focus({ preventScroll: true });
+      heading?.scrollIntoView({ block: 'center', behavior: 'instant' });
+    });
+  }
+
+  function validateBriefStep(step: number) {
+    if (step === 0 && !selectedService) {
+      setBriefError('Wybierz temat, aby przejść dalej.');
+      briefFormRef.current?.querySelector<HTMLButtonElement>('.cf-brief-choices button')?.focus();
+      return false;
+    }
+    const fields = briefFormRef.current?.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>(
+      `[data-brief-step="${step}"] input, [data-brief-step="${step}"] textarea`,
+    );
+    for (const field of fields ?? []) {
+      if (!field.checkValidity()) {
+        if (briefStep !== step) goToBriefStep(step);
+        window.requestAnimationFrame(() => field.reportValidity());
+        return false;
+      }
+    }
+    return true;
+  }
+
   async function handleLeadSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (formState === 'submitting') return;
 
     const form = event.currentTarget;
+    if (!validateBriefStep(briefStep)) return;
+    if (briefStep < 2) {
+      goToBriefStep(briefStep + 1);
+      return;
+    }
+    for (const step of [0, 1]) {
+      if (!validateBriefStep(step)) return;
+    }
     const journey = readConversionJourney();
     const data = new FormData(form);
     const service = selectedService;
@@ -526,6 +588,8 @@ export function HomepageV1() {
       setProjectBrief(null);
       if (!result.duplicate) clearFunnelSession();
       setSelectedService('');
+      setBriefStep(0);
+      setBriefSummary({ pageUrl: '', message: '' });
       setFormStartedAt(Date.now());
       setFormState('success');
       setFormMessage(successMessage);
@@ -1062,24 +1126,6 @@ export function HomepageV1() {
                 <p className="cf-section-kicker">Kontakt</p>
                 <h2>Opisz temat. Ustalmy kolejny krok.</h2>
                 <p>Kilka zdań i adres strony wystarczą na początek.</p>
-
-                <div className="cf-contact-tags" aria-label="Przykładowe tematy">
-                  <span>
-                    <Wrench size={14} /> Naprawa WordPress
-                  </span>
-                  <span>
-                    <Layers3 size={14} /> Nowa strona firmowa
-                  </span>
-                  <span>
-                    <MessageSquareText size={14} /> Stała opieka
-                  </span>
-                  <span>
-                    <GitBranch size={14} /> White-label
-                  </span>
-                  <span>
-                    <Rocket size={14} /> Aplikacje i integracje
-                  </span>
-                </div>
               </div>
 
               <div className="cf-contact-action">
@@ -1090,146 +1136,189 @@ export function HomepageV1() {
 
                 <form
                   className="cf-lead-form"
+                  ref={briefFormRef}
+                  noValidate
                   onSubmit={handleLeadSubmit}
                   onFocusCapture={handleFormStart}
                 >
+                  <ol className="cf-brief-progress" aria-label="Etapy zapytania">
+                    {['Potrzeba', 'Opis', 'Kontakt'].map((label, index) => (
+                      <li key={label} aria-current={briefStep === index ? 'step' : undefined}>
+                        <span aria-hidden="true">{index + 1}.</span> {label}
+                      </li>
+                    ))}
+                  </ol>
+                  <p className="cf-brief-step-count" role="status">
+                    Krok {briefStep + 1} z 3
+                  </p>
                   <fieldset disabled={formState === 'submitting'} aria-label="Dane zapytania">
-                    <div className="cf-form-row">
+                    <div data-brief-step="0" hidden={briefStep !== 0}>
+                      <h3 tabIndex={-1} data-step-heading>
+                        Czego potrzebujesz?
+                      </h3>
+                      <p>Wybierz temat. Dopasuję kolejne pytania.</p>
+                      <div className="cf-brief-choices" role="group" aria-label="Wybierz temat">
+                        {briefServices.map(([value, label]) => (
+                          <button
+                            key={value}
+                            type="button"
+                            aria-pressed={selectedService === value}
+                            onClick={() => {
+                              if (selectedService !== value) chooseService(value);
+                            }}
+                          >
+                            {label}
+                          </button>
+                        ))}
+                      </div>
+                      <input type="hidden" name="service" value={selectedService} />
+                      {briefError && <p role="alert">{briefError}</p>}
+                    </div>
+                    <div data-brief-step="1" hidden={briefStep !== 1}>
+                      <h3 tabIndex={-1} data-step-heading>
+                        Co trzeba zrobić?
+                      </h3>
+                      {guidance && (
+                        <p className="cf-quickfix-selection" role="status">
+                          {guidance.hint}
+                        </p>
+                      )}
+
                       <label>
-                        <span>Imię / osoba kontaktowa</span>
+                        <span>
+                          Adres strony{' '}
+                          {selectedService !== miniAuditService && <small>opcjonalnie</small>}
+                        </span>
                         <input
-                          name="name"
-                          type="text"
-                          autoComplete="name"
-                          autoCapitalize="words"
-                          enterKeyHint="next"
-                          minLength={2}
-                          maxLength={120}
-                          required
-                        />
-                      </label>
-                      <label>
-                        <span>E-mail</span>
-                        <input
-                          name="email"
-                          type="email"
-                          inputMode="email"
-                          autoComplete="email"
+                          name="pageUrl"
+                          type="url"
+                          inputMode="url"
+                          autoComplete="url"
                           autoCapitalize="none"
                           enterKeyHint="next"
-                          maxLength={254}
-                          required
+                          placeholder="https://twojastrona.pl"
+                          maxLength={500}
+                          required={selectedService === miniAuditService}
+                        />
+                      </label>
+
+                      {projectBrief && (
+                        <div className="cf-estimator-attachment">
+                          <details open>
+                            <summary>Zakres z kalkulatora dołączony do zapytania</summary>
+                            <pre>{projectBrief.brief}</pre>
+                          </details>
+                          <button type="button" onClick={removeProjectBrief}>
+                            Usuń dołączony zakres
+                          </button>
+                        </div>
+                      )}
+
+                      <label>
+                        <span>
+                          {projectBrief
+                            ? 'Dodatkowe informacje (opcjonalnie)'
+                            : 'Co trzeba zrobić?'}
+                        </span>
+                        <textarea
+                          name="message"
+                          rows={5}
+                          minLength={projectBrief ? undefined : 10}
+                          maxLength={4000 - (projectBrief ? projectBrief.brief.length + 2 : 0)}
+                          placeholder={messagePlaceholder}
+                          required={!projectBrief}
                         />
                       </label>
                     </div>
-
-                    {showCompanyField && (
-                      <label>
-                        <span>
-                          {selectedService === agencyService ? 'Nazwa agencji / firmy' : 'Firma'}{' '}
-                          <small>opcjonalnie</small>
-                        </span>
-                        <input
-                          name="company"
-                          type="text"
-                          autoComplete="organization"
-                          autoCapitalize="words"
-                          enterKeyHint="next"
-                          maxLength={160}
-                        />
-                      </label>
-                    )}
-
-                    <label>
-                      <span>Temat</span>
-                      <select
-                        name="service"
-                        value={selectedService}
-                        onChange={(event) => chooseService(event.target.value)}
-                        required
-                      >
-                        <option value="" disabled>
-                          Wybierz temat
-                        </option>
-                        <option value={quickFixService}>
-                          WordPress Quick Fix — jeden konkretny problem
-                        </option>
-                        <option value={businessSiteService}>
-                          Nowa strona firmowa WordPress + ACF PRO
-                        </option>
-                        <option value={careService}>Opieka i rozwój WordPress</option>
-                        <option value={agencyService}>Współpraca agencyjna / white-label</option>
-                        <option value={miniAuditService}>
-                          Mini-ocena techniczna publicznej strony
-                        </option>
-                        <option value={appService}>Aplikacja / React / Next.js / API</option>
-                        <option value="other">Inny temat</option>
-                      </select>
-                    </label>
-
-                    {guidance && (
-                      <p className="cf-quickfix-selection" role="status">
-                        {guidance.hint}
-                      </p>
-                    )}
-
-                    <label>
-                      <span>
-                        Adres strony{' '}
-                        {selectedService !== miniAuditService && <small>opcjonalnie</small>}
-                      </span>
-                      <input
-                        name="pageUrl"
-                        type="url"
-                        inputMode="url"
-                        autoComplete="url"
-                        autoCapitalize="none"
-                        enterKeyHint="next"
-                        placeholder="https://twojastrona.pl"
-                        maxLength={500}
-                        required={selectedService === miniAuditService}
-                      />
-                    </label>
-
-                    {projectBrief && (
-                      <div className="cf-estimator-attachment">
-                        <details open>
-                          <summary>Zakres z kalkulatora dołączony do zapytania</summary>
-                          <pre>{projectBrief.brief}</pre>
-                        </details>
-                        <button type="button" onClick={removeProjectBrief}>
-                          Usuń dołączony zakres
+                    <div data-brief-step="2" hidden={briefStep !== 2}>
+                      <h3 tabIndex={-1} data-step-heading>
+                        Kontakt i podsumowanie
+                      </h3>
+                      <div className="cf-brief-summary">
+                        <strong>
+                          {briefServices.find(([value]) => value === selectedService)?.[1]}
+                        </strong>
+                        {briefSummary.pageUrl && <p>{briefSummary.pageUrl}</p>}
+                        <p>{briefSummary.message}</p>
+                        {projectBrief && <p>Zakres z kalkulatora dołączony.</p>}
+                        <button type="button" onClick={() => goToBriefStep(1)}>
+                          Popraw opis
                         </button>
                       </div>
-                    )}
+                      <div className="cf-form-row">
+                        <label>
+                          <span>Imię / osoba kontaktowa</span>
+                          <input
+                            name="name"
+                            type="text"
+                            autoComplete="name"
+                            autoCapitalize="words"
+                            enterKeyHint="next"
+                            minLength={2}
+                            maxLength={120}
+                            required
+                          />
+                        </label>
+                        <label>
+                          <span>E-mail</span>
+                          <input
+                            name="email"
+                            type="email"
+                            inputMode="email"
+                            autoComplete="email"
+                            autoCapitalize="none"
+                            enterKeyHint="next"
+                            maxLength={254}
+                            required
+                          />
+                        </label>
+                      </div>
 
-                    <label>
-                      <span>
-                        {projectBrief ? 'Dodatkowe informacje (opcjonalnie)' : 'Co trzeba zrobić?'}
-                      </span>
-                      <textarea
-                        name="message"
-                        rows={5}
-                        minLength={projectBrief ? undefined : 10}
-                        maxLength={4000 - (projectBrief ? projectBrief.brief.length + 2 : 0)}
-                        placeholder={messagePlaceholder}
-                        required={!projectBrief}
-                      />
-                    </label>
-
+                      {showCompanyField && (
+                        <label>
+                          <span>
+                            {selectedService === agencyService ? 'Nazwa agencji / firmy' : 'Firma'}{' '}
+                            <small>opcjonalnie</small>
+                          </span>
+                          <input
+                            name="company"
+                            type="text"
+                            autoComplete="organization"
+                            autoCapitalize="words"
+                            enterKeyHint="next"
+                            maxLength={160}
+                          />
+                        </label>
+                      )}
+                    </div>
                     <label className="cf-form-honeypot" aria-hidden="true">
                       <span>Strona firmy</span>
                       <input name="companyWebsite" type="text" tabIndex={-1} autoComplete="off" />
                     </label>
 
-                    <button
-                      type="submit"
-                      className="cf-button cf-button-primary cf-contact-button"
-                      disabled={formState === 'submitting'}
-                    >
-                      {formState === 'submitting' ? 'Wysyłam…' : submitButtonLabel}
-                      {formState !== 'submitting' && <ArrowRight size={17} aria-hidden="true" />}
-                    </button>
+                    <div className="cf-brief-actions">
+                      {briefStep > 0 && (
+                        <button
+                          type="button"
+                          className="cf-button"
+                          onClick={() => goToBriefStep(briefStep - 1)}
+                        >
+                          Wstecz
+                        </button>
+                      )}
+                      <button
+                        type="submit"
+                        className="cf-button cf-button-primary cf-contact-button"
+                        disabled={formState === 'submitting'}
+                      >
+                        {formState === 'submitting'
+                          ? 'Wysyłam…'
+                          : briefStep < 2
+                            ? 'Dalej'
+                            : submitButtonLabel}
+                        {formState !== 'submitting' && <ArrowRight size={17} aria-hidden="true" />}
+                      </button>
+                    </div>
                   </fieldset>
 
                   {formMessage && (
