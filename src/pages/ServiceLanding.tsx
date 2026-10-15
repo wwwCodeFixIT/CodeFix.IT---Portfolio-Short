@@ -228,6 +228,7 @@ export function ServiceLanding({
     event.preventDefault();
     if (formState === 'submitting') return;
     const form = event.currentTarget;
+    const journey = readConversionJourney();
     const data = new FormData(form);
 
     setFormState('submitting');

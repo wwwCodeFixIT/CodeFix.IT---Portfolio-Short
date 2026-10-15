@@ -160,7 +160,6 @@ export function HomepageV1() {
   const [estimatorStarted, setEstimatorStarted] = useState(false);
   const [projectBrief, setProjectBrief] = useState<ProjectBrief | null>(null);
   const [attribution] = useState(captureSessionAttribution);
-  const [journey] = useState(readConversionJourney);
   const formStartTracked = useRef(false);
   const formViewTracked = useRef(false);
   const funnelViewTracked = useRef(false);
@@ -439,6 +438,7 @@ export function HomepageV1() {
     if (formState === 'submitting') return;
 
     const form = event.currentTarget;
+    const journey = readConversionJourney();
     const data = new FormData(form);
     const service = selectedService;
     const message = mergeProjectBrief(String(data.get('message') ?? ''), projectBrief);

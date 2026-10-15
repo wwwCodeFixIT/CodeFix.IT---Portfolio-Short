@@ -159,10 +159,10 @@ for (const [engine, type] of [
               ).href,
               { waitUntil: 'networkidle' },
             )
-            await page.locator('.guide-page .cf-nav-cta').waitFor()
+            await page.locator('.guide-page main a.cf-button-primary').waitFor()
             const rejectGuide = page.getByRole('button', { name: 'Odrzuć wszystkie', exact: true })
             if (await rejectGuide.isVisible()) await rejectGuide.click()
-            await page.locator('.guide-page .cf-nav-cta').click()
+            await page.locator('.guide-page main a.cf-button-primary').click()
             await page.waitForURL(new URL('/naprawa-wordpress/', target).href)
             await page.locator('form.cf-lead-form').waitFor()
             await page
@@ -242,7 +242,7 @@ for (const [engine, type] of [
             )
             assert.equal(storedJourney === null, success)
           }
-          const conversions = await page.evaluate(
+          let conversions = await page.evaluate(
             () =>
               window.__contactQaEvents.filter(
                 (args) => args[0] === 'event' && args[1] === 'generate_lead',
@@ -256,6 +256,27 @@ for (const [engine, type] of [
             )
           if (!test.analytics) assert.equal(funnelRequests, 0)
           assert.deepEqual(pageErrors, [])
+          let repeatContextCleared = false
+          if (pageKind === 'homepage' && test.name === 'both') {
+            await form.locator('[name="name"]').fill('Second Contact QA')
+            await form.locator('[name="email"]').fill('second-contact-qa@example.invalid')
+            await form.locator('[name="service"]').selectOption('WORDPRESS_CARE')
+            await form.locator('[name="message"]').fill('Second isolated request after success.')
+            await form.locator('button[type="submit"]').click()
+            await form.locator('.cf-form-feedback.is-success').waitFor()
+            assert.equal(payloads.length, 2)
+            assert.equal(payloads[1].journeySource, '')
+            assert.equal(payloads[1].journeyGuide, '')
+            assert.equal(payloads[1].utmSource, 'contact_qa')
+            conversions = await page.evaluate(
+              () =>
+                window.__contactQaEvents.filter(
+                  (args) => args[0] === 'event' && args[1] === 'generate_lead',
+                ).length,
+            )
+            assert.equal(conversions, 2)
+            repeatContextCleared = true
+          }
           const result = {
             engine,
             pageKind,
@@ -266,6 +287,7 @@ for (const [engine, type] of [
             data: success ? 'cleared' : 'preserved',
             blockedExternalRequests,
             liveLeadRequests: 0,
+            repeatContextCleared,
           }
           results.push(result)
           await writeFile(

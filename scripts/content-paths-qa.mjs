@@ -46,7 +46,7 @@ for (const [engine, type] of [
         const reject = page.getByRole('button', { name: 'Odrzuć wszystkie', exact: true })
         if (await reject.isVisible()) await reject.click()
         if (item.kind === 'guide') {
-          await page.locator('.guide-page .cf-nav-cta').click()
+          await page.locator('.guide-page main a.cf-button-primary').click()
           await page.waitForURL(new URL(item.serviceHref + '/', target).href)
           await page.locator('form.cf-lead-form').waitFor()
         } else {
