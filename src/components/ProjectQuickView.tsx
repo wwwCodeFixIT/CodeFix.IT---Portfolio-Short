@@ -31,6 +31,26 @@ export default function ProjectQuickView({ project, onClose, onEnquire }: Props)
       className="project-quick-view"
       aria-labelledby="project-quick-title"
       onClose={onClose}
+      onKeyDown={(event) => {
+        if (event.key !== 'Tab' || event.ctrlKey || event.altKey || event.metaKey) return
+        const controls = event.currentTarget.querySelectorAll<HTMLElement>(
+          'button:not(:disabled), a[href]',
+        )
+        const first = controls.item(0)
+        const last = controls.item(controls.length - 1)
+        const active = document.activeElement
+        const target = event.shiftKey
+          ? active === first || active?.id === 'project-quick-title'
+            ? last
+            : null
+          : active === last
+            ? first
+            : null
+        if (target) {
+          event.preventDefault()
+          target.focus()
+        }
+      }}
       onPointerDown={(event) => {
         backdropPress.current = event.target === event.currentTarget
       }}
