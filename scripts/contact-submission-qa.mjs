@@ -150,7 +150,29 @@ for (const [engine, type] of [
           return route.abort('blockedbyclient')
         })
         try {
-          await page.goto(new URL(path, target).href, { waitUntil: 'networkidle' })
+          if (pageKind === 'homepage') {
+            // Follow actual public links: tagged guide -> service -> homepage form.
+            await page.goto(
+              new URL(
+                '/poradniki/blad-500-wordpress/?utm_source=contact_qa&utm_medium=test&utm_campaign=guide_path',
+                target,
+              ).href,
+              { waitUntil: 'networkidle' },
+            )
+            await page.locator('.guide-page main a.cf-button-primary').waitFor()
+            const rejectGuide = page.getByRole('button', { name: 'Odrzuć wszystkie', exact: true })
+            if (await rejectGuide.isVisible()) await rejectGuide.click()
+            await page.locator('.guide-page main a.cf-button-primary').click()
+            await page.waitForURL(new URL('/naprawa-wordpress/', target).href)
+            await page.locator('form.cf-lead-form').waitFor()
+            await page
+              .locator('header')
+              .getByRole('link', { name: 'CodeFix.IT — strona główna', exact: true })
+              .click()
+            await page.waitForURL(target.origin + '/')
+          } else {
+            await page.goto(new URL(path, target).href, { waitUntil: 'networkidle' })
+          }
           await page.locator('form.cf-lead-form').waitFor()
           const reject = page.getByRole('button', { name: 'Odrzuć wszystkie', exact: true })
           if (await reject.isVisible()) await reject.click()
@@ -206,7 +228,21 @@ for (const [engine, type] of [
             pageKind === 'homepage' ? 'development' : 'WORDPRESS_QUICK_FIX',
           )
           assert.equal(payloads[0].message, note)
-          const conversions = await page.evaluate(
+          if (pageKind === 'homepage') {
+            assert.equal(payloads[0].journeySource, 'GUIDE')
+            assert.equal(payloads[0].journeyGuide, 'blad-500-wordpress')
+            assert.equal(payloads[0].journeyDestination, '/naprawa-wordpress')
+            assert.equal(payloads[0].landingPath, '/poradniki/blad-500-wordpress/')
+            assert.equal(payloads[0].submitPath, '/')
+            assert.equal(payloads[0].utmSource, 'contact_qa')
+            assert.equal(payloads[0].utmMedium, 'test')
+            assert.equal(payloads[0].utmCampaign, 'guide_path')
+            const storedJourney = await page.evaluate(() =>
+              window.sessionStorage.getItem('codefix_conversion_journey_v1'),
+            )
+            assert.equal(storedJourney === null, success)
+          }
+          let conversions = await page.evaluate(
             () =>
               window.__contactQaEvents.filter(
                 (args) => args[0] === 'event' && args[1] === 'generate_lead',
@@ -220,6 +256,27 @@ for (const [engine, type] of [
             )
           if (!test.analytics) assert.equal(funnelRequests, 0)
           assert.deepEqual(pageErrors, [])
+          let repeatContextCleared = false
+          if (pageKind === 'homepage' && test.name === 'both') {
+            await form.locator('[name="name"]').fill('Second Contact QA')
+            await form.locator('[name="email"]').fill('second-contact-qa@example.invalid')
+            await form.locator('[name="service"]').selectOption('WORDPRESS_CARE')
+            await form.locator('[name="message"]').fill('Second isolated request after success.')
+            await form.locator('button[type="submit"]').click()
+            await form.locator('.cf-form-feedback.is-success').waitFor()
+            assert.equal(payloads.length, 2)
+            assert.equal(payloads[1].journeySource, '')
+            assert.equal(payloads[1].journeyGuide, '')
+            assert.equal(payloads[1].utmSource, 'contact_qa')
+            conversions = await page.evaluate(
+              () =>
+                window.__contactQaEvents.filter(
+                  (args) => args[0] === 'event' && args[1] === 'generate_lead',
+                ).length,
+            )
+            assert.equal(conversions, 2)
+            repeatContextCleared = true
+          }
           const result = {
             engine,
             pageKind,
@@ -230,6 +287,7 @@ for (const [engine, type] of [
             data: success ? 'cleared' : 'preserved',
             blockedExternalRequests,
             liveLeadRequests: 0,
+            repeatContextCleared,
           }
           results.push(result)
           await writeFile(

@@ -4,6 +4,13 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - 'src/main.tsx'
+      - 'src/lib/attribution.ts'
+      - 'src/lib/conversion-journey.ts'
+      - 'src/pages/GuidePage.tsx'
+      - 'src/pages/ProjectsIndex.tsx'
+      - 'src/pages/ProjectCaseStudy.tsx'
+      - 'scripts/content-paths-qa.mjs'
       - 'src/lib/measurement.ts'
       - 'src/lib/sales-funnel.ts'
       - 'src/lib/lead-response.ts'
@@ -48,6 +55,7 @@ jobs:
             sleep 1
           done
           node scripts/contact-submission-qa.mjs
+          node scripts/content-paths-qa.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

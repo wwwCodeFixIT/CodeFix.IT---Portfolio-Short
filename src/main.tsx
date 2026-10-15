@@ -1,6 +1,7 @@
 import { StrictMode, type ReactNode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { MeasurementConsent } from './components/MeasurementConsent';
+import { captureSessionAttribution } from './lib/attribution';
 import './index.css';
 
 const servicePaths = new Set([
@@ -87,6 +88,8 @@ async function bootstrap() {
   const hasStaticPrerender = root.dataset.staticPrerender === 'true';
 
   try {
+    // Preserve the original tagged entry before an internal link removes its query.
+    captureSessionAttribution();
     const route = await resolveRoute(path);
 
     // Keep the server/prerendered HTML visible until the exact route chunk is ready.

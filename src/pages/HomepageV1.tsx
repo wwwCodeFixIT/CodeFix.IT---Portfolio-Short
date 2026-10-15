@@ -19,6 +19,7 @@ import { ProjectPreview } from '../components/ProjectPreview';
 import { projects } from '../data/projects';
 import homepageContent from '../data/homepage-content.json';
 import { captureSessionAttribution } from '../lib/attribution';
+import { clearConversionJourney, readConversionJourney } from '../lib/conversion-journey';
 import { readLeadResponse } from '../lib/lead-response';
 import {
   measureAcceptedLead,
@@ -437,6 +438,7 @@ export function HomepageV1() {
     if (formState === 'submitting') return;
 
     const form = event.currentTarget;
+    const journey = readConversionJourney();
     const data = new FormData(form);
     const service = selectedService;
     const message = mergeProjectBrief(String(data.get('message') ?? ''), projectBrief);
@@ -471,6 +473,7 @@ export function HomepageV1() {
           companyWebsite: data.get('companyWebsite'),
           startedAt: formStartedAt,
           ...attribution,
+          ...journey,
           ...readFunnelPayload(service),
         }),
       });
@@ -519,6 +522,7 @@ export function HomepageV1() {
               : 'Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiem po krótkiej analizie tematu.';
 
       form.reset();
+      clearConversionJourney();
       setProjectBrief(null);
       if (!result.duplicate) clearFunnelSession();
       setSelectedService('');
