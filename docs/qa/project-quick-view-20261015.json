@@ -1,0 +1,1399 @@
+{
+  "date": "2026-10-15",
+  "pr": 99,
+  "base": "3881a6266ae2dc167f4d47be8f520dbbbb065455",
+  "candidate": "f79b3a9de399e3abfe2f930c0f859bc05a0f8963",
+  "tree": "0c7ebf6c9ece0c0c98473505edb8c4ea2ee265e1",
+  "runtime": "/assets/index-CboGs3lx.js",
+  "local": {
+    "typecheck": "pass",
+    "lintProduction": "pass",
+    "lintQa": "pass",
+    "format": "pass",
+    "build": "pass",
+    "budgets": "pass",
+    "seo": {
+      "status": "pass",
+      "pages": 20,
+      "links": 101,
+      "anchors": 6
+    },
+    "measurement": "pass",
+    "entryBytes": 202191,
+    "homepageBytes": 49875,
+    "totalJsBytes": 324483,
+    "totalCssBytes": 77195,
+    "jsBudgetBytes": 326000,
+    "cssBudgetBytes": 78000,
+    "previousJsBudget": 320000,
+    "previousCssBudget": 74000,
+    "quickViewGzipJsKb": 1.29,
+    "quickViewGzipCssKb": 1.03
+  },
+  "initialAudits": [
+    {
+      "run": 38803584556,
+      "job": 116658584345,
+      "status": "failure",
+      "passedExisting": 94,
+      "cause": "Native Tab from the last dialog link moved focus outside the content. Added explicit Tab and Shift+Tab boundaries."
+    },
+    {
+      "run": 38804456772,
+      "job": 116661577110,
+      "status": "failure",
+      "passedNewCombinations": 9,
+      "cause": "WebKit rapid Back action raced the delayed reference focus callback. Moved focus into useLayoutEffect and retained fast navigation assertions."
+    }
+  ],
+  "previewVisual": {
+    "desktopDialog": "pass",
+    "mobileImageToggle": "pass",
+    "referenceTransfer": "pass",
+    "focusTitle": "pass",
+    "escapeReturnFocus": "pass",
+    "bodyScrollRestore": "pass",
+    "checkedCandidate": "f79b3a9de399e3abfe2f930c0f859bc05a0f8963",
+    "liveLeadSubmissions": 0,
+    "tabCycle": "pass",
+    "fastReferenceBack": "pass"
+  },
+  "browserTool": {
+    "status": "recovered_after_repl_reset",
+    "attempts": [
+      {
+        "action": "navigate preview",
+        "timeoutSeconds": 300
+      },
+      {
+        "action": "read troubleshooting documentation",
+        "timeoutSeconds": 300
+      }
+    ]
+  },
+  "reactReview": {
+    "status": "pass",
+    "checks": [
+      "Single native dialog per project group.",
+      "Optional JS and CSS loaded on demand.",
+      "No new dependencies or external services.",
+      "Existing images, dimensions, srcset and sizes.",
+      "Cyclic Tab boundaries, Escape and focus restoration.",
+      "Synchronous focus into form before subsequent input.",
+      "Combined message length validation without truncation."
+    ]
+  },
+  "ciRun": 38806387842,
+  "auditRun": 38806387849,
+  "audit": {
+    "run": 38806387849,
+    "job": 116668243172,
+    "status": "success",
+    "cases": 106,
+    "newCombinations": 12,
+    "mockLeadRequests": 78,
+    "liveLeadRequests": 0,
+    "failures": 0,
+    "results": [
+      {
+        "engine": "chromium",
+        "width": 320,
+        "motion": "reduce",
+        "kind": "project-quick-view",
+        "status": "pass",
+        "projects": 3,
+        "closes": [
+          "escape",
+          "button",
+          "backdrop"
+        ],
+        "lazyChunkRequests": 1,
+        "focusRestored": true,
+        "preservesBrief": true,
+        "referencePayload": true,
+        "mockLeadRequests": 2,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "width": 320,
+        "motion": "no-preference",
+        "kind": "project-quick-view",
+        "status": "pass",
+        "projects": 3,
+        "closes": [
+          "escape",
+          "button",
+          "backdrop"
+        ],
+        "lazyChunkRequests": 1,
+        "focusRestored": true,
+        "preservesBrief": true,
+        "referencePayload": true,
+        "mockLeadRequests": 2,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "motion": "reduce",
+        "kind": "project-quick-view",
+        "status": "pass",
+        "projects": 3,
+        "closes": [
+          "escape",
+          "button",
+          "backdrop"
+        ],
+        "lazyChunkRequests": 1,
+        "focusRestored": true,
+        "preservesBrief": true,
+        "referencePayload": true,
+        "mockLeadRequests": 2,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "motion": "no-preference",
+        "kind": "project-quick-view",
+        "status": "pass",
+        "projects": 3,
+        "closes": [
+          "escape",
+          "button",
+          "backdrop"
+        ],
+        "lazyChunkRequests": 1,
+        "focusRestored": true,
+        "preservesBrief": true,
+        "referencePayload": true,
+        "mockLeadRequests": 2,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "width": 1280,
+        "motion": "reduce",
+        "kind": "project-quick-view",
+        "status": "pass",
+        "projects": 3,
+        "closes": [
+          "escape",
+          "button",
+          "backdrop"
+        ],
+        "lazyChunkRequests": 1,
+        "focusRestored": true,
+        "preservesBrief": true,
+        "referencePayload": true,
+        "mockLeadRequests": 2,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "width": 1280,
+        "motion": "no-preference",
+        "kind": "project-quick-view",
+        "status": "pass",
+        "projects": 3,
+        "closes": [
+          "escape",
+          "button",
+          "backdrop"
+        ],
+        "lazyChunkRequests": 1,
+        "focusRestored": true,
+        "preservesBrief": true,
+        "referencePayload": true,
+        "mockLeadRequests": 2,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "width": 320,
+        "motion": "reduce",
+        "kind": "project-quick-view",
+        "status": "pass",
+        "projects": 3,
+        "closes": [
+          "escape",
+          "button",
+          "backdrop"
+        ],
+        "lazyChunkRequests": 1,
+        "focusRestored": true,
+        "preservesBrief": true,
+        "referencePayload": true,
+        "mockLeadRequests": 2,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "width": 320,
+        "motion": "no-preference",
+        "kind": "project-quick-view",
+        "status": "pass",
+        "projects": 3,
+        "closes": [
+          "escape",
+          "button",
+          "backdrop"
+        ],
+        "lazyChunkRequests": 1,
+        "focusRestored": true,
+        "preservesBrief": true,
+        "referencePayload": true,
+        "mockLeadRequests": 2,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "motion": "reduce",
+        "kind": "project-quick-view",
+        "status": "pass",
+        "projects": 3,
+        "closes": [
+          "escape",
+          "button",
+          "backdrop"
+        ],
+        "lazyChunkRequests": 1,
+        "focusRestored": true,
+        "preservesBrief": true,
+        "referencePayload": true,
+        "mockLeadRequests": 2,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "motion": "no-preference",
+        "kind": "project-quick-view",
+        "status": "pass",
+        "projects": 3,
+        "closes": [
+          "escape",
+          "button",
+          "backdrop"
+        ],
+        "lazyChunkRequests": 1,
+        "focusRestored": true,
+        "preservesBrief": true,
+        "referencePayload": true,
+        "mockLeadRequests": 2,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "width": 1280,
+        "motion": "reduce",
+        "kind": "project-quick-view",
+        "status": "pass",
+        "projects": 3,
+        "closes": [
+          "escape",
+          "button",
+          "backdrop"
+        ],
+        "lazyChunkRequests": 1,
+        "focusRestored": true,
+        "preservesBrief": true,
+        "referencePayload": true,
+        "mockLeadRequests": 2,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "width": 1280,
+        "motion": "no-preference",
+        "kind": "project-quick-view",
+        "status": "pass",
+        "projects": 3,
+        "closes": [
+          "escape",
+          "button",
+          "backdrop"
+        ],
+        "lazyChunkRequests": 1,
+        "focusRestored": true,
+        "preservesBrief": true,
+        "referencePayload": true,
+        "mockLeadRequests": 2,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "width": 320,
+        "status": "pass",
+        "validation": true,
+        "backPreservesData": true,
+        "keyboard": true,
+        "reviewEdit": true,
+        "estimator": true,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "status": "pass",
+        "validation": true,
+        "backPreservesData": true,
+        "keyboard": true,
+        "reviewEdit": true,
+        "estimator": true,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "width": 1280,
+        "status": "pass",
+        "validation": true,
+        "backPreservesData": true,
+        "keyboard": true,
+        "reviewEdit": true,
+        "estimator": true,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "width": 320,
+        "status": "pass",
+        "validation": true,
+        "backPreservesData": true,
+        "keyboard": true,
+        "reviewEdit": true,
+        "estimator": true,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "status": "pass",
+        "validation": true,
+        "backPreservesData": true,
+        "keyboard": true,
+        "reviewEdit": true,
+        "estimator": true,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "width": 1280,
+        "status": "pass",
+        "validation": true,
+        "backPreservesData": true,
+        "keyboard": true,
+        "reviewEdit": true,
+        "estimator": true,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "homepage",
+        "case": "none",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "homepage",
+        "case": "analytics",
+        "mockLeadRequests": 1,
+        "conversions": 1,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "homepage",
+        "case": "ads",
+        "mockLeadRequests": 1,
+        "conversions": 1,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "homepage",
+        "case": "both",
+        "mockLeadRequests": 2,
+        "conversions": 2,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": true
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "homepage",
+        "case": "duplicate",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "homepage",
+        "case": "honeypot-acknowledgement",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "homepage",
+        "case": "rejected",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "preserved",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "homepage",
+        "case": "invalid-json",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "preserved",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "homepage",
+        "case": "network-error",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "preserved",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "homepage",
+        "case": "sdk-throws-before-submit",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "homepage",
+        "case": "sdk-throws-after-accept",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "homepage",
+        "case": "ad-sdk-throws",
+        "mockLeadRequests": 1,
+        "conversions": 1,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "homepage",
+        "case": "sdk-missing",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "service",
+        "case": "none",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "service",
+        "case": "analytics",
+        "mockLeadRequests": 1,
+        "conversions": 1,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "service",
+        "case": "ads",
+        "mockLeadRequests": 1,
+        "conversions": 1,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "service",
+        "case": "both",
+        "mockLeadRequests": 1,
+        "conversions": 1,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "service",
+        "case": "duplicate",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "service",
+        "case": "honeypot-acknowledgement",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "service",
+        "case": "rejected",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "preserved",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "service",
+        "case": "invalid-json",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "preserved",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "service",
+        "case": "network-error",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "preserved",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "service",
+        "case": "sdk-throws-before-submit",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "service",
+        "case": "sdk-throws-after-accept",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "service",
+        "case": "ad-sdk-throws",
+        "mockLeadRequests": 1,
+        "conversions": 1,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "pageKind": "service",
+        "case": "sdk-missing",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "homepage",
+        "case": "none",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "homepage",
+        "case": "analytics",
+        "mockLeadRequests": 1,
+        "conversions": 1,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "homepage",
+        "case": "ads",
+        "mockLeadRequests": 1,
+        "conversions": 1,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "homepage",
+        "case": "both",
+        "mockLeadRequests": 2,
+        "conversions": 2,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": true
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "homepage",
+        "case": "duplicate",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "homepage",
+        "case": "honeypot-acknowledgement",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "homepage",
+        "case": "rejected",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "preserved",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "homepage",
+        "case": "invalid-json",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "preserved",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "homepage",
+        "case": "network-error",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "preserved",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "homepage",
+        "case": "sdk-throws-before-submit",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "homepage",
+        "case": "sdk-throws-after-accept",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "homepage",
+        "case": "ad-sdk-throws",
+        "mockLeadRequests": 1,
+        "conversions": 1,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "homepage",
+        "case": "sdk-missing",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "service",
+        "case": "none",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "service",
+        "case": "analytics",
+        "mockLeadRequests": 1,
+        "conversions": 1,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "service",
+        "case": "ads",
+        "mockLeadRequests": 1,
+        "conversions": 1,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "service",
+        "case": "both",
+        "mockLeadRequests": 1,
+        "conversions": 1,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "service",
+        "case": "duplicate",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "service",
+        "case": "honeypot-acknowledgement",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "service",
+        "case": "rejected",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "preserved",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "service",
+        "case": "invalid-json",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "preserved",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "service",
+        "case": "network-error",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "preserved",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "service",
+        "case": "sdk-throws-before-submit",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "service",
+        "case": "sdk-throws-after-accept",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "service",
+        "case": "ad-sdk-throws",
+        "mockLeadRequests": 1,
+        "conversions": 1,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "webkit",
+        "pageKind": "service",
+        "case": "sdk-missing",
+        "mockLeadRequests": 1,
+        "conversions": 0,
+        "focus": "feedback",
+        "data": "cleared",
+        "blockedExternalRequests": 0,
+        "liveLeadRequests": 0,
+        "repeatContextCleared": false
+      },
+      {
+        "engine": "chromium",
+        "kind": "guide",
+        "slug": "wordpress-nie-wysyla-maili",
+        "destination": "/naprawa-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "kind": "guide",
+        "slug": "blad-500-wordpress",
+        "destination": "/naprawa-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "kind": "guide",
+        "slug": "wordpress-zepsul-sie-po-aktualizacji",
+        "destination": "/naprawa-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "kind": "guide",
+        "slug": "wolny-wordpress-co-sprawdzic",
+        "destination": "/opieka-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "kind": "guide",
+        "slug": "blad-krytyczny-wordpress",
+        "destination": "/naprawa-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "kind": "guide",
+        "slug": "woocommerce-checkout-nie-dziala",
+        "destination": "/naprawa-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "kind": "guide",
+        "slug": "ile-kosztuje-naprawa-wordpress",
+        "destination": "/naprawa-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "kind": "guide",
+        "slug": "ile-kosztuje-opieka-wordpress",
+        "destination": "/opieka-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "kind": "guide",
+        "slug": "ile-kosztuje-strona-wordpress-dla-firmy",
+        "destination": "/strony-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "kind": "project",
+        "slug": "kancelaria-adwokacka-witkowska",
+        "destination": "/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "kind": "project",
+        "slug": "rzeczoznawca-marcin-dudek",
+        "destination": "/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "kind": "project",
+        "slug": "em-air-system",
+        "destination": "/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "kind": "guide",
+        "slug": "wordpress-nie-wysyla-maili",
+        "destination": "/naprawa-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "kind": "guide",
+        "slug": "blad-500-wordpress",
+        "destination": "/naprawa-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "kind": "guide",
+        "slug": "wordpress-zepsul-sie-po-aktualizacji",
+        "destination": "/naprawa-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "kind": "guide",
+        "slug": "wolny-wordpress-co-sprawdzic",
+        "destination": "/opieka-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "kind": "guide",
+        "slug": "blad-krytyczny-wordpress",
+        "destination": "/naprawa-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "kind": "guide",
+        "slug": "woocommerce-checkout-nie-dziala",
+        "destination": "/naprawa-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "kind": "guide",
+        "slug": "ile-kosztuje-naprawa-wordpress",
+        "destination": "/naprawa-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "kind": "guide",
+        "slug": "ile-kosztuje-opieka-wordpress",
+        "destination": "/opieka-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "kind": "guide",
+        "slug": "ile-kosztuje-strona-wordpress-dla-firmy",
+        "destination": "/strony-wordpress/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "kind": "project",
+        "slug": "kancelaria-adwokacka-witkowska",
+        "destination": "/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "kind": "project",
+        "slug": "rzeczoznawca-marcin-dudek",
+        "destination": "/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "kind": "project",
+        "slug": "em-air-system",
+        "destination": "/",
+        "attribution": "preserved",
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "width": 320,
+        "motion": "reduce",
+        "kind": "automation-example",
+        "status": "pass",
+        "scenarios": 3,
+        "reversibleActions": 3,
+        "scenarioReset": true,
+        "externalRequests": 0,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "width": 320,
+        "motion": "no-preference",
+        "kind": "automation-example",
+        "status": "pass",
+        "scenarios": 3,
+        "reversibleActions": 3,
+        "scenarioReset": true,
+        "externalRequests": 0,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "motion": "reduce",
+        "kind": "automation-example",
+        "status": "pass",
+        "scenarios": 3,
+        "reversibleActions": 3,
+        "scenarioReset": true,
+        "externalRequests": 0,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "width": 390,
+        "motion": "no-preference",
+        "kind": "automation-example",
+        "status": "pass",
+        "scenarios": 3,
+        "reversibleActions": 3,
+        "scenarioReset": true,
+        "externalRequests": 0,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "width": 1280,
+        "motion": "reduce",
+        "kind": "automation-example",
+        "status": "pass",
+        "scenarios": 3,
+        "reversibleActions": 3,
+        "scenarioReset": true,
+        "externalRequests": 0,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "chromium",
+        "width": 1280,
+        "motion": "no-preference",
+        "kind": "automation-example",
+        "status": "pass",
+        "scenarios": 3,
+        "reversibleActions": 3,
+        "scenarioReset": true,
+        "externalRequests": 0,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "width": 320,
+        "motion": "reduce",
+        "kind": "automation-example",
+        "status": "pass",
+        "scenarios": 3,
+        "reversibleActions": 3,
+        "scenarioReset": true,
+        "externalRequests": 0,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "width": 320,
+        "motion": "no-preference",
+        "kind": "automation-example",
+        "status": "pass",
+        "scenarios": 3,
+        "reversibleActions": 3,
+        "scenarioReset": true,
+        "externalRequests": 0,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "motion": "reduce",
+        "kind": "automation-example",
+        "status": "pass",
+        "scenarios": 3,
+        "reversibleActions": 3,
+        "scenarioReset": true,
+        "externalRequests": 0,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "width": 390,
+        "motion": "no-preference",
+        "kind": "automation-example",
+        "status": "pass",
+        "scenarios": 3,
+        "reversibleActions": 3,
+        "scenarioReset": true,
+        "externalRequests": 0,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "width": 1280,
+        "motion": "reduce",
+        "kind": "automation-example",
+        "status": "pass",
+        "scenarios": 3,
+        "reversibleActions": 3,
+        "scenarioReset": true,
+        "externalRequests": 0,
+        "liveLeadRequests": 0
+      },
+      {
+        "engine": "webkit",
+        "width": 1280,
+        "motion": "no-preference",
+        "kind": "automation-example",
+        "status": "pass",
+        "scenarios": 3,
+        "reversibleActions": 3,
+        "scenarioReset": true,
+        "externalRequests": 0,
+        "liveLeadRequests": 0
+      }
+    ]
+  },
+  "productionCommit": "785c0f665b11e492d6d3b787d25d38802d8d9a62",
+  "productionTree": "0c7ebf6c9ece0c0c98473505edb8c4ea2ee265e1",
+  "productionChecks": {
+    "ci": 38807174306,
+    "seo": 38807175421,
+    "pages": 38807173576,
+    "cloudflareCheck": 116671135602,
+    "status": "success"
+  },
+  "limitations": [
+    "Browser regression ran against the production build with intercepted lead and measurement requests.",
+    "WebKit automation is not a physical iPhone test.",
+    "No new Lighthouse run or real CRM lead submission was performed."
+  ],
+  "productionVisual": {
+    "status": "pass",
+    "workflowUrl": "https://codefix.it/#work",
+    "briefUrl": "https://codefix.it/#contact",
+    "runtime": "/assets/index-CboGs3lx.js",
+    "modal": "open",
+    "horizontalOverflow": 0,
+    "reference": "Kancelaria Adwokacka Witkowska",
+    "step": "1",
+    "bodyScrollUnlocked": true,
+    "earlierAutomationAvailableAfterReload": true,
+    "transientFallback": {
+      "component": "AutomationDemo",
+      "observedOnce": true,
+      "recoveredOnReload": true,
+      "causeConfirmed": false
+    },
+    "liveLeadSubmissions": 0,
+    "proofs": [
+      {
+        "path": "docs/qa/codefix-project-quick-view-production-20261015.jpg",
+        "bytes": 95513,
+        "blob": "a5c856c8f7a629293a77367c1856a29fc78e373d"
+      },
+      {
+        "path": "docs/qa/codefix-project-reference-production-20261015.jpg",
+        "bytes": 76370,
+        "blob": "98a6ad784026ad68fed5656bd6877978f28f1c34"
+      }
+    ]
+  }
+}
