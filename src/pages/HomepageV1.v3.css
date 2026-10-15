@@ -1940,8 +1940,6 @@
 }
 .cf-brief-summary p {
   white-space: pre-wrap;
-  max-height: 160px;
-  overflow: auto;
 }
 .cf-brief-summary button {
   color: #fff;
