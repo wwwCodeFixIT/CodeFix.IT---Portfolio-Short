@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import type { FormEvent, MouseEvent } from 'react';
 import {
   ArrowRight,
@@ -168,6 +168,7 @@ export function HomepageV1() {
   const [selectedService, setSelectedService] = useState(initialServiceFromUrl);
   const [briefStep, setBriefStep] = useState(0);
   const [briefError, setBriefError] = useState('');
+  const previousBriefStep = useRef(0);
   const [briefSummary, setBriefSummary] = useState({ pageUrl: '', message: '' });
   const briefFormRef = useRef<HTMLFormElement | null>(null);
   const [estimatorOpen, setEstimatorOpen] = useState(false);
@@ -183,6 +184,16 @@ export function HomepageV1() {
   const feedbackRef = useRef<HTMLDivElement | null>(null);
   const [contactAreaVisible, setContactAreaVisible] = useState(false);
   const [layoutReady, setLayoutReady] = useState(false);
+
+  useLayoutEffect(() => {
+    if (previousBriefStep.current === briefStep) return;
+    previousBriefStep.current = briefStep;
+    const heading = briefFormRef.current?.querySelector<HTMLElement>(
+      `[data-brief-step="${briefStep}"] [data-step-heading]`,
+    );
+    heading?.focus({ preventScroll: true });
+    heading?.scrollIntoView({ block: 'center', behavior: 'instant' });
+  }, [briefStep]);
 
   useEffect(() => {
     const viewport = window.visualViewport;
@@ -475,13 +486,6 @@ export function HomepageV1() {
       });
     }
     setBriefStep(step);
-    window.requestAnimationFrame(() => {
-      const heading = form?.querySelector<HTMLElement>(
-        `[data-brief-step="${step}"] [data-step-heading]`,
-      );
-      heading?.focus({ preventScroll: true });
-      heading?.scrollIntoView({ block: 'center', behavior: 'instant' });
-    });
   }
 
   function validateBriefStep(step: number) {
