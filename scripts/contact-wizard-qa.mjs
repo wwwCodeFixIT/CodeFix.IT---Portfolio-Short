@@ -110,7 +110,25 @@ for (const [engine, type] of [
           await form.locator('[name="email"]').evaluate((el) => el.validity.valid),
           false,
         )
-        await form.getByRole('button', { name: 'Popraw opis', exact: true }).click()
+        const changeTopic = form.getByRole('button', { name: 'Zmień temat', exact: true })
+        const editDescription = form.getByRole('button', { name: 'Popraw opis', exact: true })
+        await changeTopic.press('Tab')
+        assert.equal(await editDescription.evaluate((el) => el === document.activeElement), true)
+        await editDescription.press('Tab')
+        assert.equal(
+          await form.locator('[name="name"]').evaluate((el) => el === document.activeElement),
+          true,
+        )
+        await changeTopic.press('Enter')
+        assert.equal(await step(), '0')
+        assert.equal(
+          await form
+            .locator('[data-brief-step="0"] [data-step-heading]')
+            .evaluate((el) => el === document.activeElement),
+          true,
+        )
+        await form.getByRole('button', { name: 'Mini-ocena strony', exact: true }).click()
+        await next.click()
         assert.equal(await form.locator('[name="message"]').inputValue(), note)
         assert.equal(
           await form
@@ -118,14 +136,31 @@ for (const [engine, type] of [
             .getAttribute('aria-pressed'),
           'true',
         )
-        await form.getByRole('button', { name: 'Wstecz', exact: true }).click()
+        await next.click()
+        assert.equal(await form.locator('[name="name"]').inputValue(), 'Wizard QA')
+        assert.equal(await form.locator('[name="email"]').inputValue(), 'invalid')
+        await editDescription.press('Enter')
+        assert.equal(await step(), '1')
+        assert.equal(
+          await form
+            .locator('[data-brief-step="1"] [data-step-heading]')
+            .evaluate((el) => el === document.activeElement),
+          true,
+        )
+        const editedNote = 'Poprawiony opis: formularz nie wysyła potwierdzenia.'
+        await form.locator('[name="message"]').fill(editedNote)
+        await next.click()
+        assert.match(await form.locator('.cf-brief-summary').innerText(), /Poprawiony opis/)
+        assert.equal((await form.locator('.cf-brief-summary').innerText()).includes(note), false)
+        await changeTopic.press('Enter')
         await form.getByRole('button', { name: 'Aplikacja / integracja', exact: true }).click()
         await next.click()
-        assert.equal(await form.locator('[name="message"]').inputValue(), note)
+        assert.equal(await form.locator('[name="message"]').inputValue(), editedNote)
         await next.click()
         assert.equal(await form.locator('[name="name"]').inputValue(), 'Wizard QA')
         assert.equal(await form.locator('[name="email"]').inputValue(), 'invalid')
         assert.match(await form.locator('.cf-brief-summary').innerText(), /Aplikacja \/ integracja/)
+        assert.match(await form.locator('.cf-brief-summary').innerText(), /Poprawiony opis/)
         assert.equal(await form.locator('.cf-brief-scope').count(), 0)
         assert.equal(
           await page.evaluate(
@@ -151,6 +186,18 @@ for (const [engine, type] of [
           await form.locator('.cf-brief-summary').innerText(),
           /Zakres z kalkulatora dołączony/,
         )
+        await changeTopic.press('Enter')
+        await form.getByRole('button', { name: 'Nowa strona', exact: true }).click()
+        await next.click()
+        assert.equal(await form.locator('.cf-estimator-attachment pre').textContent(), attached)
+        await next.click()
+        await changeTopic.press('Enter')
+        await form.getByRole('button', { name: 'Aplikacja / integracja', exact: true }).click()
+        await next.click()
+        assert.equal(await form.locator('.cf-estimator-attachment').count(), 0)
+        await next.click()
+        assert.equal(await step(), '1')
+        assert.equal(await form.locator('[name="message"]').evaluate((el) => el.required), true)
         assert.deepEqual(errors, [])
         assert.equal(externalRequests, 0)
         const result = {
@@ -160,6 +207,7 @@ for (const [engine, type] of [
           validation: true,
           backPreservesData: true,
           keyboard: true,
+          reviewEdit: true,
           estimator: true,
           liveLeadRequests: 0,
         }

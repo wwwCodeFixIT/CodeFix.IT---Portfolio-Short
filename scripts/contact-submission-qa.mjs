@@ -214,7 +214,8 @@ for (const [engine, type] of [
             })
           }
           const form = page.locator('form.cf-lead-form')
-          const note = 'TEST QA — isolated request, no production lead is created.'
+          let note = 'TEST QA — isolated request, no production lead is created.'
+          let expectedService = pageKind === 'homepage' ? 'development' : 'WORDPRESS_QUICK_FIX'
           if (pageKind === 'homepage') {
             await form.getByRole('button', { name: 'Aplikacja / integracja', exact: true }).click()
             await form.getByRole('button', { name: 'Dalej', exact: true }).click()
@@ -232,6 +233,28 @@ for (const [engine, type] of [
             await form.getByRole('button', { name: 'Dalej', exact: true }).click()
           await form.locator('[name="name"]').fill('Contact QA')
           await form.locator('[name="email"]').fill('contact-qa@example.invalid')
+          if (withScope) {
+            await form.getByRole('button', { name: 'Zmień temat', exact: true }).press('Enter')
+            await form.getByRole('button', { name: 'Dalej', exact: true }).click()
+            await form.getByRole('button', { name: 'Dalej', exact: true }).click()
+            await form.getByRole('button', { name: 'Popraw opis', exact: true }).press('Enter')
+            note = 'EDITED QA — latest description after reviewing the request.'
+            await form.locator('[name="message"]').fill(note)
+            await form.getByRole('button', { name: 'Dalej', exact: true }).click()
+            assert.ok((await form.locator('.cf-brief-summary').innerText()).includes(note))
+          }
+          if (pageKind === 'homepage' && test.name === 'analytics') {
+            await form.getByRole('button', { name: 'Zmień temat', exact: true }).press('Enter')
+            await form.getByRole('button', { name: 'Naprawa WordPress', exact: true }).click()
+            expectedService = 'WORDPRESS_QUICK_FIX'
+            await form.getByRole('button', { name: 'Dalej', exact: true }).click()
+            await form.getByRole('button', { name: 'Dalej', exact: true }).click()
+          }
+          assert.equal(await form.locator('[name="name"]').inputValue(), 'Contact QA')
+          assert.equal(
+            await form.locator('[name="email"]').inputValue(),
+            'contact-qa@example.invalid',
+          )
           await form.locator('button[type="submit"]').click()
           const feedback = form.locator('.cf-form-feedback')
           await feedback.waitFor()
@@ -249,10 +272,7 @@ for (const [engine, type] of [
             success ? '' : 'contact-qa@example.invalid',
           )
           assert.equal(payloads.length, 1)
-          assert.equal(
-            payloads[0].service,
-            pageKind === 'homepage' ? 'development' : 'WORDPRESS_QUICK_FIX',
-          )
+          assert.equal(payloads[0].service, expectedService)
           assert.equal(payloads[0].message, withScope ? note + '\n\n' + selectedScope : note)
           if (withScope) {
             assert.equal(await form.locator('.cf-brief-scope').count(), success ? 0 : 1)

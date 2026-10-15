@@ -1941,6 +1941,12 @@
 .cf-brief-summary p {
   white-space: pre-wrap;
 }
+.cf-brief-review-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 12px;
+}
 .cf-brief-help {
   border: 1px solid #484848;
   border-radius: 12px;

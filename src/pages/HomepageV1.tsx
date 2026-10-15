@@ -1310,7 +1310,11 @@ export function HomepageV1() {
                       <h3 tabIndex={-1} data-step-heading>
                         Kontakt i podsumowanie
                       </h3>
-                      <div className="cf-brief-summary">
+                      <div
+                        className="cf-brief-summary"
+                        role="group"
+                        aria-label="Podsumowanie zapytania"
+                      >
                         <strong>
                           {briefServices.find(([value]) => value === selectedService)?.[1]}
                         </strong>
@@ -1318,9 +1322,14 @@ export function HomepageV1() {
                         <p>{briefSummary.message}</p>
                         {scopeText && <p className="cf-brief-scope">{scopeText}</p>}
                         {projectBrief && <p>Zakres z kalkulatora dołączony.</p>}
-                        <button type="button" onClick={() => goToBriefStep(1)}>
-                          Popraw opis
-                        </button>
+                        <div className="cf-brief-review-actions">
+                          <button type="button" onClick={() => goToBriefStep(0)}>
+                            Zmień temat
+                          </button>
+                          <button type="button" onClick={() => goToBriefStep(1)}>
+                            Popraw opis
+                          </button>
+                        </div>
                       </div>
                       <div className="cf-form-row">
                         <label>
