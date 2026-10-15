@@ -1,4 +1,4 @@
-/* global document */
+/* global document, window */
 import assert from 'node:assert/strict'
 import { mkdir, writeFile } from 'node:fs/promises'
 import { createRequire } from 'node:module'
@@ -35,6 +35,18 @@ for (const [engine, type] of [
         let outcome = 'error'
         let externalRequests = 0
         let quickViewRequests = 0
+        await context.addInitScript(() => {
+          window.__referenceCopies = []
+          Object.defineProperty(navigator, 'clipboard', {
+            configurable: true,
+            value: {
+              writeText(text) {
+                window.__referenceCopies.push(text)
+                return Promise.resolve()
+              },
+            },
+          })
+        })
         let releaseQuickView
         const quickViewGate = new Promise((resolve) => {
           releaseQuickView = resolve
@@ -234,6 +246,12 @@ for (const [engine, type] of [
               .innerText(),
             /Kancelaria Adwokacka Witkowska/,
           )
+          await form.getByRole('button', { name: 'Skopiuj brief', exact: true }).press('Enter')
+          await form.getByRole('button', { name: 'Skopiowano', exact: true }).waitFor()
+          assert.match(
+            await page.evaluate(() => window.__referenceCopies.at(-1)),
+            /Punkt odniesienia: Kancelaria Adwokacka Witkowska/,
+          )
           await form
             .getByRole('button', { name: 'Usuń wybraną realizację', exact: true })
             .press('Enter')
@@ -246,6 +264,11 @@ for (const [engine, type] of [
             'Kontakt i podsumowanie',
           )
           assert.equal(await form.locator('[name="message"]').inputValue(), note)
+          await form.getByRole('button', { name: 'Skopiuj brief', exact: true }).waitFor()
+          assert.equal(
+            await form.getByRole('button', { name: 'Skopiowano', exact: true }).count(),
+            0,
+          )
 
           await open(projects[2][1])
           await dialog()
@@ -272,6 +295,8 @@ for (const [engine, type] of [
           )
           await next.press('Enter')
           const submit = form.getByRole('button', { name: 'Wyślij brief do wyceny', exact: true })
+          await form.getByRole('button', { name: 'Skopiuj brief', exact: true }).press('Enter')
+          await form.getByRole('button', { name: 'Skopiowano', exact: true }).waitFor()
           await submit.press('Enter')
           await form.getByRole('alert').filter({ hasText: 'Nie udało się wysłać' }).waitFor()
           assert.equal(payloads.length, 1)
@@ -281,6 +306,10 @@ for (const [engine, type] of [
             `${note}\n\nPunkt odniesienia: ${projects[1][1]} — https://codefix.it/realizacje/${projects[1][0]}/`,
           )
           assert.ok(payloads[0].message.length <= 4000)
+          assert.equal(
+            await page.evaluate(() => window.__referenceCopies.at(-1)),
+            `Temat: Nowa strona\n\nAdres strony: https://example.invalid/\n\n${payloads[0].message}`,
+          )
           assert.match(
             await form.getByRole('group', { name: 'Wybrana realizacja', exact: true }).innerText(),
             /Rzeczoznawca Marcin Dudek/,
@@ -315,6 +344,7 @@ for (const [engine, type] of [
             focusRestored: true,
             preservesBrief: true,
             referencePayload: true,
+            referenceClipboard: true,
             mockLeadRequests: payloads.length,
             liveLeadRequests: 0,
           }
