@@ -19,6 +19,7 @@ import { ProjectPreview } from '../components/ProjectPreview';
 import { projects } from '../data/projects';
 import homepageContent from '../data/homepage-content.json';
 import { captureSessionAttribution } from '../lib/attribution';
+import { clearConversionJourney, readConversionJourney } from '../lib/conversion-journey';
 import { readLeadResponse } from '../lib/lead-response';
 import {
   measureAcceptedLead,
@@ -159,6 +160,7 @@ export function HomepageV1() {
   const [estimatorStarted, setEstimatorStarted] = useState(false);
   const [projectBrief, setProjectBrief] = useState<ProjectBrief | null>(null);
   const [attribution] = useState(captureSessionAttribution);
+  const [journey] = useState(readConversionJourney);
   const formStartTracked = useRef(false);
   const formViewTracked = useRef(false);
   const funnelViewTracked = useRef(false);
@@ -471,6 +473,7 @@ export function HomepageV1() {
           companyWebsite: data.get('companyWebsite'),
           startedAt: formStartedAt,
           ...attribution,
+          ...journey,
           ...readFunnelPayload(service),
         }),
       });
@@ -519,6 +522,7 @@ export function HomepageV1() {
               : 'Dzięki — zapytanie trafiło do CodeFix.IT. Odpowiem po krótkiej analizie tematu.';
 
       form.reset();
+      clearConversionJourney();
       setProjectBrief(null);
       if (!result.duplicate) clearFunnelSession();
       setSelectedService('');

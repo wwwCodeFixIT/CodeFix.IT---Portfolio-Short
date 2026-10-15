@@ -150,7 +150,29 @@ for (const [engine, type] of [
           return route.abort('blockedbyclient')
         })
         try {
-          await page.goto(new URL(path, target).href, { waitUntil: 'networkidle' })
+          if (pageKind === 'homepage') {
+            // Follow actual public links: tagged guide -> service -> homepage form.
+            await page.goto(
+              new URL(
+                '/poradniki/blad-500-wordpress/?utm_source=contact_qa&utm_medium=test&utm_campaign=guide_path',
+                target,
+              ).href,
+              { waitUntil: 'networkidle' },
+            )
+            await page.locator('.guide-page .cf-nav-cta').waitFor()
+            const rejectGuide = page.getByRole('button', { name: 'Odrzuć wszystkie', exact: true })
+            if (await rejectGuide.isVisible()) await rejectGuide.click()
+            await page.locator('.guide-page .cf-nav-cta').click()
+            await page.waitForURL(new URL('/naprawa-wordpress/', target).href)
+            await page.locator('form.cf-lead-form').waitFor()
+            await page
+              .locator('header')
+              .getByRole('link', { name: 'CodeFix.IT — strona główna', exact: true })
+              .click()
+            await page.waitForURL(target.origin + '/')
+          } else {
+            await page.goto(new URL(path, target).href, { waitUntil: 'networkidle' })
+          }
           await page.locator('form.cf-lead-form').waitFor()
           const reject = page.getByRole('button', { name: 'Odrzuć wszystkie', exact: true })
           if (await reject.isVisible()) await reject.click()
@@ -206,6 +228,20 @@ for (const [engine, type] of [
             pageKind === 'homepage' ? 'development' : 'WORDPRESS_QUICK_FIX',
           )
           assert.equal(payloads[0].message, note)
+          if (pageKind === 'homepage') {
+            assert.equal(payloads[0].journeySource, 'GUIDE')
+            assert.equal(payloads[0].journeyGuide, 'blad-500-wordpress')
+            assert.equal(payloads[0].journeyDestination, '/naprawa-wordpress')
+            assert.equal(payloads[0].landingPath, '/poradniki/blad-500-wordpress/')
+            assert.equal(payloads[0].submitPath, '/')
+            assert.equal(payloads[0].utmSource, 'contact_qa')
+            assert.equal(payloads[0].utmMedium, 'test')
+            assert.equal(payloads[0].utmCampaign, 'guide_path')
+            const storedJourney = await page.evaluate(() =>
+              window.sessionStorage.getItem('codefix_conversion_journey_v1'),
+            )
+            assert.equal(storedJourney === null, success)
+          }
           const conversions = await page.evaluate(
             () =>
               window.__contactQaEvents.filter(
