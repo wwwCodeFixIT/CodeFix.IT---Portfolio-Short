@@ -1875,3 +1875,83 @@
 .cf-work-section .cf-proof-fact strong {
   color: #fff;
 }
+.cf-lead-form [data-brief-step][hidden] {
+  display: none;
+}
+.cf-brief-progress {
+  display: flex;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: #aaa;
+  font-size: 14px;
+}
+.cf-brief-progress [aria-current] {
+  color: #fff;
+  font-weight: 700;
+}
+.cf-brief-step-count {
+  color: #aaa;
+  font-size: 13px;
+  margin: 0;
+}
+.cf-lead-form [data-brief-step] {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+.cf-lead-form [data-step-heading] {
+  margin: 0;
+  scroll-margin-top: 100px;
+}
+.cf-brief-choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.cf-brief-choices button,
+.cf-brief-summary {
+  padding: 16px;
+  border: 1px solid #484848;
+  border-radius: 12px;
+  background: #141414;
+  color: #fff;
+  text-align: left;
+  font: inherit;
+}
+.cf-brief-choices button {
+  min-height: 58px;
+  cursor: pointer;
+}
+.cf-brief-choices [aria-pressed='true'] {
+  border-color: #ff878c;
+  background: #3a171d;
+}
+.cf-brief-actions {
+  display: flex;
+  gap: 12px;
+}
+.cf-brief-actions .cf-contact-button {
+  flex: 1;
+}
+.cf-brief-summary {
+  overflow-wrap: anywhere;
+}
+.cf-brief-summary p {
+  white-space: pre-wrap;
+}
+.cf-brief-summary button {
+  color: #fff;
+  background: transparent;
+  border: 0;
+  text-decoration: underline;
+  min-height: 44px;
+  cursor: pointer;
+  font: inherit;
+}
+.cf-brief-choices button:focus-visible,
+.cf-brief-summary button:focus-visible {
+  outline: 2px solid #ff878c;
+  outline-offset: 3px;
+}

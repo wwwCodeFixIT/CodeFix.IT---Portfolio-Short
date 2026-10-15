@@ -154,20 +154,28 @@
 
         if (choice === 'accepted') startAnalytics();
 
+        function trackContactClick(name, parameters) {
+          try {
+            if (typeof window.gtag === 'function') window.gtag('event', name, parameters);
+          } catch (_) {
+            // Optional measurement must never interfere with contact navigation.
+          }
+        }
+
         document.addEventListener('click', function (event) {
           if (!window.codefixAnalyticsAllowed) return;
           var target = event.target instanceof Element ? event.target.closest('a') : null;
           if (!target) return;
           var href = target.getAttribute('href') || '';
           if (href.startsWith('mailto:')) {
-            window.gtag('event', 'contact_click', {
+            trackContactClick('contact_click', {
               event_category: 'lead',
               link_text: target.textContent ? target.textContent.trim() : '',
               link_url: href
             });
           }
           if (href === '#contact' || href === '#kontakt') {
-            window.gtag('event', 'contact_cta_click', {
+            trackContactClick('contact_cta_click', {
               event_category: 'lead',
               link_text: target.textContent ? target.textContent.trim() : '',
               page_path: window.location.pathname

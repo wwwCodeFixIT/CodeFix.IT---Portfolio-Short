@@ -11,6 +11,8 @@ on:
       - 'src/pages/ProjectsIndex.tsx'
       - 'src/pages/ProjectCaseStudy.tsx'
       - 'scripts/content-paths-qa.mjs'
+      - 'scripts/contact-wizard-qa.mjs'
+      - 'src/pages/HomepageV1.v3.css'
       - 'src/lib/measurement.ts'
       - 'src/lib/sales-funnel.ts'
       - 'src/lib/lead-response.ts'
@@ -54,6 +56,7 @@ jobs:
             if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then break; fi
             sleep 1
           done
+          node scripts/contact-wizard-qa.mjs
           node scripts/contact-submission-qa.mjs
           node scripts/content-paths-qa.mjs
       - uses: actions/upload-artifact@v4
