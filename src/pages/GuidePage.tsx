@@ -1,6 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { WordPressGuide } from '../data/wordpress-guides';
 import { Brand } from '../components/Brand';
+import { GuideNavigation } from '../components/GuideNavigation';
 import { markGuideToServiceJourney } from '../lib/conversion-journey';
 import { trackMeasurementEvent } from '../lib/measurement';
 import './HomepageV1.css';
@@ -260,6 +261,11 @@ export function GuidesIndex({ wordpressGuides }: { wordpressGuides: WordPressGui
 }
 
 export function GuidePage({ guide, wordpressGuides }: { guide: WordPressGuide; wordpressGuides: WordPressGuide[] }) {
+  const contents = useMemo(() => [
+    ...guide.sections.map((section, index) => ({ id: `sekcja-${index + 1}`, title: section.heading })),
+    { id: 'pytania', title: 'Najczęstsze pytania' },
+  ], [guide]);
+
   useEffect(() => {
     const canonical = `https://codefix.it/poradniki/${guide.slug}/`;
     document.title = guide.metaTitle;
@@ -303,7 +309,7 @@ export function GuidePage({ guide, wordpressGuides }: { guide: WordPressGuide; w
   }
 
   return (
-    <div className="homepage-v1 guide-page">
+    <div className="homepage-v1 guide-page cf-layout-ready">
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand />
@@ -335,6 +341,8 @@ export function GuidePage({ guide, wordpressGuides }: { guide: WordPressGuide; w
             <p>{guide.intro}</p>
           </header>
 
+          <GuideNavigation items={contents} />
+
           <aside className="guide-safety-note">
             <div>
               <strong>Zanim zmienisz produkcję</strong>
@@ -346,9 +354,9 @@ export function GuidePage({ guide, wordpressGuides }: { guide: WordPressGuide; w
           </aside>
 
           <div className="guide-body">
-            {guide.sections.map((section) => (
+            {guide.sections.map((section, index) => (
               <section key={section.heading}>
-                <h2>{section.heading}</h2>
+                <h2 id={`sekcja-${index + 1}`} tabIndex={-1}>{section.heading}</h2>
                 {section.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
                 {section.checklist && (
                   <ul>
@@ -374,7 +382,7 @@ export function GuidePage({ guide, wordpressGuides }: { guide: WordPressGuide; w
 
           <section className="guide-faq">
             <p className="cf-section-kicker">FAQ</p>
-            <h2>Najczęstsze pytania</h2>
+            <h2 id="pytania" tabIndex={-1}>Najczęstsze pytania</h2>
             <div>
               {guide.faq.map((item) => (
                 <details className="cf-faq-item" key={item.question}>

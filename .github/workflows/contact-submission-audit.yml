@@ -9,6 +9,9 @@ on:
       - 'src/lib/conversion-journey.ts'
       - 'src/pages/GuidePage.tsx'
       - 'src/pages/GuidePage.css'
+      - 'src/components/GuideNavigation.tsx'
+      - 'scripts/guide-navigation-qa.mjs'
+      - 'scripts/prerender-visible-content.mjs'
       - 'scripts/guide-search-qa.mjs'
       - 'src/pages/ProjectsIndex.tsx'
       - 'src/pages/ProjectCaseStudy.tsx'
@@ -69,6 +72,7 @@ jobs:
             if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then break; fi
             sleep 1
           done
+          node scripts/guide-navigation-qa.mjs
           node scripts/guide-search-qa.mjs
           node scripts/project-quick-view-qa.mjs
           node scripts/contact-wizard-qa.mjs
