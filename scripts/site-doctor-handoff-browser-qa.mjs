@@ -35,6 +35,10 @@ try {
     const leadPayloads = [];
     page.on('pageerror', (error) => pageErrors.push(error.message));
 
+    // Catch-all registered first: later mock handlers take precedence over it.
+    await context.route('**/*', (route) =>
+      new URL(route.request().url()).origin === origin ? route.continue() : route.abort(),
+    );
     await context.route('**/api/site-doctor', (route) =>
       route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(sample) }),
     );
@@ -48,9 +52,6 @@ try {
       });
     });
     // No network access to live CRM or other third-party endpoints during QA.
-    await context.route('**/*', (route) =>
-      new URL(route.request().url()).origin === origin ? route.continue() : route.abort(),
-    );
 
     async function dismissConsent() {
       const dismiss = page.getByRole('button', { name: 'Odrzuć wszystkie', exact: true });
