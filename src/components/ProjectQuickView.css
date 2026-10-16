@@ -187,7 +187,7 @@
   padding: 20px 24px;
   border-top: 1px solid #303033;
 }
-.project-quick-actions button {
+.project-quick-actions > button:first-child {
   background: #ba1820;
   border-color: #d62b34;
   font-weight: 600;
@@ -198,13 +198,44 @@
   gap: 10px;
   text-decoration: none;
 }
-.project-quick-actions span {
+.project-quick-actions button span,
+.project-quick-actions a span {
   margin-left: 8px;
 }
 .project-quick-view button:focus-visible,
-.project-quick-view a:focus-visible {
+.project-quick-view a:focus-visible,
+.project-quick-view input:focus-visible {
   outline: 2px solid #ff858c;
   outline-offset: 3px;
+}
+.project-link-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+.project-link-manual {
+  display: grid;
+  flex-basis: 100%;
+  min-width: 0;
+  gap: 8px;
+  font-size: 13px;
+}
+.project-link-manual input {
+  min-width: 0;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px;
+  border: 1px solid #414147;
+  border-radius: 8px;
+  background: #18181b;
+  color: inherit;
+  font: inherit;
+}
+.project-quick-actions button:disabled {
+  cursor: wait;
+  opacity: 0.7;
 }
 
 @media (max-width: 760px) {

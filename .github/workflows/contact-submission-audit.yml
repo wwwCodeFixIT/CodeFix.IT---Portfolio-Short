@@ -32,6 +32,7 @@ on:
       - 'src/components/ProjectPreview.tsx'
       - 'src/components/ProjectPreview.css'
       - 'src/components/ProjectQuickView.tsx'
+      - 'src/components/ProjectLinkCopy.tsx'
       - 'src/components/ProjectQuickView.css'
       - 'src/components/ProjectInsights.tsx'
       - 'src/data/project-insights.ts'
@@ -80,11 +81,11 @@ jobs:
             if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then break; fi
             sleep 1
           done
+          node scripts/project-quick-view-qa.mjs
           node scripts/process-steps-qa.mjs
           node scripts/contact-context-qa.mjs
           node scripts/guide-navigation-qa.mjs
           node scripts/guide-search-qa.mjs
-          node scripts/project-quick-view-qa.mjs
           node scripts/contact-wizard-qa.mjs
           node scripts/contact-submission-qa.mjs
           node scripts/content-paths-qa.mjs

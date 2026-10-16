@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import type { Project } from '../data/projects'
 import { ProjectInsights } from './ProjectInsights'
+import { ProjectLinkCopy } from './ProjectLinkCopy'
 import './ProjectQuickView.css'
 
 type Props = {
@@ -35,7 +36,7 @@ export default function ProjectQuickView({ project, onClose, onEnquire }: Props)
       onKeyDown={(event) => {
         if (event.key !== 'Tab' || event.ctrlKey || event.altKey || event.metaKey) return
         const controls = event.currentTarget.querySelectorAll<HTMLElement>(
-          'button:not(:disabled), a[href]',
+          'button:not(:disabled), a[href], input:not(:disabled)',
         )
         const first = controls.item(0)
         const last = controls.item(controls.length - 1)
@@ -125,6 +126,7 @@ export default function ProjectQuickView({ project, onClose, onEnquire }: Props)
         <a href={`/realizacje/${project.slug}/`}>
           Pełny opis realizacji <span aria-hidden="true">↗</span>
         </a>
+        <ProjectLinkCopy slug={project.slug} />
       </div>
     </dialog>
   )
