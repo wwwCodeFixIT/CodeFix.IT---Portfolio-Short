@@ -48,11 +48,6 @@ jobs:
       - name: Lint production graph
         run: npm run lint:production
 
-      - name: Diagnose formatting delta (temporary)
-        run: |
-          npx prettier src/pages/HomepageV1.tsx > /tmp/expected-homepage.tsx
-          diff -u src/pages/HomepageV1.tsx /tmp/expected-homepage.tsx || true
-
       - name: Check formatting
         run: npm run format:check
 
