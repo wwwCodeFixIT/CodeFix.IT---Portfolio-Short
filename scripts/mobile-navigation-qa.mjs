@@ -5,13 +5,33 @@ import { createRequire } from 'node:module'
 
 const require = createRequire(new URL('../.qa-tools/package.json', import.meta.url))
 const { chromium, webkit } = require('playwright')
-const target = new URL('http://127.0.0.1:4173/')
+const production = process.env.CODEFIX_NAVIGATION_PRODUCTION === '1'
+const target = new URL(production ? 'https://codefix.it/' : 'http://127.0.0.1:4173/')
+const html = await readFile(new URL('../dist/index.html', import.meta.url), 'utf8')
+const expectedRuntime = html.match(/<script[^>]+type="module"[^>]+src="([^"]+)"/)?.[1]
+assert.ok(expectedRuntime, 'Built runtime is missing')
 const { navigation } = JSON.parse(
   await readFile(new URL('../src/data/homepage-content.json', import.meta.url), 'utf8'),
 )
-const output = new URL('../qa-results/contact-submission/', import.meta.url)
+const output = new URL(
+  production ? '../qa-results/mobile-navigation-production/' : '../qa-results/contact-submission/',
+  import.meta.url,
+)
 const results = []
 await mkdir(output, { recursive: true })
+
+if (production) {
+  let ready = false
+  for (let attempt = 0; attempt < 24; attempt++) {
+    const response = await fetch(target, { headers: { 'cache-control': 'no-cache' } })
+    if (response.ok && (await response.text()).includes(`src="${expectedRuntime}"`)) {
+      ready = true
+      break
+    }
+    await new Promise((resolve) => setTimeout(resolve, 5000))
+  }
+  assert.ok(ready, 'Production did not publish the expected runtime')
+}
 
 for (const [engine, type] of [
   ['chromium', chromium],
@@ -68,6 +88,10 @@ for (const [engine, type] of [
         await page.goto(target.href, { waitUntil: 'networkidle' })
         if (javaScriptEnabled) {
           await page.waitForFunction(() => !document.querySelector('#root[data-static-prerender]'))
+          assert.equal(
+            await page.locator('script[type="module"][src]').getAttribute('src'),
+            expectedRuntime,
+          )
           const reject = page.getByRole('button', { name: 'Odrzuć wszystkie', exact: true })
           if (await reject.isVisible()) await reject.click()
           const menu = page.getByRole('button', { name: 'Menu', exact: true })
@@ -102,6 +126,9 @@ for (const [engine, type] of [
                 box.x + box.width <= width + 1 &&
                 box.y + box.height <= height + 1,
             )
+            if (engine === 'chromium' && width === 390 && height === 844 && motion === 'reduce') {
+              await page.screenshot({ path: new URL('mobile-menu-390.jpg', output).pathname })
+            }
             await menu.press('Tab')
             assert.equal(
               await panel
@@ -211,8 +238,10 @@ for (const [engine, type] of [
           width,
           height,
           motion,
-          kind: javaScriptEnabled ? 'mobile-navigation' : 'mobile-navigation-static',
+          kind: `${javaScriptEnabled ? 'mobile-navigation' : 'mobile-navigation-static'}${production ? '-production' : ''}`,
           status: 'pass',
+          target: target.origin,
+          expectedRuntime,
           links: navigation.length,
           mobile: width <= 980,
           keyboard: true,

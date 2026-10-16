@@ -34,3 +34,33 @@ jobs:
         env:
           SITE_URL: https://codefix.it
         run: node scripts/seo-production-smoke.mjs
+
+  navigation:
+    name: Mobile navigation on production
+    if: github.event_name == 'push'
+    needs: smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Install isolated browser test tools
+        run: npm install --prefix .qa-tools --no-save --ignore-scripts playwright@1.64.0
+      - name: Install Chromium, WebKit and system dependencies
+        run: .qa-tools/node_modules/.bin/playwright install --with-deps chromium webkit
+      - name: Verify published mobile navigation without submitting forms
+        env:
+          CODEFIX_NAVIGATION_PRODUCTION: '1'
+        run: node scripts/mobile-navigation-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mobile-navigation-production-${{ github.run_id }}
+          path: qa-results/mobile-navigation-production/
+          if-no-files-found: error
+          retention-days: 14
