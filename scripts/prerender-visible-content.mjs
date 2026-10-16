@@ -183,9 +183,9 @@ function relatedBlock(path) {
   if (path === '/narzedzia') {
     return `
       <section>
-        <h2>Asystent briefu, SEO i kontrastu</h2>
-        <p>Generator szkicu briefu działa bez AI; analiza modelem wymaga osobnego uruchomienia usługi. Podgląd meta title i opisu oraz tester kontrastu działają lokalnie.</p>
-        <ul><li>Asystent briefu projektu — określ cel, odbiorców i zakres.</li><li>Podgląd SEO — zobacz przykładowy snippet.</li><li>Kontrast WCAG — sprawdź kolory tekstu i tła.</li></ul>
+        <h2>AI Site Doctor, asystent briefu, SEO i kontrastu</h2>
+        <p>Diabełek Site Doctor sprawdza publiczny adres strony przez Google PageSpeed Insights po aktywacji usługi. Generator szkicu briefu, podgląd meta title i tester kontrastu działają lokalnie; model AI jest opcjonalny.</p>
+        <ul><li>AI Site Doctor — mobilny audyt Lighthouse wybranej publicznej strony, bez testowania formularzy.</li><li>Asystent briefu projektu — określ cel, odbiorców i zakres.</li><li>Podgląd SEO — zobacz przykładowy snippet.</li><li>Kontrast WCAG — sprawdź kolory tekstu i tła.</li></ul>
         <p><a href="/naprawa-wordpress/">Zamów indywidualną diagnozę WordPress</a></p>
       </section>`
   }
