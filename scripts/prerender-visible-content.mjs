@@ -393,6 +393,7 @@ const style = `
 </style>`
 
 const guideStyle = `<style id="codefix-static-guide-style">
+  html:has(.guide-toc):focus-within{scroll-behavior:auto}
   .cf-static-prerender .guide-toc{position:static;max-width:780px;margin:24px 0;padding:12px;border:1px solid #62626b;border-radius:10px}
   .cf-static-prerender .guide-toc summary{min-height:44px;cursor:pointer}
   .cf-static-prerender .guide-toc a{display:block;min-height:44px}

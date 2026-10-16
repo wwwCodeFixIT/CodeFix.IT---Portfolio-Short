@@ -209,6 +209,11 @@ for (const [engine, type] of [
                     (heading) => ({ id: heading.id, top: heading.getBoundingClientRect().top }),
                   ),
                   scrollY: window.scrollY,
+                  scrollBehavior: window.getComputedStyle(document.documentElement).scrollBehavior,
+                  controls: ['.cf-header', '.guide-toc > summary'].map((selector) => {
+                    const box = document.querySelector(selector)?.getBoundingClientRect()
+                    return { selector, top: box?.top, bottom: box?.bottom }
+                  }),
                 })),
               },
               null,

@@ -329,6 +329,11 @@
   max-width: 820px;
 }
 
+/* Native fragment focus must not interrupt a pending global smooth scroll. */
+html:has(.guide-toc):focus-within {
+  scroll-behavior: auto;
+}
+
 .guide-toc {
   position: sticky;
   top: 88px;
