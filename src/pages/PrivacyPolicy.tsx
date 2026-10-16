@@ -170,7 +170,7 @@ export function PrivacyPolicy() {
               </p>
             </section>
             <section>
-              <h2>9. Narzędzia i asystent AI</h2>
+              <h2>9. Narzędzia, AI i Site Doctor</h2>
               <p>
                 Podgląd SEO, sprawdzanie kontrastu i lokalny szkic briefu działają
                 w przeglądarce bez wysyłania wpisanych danych do modelu AI.
@@ -181,7 +181,14 @@ export function PrivacyPolicy() {
                 Serwis nie zapisuje celowo treści briefu w bazie danych.
                 Dostawca API może przetwarzać przekazane treści zgodnie ze swoimi
                 zasadami świadczenia usługi. Korzystanie z AI jest dobrowolne;
-                szkic lokalny pozostaje dostępny bez AI.
+                szkic lokalny pozostaje dostępny bez AI. W przypadku Site Doctor
+                podany publiczny adres HTTPS jest przekazywany z serwera
+                CodeFix.IT do Google PageSpeed Insights w celu wykonania pomiaru
+                Lighthouse. Opcjonalny opis problemu pozostaje w CodeFix.IT,
+                chyba że dobrowolnie wybierzesz komentarz AI. W takim przypadku
+                opis i wynik testu zostaną przekazane także do dostawcy modelu.
+                Nie są skanowane strefy zalogowane ani prywatne adresy sieciowe.
+                Wynik nie stanowi audytu bezpieczeństwa ani pełnej oceny WCAG.
               </p>
             </section>
           </article>
