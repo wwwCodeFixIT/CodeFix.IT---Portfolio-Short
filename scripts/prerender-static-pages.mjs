@@ -57,6 +57,14 @@ const projectCases = [
 
 const pages = [
   {
+    path: 'narzedzia',
+    title: 'Darmowe narzędzia AI, SEO i WCAG | CodeFix.IT',
+    description: 'Wypróbuj generator briefu projektu, podgląd meta title i description oraz tester kontrastu WCAG. Praktyczne i darmowe narzędzia CodeFix.IT.',
+    schemaType: 'WebPage',
+    schemaName: 'Laboratorium CodeFix.IT — narzędzia online',
+    ogType: 'website',
+  },
+  {
     path: 'polityka-prywatnosci',
     title: 'Polityka prywatności | CodeFix.IT',
     description:

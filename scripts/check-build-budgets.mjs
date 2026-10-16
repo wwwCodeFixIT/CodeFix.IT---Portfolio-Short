@@ -57,7 +57,8 @@ const budgets = {
   // Process details use native HTML and add ~0.8 KB without a new controller.
   // Project link copying adds ~0.9 KB inside the deferred dialog, without dependencies.
   // Mobile menu: native popover, focus handling and no added dependencies (~1.3 KB).
-  totalJs: 339_000,
+  // Standalone tools lab route with local validators and optional AI interface.
+  totalJs: 358_000,
   largestCss: 40_000,
   // Includes the isolated quick-view stylesheet and reference attachment (~3.7 KB).
   // Guide search controls and empty state add ~0.9 KB on guide routes.
@@ -66,7 +67,8 @@ const budgets = {
   // Numbered annotations and their disclosure add ~1.1 KB to the deferred dialog CSS.
   // Copy feedback and its manual fallback add ~0.5 KB to the deferred dialog CSS.
   // Mobile panel, desktop target sizes and static navigation add ~1.3 KB.
-  totalCss: 85_000,
+  // Isolated tools-lab style only loads on /narzedzia/.
+  totalCss: 93_000,
 };
 
 console.log(`Entry JS: ${entry.bytes} B / ${budgets.entryJs} B — ${entry.name}`);

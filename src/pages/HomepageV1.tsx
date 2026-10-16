@@ -1022,6 +1022,10 @@ export function HomepageV1() {
                 {homepageContent.application.cta}
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
+              <a href="/narzedzia/" className="cf-card-link cf-card-link-secondary">
+                Wypróbuj darmowe narzędzia AI i SEO
+                <ArrowRight size={17} aria-hidden="true" />
+              </a>
             </div>
             <Suspense fallback={<p role="status">Ładuję demo…</p>}>
               <AutomationDemo />
@@ -1614,6 +1618,7 @@ export function HomepageV1() {
             <a href="#process">Proces</a>
             <a href="#faq">FAQ</a>
             <a href="/poradniki/">Poradniki</a>
+            <a href="/narzedzia/">Narzędzia</a>
             <a href="#contact">Kontakt</a>
           </nav>
 
