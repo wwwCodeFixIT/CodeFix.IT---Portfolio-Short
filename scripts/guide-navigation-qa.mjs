@@ -141,6 +141,7 @@ for (const [engine, type] of [
           assert.equal(new URL(page.url()).hash, '#sekcja-1')
           await page.goBack()
           await page.waitForURL((url) => url.hash === '#sekcja-3')
+          await expectTarget('sekcja-3')
           await expectActive('sekcja-3')
 
           await summary.press('Enter')

@@ -15,7 +15,16 @@ export function GuideNavigation({ items }: { items: readonly GuideHeading[] }) {
   }, [items])
 
   useEffect(() => {
-    if (!('IntersectionObserver' in window)) return
+    const focusHashTarget = () => {
+      const id = window.location.hash.slice(1)
+      if (items.some((item) => item.id === id)) {
+        document.getElementById(id)?.focus({ preventScroll: true })
+      }
+    }
+    window.addEventListener('hashchange', focusHashTarget)
+    if (!('IntersectionObserver' in window)) {
+      return () => window.removeEventListener('hashchange', focusHashTarget)
+    }
     const headings = items
       .map((item) => document.getElementById(item.id))
       .filter((heading): heading is HTMLElement => heading !== null)
@@ -23,12 +32,14 @@ export function GuideNavigation({ items }: { items: readonly GuideHeading[] }) {
       () => {
         let current = headings[0]
         for (const heading of headings) {
-          if (heading.getBoundingClientRect().top > 161) break
+          // A reading band below the controls also covers native history
+          // restoration, which can land just below the exact anchor offset.
+          if (heading.getBoundingClientRect().top > 201) break
           current = heading
         }
         if (current) setActive(current.id)
       },
-      { rootMargin: '-160px 0px 0px', threshold: 0 },
+      { rootMargin: '-200px 0px 0px', threshold: 0 },
     )
 
     for (const heading of headings) {
@@ -36,7 +47,10 @@ export function GuideNavigation({ items }: { items: readonly GuideHeading[] }) {
       // Also detect jumps into the middle of a long section.
       if (heading.parentElement) observer.observe(heading.parentElement)
     }
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('hashchange', focusHashTarget)
+    }
   }, [items])
 
   return (
