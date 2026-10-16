@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - feat/site-doctor-lab2-20261016
+      - feat/site-doctor-lead-handoff-20261016
     paths:
       - 'src/components/SiteDoctor.tsx'
       - 'src/components/SiteDoctor.css'
@@ -14,6 +15,10 @@ on:
       - 'src/components/ToolControls.css'
       - 'src/pages/ToolsLab.tsx'
       - 'src/pages/ToolsLab.css'
+      - 'src/components/AutomationMap.tsx'
+      - 'src/components/AutomationMap.css'
+      - 'src/lib/automation-map.ts'
+      - 'scripts/automation-map-qa.mjs'
       - 'src/pages/HomepageV1.tsx'
       - 'src/pages/HomepageV1.css'
       - 'src/lib/site-doctor-handoff.ts'
@@ -56,6 +61,7 @@ jobs:
             sleep 1
           done
           node scripts/site-doctor-handoff-browser-qa.mjs
+          node scripts/automation-map-qa.mjs
       - name: Save mobile and desktop QA screenshots
         uses: actions/upload-artifact@v4
         if: always()
@@ -63,4 +69,12 @@ jobs:
           name: site-doctor-browser-screenshots-${{ github.run_id }}
           path: qa-results/site-doctor/
           if-no-files-found: warn
+          retention-days: 14
+      - name: Save automation map QA
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: automation-map-qa-${{ github.run_id }}
+          path: qa-results/automation-map/
+          if-no-files-found: error
           retention-days: 14

@@ -4,8 +4,11 @@ import '../components/ToolControls.css';
 import './ToolsLab.css';
 
 const SiteDoctor = lazy(() => import('../components/SiteDoctor'));
+const AutomationMap = lazy(() => import('../components/AutomationMap').catch(() => ({
+  default: () => <p role="alert">Nie udało się załadować mapy. Odśwież stronę i spróbuj ponownie.</p>,
+})));
 
-type ToolId = 'doctor' | 'brief' | 'seo' | 'contrast';
+type ToolId = 'doctor' | 'brief' | 'seo' | 'contrast' | 'automation';
 type ProjectKind = 'strona' | 'aplikacja' | 'naprawa' | 'opieka';
 
 const kinds: Record<ProjectKind, string> = {
@@ -57,7 +60,10 @@ function contrastRatio(foreground: string, background: string) {
 }
 
 export function ToolsLab() {
-  const [active, setActive] = useState<ToolId>('doctor');
+  const [active, setActive] = useState<ToolId>(() =>
+    new URL(window.location.href).searchParams.get('tool') === 'automatyzacja' ? 'automation' : 'doctor',
+  );
+  const [automationStarted, setAutomationStarted] = useState(active === 'automation');
   const [kind, setKind] = useState<ProjectKind>('strona');
   const [audience, setAudience] = useState('');
   const [goal, setGoal] = useState('');
@@ -75,7 +81,7 @@ export function ToolsLab() {
 
   useEffect(() => {
     const before = document.title;
-    document.title = 'Darmowe narzędzia AI, SEO i WCAG | CodeFix.IT';
+    document.title = 'Narzędzia AI, SEO i automatyzacji | CodeFix.IT';
     return () => { document.title = before; };
   }, []);
 
@@ -155,16 +161,27 @@ export function ToolsLab() {
         <p className="cf-section-kicker">CodeFix.IT / Laboratorium</p>
         <h1>Narzędzia, które pomagają podjąć decyzję.</h1>
         <p className="cf-tools-intro">
-          Bezpłatne, praktyczne narzędzia do planowania strony i sprawdzania jakości.
-          Diabełek, rzeczywiste pomiary Lighthouse i narzędzia bez konta. Żadnych udawanych napraw.
+          Zaplanuj automatyzację, przygotuj brief lub sprawdź stronę. Wybierz jedno narzędzie.
         </p>
 
         <div className="cf-tool-tabs" role="group" aria-label="Wybierz narzędzie">
           <button type="button" aria-pressed={active === 'doctor'} onClick={() => setActive('doctor')}>AI Site Doctor 😈</button>
           <button type="button" aria-pressed={active === 'brief'} onClick={() => setActive('brief')}>Asystent briefu AI</button>
+          <button type="button" aria-pressed={active === 'automation'} onClick={() => {
+            setAutomationStarted(true);
+            setActive('automation');
+          }}>Mapa automatyzacji</button>
           <button type="button" aria-pressed={active === 'seo'} onClick={() => setActive('seo')}>Podgląd SEO</button>
           <button type="button" aria-pressed={active === 'contrast'} onClick={() => setActive('contrast')}>Kontrast WCAG</button>
         </div>
+
+        {automationStarted && (
+          <div hidden={active !== 'automation'}>
+            <Suspense fallback={<p role="status">Ładuję mapę automatyzacji…</p>}>
+              <AutomationMap />
+            </Suspense>
+          </div>
+        )}
 
         {active === 'doctor' && (
           <Suspense fallback={<div className="cf-tool-panel" role="status">Ładuję Site Doctor…</div>}>

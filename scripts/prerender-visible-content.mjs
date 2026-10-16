@@ -183,9 +183,10 @@ function relatedBlock(path) {
   if (path === '/narzedzia') {
     return `
       <section>
-        <h2>AI Site Doctor, asystent briefu, SEO i kontrastu</h2>
-        <p>Diabełek Site Doctor sprawdza publiczny adres strony przez Google PageSpeed Insights po aktywacji usługi. Generator szkicu briefu, podgląd meta title i tester kontrastu działają lokalnie; model AI jest opcjonalny.</p>
-        <ul><li>AI Site Doctor — mobilny audyt Lighthouse wybranej publicznej strony, bez testowania formularzy.</li><li>Asystent briefu projektu — określ cel, odbiorców i zakres.</li><li>Podgląd SEO — zobacz przykładowy snippet.</li><li>Kontrast WCAG — sprawdź kolory tekstu i tła.</li></ul>
+        <h2>Mapa automatyzacji, AI Site Doctor i planowanie strony</h2>
+        <p>Zaplanuj przepływ pracy, przygotuj brief lub sprawdź stronę. Mapa procesów, szkic briefu, podgląd SEO i tester kontrastu działają lokalnie. Site Doctor wymaga aktywnej usługi Google PageSpeed Insights; komentarz modelu AI jest opcjonalny.</p>
+        <ul><li><a href="/narzedzia/?tool=automatyzacja">Mapa automatyzacji</a> — wybierz proces, systemy i etapy wymagające akceptacji. Skopiuj zakres do rozmowy o wdrożeniu.</li><li>AI Site Doctor — mobilny pomiar Lighthouse wybranej publicznej strony, bez testowania formularzy.</li><li>Asystent briefu projektu — określ cel, odbiorców i zakres.</li><li>Podgląd SEO — zobacz przykładowy snippet.</li><li>Kontrast WCAG — sprawdź kolory tekstu i tła.</li></ul>
+        <p>Interaktywne narzędzia wymagają włączonego JavaScript.</p>
         <p><a href="/naprawa-wordpress/">Zamów indywidualną diagnozę WordPress</a></p>
       </section>`
   }
