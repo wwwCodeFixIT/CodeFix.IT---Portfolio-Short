@@ -5,12 +5,20 @@ on:
   pull_request:
     branches:
       - main
+      - feat/site-doctor-lab2-20261016
     paths:
       - 'src/components/SiteDoctor.tsx'
+      - 'src/components/SiteDoctor.css'
+      - 'src/components/SiteDoctorDialog.tsx'
+      - 'src/components/SiteDoctorDialog.css'
+      - 'src/components/ToolControls.css'
+      - 'src/pages/ToolsLab.tsx'
+      - 'src/pages/ToolsLab.css'
       - 'src/pages/HomepageV1.tsx'
       - 'src/pages/HomepageV1.css'
       - 'src/lib/site-doctor-handoff.ts'
       - 'scripts/site-doctor-handoff-browser-qa.mjs'
+      - '.github/workflows/site-doctor-browser-qa.yml'
 
 permissions:
   contents: read
@@ -37,7 +45,7 @@ jobs:
       - name: Install Playwright outside production dependencies
         run: |
           npm install --prefix .qa-tools --no-save --ignore-scripts playwright@1.64.0
-          .qa-tools/node_modules/.bin/playwright install --with-deps chromium
+          .qa-tools/node_modules/.bin/playwright install --with-deps chromium webkit
       - name: Test staged UI and mocked lead transfer
         run: |
           npm run preview -- --host 127.0.0.1 --port 4173 --strictPort &

@@ -2,8 +2,9 @@
  * Site Doctor: browser never fetches a third-party URL.
  * This component only talks to the same-origin, rate-limited Pages Function.
  */
-import { useRef, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { buildDoctorHandoff, writeDoctorHandoff } from '../lib/site-doctor-handoff';
+import './ToolControls.css';
 import './SiteDoctor.css';
 
 type CheckStatus = 'pass' | 'warning' | 'fail' | 'unknown';
@@ -63,8 +64,14 @@ function buildReportText(report: DoctorReport, problem: Problem, description: st
   ].filter(Boolean).join('\n').slice(0, 6800);
 }
 
-export default function SiteDoctor() {
-  const [url, setUrl] = useState('');
+type Props = {
+  initialUrl?: string;
+  onAttach?: (summary: string) => void;
+  onDismiss?: () => void;
+};
+
+export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Props) {
+  const [url, setUrl] = useState(initialUrl);
   const [problem, setProblem] = useState<Problem>('slow');
   const [description, setDescription] = useState('');
   const [useAi, setUseAi] = useState(false);
@@ -75,6 +82,8 @@ export default function SiteDoctor() {
   const [requestKey, setRequestKey] = useState(0);
   const running = useRef(false);
   const controller = useRef<AbortController | null>(null);
+
+  useEffect(() => () => controller.current?.abort(), []);
 
   async function runScan(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -142,6 +151,10 @@ export default function SiteDoctor() {
   function handoffToContact() {
     if (!report) return;
     const summary = buildDoctorHandoff(report);
+    if (onAttach) {
+      onAttach(summary);
+      return;
+    }
     let saved: boolean;
     try { saved = writeDoctorHandoff(window.sessionStorage, summary); }
     catch { saved = false; }
@@ -271,7 +284,7 @@ export default function SiteDoctor() {
               <p className="cf-section-kicker">Osobna funkcja · Przekaż diagnozę</p>
               <h4 id="cf-doctor-handoff-title">Z wyniku do zgłoszenia — bez przepisywania.</h4>
               <p>
-                Przeniosę wyłącznie skrócony raport z pomiaru Lighthouse do formularza.
+                {onAttach ? 'Dołączę' : 'Przeniosę'} wyłącznie skrócony raport z pomiaru Lighthouse do formularza.
                 Nie przenoszę opisu problemu ani komentarza AI. Raport będzie widoczny
                 przed wysłaniem i możesz go usunąć.
               </p>
@@ -280,9 +293,11 @@ export default function SiteDoctor() {
               <button className="cf-tool-primary" type="button" onClick={handoffToContact}>
                 Dołącz diagnozę do zapytania →
               </button>
-              <a href="/?service=WORDPRESS_QUICK_FIX#contact">
-                Napisz bez diagnozy
-              </a>
+              {onDismiss ? (
+                <button type="button" onClick={onDismiss}>Wróć bez raportu</button>
+              ) : (
+                <a href="/?service=WORDPRESS_QUICK_FIX#contact">Napisz bez diagnozy</a>
+              )}
             </div>
           </div>
           <div className="cf-tool-actions">

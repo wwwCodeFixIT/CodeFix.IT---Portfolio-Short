@@ -48,7 +48,9 @@ const budgets = {
   // Native process disclosures and their short copy add ~0.8 KB to the homepage.
   // Native mobile navigation and shared links add ~1.3 KB to the homepage route.
   // LAB-3 adds the optional doctor-to-CRM handoff and consent state to the deferred homepage (about 2.5 KB).
-  largestDeferredJs: 56_000,
+  // Keeping the form mounted adds ~1.8 KB for the native dialog and its trigger.
+  // The scanner and shared tool controls still load only when requested.
+  largestDeferredJs: 58_000,
   // Native project quick view: shared triggers + dialog loaded only on demand (~5 KB).
   // Shared inline field feedback adds ~0.6 KB net; entry and route caps stay unchanged.
   // Local guide search adds ~1.5 KB on guide routes, with no new dependencies.

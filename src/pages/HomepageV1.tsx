@@ -15,6 +15,7 @@ import { HeroEmblem, HeroExperience } from '../components/HeroExperience';
 import { HeroServicePicker } from '../components/HeroServicePicker';
 import { LeadField } from '../components/LeadField';
 import { MobileNavigation } from '../components/MobileNavigation';
+import { SiteDoctorDialog } from '../components/SiteDoctorDialog';
 import {
   ProjectPreview,
   ProjectPreviewGroup,
@@ -216,6 +217,8 @@ export function HomepageV1() {
   const [doctorAttachment, setDoctorAttachment] = useState(initialDoctorReport);
   const [doctorIncluded, setDoctorIncluded] = useState(Boolean(initialDoctorReport));
   const [doctorHint, setDoctorHint] = useState('');
+  const [doctorOpen, setDoctorOpen] = useState(false);
+  const [doctorInitialUrl, setDoctorInitialUrl] = useState('');
   const briefFormRef = useRef<HTMLFormElement | null>(null);
   const doctorDetailsRef = useRef<HTMLDetailsElement | null>(null);
   const [estimatorOpen, setEstimatorOpen] = useState(false);
@@ -584,10 +587,14 @@ export function HomepageV1() {
       setDoctorHint('Brak aktualnego raportu. Wykonaj diagnozę lub wklej wynik ręcznie.');
       return;
     }
-    setDoctorAttachment(stored.summary);
+    attachDoctorReport(stored.summary);
+  }
+
+  function attachDoctorReport(summary: string) {
+    setDoctorAttachment(summary);
     setDoctorIncluded(true);
     const pageField = briefFormRef.current?.querySelector<HTMLInputElement>('[name="pageUrl"]');
-    if (pageField && !pageField.value.trim()) pageField.value = doctorPageUrl(stored.summary);
+    if (pageField && !pageField.value.trim()) pageField.value = doctorPageUrl(summary);
     setDoctorHint('Raport jest dołączony. Możesz go usunąć przed wysłaniem.');
   }
 
@@ -1506,7 +1513,21 @@ export function HomepageV1() {
                             zwykły formularz działa bez diagnozy i bez dodatkowych kosztów.
                           </p>
                           <div className="cf-doctor-attachment-actions">
-                            <a href="/narzedzia/">Uruchom Site Doctor →</a>
+                            <button
+                              type="button"
+                              aria-haspopup="dialog"
+                              onClick={(event) => {
+                                event.currentTarget.focus({ preventScroll: true });
+                                setDoctorInitialUrl(
+                                  briefFormRef.current?.querySelector<HTMLInputElement>(
+                                    '[name="pageUrl"]',
+                                  )?.value ?? '',
+                                );
+                                setDoctorOpen(true);
+                              }}
+                            >
+                              Uruchom Site Doctor →
+                            </button>
                             <button type="button" onClick={loadRecentDoctorReport}>
                               Wstaw ostatni wynik
                             </button>
@@ -1765,6 +1786,14 @@ export function HomepageV1() {
           <span className="cf-footer-code">Zdalnie • cała Polska</span>
         </div>
       </footer>
+
+      {doctorOpen && (
+        <SiteDoctorDialog
+          initialUrl={doctorInitialUrl}
+          onAttach={attachDoctorReport}
+          onClose={() => setDoctorOpen(false)}
+        />
+      )}
 
       <a
         href="#contact"

@@ -37,6 +37,28 @@ assert.equal(api.buildDoctorHandoff({ ...evidence, finalUrl: 'http://localhost',
 assert.equal(api.doctorPageUrl('not-a-report\nStrona: https://evil.test'), '');
 assert.ok(summary.length <= api.DOCTOR_HANDOFF_LIMIT);
 
+for (const scores of [evidence.scores, { performance: null, seo: null, accessibility: null }]) {
+  const unknown = api.buildDoctorHandoff({
+    ...evidence, scores,
+    checks: [{ id: 'title', label: 'Tytuł strony', status: 'unknown' }],
+  });
+  assert.ok(unknown.includes('Brak danych do oceny'));
+  assert.ok(!unknown.includes('Brak ostrzeżeń'));
+}
+const passing = evidence.checks.map((check) => ({ ...check, status: 'pass' }));
+assert.ok(api.buildDoctorHandoff({ ...evidence, checks: passing }).includes('Brak ostrzeżeń'));
+const partial = api.buildDoctorHandoff({
+  ...evidence, checks: [...passing, { id: 'title', label: 'Tytuł', status: 'unknown' }],
+});
+assert.ok(partial.includes('Niepełny pomiar'));
+assert.ok(!partial.includes('Brak ostrzeżeń'));
+const failedPartial = api.buildDoctorHandoff({
+  ...evidence, checks: [...evidence.checks, { id: 'title', label: 'Tytuł', status: 'unknown' }],
+});
+assert.ok(failedPartial.includes('Meta description: problem'));
+assert.ok(failedPartial.includes('Niepełny pomiar'));
+assert.ok(!api.buildDoctorHandoff({ ...evidence, checks: [] }).includes('Brak ostrzeżeń'));
+
 const values = new Map();
 const storage = {
   setItem(key, value) { values.set(key, value); },

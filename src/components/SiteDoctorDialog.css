@@ -1,0 +1,70 @@
+.cf-doctor-dialog {
+  width: min(900px, calc(100% - 24px));
+  max-width: none;
+  max-height: calc(100dvh - 24px);
+  margin: auto;
+  padding: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid #494950;
+  border-radius: 16px;
+  background: #101012;
+  color: #f7f7f8;
+  font: inherit;
+}
+
+.cf-doctor-dialog::backdrop {
+  background: #000c;
+}
+
+.cf-doctor-dialog-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid #494950;
+  background: #101012;
+}
+
+.cf-doctor-dialog-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.cf-doctor-dialog-header p {
+  margin: 8px 0 0;
+  color: #c4c4ca;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.cf-doctor-dialog-header button {
+  flex-shrink: 0;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid #686870;
+  border-radius: 8px;
+  background: #242429;
+  color: inherit;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.cf-doctor-dialog :is(button, a, input, select, textarea):focus-visible {
+  outline: 3px solid #ff9999;
+  outline-offset: 3px;
+}
+
+.cf-doctor-dialog > .cf-doctor {
+  border: 0;
+  border-radius: 0;
+}
+
+.cf-doctor-dialog > p {
+  padding: 20px;
+}

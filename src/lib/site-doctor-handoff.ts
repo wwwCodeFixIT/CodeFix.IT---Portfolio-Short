@@ -52,6 +52,15 @@ export function buildDoctorHandoff(evidence: DoctorEvidence): string {
     .slice(0, 6)
     .map((check) => '- ' + oneLine(check.label) + ': ' +
       (check.status === 'fail' ? 'problem' : 'uwaga'));
+  const checkedCount = evidence.checks.filter((check) =>
+    ['pass', 'warning', 'fail'].includes(check.status)).length;
+  const incomplete = checkedCount < evidence.checks.length || checkedCount === 0 ||
+    Object.values(evidence.scores).some((value) => printableScore(value) === 'brak danych');
+  const coverage = checkedCount === 0
+    ? '- Brak danych do oceny podstawowych kontroli.'
+    : incomplete
+      ? '- Niepełny pomiar — część kontroli lub ocen bez danych.'
+      : '- Brak ostrzeżeń w podstawowych kontrolach.';
   const report = [
     'ZAŁĄCZONY RAPORT AI SITE DOCTOR — Lighthouse mobile',
     'Strona: ' + address,
@@ -61,7 +70,8 @@ export function buildDoctorHandoff(evidence: DoctorEvidence): string {
     'SEO: ' + printableScore(evidence.scores.seo),
     'Dostępność: ' + printableScore(evidence.scores.accessibility),
     'Wykryte sygnały:',
-    ...(issueChecks.length ? issueChecks : ['- Brak ostrzeżeń w podstawowych kontrolach.']),
+    ...issueChecks,
+    ...(incomplete || !issueChecks.length ? [coverage] : []),
     'Uwaga: to test laboratoryjny jednej podstrony, nie audyt WordPress ani WCAG.',
   ].join('\n');
   return report.slice(0, DOCTOR_HANDOFF_LIMIT);
