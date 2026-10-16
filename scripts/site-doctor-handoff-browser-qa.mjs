@@ -93,6 +93,7 @@ try {
     // Path A: take short evidence from the doctor's independent CTA to the lead form.
     await page.goto(origin + '/narzedzia/', { waitUntil: 'domcontentloaded' });
     await page.locator('.cf-doctor').waitFor();
+    await dismissConsent();
     await page.locator('.cf-doctor-form input[type="url"]').fill('https://example.org/');
     await page.getByRole('button', { name: /Uruchom diagnozę/ }).click();
     await page.getByRole('heading', { name: 'Raport diagnostyczny' }).waitFor();
