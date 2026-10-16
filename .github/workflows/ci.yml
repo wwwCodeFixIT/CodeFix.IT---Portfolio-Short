@@ -66,6 +66,12 @@ jobs:
       - name: Check hero pointer motion
         run: npm run hero:smoke
 
+      - name: Type-check Site Doctor API
+        run: npm run doctor:typecheck
+
+      - name: Run Site Doctor API security smoke
+        run: npm run doctor:smoke
+
       - name: Check mobile contact CTA regression
         run: node scripts/mobile-cta-smoke.mjs
 
