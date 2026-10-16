@@ -180,6 +180,16 @@ function guideReadingContent(guide) {
 }
 
 function relatedBlock(path) {
+  if (path === '/narzedzia') {
+    return `
+      <section>
+        <h2>Asystent briefu, SEO i kontrastu</h2>
+        <p>Generator szkicu briefu działa bez AI; analiza modelem wymaga osobnego uruchomienia usługi. Podgląd meta title i opisu oraz tester kontrastu działają lokalnie.</p>
+        <ul><li>Asystent briefu projektu — określ cel, odbiorców i zakres.</li><li>Podgląd SEO — zobacz przykładowy snippet.</li><li>Kontrast WCAG — sprawdź kolory tekstu i tła.</li></ul>
+        <p><a href="/naprawa-wordpress/">Zamów indywidualną diagnozę WordPress</a></p>
+      </section>`
+  }
+
   if (path === '/') {
     return `
       <section id="services">
@@ -187,6 +197,7 @@ function relatedBlock(path) {
         <ul>${homepageContent.services.map(({ title, description, price, detailsHref }) => `<li><a href="${escapeHtml(detailsHref)}">${escapeHtml(title)} — ${escapeHtml(price)}</a><p>${escapeHtml(description)}</p></li>`).join('')}</ul>
         <p>Zakres i cenę potwierdzam przed startem.</p>
         <p><a href="/dla-agencji-wordpress/">Wsparcie WordPress dla agencji</a></p>
+        <p><a href="/narzedzia/">Darmowe narzędzia AI, SEO i kontrastu</a></p>
         <aside id="free-project">
           <h3>${escapeHtml(homepageContent.freeProject.title)}</h3>
           <p>${escapeHtml(homepageContent.freeProject.description)}</p>
