@@ -113,7 +113,10 @@ export function ServiceLanding({
   const [formMessage, setFormMessage] = useState('');
   const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
   const [attribution] = useState(captureSessionAttribution);
-  const [journey] = useState(readConversionJourney);
+  const [journey, setJourney] = useState(readConversionJourney);
+  const guideTopic = journey.journeyDestination === config.path
+    ? guideSummaries.find((guide) => guide.slug === journey.journeyGuide && guide.serviceHref === config.path)
+    : undefined;
   const formStartTracked = useRef(false);
   const formViewTracked = useRef(false);
   const funnelViewTracked = useRef(false);
@@ -287,6 +290,7 @@ export function ServiceLanding({
       form.reset();
       if (!result.duplicate) clearFunnelSession();
       clearConversionJourney();
+      setJourney(readConversionJourney());
       setFormStartedAt(Date.now());
       setFormState('success');
       setFormMessage(
@@ -564,7 +568,16 @@ export function ServiceLanding({
                   )}
 
                   <p className="service-form-topic">
-                    Temat: <strong>{config.eyebrow}</strong>
+                    Temat: <strong>{guideTopic?.intent ?? config.eyebrow}</strong>
+                    {guideTopic && (
+                      <button type="button" onClick={() => {
+                        clearConversionJourney();
+                        setJourney(readConversionJourney());
+                        contactSectionRef.current?.querySelector<HTMLTextAreaElement>('[name="message"]')?.focus();
+                      }}>
+                        Usuń temat poradnika
+                      </button>
+                    )}
                   </p>
 
                   <LeadField
@@ -579,6 +592,7 @@ export function ServiceLanding({
 
                   <LeadField
                     label="Opisz temat"
+                    hint={guideTopic?.contactHint}
                     name="message"
                     rows={6}
                     minLength={10}

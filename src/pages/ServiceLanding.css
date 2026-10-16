@@ -470,6 +470,19 @@
   color: #f0f0f1;
 }
 
+.service-form-topic button {
+  display: block;
+  min-height: 44px;
+  margin-top: 6px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #f0f0f1;
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .service-form-microcopy {
   display: grid;
   grid-template-columns: auto 1fr;

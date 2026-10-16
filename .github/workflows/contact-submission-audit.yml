@@ -11,6 +11,10 @@ on:
       - 'src/pages/GuidePage.css'
       - 'src/components/GuideNavigation.tsx'
       - 'scripts/guide-navigation-qa.mjs'
+      - 'scripts/contact-context-qa.mjs'
+      - 'src/data/wordpress-guides.ts'
+      - 'src/data/guide-summaries.ts'
+      - 'src/data/homepage-content.json'
       - 'scripts/prerender-visible-content.mjs'
       - 'scripts/guide-search-qa.mjs'
       - 'src/pages/ProjectsIndex.tsx'
@@ -72,6 +76,7 @@ jobs:
             if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then break; fi
             sleep 1
           done
+          node scripts/contact-context-qa.mjs
           node scripts/guide-navigation-qa.mjs
           node scripts/guide-search-qa.mjs
           node scripts/project-quick-view-qa.mjs

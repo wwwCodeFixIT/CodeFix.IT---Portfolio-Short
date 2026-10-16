@@ -14,9 +14,9 @@ type LeadFieldProps = Pick<
   | 'maxLength'
   | 'placeholder'
   | 'required'
-> & { name: string; label: string; rows?: number }
+> & { name: string; label: string; rows?: number; hint?: string }
 
-export function LeadField({ label, rows, type, ...attributes }: LeadFieldProps) {
+export function LeadField({ label, rows, type, hint, ...attributes }: LeadFieldProps) {
   const id = useId()
   const [error, setError] = useState<string | null>(null)
   const fieldRef = useRef<LeadFieldElement | null>(null)
@@ -55,7 +55,8 @@ export function LeadField({ label, rows, type, ...attributes }: LeadFieldProps) 
       fieldRef.current = field
     },
     'aria-invalid': error ? (true as const) : undefined,
-    'aria-describedby': error ? `${id}-error` : undefined,
+    'aria-describedby':
+      [hint ? `${id}-hint` : '', error ? `${id}-error` : ''].filter(Boolean).join(' ') || undefined,
     onInput,
     onInvalid,
   }
@@ -74,6 +75,11 @@ export function LeadField({ label, rows, type, ...attributes }: LeadFieldProps) 
         </span>
       </label>
       {rows ? <textarea {...shared} rows={rows} /> : <input {...shared} type={type} />}
+      {hint && (
+        <small id={`${id}-hint`} className="cf-field-hint">
+          {hint}
+        </small>
+      )}
       {error && (
         <small id={`${id}-error`} className="cf-field-error" role="alert">
           {error}

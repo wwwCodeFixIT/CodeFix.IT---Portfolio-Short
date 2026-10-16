@@ -547,6 +547,48 @@
   line-height: 1.5;
   overflow-wrap: anywhere;
 }
+.cf-field-hint {
+  color: #bcbcbc;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.cf-free-project {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 24px;
+  padding: 24px 0;
+  border-block: 1px solid #39393e;
+}
+.cf-free-project > div {
+  flex: 1 1 260px;
+  max-width: 650px;
+}
+.cf-free-project h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  line-height: 1.5;
+}
+.cf-free-project p {
+  margin: 0;
+  color: #bcbcbc;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.cf-lead-form .cf-free-project-choice {
+  grid-template-columns: 20px 1fr;
+  align-items: start;
+  min-height: 44px;
+  padding-block: 10px;
+}
+.cf-lead-form .cf-free-project-choice input {
+  width: 18px;
+  min-height: 18px;
+  margin: 3px 0 0;
+  accent-color: #ef4444;
+}
 .cf-lead-form [aria-invalid='true'] {
   border-color: #ff878c;
 }

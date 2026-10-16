@@ -187,6 +187,11 @@ function relatedBlock(path) {
         <ul>${homepageContent.services.map(({ title, description, price, detailsHref }) => `<li><a href="${escapeHtml(detailsHref)}">${escapeHtml(title)} — ${escapeHtml(price)}</a><p>${escapeHtml(description)}</p></li>`).join('')}</ul>
         <p>Zakres i cenę potwierdzam przed startem.</p>
         <p><a href="/dla-agencji-wordpress/">Wsparcie WordPress dla agencji</a></p>
+        <aside id="free-project">
+          <h3>${escapeHtml(homepageContent.freeProject.title)}</h3>
+          <p>${escapeHtml(homepageContent.freeProject.description)}</p>
+          <p><a href="mailto:${contactEmail}?subject=${encodeURIComponent(homepageContent.freeProject.requestLabel)}">${escapeHtml(homepageContent.freeProject.cta)}</a></p>
+        </aside>
       </section>
       <section id="applications">
         <h2>${escapeHtml(homepageContent.application.title)}</h2>
