@@ -361,9 +361,17 @@ html:has(.guide-toc):focus-within {
 }
 
 .guide-toc nav {
+  position: absolute;
+  top: 100%;
+  right: -1px;
+  left: -1px;
   max-height: min(55vh, 420px);
   overflow: auto;
   overscroll-behavior: contain;
+  border: inherit;
+  border-top: 0;
+  border-radius: 0 0 10px 10px;
+  background: inherit;
 }
 
 .guide-toc ul {

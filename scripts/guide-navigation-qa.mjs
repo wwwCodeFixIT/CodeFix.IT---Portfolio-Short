@@ -106,8 +106,15 @@ for (const [engine, type] of [
           assert.equal(await page.getByRole('heading', { level: 1 }).count(), 1)
           const requestCount = requests.length
 
-          await summary.press('Enter')
+          const readingPosition = await page.locator('#sekcja-3').boundingBox()
+          await summary.click()
           assert.notEqual(await toc.getAttribute('open'), null)
+          const expandedPosition = await page.locator('#sekcja-3').boundingBox()
+          assert.ok(
+            Math.abs(readingPosition.y - expandedPosition.y) < 2,
+            'Opening contents must not shift the article',
+          )
+          await expectActive('sekcja-3')
           assert.equal(await navigation.getByRole('link').count(), guide.sections.length + 1)
           for (const link of await navigation.getByRole('link').all()) {
             const box = await link.boundingBox()
@@ -175,6 +182,7 @@ for (const [engine, type] of [
             reducedMotion,
             checks: [
               'deep-link-reload',
+              'disclosure-no-layout-shift',
               'native-fragments',
               'focus-and-clearance',
               'current-section',

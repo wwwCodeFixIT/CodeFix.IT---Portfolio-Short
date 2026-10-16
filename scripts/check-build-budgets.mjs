@@ -53,7 +53,7 @@ const budgets = {
   largestCss: 40_000,
   // Includes the isolated quick-view stylesheet and reference attachment (~3.7 KB).
   // Guide search controls and empty state add ~0.9 KB on guide routes.
-  // The isolated contents bar adds ~0.9 KB on guide routes.
+  // The isolated contents bar adds ~1.0 KB on guide routes.
   totalCss: 80_000,
 };
 
