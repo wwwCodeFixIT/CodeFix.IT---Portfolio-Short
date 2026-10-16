@@ -56,6 +56,30 @@ assert.equal(report.checks.find((item) => item.id === 'largest-contentful-paint'
 assert.ok(report.recommendations.some((item) => item.includes('Lighthouse nie potwierdza')));
 assert.equal(api.buildReport(input, { lighthouseResult: { runtimeError: { code: 'ERROR' } } }), null);
 
+const emptySample = { lighthouseResult: { finalUrl: input.url, audits: {}, categories: {} } };
+assert.equal(api.buildReport(input, emptySample), null, 'An empty measurement cannot produce a healthy report');
+const completeSample = structuredClone(sample);
+completeSample.lighthouseResult.audits['meta-description'].score = 1;
+completeSample.lighthouseResult.audits.canonical.score = 1;
+completeSample.lighthouseResult.audits['largest-contentful-paint'].numericValue = 1800;
+const complete = api.buildReport(input, completeSample);
+assert.ok(complete.note.includes('nie znalazł ostrzeżeń'));
+assert.ok(!complete.note.includes('niepełny'));
+const partialSample = structuredClone(completeSample);
+delete partialSample.lighthouseResult.audits['document-title'];
+delete partialSample.lighthouseResult.categories.seo;
+const partial = api.buildReport(input, partialSample);
+assert.equal(partial.scores.seo, null);
+assert.ok(partial.note.includes('niepełny'));
+assert.ok(!partial.note.includes('nie znalazł ostrzeżeń'));
+assert.ok(partial.recommendations.some((item) => item.includes('Powtórz pomiar')));
+assert.ok(!partial.recommendations.some((item) => item.includes('nie znaleziono istotnego problemu')));
+assert.ok(report.note.includes('niepełny'), 'Known failures must also disclose missing checks');
+assert.ok(report.recommendations.some((item) => item.startsWith('Meta description:')));
+const scoresOnly = structuredClone(emptySample);
+scoresOnly.lighthouseResult.categories = { performance: { score: 0.9 } };
+assert.ok(api.buildReport(input, scoresOnly).note.includes('niepełny'));
+
 const env = {
   SITE_DOCTOR_ENABLED: 'true',
   SITE_DOCTOR_RATE_LIMIT_CONFIRMED: 'true',
@@ -112,6 +136,10 @@ try {
   assert.equal(outbound.length, 2);
   assert.ok(!(await res.json()).aiExplanation);
   assert.equal(api.onRequestGet().status, 405);
+
+  globalThis.fetch = async () => Response.json(emptySample);
+  res = await api.onRequestPost({ request: request(input), env });
+  assert.equal(res.status, 502, 'Missing measurements must surface as an unavailable report');
 
   globalThis.fetch = async () => new Response('Unavailable', { status: 429 });
   res = await api.onRequestPost({ request: request(input), env });

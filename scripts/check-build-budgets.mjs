@@ -47,7 +47,10 @@ const budgets = {
   // Free-project selection adds ~1.2 KB to the homepage route.
   // Native process disclosures and their short copy add ~0.8 KB to the homepage.
   // Native mobile navigation and shared links add ~1.3 KB to the homepage route.
-  largestDeferredJs: 53_000,
+  // LAB-3 adds the optional doctor-to-CRM handoff and consent state to the deferred homepage (about 2.5 KB).
+  // Keeping the form mounted adds ~1.8 KB for the native dialog and its trigger.
+  // The scanner and shared tool controls still load only when requested.
+  largestDeferredJs: 58_000,
   // Native project quick view: shared triggers + dialog loaded only on demand (~5 KB).
   // Shared inline field feedback adds ~0.6 KB net; entry and route caps stay unchanged.
   // Local guide search adds ~1.5 KB on guide routes, with no new dependencies.
@@ -59,8 +62,10 @@ const budgets = {
   // Mobile menu: native popover, focus handling and no added dependencies (~1.3 KB).
   // Standalone tools lab route with local validators and optional AI interface.
   // Site Doctor loads on demand: +9.9 KB across lazy chunks; entry cap unchanged.
-  totalJs: 365_000,
-  largestCss: 40_000,
+  // Includes the independent, opt-in diagnostic attachment and transfer helper.
+  totalJs: 370_000,
+  // Branded optional report controls add ~0.7 KB to the deferred contact stylesheet.
+  largestCss: 41_000,
   // Includes the isolated quick-view stylesheet and reference attachment (~3.7 KB).
   // Guide search controls and empty state add ~0.9 KB on guide routes.
   // The isolated contents bar adds ~1.0 KB on guide routes.

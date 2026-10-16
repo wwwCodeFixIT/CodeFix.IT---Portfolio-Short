@@ -189,6 +189,13 @@ export function PrivacyPolicy() {
                 opis i wynik testu zostaną przekazane także do dostawcy modelu.
                 Nie są skanowane strefy zalogowane ani prywatne adresy sieciowe.
                 Wynik nie stanowi audytu bezpieczeństwa ani pełnej oceny WCAG.
+                Wybranie opcji „Dołącz diagnozę do zapytania” zapisuje skrócony
+                raport techniczny w pamięci bieżącej karty lub sesji przeglądarki
+                (sessionStorage). Zawiera adres strony bez parametrów zapytania,
+                datę pomiaru, oceny i wykryte sygnały. Nie zawiera opisu problemu
+                ani komentarza AI. Raport można usunąć, a jego ważność wynosi
+                15 minut. Trafia do CRM dopiero po zaznaczeniu dołączenia
+                oraz dobrowolnym wysłaniu formularza.
               </p>
             </section>
           </article>

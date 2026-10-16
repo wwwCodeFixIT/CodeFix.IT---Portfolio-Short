@@ -123,11 +123,18 @@ export function buildReport(input: Input, psi: unknown) {
     seo: score(categories.seo?.score),
     accessibility: score(categories.accessibility?.score),
   };
+  const missingChecks = checks.filter((item) => item.status === 'unknown').length;
+  const missingScores = Object.values(scores).filter((value) => value === null).length;
+  if (missingChecks === checks.length && missingScores === 3) return null;
+  const incomplete = missingChecks > 0 || missingScores > 0;
+  const coverageNote = 'Pomiar jest niepełny. Części kontroli lub ocen nie udało się uzyskać.';
   const failed = checks.filter((item) => item.status === 'fail' || item.status === 'warning');
-  const recommendations = failed.slice(0, 4).map((item) =>
+  const recommendations = failed.slice(0, 3).map((item) =>
     item.label + ': ' + item.detail + ' Sprawdź wskazówki w pełnym raporcie Lighthouse.',
   );
-  if (!recommendations.length) {
+  if (incomplete) {
+    recommendations.unshift('Powtórz pomiar, aby uzupełnić brakujące dane. Wyniki bez pomiaru nie potwierdzają poprawnego działania.');
+  } else if (!recommendations.length) {
     recommendations.push('W podstawowych kontrolach nie znaleziono istotnego problemu. Sprawdź formularze i funkcje ręcznie.');
   }
   if (input.problem === 'forms' || input.problem === 'update') {
@@ -142,8 +149,9 @@ export function buildReport(input: Input, psi: unknown) {
     scores,
     checks,
     note: failed.length
-      ? `Diabełek znalazł ${failed.length} sygnałów do sprawdzenia. Zobacz szczegóły poniżej — to nie oznacza automatycznie awarii WordPress.`
-      : 'Diabełek nie znalazł ostrzeżeń w podstawowych kontrolach. To nie oznacza, że strona jest wolna od usterek.',
+      ? `Diabełek znalazł ${failed.length} sygnałów do sprawdzenia. To nie oznacza automatycznie awarii WordPress.${incomplete ? ' ' + coverageNote : ''}`
+      : incomplete ? coverageNote
+        : 'Diabełek nie znalazł ostrzeżeń w podstawowych kontrolach. To nie oznacza, że strona jest wolna od usterek.',
     recommendations: recommendations.slice(0, 5),
   };
 }

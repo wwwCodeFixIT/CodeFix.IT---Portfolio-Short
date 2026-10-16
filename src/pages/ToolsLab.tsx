@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { Brand } from '../components/Brand';
+import '../components/ToolControls.css';
 import './ToolsLab.css';
 
 const SiteDoctor = lazy(() => import('../components/SiteDoctor'));
@@ -12,6 +13,13 @@ const kinds: Record<ProjectKind, string> = {
   aplikacja: 'Aplikacja / integracja',
   naprawa: 'Naprawa WordPress',
   opieka: 'Stała opieka',
+};
+
+const projectServices: Record<ProjectKind, string> = {
+  strona: 'CODEFIX_BUSINESS_SITE',
+  aplikacja: 'development',
+  naprawa: 'WORDPRESS_QUICK_FIX',
+  opieka: 'WORDPRESS_CARE',
 };
 
 function basicBrief(kind: ProjectKind, audience: string, goal: string, website: string) {
@@ -54,7 +62,7 @@ export function ToolsLab() {
   const [audience, setAudience] = useState('');
   const [goal, setGoal] = useState('');
   const [website, setWebsite] = useState('');
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState<{ text: string; kind: ProjectKind } | null>(null);
   const [status, setStatus] = useState('');
   const [busy, setBusy] = useState(false);
   const [copyStatus, setCopyStatus] = useState('');
@@ -78,7 +86,7 @@ export function ToolsLab() {
       setStatus('Opisz cel lub problem w co najmniej 15 znakach.');
       return;
     }
-    setResult(draft);
+    setResult({ text: draft, kind });
     setStatus('Przygotowano lokalny szkic. Bez połączenia z modelem AI.');
     setCopyStatus('');
   }
@@ -101,7 +109,7 @@ export function ToolsLab() {
       });
       if (!response.ok) {
         if (response.status === 503) {
-          setResult(draft);
+          setResult({ text: draft, kind });
           setStatus('AI nie jest jeszcze aktywne. Wyświetlam użyteczny szkic lokalny.');
           return;
         }
@@ -112,10 +120,10 @@ export function ToolsLab() {
       if (!data || typeof data !== 'object' || !('brief' in data) || typeof data.brief !== 'string') {
         throw new Error('Nieprawidłowa odpowiedź serwera.');
       }
-      setResult(data.brief.slice(0, 3800));
+      setResult({ text: data.brief.slice(0, 3800), kind });
       setStatus('Brief przygotowany przez model AI. Sprawdź i popraw informacje przed użyciem.');
     } catch (error) {
-      setResult(draft);
+      setResult({ text: draft, kind });
       setStatus(error instanceof Error ? error.message + ' Wyświetlam szkic lokalny.' : 'Wyświetlam szkic lokalny.');
     } finally {
       setBusy(false);
@@ -123,8 +131,9 @@ export function ToolsLab() {
   }
 
   async function copyResult() {
+    if (!result) return;
     try {
-      await navigator.clipboard.writeText(result);
+      await navigator.clipboard.writeText(result.text);
       setCopyStatus('Skopiowano brief.');
     } catch {
       output.current?.focus();
@@ -194,10 +203,11 @@ export function ToolsLab() {
             {result && (
               <div className="cf-tool-result">
                 <label htmlFor="cf-tool-brief-result">Twój brief — możesz go edytować po skopiowaniu</label>
-                <textarea ref={output} id="cf-tool-brief-result" readOnly rows={15} value={result} />
+                <p>Brief dotyczy: {kinds[result.kind]}.</p>
+                <textarea ref={output} id="cf-tool-brief-result" readOnly rows={15} value={result.text} />
                 <div className="cf-tool-actions">
                   <button type="button" onClick={() => void copyResult()}>Skopiuj brief</button>
-                  <a href="/?service=development#contact">Omów projekt z CodeFix.IT →</a>
+                  <a href={`/?service=${projectServices[result.kind]}#contact`}>Omów projekt z CodeFix.IT →</a>
                 </div>
                 <p role="status">{copyStatus}</p>
               </div>

@@ -1,0 +1,73 @@
+/* Shared form controls for the tools route and the optional diagnostic dialog. */
+.cf-tool-form {
+  max-width: 760px;
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
+}
+.cf-tool-form label,
+.cf-tool-result > label,
+.cf-tool-colors label {
+  display: grid;
+  gap: 7px;
+  color: #ededf1;
+  font-size: 14px;
+  font-weight: 600;
+}
+.cf-tool-form :is(input, select, textarea),
+.cf-tool-result textarea {
+  display: block;
+  width: 100%;
+  font: inherit;
+  font-weight: 400;
+  border: 1px solid #595961;
+  border-radius: 10px;
+  padding: 13px 14px;
+  color: #fff;
+  background: #1b1b20;
+  min-height: 46px;
+}
+.cf-tool-form :is(input, textarea)::placeholder {
+  color: #ababaf;
+}
+.cf-tool-form textarea,
+.cf-tool-result textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+.cf-tool-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 3px;
+}
+.cf-tool-actions button,
+.cf-tool-actions a {
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #686870;
+  border-radius: 10px;
+  padding: 11px 18px;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 650;
+  background: #242429;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+.cf-tool-actions .cf-tool-primary {
+  background: #c12c35;
+  border-color: #d54b54;
+  color: #fff;
+}
+.cf-tool-actions button:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+.cf-tool-actions :is(a, button):hover:not(:disabled) {
+  background: #9b1c23;
+}

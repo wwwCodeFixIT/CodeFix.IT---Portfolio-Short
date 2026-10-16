@@ -2,7 +2,7 @@ name: Contact Submission Audit
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, feat/site-doctor-lab2-20261016]
     paths:
       - 'src/main.tsx'
       - 'src/lib/attribution.ts'
