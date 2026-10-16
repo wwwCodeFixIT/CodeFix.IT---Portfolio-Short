@@ -22,7 +22,10 @@ export type DoctorHandoff = {
 };
 
 function oneLine(text: string, max = 90) {
-  return text.replace(/[\r\n\t]/g, ' ').replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, max);
+  return [...text].filter((character) => {
+    const n = character.charCodeAt(0);
+    return n >= 32 && n !== 127;
+  }).join('').replace(/\s+/g, ' ').trim().slice(0, max);
 }
 
 function safeAddress(raw: string) {
