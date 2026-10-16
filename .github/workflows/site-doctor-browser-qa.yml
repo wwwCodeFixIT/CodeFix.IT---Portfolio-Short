@@ -2,9 +2,15 @@ name: Site Doctor Handoff Browser QA
 
 on:
   workflow_dispatch:
-  push:
+  pull_request:
     branches:
-      - feat/site-doctor-lead-handoff-20261016
+      - main
+    paths:
+      - 'src/components/SiteDoctor.tsx'
+      - 'src/pages/HomepageV1.tsx'
+      - 'src/pages/HomepageV1.css'
+      - 'src/lib/site-doctor-handoff.ts'
+      - 'scripts/site-doctor-handoff-browser-qa.mjs'
 
 permissions:
   contents: read
