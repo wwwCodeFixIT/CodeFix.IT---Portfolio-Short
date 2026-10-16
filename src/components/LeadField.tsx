@@ -13,6 +13,7 @@ type LeadFieldProps = Pick<
   | 'minLength'
   | 'maxLength'
   | 'placeholder'
+  | 'defaultValue'
   | 'required'
 > & { name: string; label: string; rows?: number; hint?: string }
 
