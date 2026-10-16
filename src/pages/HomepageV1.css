@@ -604,3 +604,38 @@
   min-height: 20px;
   accent-color: #ef4444;
 }
+
+.cf-doctor-attachment-actions button,
+.cf-doctor-attachment-body > button {
+  appearance: none;
+  border: 1px solid #74515a;
+  background: #272126;
+  color: #f8f7f8;
+  min-height: 44px;
+  padding: 10px 16px;
+  border-radius: 9px;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease;
+}
+
+.cf-doctor-attachment-actions button:hover,
+.cf-doctor-attachment-body > button:hover {
+  background: #62232f;
+  border-color: #ed5667;
+}
+
+.cf-doctor-attachment-actions button:focus-visible,
+.cf-doctor-attachment-body > button:focus-visible {
+  outline: 2px solid #ffabb3;
+  outline-offset: 3px;
+}
+
+.cf-doctor-attachment-body > button {
+  justify-self: start;
+}
+
+.cf-doctor-attachment-actions a {
+  align-self: center;
+}
