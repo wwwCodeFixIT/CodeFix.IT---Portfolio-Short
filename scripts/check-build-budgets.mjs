@@ -50,7 +50,7 @@ const budgets = {
   // Shared inline field feedback adds ~0.6 KB net; entry and route caps stay unchanged.
   // Local guide search adds ~1.5 KB on guide routes, with no new dependencies.
   // Native contents navigation and section tracking add ~2.1 KB on guide routes.
-  // Guide field hints and the free-project request add ~2.5 KB in total.
+  // Guide field hints, the free-project request and contact focus add ~3.0 KB in total.
   totalJs: 333_000,
   largestCss: 40_000,
   // Includes the isolated quick-view stylesheet and reference attachment (~3.7 KB).

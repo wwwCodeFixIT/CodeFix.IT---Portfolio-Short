@@ -55,6 +55,13 @@ for (const [engine, type] of [
             (intent) => document.querySelector('.service-form-topic strong')?.innerText === intent,
             item.intent,
           )
+          await page.waitForFunction(() => {
+            const field = document.querySelector('form.cf-lead-form input[name="name"]')
+            const box = field?.getBoundingClientRect()
+            return (
+              field === document.activeElement && box?.top >= 72 && box.bottom <= window.innerHeight
+            )
+          })
           assert.equal(await page.locator('.service-form-topic strong').innerText(), item.intent)
           const message = page.locator('textarea[name="message"]')
           const hint = page.getByText(item.contactHint, { exact: true })

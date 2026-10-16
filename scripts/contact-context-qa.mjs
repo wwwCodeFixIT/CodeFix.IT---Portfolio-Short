@@ -86,6 +86,13 @@ for (const [engine, type] of [
             (intent) => document.querySelector('.service-form-topic strong')?.innerText === intent,
             guide.intent,
           )
+          await page.waitForFunction(() => {
+            const field = document.querySelector('form.cf-lead-form input[name="name"]')
+            const box = field?.getBoundingClientRect()
+            return (
+              field === document.activeElement && box?.top >= 72 && box.bottom <= window.innerHeight
+            )
+          })
           assert.equal(await page.locator('.service-form-topic strong').innerText(), guide.intent)
           const message = serviceForm.locator('[name="message"]')
           assert.equal(await message.inputValue(), '')
@@ -181,6 +188,7 @@ for (const [engine, type] of [
             reducedMotion,
             checks: [
               'guide-topic',
+              'contact-cta-focus-and-scroll',
               'hint-and-error-description',
               'no-message-overwrite',
               'error-preserves-data',
