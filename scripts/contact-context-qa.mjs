@@ -81,7 +81,7 @@ for (const [engine, type] of [
           await page.waitForURL(new URL(guide.serviceHref + '/', target).href)
           const serviceForm = page.locator('form.cf-lead-form')
           await serviceForm.waitFor()
-          await page.locator('.cf-header .cf-nav-cta').click()
+          await page.locator('.service-hero a.cf-button-primary').click()
           await page.waitForFunction(
             (intent) => document.querySelector('.service-form-topic strong')?.innerText === intent,
             guide.intent,

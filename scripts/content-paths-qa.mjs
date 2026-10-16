@@ -50,7 +50,7 @@ for (const [engine, type] of [
           await page.locator('.guide-page main a.cf-button-primary').click()
           await page.waitForURL(new URL(item.serviceHref + '/', target).href)
           await page.locator('form.cf-lead-form').waitFor()
-          await page.locator('.cf-header .cf-nav-cta').click()
+          await page.locator('.service-hero a.cf-button-primary').click()
           await page.waitForFunction(
             (intent) => document.querySelector('.service-form-topic strong')?.innerText === intent,
             item.intent,
