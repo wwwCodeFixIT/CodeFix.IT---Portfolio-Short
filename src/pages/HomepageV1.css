@@ -399,11 +399,11 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  align-items: start;
 }
 
 .cf-process-card {
   min-height: 145px;
-  padding: 22px;
   border: 1px solid var(--line);
   border-radius: 14px;
   background: rgba(255, 255, 255, 0.018);
@@ -418,11 +418,51 @@
     monospace;
 }
 
-.cf-process-card p {
-  margin: 18px 0 0;
+.cf-process-card summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 18px;
+  align-content: center;
+  align-items: center;
+  gap: 16px;
+  min-height: 143px;
+  padding: 22px;
+  list-style: none;
+  cursor: pointer;
+  border-radius: 12px;
+}
+.cf-process-card summary::-webkit-details-marker {
+  display: none;
+}
+.cf-process-card summary h3 {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: #e8e8eb;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.cf-process-card summary:focus-visible {
+  outline: 2px solid #ff858c;
+  outline-offset: -5px;
+}
+.cf-process-card[open] summary svg {
+  transform: rotate(180deg);
+}
+.cf-process-card dl {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0 22px 22px;
+}
+.cf-process-card dt {
+  color: #b5b5bc;
+  font-size: 12px;
+  font-weight: 600;
+}
+.cf-process-card dd {
+  margin: 5px 0 0;
   color: #d1d1d5;
   font-size: 14px;
-  line-height: 1.55;
+  line-height: 1.6;
 }
 
 .cf-footer {

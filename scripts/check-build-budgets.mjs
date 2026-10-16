@@ -45,14 +45,16 @@ const totalCss = css.reduce((sum, asset) => sum + asset.bytes, 0);
 const budgets = {
   entryJs: 215_000,
   // Free-project selection adds ~1.2 KB to the homepage route.
-  largestDeferredJs: 51_000,
+  // Native process disclosures and their short copy add ~0.8 KB to the homepage.
+  largestDeferredJs: 52_000,
   // Native project quick view: shared triggers + dialog loaded only on demand (~5 KB).
   // Shared inline field feedback adds ~0.6 KB net; entry and route caps stay unchanged.
   // Local guide search adds ~1.5 KB on guide routes, with no new dependencies.
   // Native contents navigation and section tracking add ~2.1 KB on guide routes.
   // Guide field hints, the free-project request and contact focus add ~3.0 KB in total.
   // Project annotations add ~2.6 KB, loaded with the optional quick-view dialog.
-  totalJs: 336_000,
+  // Process details use native HTML and add ~0.8 KB without a new controller.
+  totalJs: 337_000,
   largestCss: 40_000,
   // Includes the isolated quick-view stylesheet and reference attachment (~3.7 KB).
   // Guide search controls and empty state add ~0.9 KB on guide routes.

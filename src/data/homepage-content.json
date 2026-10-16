@@ -38,10 +38,26 @@
     }
   ],
   "process": [
-    "Opisujesz cel lub problem i podajesz adres strony, jeśli już ją masz.",
-    "Ustalam z Tobą zakres, cenę i termin.",
-    "Przy większych zmianach pokazuję podgląd przed publikacją.",
-    "Wdrażam, testuję i przekazuję gotowe rozwiązanie."
+    {
+      "title": "Opisujesz temat",
+      "receive": "Pytania, które pomogą doprecyzować cel lub problem.",
+      "provide": "Kilka zdań i adres strony, jeśli już ją masz. Bez haseł."
+    },
+    {
+      "title": "Ustalamy zakres",
+      "receive": "Zakres prac, wycenę i proponowany termin.",
+      "provide": "Akceptację ustaleń przed rozpoczęciem prac."
+    },
+    {
+      "title": "Sprawdzasz podgląd",
+      "receive": "Przy większych zmianach — wersję do sprawdzenia przed publikacją.",
+      "provide": "Zebrane uwagi do uzgodnionego zakresu."
+    },
+    {
+      "title": "Wdrażam i przekazuję",
+      "receive": "Gotowe rozwiązanie, test po wdrożeniu i informację o zmianach.",
+      "provide": "Sprawdzenie efektu zgodnie z ustalonym zakresem."
+    }
   ],
   "faqItems": [
     {

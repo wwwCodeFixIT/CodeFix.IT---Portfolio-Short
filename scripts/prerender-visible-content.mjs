@@ -212,7 +212,8 @@ function relatedBlock(path) {
       </section>
       <section id="process">
         <h2>Od wiadomości do wdrożenia.</h2>
-        <ol>${homepageContent.process.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ol>
+        <p>Wybierz etap i zobacz, jak wygląda współpraca.</p>
+        <ol aria-label="Etapy współpracy">${homepageContent.process.map((item) => `<li><details class="cf-process-card" name="codefix-process"><summary><h3>${escapeHtml(item.title)}</h3></summary><dl><dt>Otrzymujesz</dt><dd>${escapeHtml(item.receive)}</dd><dt>Twoja część</dt><dd>${escapeHtml(item.provide)}</dd></dl></details></li>`).join('')}</ol>
       </section>
       <section id="faq">
         <h2>Przed pierwszym zleceniem.</h2>
@@ -395,6 +396,10 @@ const style = `
   .cf-static-prerender p,.cf-static-prerender li{max-width:780px;color:#a5a5ad;line-height:1.65}
   .cf-static-prerender a{color:#f2f2f4}
   .cf-static-prerender ul{display:grid;gap:10px;padding-left:20px}
+  .cf-static-prerender #process summary{min-height:44px;padding-block:12px;cursor:pointer}
+  .cf-static-prerender #process summary h3{display:inline;margin:0;font-size:16px}
+  .cf-static-prerender #process details{margin-block:12px}
+  .cf-static-prerender #process dd{margin:6px 0 16px;line-height:1.6;color:#c7c7ce}
 </style>`
 
 const guideStyle = `<style id="codefix-static-guide-style">
