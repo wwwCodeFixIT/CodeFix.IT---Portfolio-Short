@@ -33,7 +33,10 @@ function response(status: number, body: unknown, headers?: Record<string, string
 
 /** URL must be an absolute publicly addressed HTTPS domain, not an IP literal. */
 export function validatePublicUrl(raw: string): string | null {
-  if (raw.length > 450 || /[\u0000-\u0020\u007f\\]/.test(raw)) return null;
+  if (raw.length > 450 || [...raw].some((character) => {
+    const code = character.charCodeAt(0);
+    return code <= 32 || code === 127 || character === '\\';
+  })) return null;
   try {
     const url = new URL(raw);
     if (
