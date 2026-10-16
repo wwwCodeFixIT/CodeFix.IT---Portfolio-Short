@@ -205,18 +205,16 @@ export function HomepageV1() {
   const [freeProjectRequested, setFreeProjectRequested] = useState(false);
   const previousBriefStep = useRef(0);
   const [briefSummary, setBriefSummary] = useState({ pageUrl: '', message: '' });
-  const [doctorAttachment, setDoctorAttachment] = useState(() => {
+  const [initialDoctorReport] = useState(() => {
     if (new URL(window.location.href).searchParams.get('doctor') !== '1') return '';
-    try { return readDoctorHandoff(window.sessionStorage)?.summary ?? ''; }
-    catch { return ''; }
+    try {
+      return readDoctorHandoff(window.sessionStorage)?.summary ?? '';
+    } catch {
+      return '';
+    }
   });
-  const [doctorIncluded, setDoctorIncluded] = useState(() =>
-    new URL(window.location.href).searchParams.get('doctor') === '1' &&
-    (() => {
-      try { return Boolean(readDoctorHandoff(window.sessionStorage)); }
-      catch { return false; }
-    })(),
-  );
+  const [doctorAttachment, setDoctorAttachment] = useState(initialDoctorReport);
+  const [doctorIncluded, setDoctorIncluded] = useState(Boolean(initialDoctorReport));
   const [doctorHint, setDoctorHint] = useState('');
   const briefFormRef = useRef<HTMLFormElement | null>(null);
   const doctorDetailsRef = useRef<HTMLDetailsElement | null>(null);
@@ -565,9 +563,7 @@ export function HomepageV1() {
     .join('\n\n');
   const serviceLabel = briefServices.find(([value]) => value === selectedService)?.[1] ?? '';
   const defaultDoctorPageUrl = doctorPageUrl(doctorAttachment);
-  const doctorText = doctorIncluded && doctorAttachment.trim()
-    ? doctorAttachment.trim()
-    : '';
+  const doctorText = doctorIncluded && doctorAttachment.trim() ? doctorAttachment.trim() : '';
   const messageLimit = Math.max(
     0,
     4000 -
@@ -577,9 +573,12 @@ export function HomepageV1() {
   );
 
   function loadRecentDoctorReport() {
-    let stored: ReturnType<typeof readDoctorHandoff> = null;
-    try { stored = readDoctorHandoff(window.sessionStorage); }
-    catch { /* private mode */ }
+    let stored: ReturnType<typeof readDoctorHandoff>;
+    try {
+      stored = readDoctorHandoff(window.sessionStorage);
+    } catch {
+      stored = null;
+    }
 
     if (!stored) {
       setDoctorHint('Brak aktualnego raportu. Wykonaj diagnozę lub wklej wynik ręcznie.');
@@ -596,8 +595,11 @@ export function HomepageV1() {
     setDoctorIncluded(false);
     setDoctorAttachment('');
     setDoctorHint('Usunięto raport ze zgłoszenia.');
-    try { deleteDoctorHandoff(window.sessionStorage); }
-    catch { /* storage unavailable */ }
+    try {
+      deleteDoctorHandoff(window.sessionStorage);
+    } catch {
+      // Storage may be blocked by the browser.
+    }
   }
 
   function toggleBriefOption(option: string) {
@@ -750,8 +752,11 @@ export function HomepageV1() {
       setDoctorAttachment('');
       setDoctorIncluded(false);
       setDoctorHint('');
-      try { deleteDoctorHandoff(window.sessionStorage); }
-      catch { /* storage unavailable */ }
+      try {
+        deleteDoctorHandoff(window.sessionStorage);
+      } catch {
+        // Storage may be blocked by the browser.
+      }
       if (!result.duplicate) clearFunnelSession();
       setSelectedService('');
       setBriefStep(0);
