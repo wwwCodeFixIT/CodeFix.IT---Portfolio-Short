@@ -63,6 +63,9 @@ for (const [engine, type] of Object.entries({ chromium, webkit })) {
         await tab.press('Enter')
         const map = page.locator('.cf-automation-map')
         await map.waitFor()
+        if (width === 320 && motion === 'reduce') {
+          await map.screenshot({ path: `${output}/${engine}-${width}-initial.png` })
+        }
         assert.equal(await tab.getAttribute('aria-pressed'), 'true')
         assert.equal(
           await tab.evaluate((node) => globalThis.getComputedStyle(node).outlineStyle !== 'none'),
@@ -72,9 +75,9 @@ for (const [engine, type] of Object.entries({ chromium, webkit })) {
         assert.equal(await map.getByRole('checkbox', { name: /Roboczy szkic/ }).isChecked(), false)
         assert.equal(await map.getByRole('checkbox', { name: /Moja akceptacja/ }).isChecked(), true)
 
-        const process = map.getByLabel('Proces', { exact: true })
-        const source = map.getByLabel('Źródło danych', { exact: true })
-        const destination = map.getByLabel('Miejsce wyniku', { exact: true })
+        const process = map.getByRole('combobox', { name: /^Proces\b/ })
+        const source = map.getByRole('combobox', { name: /^Źródło danych\b/ })
+        const destination = map.getByRole('combobox', { name: /^Miejsce wyniku\b/ })
         for (const [id, label, expectedSource] of [
           ['inquiries', 'Obsługa zapytań', 'form'],
           ['orders', 'Obsługa zamówień', 'store'],
@@ -121,7 +124,7 @@ for (const [engine, type] of Object.entries({ chromium, webkit })) {
         await map.locator('.cf-automation-note summary').click()
         const note =
           'QA_WLASNY_PROCES: <img src=x onerror="globalThis.qaInjected=1"> — sprawdzam zgłoszenia raz dziennie.'
-        await map.getByLabel('Co chcesz usprawnić?', { exact: true }).fill(note)
+        await map.getByRole('textbox', { name: /^Co chcesz usprawnić/ }).fill(note)
         await page.getByRole('button', { name: 'Podgląd SEO', exact: true }).click()
         assert.equal(await map.isVisible(), false)
         await tab.click()
@@ -129,7 +132,7 @@ for (const [engine, type] of Object.entries({ chromium, webkit })) {
         assert.equal(await source.inputValue(), 'form')
         assert.equal(await destination.inputValue(), 'sheet')
         assert.equal(
-          await map.getByLabel('Co chcesz usprawnić?', { exact: true }).inputValue(),
+          await map.getByRole('textbox', { name: /^Co chcesz usprawnić/ }).inputValue(),
           note,
         )
         assert.equal(
@@ -175,7 +178,10 @@ for (const [engine, type] of Object.entries({ chromium, webkit })) {
         assert.equal(await process.inputValue(), 'inquiries')
         assert.equal(await source.inputValue(), 'form')
         assert.equal(await destination.inputValue(), 'crm')
-        assert.equal(await map.getByLabel('Co chcesz usprawnić?', { exact: true }).inputValue(), '')
+        assert.equal(
+          await map.getByRole('textbox', { name: /^Co chcesz usprawnić/ }).inputValue(),
+          '',
+        )
         assert.equal(await map.locator('.cf-automation-flow > li').count(), 5)
         for (const button of await map.getByRole('button').all()) {
           const box = await button.boundingBox()
