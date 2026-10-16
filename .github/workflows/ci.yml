@@ -72,6 +72,9 @@ jobs:
       - name: Run Site Doctor API security smoke
         run: npm run doctor:smoke
 
+      - name: Validate Site Doctor contact handoff
+        run: npm run doctor:handoff:smoke
+
       - name: Check mobile contact CTA regression
         run: node scripts/mobile-cta-smoke.mjs
 
