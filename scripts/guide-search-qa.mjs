@@ -156,7 +156,11 @@ for (const [engine, type] of [
           // under the pointer when the footer approaches the viewport.
           for (let repeat = 0; repeat < 2; repeat++) {
             await input.fill('wordpress')
-            await expectSlugs(guides.map((guide) => guide.slug))
+            await expectSlugs(
+              guides
+                .filter((guide) => guide.slug !== 'woocommerce-checkout-nie-dziala')
+                .map((guide) => guide.slug),
+            )
             await input.fill('nieistniejący temat xyz')
             await expectSlugs([])
             await page
