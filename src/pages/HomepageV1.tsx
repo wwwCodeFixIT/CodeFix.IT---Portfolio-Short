@@ -1502,8 +1502,8 @@ export function HomepageV1() {
                         </summary>
                         <div className="cf-doctor-attachment-body">
                           <p>
-                            Możesz dołączyć wynik pomiaru do zapytania. Jest to osobna funkcja
-                            — zwykły formularz działa bez diagnozy i bez dodatkowych kosztów.
+                            Możesz dołączyć wynik pomiaru do zapytania. Jest to osobna funkcja —
+                            zwykły formularz działa bez diagnozy i bez dodatkowych kosztów.
                           </p>
                           <div className="cf-doctor-attachment-actions">
                             <a href="/narzedzia/">Uruchom Site Doctor →</a>
@@ -1569,7 +1569,9 @@ export function HomepageV1() {
                         {scopeText && <p className="cf-brief-scope">{scopeText}</p>}
                         {freeProjectRequested && <p>{freeProject.requestLabel}</p>}
                         {projectBrief && <p>Zakres z kalkulatora dołączony.</p>}
-                        {doctorText && <p>Dołączono raport Site Doctor ({doctorText.length} znaków).</p>}
+                        {doctorText && (
+                          <p>Dołączono raport Site Doctor ({doctorText.length} znaków).</p>
+                        )}
                         {referenceProject && (
                           <ProjectReference
                             project={referenceProject}
