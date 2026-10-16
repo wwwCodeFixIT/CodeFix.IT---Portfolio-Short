@@ -572,4 +572,4 @@
 .cf-doctor-attachment-body{display:grid;gap:12px;padding-top:8px}
 .cf-doctor-attachment-actions{display:flex;gap:14px;flex-wrap:wrap}
 .cf-doctor-attachment-checkbox{display:flex!important;align-items:center;gap:9px}
-.cf-doctor-attachment-checkbox input{width:20px;min-height:20px;accent-color:#ef4444}
+.cf-lead-form .cf-doctor-attachment-checkbox input{width:20px;min-height:20px;accent-color:#ef4444}
