@@ -62,7 +62,8 @@ const budgets = {
   // Site Doctor loads on demand: +9.9 KB across lazy chunks; entry cap unchanged.
   // Includes the independent, opt-in diagnostic attachment and transfer helper.
   totalJs: 370_000,
-  largestCss: 40_000,
+  // Branded optional report controls add ~0.7 KB to the deferred contact stylesheet.
+  largestCss: 41_000,
   // Includes the isolated quick-view stylesheet and reference attachment (~3.7 KB).
   // Guide search controls and empty state add ~0.9 KB on guide routes.
   // The isolated contents bar adds ~1.0 KB on guide routes.
