@@ -3,6 +3,7 @@
  * This component only talks to the same-origin, rate-limited Pages Function.
  */
 import { useRef, useState, type FormEvent } from 'react';
+import { buildDoctorHandoff, writeDoctorHandoff } from '../lib/site-doctor-handoff';
 import './SiteDoctor.css';
 
 type CheckStatus = 'pass' | 'warning' | 'fail' | 'unknown';
@@ -138,6 +139,21 @@ export default function SiteDoctor() {
     }
   }
 
+  function handoffToContact() {
+    if (!report) return;
+    const summary = buildDoctorHandoff(report);
+    let saved = false;
+    try { saved = writeDoctorHandoff(window.sessionStorage, summary); }
+    catch { saved = false; }
+
+    if (!saved) {
+      setCopied('Nie udało się zapisać wyniku na czas przejścia. Skopiuj raport poniżej i wklej go w formularzu.');
+      return;
+    }
+    // Explicit visitor action: stage a minimal report for the existing contact form.
+    window.location.assign('/?service=WORDPRESS_QUICK_FIX&doctor=1#contact');
+  }
+
   async function copyReport() {
     if (!report) return;
     const summary = buildReportText(report, problem, description);
@@ -250,11 +266,27 @@ export default function SiteDoctor() {
             Wyniki to pomiar jednej publicznej podstrony na symulowanym urządzeniu mobilnym,
             a nie certyfikat WCAG, audyt bezpieczeństwa ani potwierdzenie sprawności WordPress.
           </p>
+          <div className="cf-doctor-handoff" aria-labelledby="cf-doctor-handoff-title">
+            <div>
+              <p className="cf-section-kicker">Osobna funkcja · Przekaż diagnozę</p>
+              <h4 id="cf-doctor-handoff-title">Z wyniku do zgłoszenia — bez przepisywania.</h4>
+              <p>
+                Przeniosę wyłącznie skrócony raport z pomiaru Lighthouse do formularza.
+                Nie przenoszę opisu problemu ani komentarza AI. Raport będzie widoczny
+                przed wysłaniem i możesz go usunąć.
+              </p>
+            </div>
+            <div className="cf-tool-actions">
+              <button className="cf-tool-primary" type="button" onClick={handoffToContact}>
+                Dołącz diagnozę do zapytania →
+              </button>
+              <a href="/?service=WORDPRESS_QUICK_FIX#contact">
+                Napisz bez diagnozy
+              </a>
+            </div>
+          </div>
           <div className="cf-tool-actions">
-            <button type="button" onClick={() => void copyReport()}>Kopiuj raport</button>
-            <a className="cf-doctor-contact-link" href="/?service=WORDPRESS_QUICK_FIX#contact">
-              Poproś CodeFix.IT o naprawę →
-            </a>
+            <button type="button" onClick={() => void copyReport()}>Kopiuj pełny raport</button>
           </div>
           <p role="status">{copied}</p>
           {copied.startsWith('Nie udało') && (
