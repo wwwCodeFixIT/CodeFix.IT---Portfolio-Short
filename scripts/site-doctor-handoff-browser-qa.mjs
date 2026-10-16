@@ -43,12 +43,21 @@ try {
       route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(sample) }),
     );
     await context.route('https://app.codefix.it/api/public/leads', async (route) => {
+      const cors = {
+        'Access-Control-Allow-Origin': origin,
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      };
+      if (route.request().method() === 'OPTIONS') {
+        await route.fulfill({ status: 204, headers: cors });
+        return;
+      }
       leadPayloads.push(route.request().postDataJSON());
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({ leadId: 'browser-qa', duplicate: false }),
-        headers: { 'Access-Control-Allow-Origin': origin },
+        headers: cors,
       });
     });
     // No network access to live CRM or other third-party endpoints during QA.
