@@ -47,10 +47,12 @@ const budgets = {
   largestDeferredJs: 50_000,
   // Native project quick view: shared triggers + dialog loaded only on demand (~5 KB).
   // Shared inline field feedback adds ~0.6 KB net; entry and route caps stay unchanged.
-  totalJs: 327_000,
+  // Local guide search adds ~1.5 KB on guide routes, with no new dependencies.
+  totalJs: 328_000,
   largestCss: 40_000,
   // Includes the isolated quick-view stylesheet and reference attachment (~3.7 KB).
-  totalCss: 78_000,
+  // Guide search controls and empty state add ~0.9 KB on guide routes.
+  totalCss: 79_000,
 };
 
 console.log(`Entry JS: ${entry.bytes} B / ${budgets.entryJs} B — ${entry.name}`);

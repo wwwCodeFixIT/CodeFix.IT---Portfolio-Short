@@ -8,6 +8,8 @@ on:
       - 'src/lib/attribution.ts'
       - 'src/lib/conversion-journey.ts'
       - 'src/pages/GuidePage.tsx'
+      - 'src/pages/GuidePage.css'
+      - 'scripts/guide-search-qa.mjs'
       - 'src/pages/ProjectsIndex.tsx'
       - 'src/pages/ProjectCaseStudy.tsx'
       - 'scripts/content-paths-qa.mjs'
@@ -71,6 +73,7 @@ jobs:
           node scripts/contact-wizard-qa.mjs
           node scripts/contact-submission-qa.mjs
           node scripts/content-paths-qa.mjs
+          node scripts/guide-search-qa.mjs
           node scripts/automation-demo-qa.mjs
       - uses: actions/upload-artifact@v4
         if: always()
