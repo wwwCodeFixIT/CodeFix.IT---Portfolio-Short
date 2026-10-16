@@ -50,6 +50,11 @@ for (const [engine, type] of [
           await page.locator('.guide-page main a.cf-button-primary').click()
           await page.waitForURL(new URL(item.serviceHref + '/', target).href)
           await page.locator('form.cf-lead-form').waitFor()
+          await page.locator('.cf-header .cf-nav-cta').click()
+          await page.waitForFunction(
+            (intent) => document.querySelector('.service-form-topic strong')?.innerText === intent,
+            item.intent,
+          )
           assert.equal(await page.locator('.service-form-topic strong').innerText(), item.intent)
           const message = page.locator('textarea[name="message"]')
           const hint = page.getByText(item.contactHint, { exact: true })
