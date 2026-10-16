@@ -2,6 +2,12 @@
 .cf-tools { min-height: 100vh; background: #060606; color: #f7f7f8; font: 16px/1.55 Inter, ui-sans-serif, system-ui, sans-serif; }
 .cf-tools * { box-sizing: border-box; }
 .cf-tools .cf-container { width: min(1050px, calc(100% - 40px)); margin-inline: auto; }
+.cf-tools .cf-brand { display: inline-flex; align-items: center; gap: 9px; min-width: 0; text-decoration: none; }
+.cf-tools .cf-brand-mark { width: 46px; height: 46px; flex: 0 0 46px; overflow: hidden; }
+.cf-tools .cf-brand-logo { width: 100%; height: 100%; object-fit: contain; }
+.cf-tools .cf-brand-copy { display: grid; }
+.cf-tools .cf-brand-name { font-size: 16px; font-weight: 800; white-space: nowrap; letter-spacing: -.02em; }
+.cf-tools .cf-brand-name strong { color: #f12b3e; }
 .cf-tools a { color: #f7f7f8; text-underline-offset: 4px; }
 .cf-tools a:hover { color: #ff9b9b; }
 .cf-tools :is(a, button, input, textarea, select):focus-visible { outline: 3px solid #ff9999; outline-offset: 3px; }
