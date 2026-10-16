@@ -69,11 +69,11 @@ jobs:
             if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then break; fi
             sleep 1
           done
+          node scripts/guide-search-qa.mjs
           node scripts/project-quick-view-qa.mjs
           node scripts/contact-wizard-qa.mjs
           node scripts/contact-submission-qa.mjs
           node scripts/content-paths-qa.mjs
-          node scripts/guide-search-qa.mjs
           node scripts/automation-demo-qa.mjs
       - uses: actions/upload-artifact@v4
         if: always()

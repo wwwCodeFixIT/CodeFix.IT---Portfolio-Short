@@ -40,6 +40,40 @@ for (const [engine, type] of [
         const errors = []
         const blockedRequests = []
         const requests = []
+        const failedRequests = []
+        page.on('requestfailed', (request) =>
+          failedRequests.push({ url: request.url(), error: request.failure()?.errorText }),
+        )
+        await context.addInitScript(() => {
+          window.__guideEvents = []
+          for (const type of [
+            'pointerdown',
+            'pointerup',
+            'mousedown',
+            'mouseup',
+            'click',
+            'input',
+            'change',
+            'focusin',
+            'search',
+          ]) {
+            document.addEventListener(
+              type,
+              (event) => {
+                const target = event.target
+                if (!target.closest?.('.guide-search, .guide-search-empty')) return
+                window.__guideEvents.push({
+                  type,
+                  tag: target.tagName,
+                  id: target.id,
+                  text: target.textContent?.slice(0, 70),
+                  value: document.querySelector('#guide-search')?.value,
+                })
+              },
+              true,
+            )
+          }
+        })
         page.on('pageerror', (error) => errors.push(error.message))
         await context.route('**/*', (route) => {
           const request = route.request()
@@ -185,6 +219,28 @@ for (const [engine, type] of [
             liveLeadRequests: 0,
           })
         } catch (error) {
+          await writeFile(
+            new URL(`guide-search-${engine}-${width}-${reducedMotion}-failure.json`, output),
+            JSON.stringify(
+              {
+                error: error.stack,
+                errors,
+                blockedRequests,
+                failedRequests,
+                state: await page.evaluate(() => ({
+                  value: document.querySelector('#guide-search')?.value,
+                  active: document.activeElement?.outerHTML,
+                  status: document.querySelector('.guide-search [role="status"]')?.textContent,
+                  cards: [...document.querySelectorAll('.guide-card > a')].map((a) =>
+                    a.getAttribute('href'),
+                  ),
+                  events: window.__guideEvents?.slice(-50),
+                })),
+              },
+              null,
+              2,
+            ),
+          )
           await page.screenshot({
             path: new URL(`guide-search-${engine}-${width}-${reducedMotion}-failure.jpg`, output)
               .pathname,
