@@ -14,6 +14,7 @@ import { Brand } from '../components/Brand';
 import { HeroEmblem, HeroExperience } from '../components/HeroExperience';
 import { HeroServicePicker } from '../components/HeroServicePicker';
 import { LeadField } from '../components/LeadField';
+import { MobileNavigation } from '../components/MobileNavigation';
 import {
   ProjectPreview,
   ProjectPreviewGroup,
@@ -726,17 +727,18 @@ export function HomepageV1() {
       onFocusCapture={() => setLayoutReady(true)}
     >
       <header className="cf-header">
-        <div className="cf-container cf-nav">
+        <div className="cf-container cf-nav cf-nav-with-menu">
           <Brand href="#top" />
 
           <nav className="cf-nav-links" aria-label="Główna nawigacja">
-            <a href="#services">Usługi</a>
-            <a href="#work">Realizacje</a>
-            <a href="#about">O mnie</a>
-            <a href="#faq">FAQ</a>
-            <a href="/poradniki/">Poradniki</a>
-            <a href="#contact">Kontakt</a>
+            {homepageContent.navigation.map(({ href, label }) => (
+              <a key={href} href={href}>
+                {label}
+              </a>
+            ))}
           </nav>
+
+          <MobileNavigation />
 
           <a
             href="#contact"

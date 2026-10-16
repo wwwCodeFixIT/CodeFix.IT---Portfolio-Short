@@ -390,6 +390,11 @@ const style = `
   .cf-static-prerender .brand{display:inline-flex;align-items:center;gap:10px;font-weight:800;letter-spacing:-.02em;color:#fff;text-decoration:none}
   .cf-static-prerender .brand img{width:42px;height:42px;object-fit:contain}
   .cf-static-prerender .brand-fix{color:#f12b3e}
+  .cf-static-navigation{margin-block:16px;max-width:360px}
+  .cf-static-navigation summary{min-height:44px;cursor:pointer}
+  .cf-static-navigation nav{display:grid;gap:4px}
+  .cf-static-navigation a{display:flex;align-items:center;min-height:44px;padding-inline:12px}
+  .cf-static-navigation :focus-visible{outline:2px solid #ff858c;outline-offset:2px}
   .cf-static-prerender .eyebrow{margin-top:48px;color:#ff686b;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.12em}
   .cf-static-prerender h1{max-width:880px;margin:14px 0 20px;font-size:clamp(38px,7vw,72px);line-height:1.02;letter-spacing:-.05em}
   .cf-static-prerender h2{margin-top:40px;font-size:22px}
@@ -426,6 +431,7 @@ for (const url of urls) {
     <main class="cf-static-prerender" data-seo-static-content="true">
       <div class="cf-static-prerender-inner">
         <a class="brand" href="/" aria-label="CodeFix.IT — strona główna"><img src="/brand/codefix-mark.png" width="48" height="48" alt=""><span>Code<span class="brand-fix">Fix</span>.IT</span></a>
+        ${path === '/' ? `<details class="cf-static-navigation"><summary>Menu</summary><nav aria-label="Nawigacja strony">${homepageContent.navigation.map(({ href, label }) => `<a href="${escapeHtml(href === '#contact' ? '#kontakt' : href)}">${escapeHtml(label)}</a>`).join('')}</nav></details>` : ''}
         <p class="eyebrow">${escapeHtml(path === '/' ? homepageContent.hero.eyebrow : 'WordPress • zdalnie • cała Polska')}</p>
         <h1>${escapeHtml(heading)}</h1>
         <p>${escapeHtml(description)}</p>

@@ -46,7 +46,8 @@ const budgets = {
   entryJs: 215_000,
   // Free-project selection adds ~1.2 KB to the homepage route.
   // Native process disclosures and their short copy add ~0.8 KB to the homepage.
-  largestDeferredJs: 52_000,
+  // Native mobile navigation and shared links add ~1.3 KB to the homepage route.
+  largestDeferredJs: 53_000,
   // Native project quick view: shared triggers + dialog loaded only on demand (~5 KB).
   // Shared inline field feedback adds ~0.6 KB net; entry and route caps stay unchanged.
   // Local guide search adds ~1.5 KB on guide routes, with no new dependencies.
@@ -55,7 +56,8 @@ const budgets = {
   // Project annotations add ~2.6 KB, loaded with the optional quick-view dialog.
   // Process details use native HTML and add ~0.8 KB without a new controller.
   // Project link copying adds ~0.9 KB inside the deferred dialog, without dependencies.
-  totalJs: 338_000,
+  // Mobile menu: native popover, focus handling and no added dependencies (~1.3 KB).
+  totalJs: 339_000,
   largestCss: 40_000,
   // Includes the isolated quick-view stylesheet and reference attachment (~3.7 KB).
   // Guide search controls and empty state add ~0.9 KB on guide routes.
@@ -63,7 +65,8 @@ const budgets = {
   // Form hints, the offer row and its checkbox add ~0.8 KB.
   // Numbered annotations and their disclosure add ~1.1 KB to the deferred dialog CSS.
   // Copy feedback and its manual fallback add ~0.5 KB to the deferred dialog CSS.
-  totalCss: 83_000,
+  // Mobile panel, desktop target sizes and static navigation add ~1.3 KB.
+  totalCss: 85_000,
 };
 
 console.log(`Entry JS: ${entry.bytes} B / ${budgets.entryJs} B — ${entry.name}`);
