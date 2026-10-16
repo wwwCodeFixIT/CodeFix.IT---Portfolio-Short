@@ -1,0 +1,269 @@
+.cf-automation-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(24px, 4vw, 48px);
+  margin-top: 28px;
+}
+
+.cf-automation-config {
+  align-content: start;
+  min-width: 0;
+  margin: 0;
+}
+
+.cf-automation-systems {
+  display: grid;
+  gap: 16px;
+}
+
+.cf-automation-config select {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.cf-automation-options {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+  margin: 0;
+  padding: 18px 0 0;
+  border: 0;
+  border-top: 1px solid #39393f;
+}
+
+.cf-automation-options legend {
+  padding: 0 8px 0 0;
+  color: #bcbcc2;
+  font-size: 12px;
+}
+
+.cf-automation-options label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.cf-automation-options input {
+  flex: 0 0 20px;
+  width: 20px;
+  min-height: 20px;
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  accent-color: #c12c35;
+}
+
+.cf-automation-options small {
+  display: block;
+  margin-top: 3px;
+  color: #bcbcc2;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.cf-automation-note summary,
+.cf-automation-scope summary {
+  display: list-item;
+  min-height: 44px;
+  padding-block: 10px;
+  color: #dedee3;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.cf-automation-note label {
+  margin-top: 10px;
+}
+
+.cf-automation-local {
+  margin: 0;
+  color: #bcbcc2;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.cf-automation-preview {
+  min-width: 0;
+}
+
+.cf-automation-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 0 14px;
+  color: #f7f7f8;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cf-automation-caption span {
+  color: #bcbcc2;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.cf-automation-flow {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cf-automation-flow li {
+  position: relative;
+}
+
+.cf-automation-flow li + li::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: 29px;
+  height: 14px;
+  border-left: 1px solid #64646d;
+}
+
+.cf-automation-flow button {
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 70px;
+  padding: 12px 14px;
+  border: 1px solid #494950;
+  border-radius: 10px;
+  background: #19191d;
+  color: #f7f7f8;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cf-automation-flow strong {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.cf-automation-flow small {
+  display: block;
+  margin-top: 3px;
+  color: #c4c4ca;
+  font-size: 12px;
+}
+
+.cf-automation-number {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid #686870;
+  border-radius: 50%;
+  font-size: 12px;
+}
+
+.cf-automation-flow button[aria-pressed='true'],
+.cf-automation-exception[aria-pressed='true'] {
+  border-color: #f08089;
+  background: #2b151a;
+}
+
+.cf-automation-exception {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 14px;
+  padding: 10px 14px;
+  border: 1px dashed #797079;
+  border-radius: 8px;
+  color: #e5d5d8;
+  background: transparent;
+  font: inherit;
+  font-size: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cf-automation-detail {
+  margin-top: 16px;
+  padding: 16px;
+  border-left: 2px solid #f08089;
+  background: #18181c;
+}
+
+.cf-automation-detail h3 {
+  margin: 0 0 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.cf-automation-detail p {
+  margin: 0;
+  color: #c9c9d0;
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.cf-automation-bottom {
+  margin-top: 28px;
+  padding-top: 16px;
+  border-top: 1px solid #39393f;
+}
+
+.cf-automation-scope {
+  margin-bottom: 16px;
+}
+
+.cf-automation-scope label {
+  display: block;
+  margin: 10px 0;
+  color: #c4c4ca;
+  font-size: 13px;
+}
+
+.cf-automation-scope textarea {
+  width: 100%;
+  max-width: 100%;
+  padding: 14px;
+  border: 1px solid #686870;
+  border-radius: 10px;
+  background: #19191d;
+  color: #f7f7f8;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1.7;
+  resize: vertical;
+}
+
+.cf-automation-status {
+  min-height: 20px;
+  margin: 12px 0 0;
+  color: #c9c9d0;
+  font-size: 13px;
+}
+
+.cf-automation-map summary:focus-visible {
+  outline: 3px solid #ff9999;
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .cf-automation-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cf-automation-config select,
+  .cf-automation-config textarea {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 440px) and (max-width: 760px) {
+  .cf-automation-systems {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

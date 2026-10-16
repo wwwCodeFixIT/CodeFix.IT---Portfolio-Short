@@ -63,7 +63,9 @@ const budgets = {
   // Standalone tools lab route with local validators and optional AI interface.
   // Site Doctor loads on demand: +9.9 KB across lazy chunks; entry cap unchanged.
   // Includes the independent, opt-in diagnostic attachment and transfer helper.
-  totalJs: 370_000,
+  // Automation map: +9.6 KB overall, with the 9.0 KB planner loaded on demand.
+  // Entry and homepage route sizes remain unchanged.
+  totalJs: 380_000,
   // Branded optional report controls add ~0.7 KB to the deferred contact stylesheet.
   largestCss: 41_000,
   // Includes the isolated quick-view stylesheet and reference attachment (~3.7 KB).
@@ -75,7 +77,8 @@ const budgets = {
   // Mobile panel, desktop target sizes and static navigation add ~1.3 KB.
   // Isolated tools-lab style only loads on /narzedzia/.
   // Branded Site Doctor stylesheet loads on demand; largest CSS cap unchanged.
-  totalCss: 98_000,
+  // Isolated automation map styles add 3.7 KB only when the planner is opened.
+  totalCss: 102_000,
 };
 
 console.log(`Entry JS: ${entry.bytes} B / ${budgets.entryJs} B — ${entry.name}`);

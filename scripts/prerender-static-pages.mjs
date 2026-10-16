@@ -58,8 +58,8 @@ const projectCases = [
 const pages = [
   {
     path: 'narzedzia',
-    title: 'AI Site Doctor i darmowe narzędzia SEO | CodeFix.IT',
-    description: 'AI Site Doctor: mobilny pomiar Lighthouse oraz generator briefu, podgląd SEO i tester kontrastu WCAG. Bezpłatne narzędzia CodeFix.IT.',
+    title: 'Narzędzia AI, SEO i automatyzacji | CodeFix.IT',
+    description: 'Zaplanuj automatyzację firmy, przygotuj brief i sprawdź stronę. Mapa procesów, AI Site Doctor, podgląd SEO i tester kontrastu CodeFix.IT.',
     schemaType: 'WebPage',
     schemaName: 'Laboratorium CodeFix.IT — narzędzia online',
     ogType: 'website',

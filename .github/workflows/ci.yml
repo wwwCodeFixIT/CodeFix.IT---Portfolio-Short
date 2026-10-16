@@ -75,6 +75,9 @@ jobs:
       - name: Validate Site Doctor contact handoff
         run: npm run doctor:handoff:smoke
 
+      - name: Validate automation map plans
+        run: npm run automation:smoke
+
       - name: Check mobile contact CTA regression
         run: node scripts/mobile-cta-smoke.mjs
 
