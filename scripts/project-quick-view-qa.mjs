@@ -37,14 +37,22 @@ for (const [engine, type] of [
         let quickViewRequests = 0
         await context.addInitScript(() => {
           window.__referenceCopies = []
+          window.__projectCopyMode = 'success'
+          window.__referenceClipboard = {
+            writeText(text) {
+              window.__referenceCopies.push(text)
+              if (window.__projectCopyMode === 'denied')
+                return Promise.reject(new DOMException('Clipboard denied', 'NotAllowedError'))
+              if (window.__projectCopyMode === 'hold')
+                return new Promise((resolve) => {
+                  window.__finishProjectCopy = resolve
+                })
+              return Promise.resolve()
+            },
+          }
           Object.defineProperty(navigator, 'clipboard', {
             configurable: true,
-            value: {
-              writeText(text) {
-                window.__referenceCopies.push(text)
-                return Promise.resolve()
-              },
-            },
+            value: window.__referenceClipboard,
           })
         })
         let releaseQuickView
@@ -101,7 +109,9 @@ for (const [engine, type] of [
         }
 
         try {
-          await page.goto(new URL('#work', target).href, { waitUntil: 'networkidle' })
+          await page.goto(new URL('?utm_source=qa-share&gclid=qa-project#work', target).href, {
+            waitUntil: 'networkidle',
+          })
           await trigger(projects[0][1]).waitFor()
           const reject = page.getByRole('button', { name: 'Odrzuć wszystkie', exact: true })
           if (await reject.isVisible()) await reject.click()
@@ -135,6 +145,68 @@ for (const [engine, type] of [
                 .getAttribute('href'),
               `/realizacje/${slug}/`,
             )
+            const copy = () =>
+              dialog().getByRole('button', { name: /^(Skopiuj link|Skopiowano link)$/ })
+            const manual = () => dialog().getByRole('textbox', { name: 'Skopiuj adres ręcznie' })
+            assert.equal(await copy().innerText(), 'Skopiuj link')
+            await copy().press(index === 1 ? 'Space' : 'Enter')
+            await dialog().getByRole('button', { name: 'Skopiowano link', exact: true }).waitFor()
+            assert.equal(
+              await page.evaluate(() => window.__referenceCopies.at(-1)),
+              `https://codefix.it/realizacje/${slug}/`,
+            )
+            assert.equal(
+              await dialog().getByRole('status').innerText(),
+              'Link do realizacji jest w schowku.',
+            )
+            assert.equal(await copy().evaluate((el) => el.matches(':focus-visible')), true)
+            assert.equal(await manual().count(), 0)
+            if (index === 0) {
+              for (const mode of ['denied', 'unavailable']) {
+                await page.evaluate((mode) => {
+                  window.__projectCopyMode = mode
+                  Object.defineProperty(navigator, 'clipboard', {
+                    configurable: true,
+                    value: mode === 'unavailable' ? undefined : window.__referenceClipboard,
+                  })
+                }, mode)
+                await copy().click()
+                await manual().waitFor({ state: 'visible' })
+                assert.equal(await manual().inputValue(), `https://codefix.it/realizacje/${slug}/`)
+                assert.deepEqual(
+                  await manual().evaluate((el) => ({
+                    focused: el === document.activeElement,
+                    readOnly: el.readOnly,
+                    selected: el.selectionStart === 0 && el.selectionEnd === el.value.length,
+                  })),
+                  { focused: true, readOnly: true, selected: true },
+                )
+                const box = await manual().boundingBox()
+                assert.ok(box.width >= 44 && box.height >= 44)
+                assert.equal(await dialog().evaluate((el) => el.scrollWidth - el.clientWidth), 0)
+                await manual().press('Tab')
+                assert.equal(
+                  await dialog()
+                    .getByRole('button', { name: 'Zamknij podgląd realizacji', exact: true })
+                    .evaluate((el) => el === document.activeElement),
+                  true,
+                )
+                await page.keyboard.press('Shift+Tab')
+                assert.equal(await manual().evaluate((el) => el === document.activeElement), true)
+                await page.evaluate(() => {
+                  window.__projectCopyMode = 'success'
+                  Object.defineProperty(navigator, 'clipboard', {
+                    configurable: true,
+                    value: window.__referenceClipboard,
+                  })
+                })
+                await copy().press('Enter')
+                await dialog()
+                  .getByRole('button', { name: 'Skopiowano link', exact: true })
+                  .waitFor()
+                assert.equal(await manual().count(), 0)
+              }
+            }
             const image = dialog().getByRole('img')
             await page.waitForFunction(() => {
               const img = document.querySelector('dialog img')
@@ -246,6 +318,34 @@ for (const [engine, type] of [
             await closed(title)
             assert.equal(await page.evaluate(() => document.body.style.overflow), initialOverflow)
           }
+
+          // Finishing a pending copy from a closed dialog must not affect another project.
+          await open(projects[0][1])
+          await page.evaluate(() => {
+            window.__projectCopyMode = 'hold'
+          })
+          await dialog().getByRole('button', { name: 'Skopiuj link', exact: true }).press('Enter')
+          const pending = dialog().getByRole('button', { name: 'Kopiuję…', exact: true })
+          await pending.waitFor()
+          assert.equal(await pending.isDisabled(), true)
+          await page.keyboard.press('Escape')
+          await closed(projects[0][1])
+          await open(projects[1][1])
+          await page.evaluate(async () => {
+            window.__finishProjectCopy()
+            window.__projectCopyMode = 'success'
+            await new Promise((resolve) =>
+              window.requestAnimationFrame(() => window.requestAnimationFrame(resolve)),
+            )
+          })
+          assert.equal(
+            await dialog().getByRole('button', { name: 'Skopiuj link', exact: true }).isEnabled(),
+            true,
+          )
+          assert.equal(await dialog().getByRole('status').innerText(), '')
+          assert.equal(await dialog().getByRole('textbox').count(), 0)
+          await page.keyboard.press('Escape')
+          await closed(projects[1][1])
 
           const form = page.locator('form.cf-lead-form')
           const next = form.getByRole('button', { name: 'Dalej', exact: true })
@@ -398,6 +498,14 @@ for (const [engine, type] of [
             preservesBrief: true,
             referencePayload: true,
             referenceClipboard: true,
+            sharing: {
+              canonicalProjectLinks: 3,
+              noAttributionOrPreviewHost: true,
+              clipboard: ['success', 'denied', 'unavailable', 'retry', 'pending-close'],
+              manualAddressSelected: true,
+              focusTrapIncludesFallback: true,
+              resetOnNewProject: true,
+            },
             insights: {
               points: 6,
               lazyWithDialog: true,
