@@ -107,7 +107,13 @@ for (const [engine, type] of [
           const requestCount = requests.length
 
           const readingPosition = await page.locator('#sekcja-3').boundingBox()
-          await summary.click()
+          const summaryPosition = await summary.boundingBox()
+          // Click the already-visible sticky control at its screen position.
+          // Locator click helpers may first scroll its original flow position.
+          await page.mouse.click(
+            summaryPosition.x + summaryPosition.width / 2,
+            summaryPosition.y + summaryPosition.height / 2,
+          )
           assert.notEqual(await toc.getAttribute('open'), null)
           const expandedPosition = await page.locator('#sekcja-3').boundingBox()
           assert.ok(
@@ -115,6 +121,13 @@ for (const [engine, type] of [
             'Opening contents must not shift the article',
           )
           await expectActive('sekcja-3')
+          assert.equal(
+            await navigation.evaluate(
+              (element) => window.getComputedStyle(element).backgroundColor,
+            ),
+            'rgb(17, 17, 19)',
+            'The open menu must cover article text with an opaque background',
+          )
           assert.equal(await navigation.getByRole('link').count(), guide.sections.length + 1)
           for (const link of await navigation.getByRole('link').all()) {
             const box = await link.boundingBox()

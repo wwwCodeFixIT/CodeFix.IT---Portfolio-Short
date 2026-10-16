@@ -368,10 +368,10 @@ html:has(.guide-toc):focus-within {
   max-height: min(55vh, 420px);
   overflow: auto;
   overscroll-behavior: contain;
-  border: inherit;
+  border: 1px solid #62626b;
   border-top: 0;
   border-radius: 0 0 10px 10px;
-  background: inherit;
+  background: #111113;
 }
 
 .guide-toc ul {
