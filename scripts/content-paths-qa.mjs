@@ -50,6 +50,40 @@ for (const [engine, type] of [
           await page.locator('.guide-page main a.cf-button-primary').click()
           await page.waitForURL(new URL(item.serviceHref + '/', target).href)
           await page.locator('form.cf-lead-form').waitFor()
+          await page.locator('.service-hero-copy .cf-actions > a.cf-button-primary').click()
+          await page.waitForFunction(
+            (intent) => document.querySelector('.service-form-topic strong')?.innerText === intent,
+            item.intent,
+          )
+          await page.waitForFunction(() => {
+            const field = document.querySelector('form.cf-lead-form input[name="name"]')
+            const box = field?.getBoundingClientRect()
+            return (
+              field === document.activeElement && box?.top >= 72 && box.bottom <= window.innerHeight
+            )
+          })
+          assert.equal(await page.locator('.service-form-topic strong').innerText(), item.intent)
+          const message = page.locator('textarea[name="message"]')
+          const hint = page.getByText(item.contactHint, { exact: true })
+          assert.ok(await hint.isVisible())
+          assert.ok(
+            (await message.getAttribute('aria-describedby'))
+              .split(' ')
+              .includes(await hint.getAttribute('id')),
+          )
+          const note = 'Opis użytkownika pozostaje po usunięciu tematu poradnika.'
+          await message.fill(note)
+          await page.getByRole('button', { name: 'Usuń temat poradnika', exact: true }).click()
+          assert.equal(await message.inputValue(), note)
+          assert.equal(await hint.count(), 0)
+          assert.ok(await message.evaluate((element) => element === document.activeElement))
+          assert.equal(
+            await page.evaluate(
+              () =>
+                JSON.parse(window.sessionStorage.getItem('codefix_conversion_journey_v1')).guide,
+            ),
+            item.slug,
+          )
         } else {
           await page.locator(`a.cf-button-primary[href="/realizacje/${item.slug}/"]`).press('Enter')
           await page.waitForURL(new URL(`/realizacje/${item.slug}/`, target).href)

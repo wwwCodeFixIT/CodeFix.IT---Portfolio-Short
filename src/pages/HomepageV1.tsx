@@ -134,6 +134,7 @@ function initialServiceFromUrl() {
 
 const services = homepageContent.services;
 const process = homepageContent.process;
+const freeProject = homepageContent.freeProject;
 
 const advantages = homepageContent.about.advantages.map((item, index) => ({
   ...item,
@@ -194,6 +195,7 @@ export function HomepageV1() {
   const [briefError, setBriefError] = useState('');
   const [scopeHelpOpen, setScopeHelpOpen] = useState(false);
   const [briefOptions, setBriefOptions] = useState<string[]>([]);
+  const [freeProjectRequested, setFreeProjectRequested] = useState(false);
   const previousBriefStep = useRef(0);
   const [briefSummary, setBriefSummary] = useState({ pageUrl: '', message: '' });
   const briefFormRef = useRef<HTMLFormElement | null>(null);
@@ -352,6 +354,7 @@ export function HomepageV1() {
 
   function chooseService(service: string, placement?: string) {
     if (formState === 'submitting') return;
+    setFreeProjectRequested(false);
     setReferenceProject(null);
     setProjectBrief(null);
     setBriefStep(0);
@@ -528,7 +531,13 @@ export function HomepageV1() {
   const referenceText = referenceProject
     ? `Punkt odniesienia: ${referenceProject.title} — https://codefix.it/realizacje/${referenceProject.slug}/`
     : '';
-  const supplementText = [scopeText, referenceText].filter(Boolean).join('\n\n');
+  const supplementText = [
+    scopeText,
+    referenceText,
+    freeProjectRequested ? freeProject.requestLabel : '',
+  ]
+    .filter(Boolean)
+    .join('\n\n');
   const serviceLabel = briefServices.find(([value]) => value === selectedService)?.[1] ?? '';
   const messageLimit = Math.max(
     0,
@@ -689,6 +698,7 @@ export function HomepageV1() {
       setBriefStep(0);
       setBriefSummary({ pageUrl: '', message: '' });
       setBriefOptions([]);
+      setFreeProjectRequested(false);
       setScopeHelpOpen(false);
       setFormStartedAt(Date.now());
       setFormState('success');
@@ -886,6 +896,40 @@ export function HomepageV1() {
                 },
               )}
             </div>
+            <aside
+              id="free-project"
+              className="cf-free-project"
+              aria-labelledby="cf-free-project-title"
+            >
+              <div>
+                <h3 id="cf-free-project-title">{freeProject.title}</h3>
+                <p>{freeProject.description}</p>
+              </div>
+              <a
+                href="#contact"
+                className="cf-button cf-button-secondary"
+                onClick={(event) => {
+                  if (
+                    event.button !== 0 ||
+                    event.metaKey ||
+                    event.ctrlKey ||
+                    event.shiftKey ||
+                    event.altKey
+                  )
+                    return;
+                  if (formState === 'submitting') {
+                    event.preventDefault();
+                    return;
+                  }
+                  chooseService('other', 'free_project');
+                  setFreeProjectRequested(true);
+                  setBriefStep(1);
+                }}
+              >
+                {freeProject.cta}
+                <ArrowRight size={17} aria-hidden="true" />
+              </a>
+            </aside>
             <div id="kalkulator" className="cf-estimator-entry">
               <button
                 ref={estimatorToggleRef}
@@ -1295,6 +1339,18 @@ export function HomepageV1() {
                       <h3 tabIndex={-1} data-step-heading>
                         Co trzeba zrobić?
                       </h3>
+                      {selectedService === 'other' && (
+                        <label className="cf-free-project-choice">
+                          <input
+                            type="checkbox"
+                            checked={freeProjectRequested}
+                            onChange={(event) =>
+                              setFreeProjectRequested(event.currentTarget.checked)
+                            }
+                          />
+                          <span>{freeProject.checkboxLabel}</span>
+                        </label>
+                      )}
                       {guidance && (
                         <p className="cf-quickfix-selection" role="status">
                           {guidance.hint}
@@ -1376,6 +1432,7 @@ export function HomepageV1() {
                         {briefSummary.pageUrl && <p>{briefSummary.pageUrl}</p>}
                         <p>{briefSummary.message}</p>
                         {scopeText && <p className="cf-brief-scope">{scopeText}</p>}
+                        {freeProjectRequested && <p>{freeProject.requestLabel}</p>}
                         {projectBrief && <p>Zakres z kalkulatora dołączony.</p>}
                         {referenceProject && (
                           <ProjectReference

@@ -5,62 +5,71 @@ export const guideSummaries = [
     "title": "WordPress nie wysyła maili — co sprawdzić krok po kroku",
     "serviceHref": "/naprawa-wordpress",
     "description": "Formularz WordPress działa, ale wiadomości nie dochodzą? Sprawdź formularz, wp_mail, SMTP, logi i konfigurację DNS zanim zaczniesz wymieniać wtyczki.",
-    "intent": "Formularze / SMTP"
+    "intent": "Formularze / SMTP",
+    "contactHint": "Od kiedy nie docierają wiadomości? Czy formularz pokazuje błąd, czy potwierdzenie wysłania?"
   },
   {
     "slug": "blad-500-wordpress",
     "title": "Błąd 500 w WordPress — jak znaleźć przyczynę bez zgadywania",
     "serviceHref": "/naprawa-wordpress",
     "description": "Błąd 500 w WordPress po aktualizacji lub zmianie wtyczki? Zobacz bezpieczną kolejność diagnostyki: logi, PHP, wtyczki, motyw i konfiguracja serwera.",
-    "intent": "Błąd HTTP 500"
+    "intent": "Błąd HTTP 500",
+    "contactHint": "Od kiedy widzisz błąd 500? Co zmieniło się tuż przed awarią?"
   },
   {
     "slug": "wordpress-zepsul-sie-po-aktualizacji",
     "title": "WordPress zepsuł się po aktualizacji — co robić po kolei",
     "serviceHref": "/naprawa-wordpress",
     "description": "Strona WordPress przestała działać po aktualizacji wtyczki, motywu lub PHP? Sprawdź kolejność działań, backup, logi, cache i konflikty.",
-    "intent": "Awaria po aktualizacji"
+    "intent": "Awaria po aktualizacji",
+    "contactHint": "Co zostało zaktualizowane i kiedy? Która część strony przestała działać?"
   },
   {
     "slug": "wolny-wordpress-co-sprawdzic",
     "title": "Wolny WordPress — co sprawdzić przed instalacją kolejnej wtyczki",
     "serviceHref": "/opieka-wordpress",
     "description": "WordPress ładuje się wolno? Zamiast instalować kolejną wtyczkę do cache, sprawdź TTFB, obrazy, JavaScript, zapytania, hosting i Core Web Vitals.",
-    "intent": "Wydajność / Core Web Vitals"
+    "intent": "Wydajność / Core Web Vitals",
+    "contactHint": "Które podstrony są wolne? Od kiedy to zauważasz i czy problem występuje także na telefonie?"
   },
   {
     "slug": "blad-krytyczny-wordpress",
     "title": "W witrynie wystąpił błąd krytyczny — jak odzyskać WordPress",
     "serviceHref": "/naprawa-wordpress",
     "description": "WordPress pokazuje komunikat o błędzie krytycznym? Sprawdź Recovery Mode, logi PHP, wtyczki, motyw i ostatnie zmiany, zanim zaczniesz przywracać cały backup.",
-    "intent": "Błąd krytyczny / Recovery Mode"
+    "intent": "Błąd krytyczny / Recovery Mode",
+    "contactHint": "Jaki komunikat widzisz? Czy błąd pojawił się po aktualizacji lub innej zmianie?"
   },
   {
     "slug": "woocommerce-checkout-nie-dziala",
     "title": "WooCommerce checkout nie działa — jak znaleźć przyczynę",
     "serviceHref": "/naprawa-wordpress",
     "description": "Checkout WooCommerce nie ładuje płatności, kręci się bez końca albo nie przechodzi dalej? Sprawdź cache, JavaScript, AJAX, bramkę płatności i konflikty.",
-    "intent": "WooCommerce / checkout"
+    "intent": "WooCommerce / checkout",
+    "contactHint": "Na którym etapie zatrzymuje się zamówienie? Jaki komunikat widzi kupujący?"
   },
   {
     "slug": "ile-kosztuje-naprawa-wordpress",
     "title": "Ile kosztuje naprawa WordPress i od czego zależy cena?",
     "serviceHref": "/naprawa-wordpress",
     "description": "Ile kosztuje naprawa WordPress? Zobacz, co wpływa na wycenę błędu, kiedy wystarczy Quick Fix od 390 zł i kiedy potrzebny jest większy zakres.",
-    "intent": "Cena naprawy WordPress"
+    "intent": "Cena naprawy WordPress",
+    "contactHint": "Co wymaga naprawy i od kiedy? Podaj adres strony oraz objaw."
   },
   {
     "slug": "ile-kosztuje-opieka-wordpress",
     "title": "Ile kosztuje opieka WordPress i co powinno być w abonamencie?",
     "serviceHref": "/opieka-wordpress",
     "description": "Opieka WordPress od 300 zł miesięcznie w CodeFix.IT. Zobacz, co wpływa na zakres abonamentu: aktualizacje, backupy, poprawki, rozwój i czas reakcji.",
-    "intent": "Cena opieki WordPress"
+    "intent": "Cena opieki WordPress",
+    "contactHint": "Jakiej stałej pomocy potrzebujesz? Podaj adres strony i najważniejsze zadania."
   },
   {
     "slug": "ile-kosztuje-strona-wordpress-dla-firmy",
     "title": "Ile kosztuje strona WordPress dla firmy i co wpływa na wycenę?",
     "serviceHref": "/strony-wordpress",
     "description": "Cena strony WordPress dla firmy zależy od liczby podstron, projektu, treści i integracji. Zobacz, co obejmuje wycena CodeFix.IT i jak przygotować brief.",
-    "intent": "Cena strony WordPress"
+    "intent": "Cena strony WordPress",
+    "contactHint": "Co oferuje Twoja firma? Co odwiedzający ma zrobić na nowej stronie?"
   }
 ];

@@ -111,5 +111,12 @@
         "description": "AI wspiera moją pracę. Sam weryfikuję rozwiązanie przed wdrożeniem."
       }
     ]
+  },
+  "freeProject": {
+    "title": "Możliwość darmowego projektu",
+    "description": "Rozważam wybrane projekty bezpłatnie. Opisz pomysł i komu ma pomóc. Możliwość realizacji, zakres i warunki potwierdzę indywidualnie przed startem.",
+    "cta": "Zgłoś pomysł",
+    "requestLabel": "Prośba o rozważenie darmowego projektu.",
+    "checkboxLabel": "Chcę zapytać o możliwość darmowego projektu"
   }
 }

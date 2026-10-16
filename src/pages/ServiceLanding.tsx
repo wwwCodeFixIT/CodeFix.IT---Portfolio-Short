@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { FormEvent } from 'react';
+import type { FormEvent, MouseEvent } from 'react';
 import {
   ArrowRight,
   ArrowUpRight,
@@ -113,7 +113,12 @@ export function ServiceLanding({
   const [formMessage, setFormMessage] = useState('');
   const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
   const [attribution] = useState(captureSessionAttribution);
-  const [journey] = useState(readConversionJourney);
+  const [journey, setJourney] = useState(readConversionJourney);
+  const [guideTopicDismissed, setGuideTopicDismissed] = useState(false);
+  const [contactLayoutReady, setContactLayoutReady] = useState(false);
+  const guideTopic = !guideTopicDismissed && journey.journeyDestination === config.path
+    ? guideSummaries.find((guide) => guide.slug === journey.journeyGuide && guide.serviceHref === config.path)
+    : undefined;
   const formStartTracked = useRef(false);
   const formViewTracked = useRef(false);
   const funnelViewTracked = useRef(false);
@@ -217,6 +222,22 @@ export function ServiceLanding({
     trackLeadEvent('lead_cta_click', { cta_placement: placement });
   }
 
+  function handleContactLink(event: MouseEvent<HTMLDivElement>) {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0)
+      return;
+    if (!(event.target instanceof Element) || !event.target.closest('a[href="#kontakt"]')) return;
+    // Resolve deferred section heights before measuring the contact destination.
+    // Keep each link's native fragment and tracking; focus also supports keyboard users.
+    setContactLayoutReady(true);
+    window.requestAnimationFrame(() => {
+      const field = contactSectionRef.current?.querySelector<HTMLInputElement>('input[name="name"]');
+      field?.focus({ preventScroll: true });
+      window.requestAnimationFrame(() => {
+        if (field?.isConnected) field.scrollIntoView({ block: 'center', behavior: 'instant' });
+      });
+    });
+  }
+
   function handleFormStart() {
     if (formStartTracked.current) return;
     formStartTracked.current = true;
@@ -287,6 +308,8 @@ export function ServiceLanding({
       form.reset();
       if (!result.duplicate) clearFunnelSession();
       clearConversionJourney();
+      setJourney(readConversionJourney());
+      setGuideTopicDismissed(false);
       setFormStartedAt(Date.now());
       setFormState('success');
       setFormMessage(
@@ -319,7 +342,10 @@ export function ServiceLanding({
     .slice(0, 3);
 
   return (
-    <div className={`homepage-v1 service-landing${config.stickyCta ? ' has-sticky-service-cta' : ''}`}>
+    <div
+      className={`homepage-v1 service-landing${config.stickyCta ? ' has-sticky-service-cta' : ''}${contactLayoutReady ? ' cf-layout-ready' : ''}`}
+      onClick={handleContactLink}
+    >
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand />
@@ -564,7 +590,15 @@ export function ServiceLanding({
                   )}
 
                   <p className="service-form-topic">
-                    Temat: <strong>{config.eyebrow}</strong>
+                    Temat: <strong>{guideTopic?.intent ?? config.eyebrow}</strong>
+                    {guideTopic && (
+                      <button type="button" onClick={() => {
+                        setGuideTopicDismissed(true);
+                        contactSectionRef.current?.querySelector<HTMLTextAreaElement>('[name="message"]')?.focus();
+                      }}>
+                        Usuń temat poradnika
+                      </button>
+                    )}
                   </p>
 
                   <LeadField
@@ -579,6 +613,7 @@ export function ServiceLanding({
 
                   <LeadField
                     label="Opisz temat"
+                    hint={guideTopic?.contactHint}
                     name="message"
                     rows={6}
                     minLength={10}

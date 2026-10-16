@@ -15,6 +15,7 @@ export type WordPressGuide = {
   intent: string;
   serviceHref: '/naprawa-wordpress' | '/opieka-wordpress' | '/strony-wordpress';
   serviceLabel: string;
+  contactHint: string;
   intro: string;
   sections: GuideSection[];
   faq: { question: string; answer: string }[];
@@ -33,6 +34,7 @@ export const wordpressGuides: WordPressGuide[] = [
     intent: 'Formularze / SMTP',
     serviceHref: '/naprawa-wordpress',
     serviceLabel: 'Zgłoś problem z pocztą WordPress',
+    contactHint: 'Od kiedy nie docierają wiadomości? Czy formularz pokazuje błąd, czy potwierdzenie wysłania?',
     intro:
       'Brak maili z formularza nie zawsze oznacza, że sam formularz jest uszkodzony. Problem może leżeć w walidacji, funkcji wp_mail, konfiguracji serwera pocztowego, SMTP albo po stronie dostarczalności wiadomości. Najlepiej diagnozować te warstwy po kolei.',
     sections: [
@@ -101,6 +103,7 @@ export const wordpressGuides: WordPressGuide[] = [
     intent: 'Błąd HTTP 500',
     serviceHref: '/naprawa-wordpress',
     serviceLabel: 'Zgłoś błąd 500',
+    contactHint: 'Od kiedy widzisz błąd 500? Co zmieniło się tuż przed awarią?',
     intro:
       'HTTP 500 oznacza błąd po stronie serwera, ale sam kod nie mówi jeszcze, co go spowodowało. W WordPressie przyczyną może być PHP, wtyczka, motyw, konfiguracja serwera albo wyczerpanie zasobów. Najszybsza diagnostyka zaczyna się od logów, nie od losowego wyłączania wszystkiego.',
     sections: [
@@ -163,6 +166,7 @@ export const wordpressGuides: WordPressGuide[] = [
     intent: 'Awaria po aktualizacji',
     serviceHref: '/naprawa-wordpress',
     serviceLabel: 'Zgłoś awarię po aktualizacji',
+    contactHint: 'Co zostało zaktualizowane i kiedy? Która część strony przestała działać?',
     intro:
       'Po aktualizacji może wystąpić konflikt wersji, błąd PHP, zmiana CSS/JavaScriptu albo problem z cache. Najważniejsze jest zatrzymanie kolejnych przypadkowych zmian i ustalenie, co dokładnie zostało zaktualizowane.',
     sections: [
@@ -222,6 +226,7 @@ export const wordpressGuides: WordPressGuide[] = [
     intent: 'Wydajność / Core Web Vitals',
     serviceHref: '/opieka-wordpress',
     serviceLabel: 'Zapytaj o optymalizację i opiekę',
+    contactHint: 'Które podstrony są wolne? Od kiedy to zauważasz i czy problem występuje także na telefonie?',
     intro:
       '„Wolna strona” może oznaczać długi czas odpowiedzi serwera, ciężkie obrazy, zbyt dużo JavaScriptu, problemy z bazą albo niestabilny hosting. Bez pomiaru łatwo zoptymalizować element, który wcale nie jest głównym problemem.',
     sections: [
@@ -283,6 +288,7 @@ export const wordpressGuides: WordPressGuide[] = [
     intent: 'Błąd krytyczny / Recovery Mode',
     serviceHref: '/naprawa-wordpress',
     serviceLabel: 'Zgłoś błąd krytyczny WordPress',
+    contactHint: 'Jaki komunikat widzisz? Czy błąd pojawił się po aktualizacji lub innej zmianie?',
     intro:
       'Komunikat „W witrynie wystąpił błąd krytyczny” zwykle oznacza, że WordPress przechwycił fatalny błąd PHP. Źródłem może być wtyczka, motyw, własny kod albo środowisko serwera. WordPress może uruchomić Recovery Mode, ale nawet wtedy warto ustalić przyczynę w logach zamiast ograniczyć się do przypadkowego wyłączania elementów.',
     sections: [
@@ -350,6 +356,7 @@ export const wordpressGuides: WordPressGuide[] = [
     intent: 'WooCommerce / checkout',
     serviceHref: '/naprawa-wordpress',
     serviceLabel: 'Zgłoś problem z checkoutem WooCommerce',
+    contactHint: 'Na którym etapie zatrzymuje się zamówienie? Jaki komunikat widzi kupujący?',
     intro:
       'Awaria checkoutu bezpośrednio blokuje sprzedaż, dlatego diagnoza powinna być szybka, ale kontrolowana. Przyczyną może być JavaScript, AJAX, cache, bramka płatności, nieaktualny override szablonu, konflikt wtyczki albo błędna konfiguracja stron WooCommerce.',
     sections: [
@@ -418,6 +425,7 @@ export const wordpressGuides: WordPressGuide[] = [
     intent: 'Cena naprawy WordPress',
     serviceHref: '/naprawa-wordpress',
     serviceLabel: 'Sprawdź zakres naprawy WordPress',
+    contactHint: 'Co wymaga naprawy i od kiedy? Podaj adres strony oraz objaw.',
     intro:
       'Cena naprawy WordPress zależy przede wszystkim od tego, czy problem jest pojedynczy i możliwy do odtworzenia, czy dotyczy większej części serwisu. W CodeFix.IT mały, jasno zdefiniowany problem może wejść w Quick Fix od 390 zł. Jeśli diagnoza pokazuje szerszy zakres, najpierw dostajesz informację i osobną wycenę.',
     sections: [
@@ -478,6 +486,7 @@ export const wordpressGuides: WordPressGuide[] = [
     intent: 'Cena opieki WordPress',
     serviceHref: '/opieka-wordpress',
     serviceLabel: 'Zobacz opiekę WordPress od 300 zł/mies.',
+    contactHint: 'Jakiej stałej pomocy potrzebujesz? Podaj adres strony i najważniejsze zadania.',
     intro:
       'Opieka WordPress nie powinna być pustym abonamentem za samo kliknięcie aktualizacji. W CodeFix.IT prosty zakres zaczyna się od 300 zł miesięcznie, a ostateczna cena zależy od liczby stron, częstotliwości zmian, hostingu, oczekiwanego czasu reakcji i tego, ile pracy rozwojowej ma mieścić się w pakiecie.',
     sections: [
@@ -537,6 +546,7 @@ export const wordpressGuides: WordPressGuide[] = [
     intent: 'Cena strony WordPress',
     serviceHref: '/strony-wordpress',
     serviceLabel: 'Wyceń stronę WordPress dla firmy',
+    contactHint: 'Co oferuje Twoja firma? Co odwiedzający ma zrobić na nowej stronie?',
     intro:
       'Nie podaję jednej ceny dla każdej strony firmowej, bo pięciosekcyjna wizytówka i rozbudowany serwis z integracjami to dwa różne projekty. W CodeFix.IT wycena powstaje po krótkim briefie i obejmuje uzgodniony zakres, WordPress + ACF PRO, wersję mobilną, formularz oraz techniczne podstawy SEO.',
     sections: [
