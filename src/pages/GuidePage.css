@@ -392,7 +392,8 @@
 
 .guide-body h2[id],
 .guide-faq h2[id] {
-  scroll-margin-top: 160px;
+  /* Together with the global 100px scroll-padding, clear the header and contents. */
+  scroll-margin-top: 60px;
 }
 
 .guide-body section {

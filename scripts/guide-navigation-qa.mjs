@@ -94,7 +94,9 @@ for (const [engine, type] of [
                 box &&
                 header &&
                 contents &&
-                box.top >= Math.max(header.bottom, contents.bottom) + 8 &&
+                contents.top >= header.bottom &&
+                contents.bottom <= window.innerHeight &&
+                box.top >= Math.max(header.bottom, contents.bottom) + 4 &&
                 box.bottom <= window.innerHeight
               )
             }, id)
