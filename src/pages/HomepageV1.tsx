@@ -219,6 +219,7 @@ export function HomepageV1() {
   );
   const [doctorHint, setDoctorHint] = useState('');
   const briefFormRef = useRef<HTMLFormElement | null>(null);
+  const doctorDetailsRef = useRef<HTMLDetailsElement | null>(null);
   const [estimatorOpen, setEstimatorOpen] = useState(false);
   const [estimatorStarted, setEstimatorStarted] = useState(false);
   const [projectBrief, setProjectBrief] = useState<ProjectBrief | null>(null);
@@ -235,6 +236,10 @@ export function HomepageV1() {
   const feedbackRef = useRef<HTMLDivElement | null>(null);
   const [contactAreaVisible, setContactAreaVisible] = useState(false);
   const [layoutReady, setLayoutReady] = useState(false);
+
+  useEffect(() => {
+    if (doctorIncluded && doctorDetailsRef.current) doctorDetailsRef.current.open = true;
+  }, [doctorIncluded]);
 
   useLayoutEffect(() => {
     if (previousBriefStep.current === briefStep && !referenceFocusPending.current) return;
@@ -1486,7 +1491,7 @@ export function HomepageV1() {
                         </div>
                       )}
 
-                      <details className="cf-doctor-attachment" defaultOpen={doctorIncluded}>
+                      <details className="cf-doctor-attachment" ref={doctorDetailsRef}>
                         <summary>
                           Dołącz wynik AI Site Doctor <small>opcjonalnie</small>
                         </summary>
