@@ -36,6 +36,7 @@ import {
 import { mergeProjectBrief } from '../lib/project-estimator';
 import {
   deleteDoctorHandoff,
+  doctorPageUrl,
   DOCTOR_HANDOFF_LIMIT,
   readDoctorHandoff,
 } from '../lib/site-doctor-handoff';
@@ -558,6 +559,7 @@ export function HomepageV1() {
     .filter(Boolean)
     .join('\n\n');
   const serviceLabel = briefServices.find(([value]) => value === selectedService)?.[1] ?? '';
+  const defaultDoctorPageUrl = doctorPageUrl(doctorAttachment);
   const doctorText = doctorIncluded && doctorAttachment.trim()
     ? doctorAttachment.trim()
     : '';
@@ -580,6 +582,8 @@ export function HomepageV1() {
     }
     setDoctorAttachment(stored.summary);
     setDoctorIncluded(true);
+    const pageField = briefFormRef.current?.querySelector<HTMLInputElement>('[name="pageUrl"]');
+    if (pageField && !pageField.value.trim()) pageField.value = doctorPageUrl(stored.summary);
     setDoctorHint('Raport jest dołączony. Możesz go usunąć przed wysłaniem.');
   }
 
@@ -1460,6 +1464,7 @@ export function HomepageV1() {
                         label="Adres strony"
                         name="pageUrl"
                         type="url"
+                        defaultValue={defaultDoctorPageUrl}
                         inputMode="url"
                         autoComplete="url"
                         autoCapitalize="none"
