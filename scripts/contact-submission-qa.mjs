@@ -223,6 +223,10 @@ for (const [engine, type] of [
           const nativeInlineValidation = pageKind === 'service' && test.name === 'none'
           if (nativeInlineValidation) {
             assert.equal(await form.locator('[aria-invalid="true"]').count(), 0)
+            assert.equal(
+              await form.locator('[name="name"]').evaluate((el) => el.validity.customError),
+              false,
+            )
             await form.locator('button[type="submit"]').press('Enter')
             const name = form.locator('[name="name"]')
             assert.equal(await name.getAttribute('aria-invalid'), 'true')

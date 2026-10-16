@@ -15,6 +15,7 @@ export function leadFieldError(field: LeadFieldElement) {
         ? 'Podaj poprawny e-mail, np. imie@firma.pl.'
         : 'Podaj pełny adres, np. https://twojastrona.pl.'
   else if (!field.validity.valid) error = field.validationMessage
-  field.setCustomValidity(error)
+  // Native required validation clears when an untouched empty field is restored/autofilled.
+  if (field.value) field.setCustomValidity(error)
   return error
 }

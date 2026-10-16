@@ -100,6 +100,7 @@ for (const [engine, type] of [
         ])
         assert.equal(await form.locator('.cf-brief-progress [aria-current]').innerText(), 'Temat')
         assert.equal(await form.locator('[aria-invalid="true"]').count(), 0)
+        assert.equal(await field('email').evaluate((el) => el.validity.customError), false)
         for (const choice of await form
           .getByRole('group', { name: 'Wybierz temat', exact: true })
           .getByRole('button')
