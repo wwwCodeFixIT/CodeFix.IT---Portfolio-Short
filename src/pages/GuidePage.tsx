@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { WordPressGuide } from '../data/wordpress-guides';
 import { Brand } from '../components/Brand';
 import { markGuideToServiceJourney } from '../lib/conversion-journey';
@@ -38,6 +38,14 @@ const guideGroups = [
     serviceLabel: 'Strony WordPress — wycena',
   },
 ] as const;
+
+function normalizeSearch(value: string) {
+  return value.toLowerCase().normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/ł/g, 'l')
+    .replace(/\b(?:e-?)?mail[ei]?\b/g, 'mail')
+    .replace(/[^a-z0-9]+/g, ' ').trim();
+}
 
 function schemaFor(guide: WordPressGuide) {
   const url = `https://codefix.it/poradniki/${guide.slug}/`;
@@ -100,6 +108,20 @@ function schemaFor(guide: WordPressGuide) {
 }
 
 export function GuidesIndex({ wordpressGuides }: { wordpressGuides: WordPressGuide[] }) {
+  const [query, setQuery] = useState('');
+  const searchInput = useRef<HTMLInputElement>(null);
+  const terms = normalizeSearch(query).split(' ').filter(Boolean);
+  const isSearching = terms.length > 0;
+  const matchingGuides = wordpressGuides.filter((guide) => {
+    const text = normalizeSearch(`${guide.title} ${guide.description} ${guide.intent}`);
+    return terms.every((term) => text.includes(term));
+  });
+
+  function clearSearch() {
+    setQuery('');
+    searchInput.current?.focus();
+  }
+
   useEffect(() => {
     document.title = 'Poradniki WordPress — naprawa, opieka i wyceny | CodeFix.IT';
     const description =
@@ -114,7 +136,9 @@ export function GuidesIndex({ wordpressGuides }: { wordpressGuides: WordPressGui
   }, []);
 
   return (
-    <div className="homepage-v1 guide-page">
+    // Filtering can make the page very short. Keep the footer's real height so
+    // WebKit does not clamp scroll between pointerdown and pointerup on reset.
+    <div className="homepage-v1 guide-page cf-layout-ready">
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand />
@@ -133,23 +157,61 @@ export function GuidesIndex({ wordpressGuides }: { wordpressGuides: WordPressGui
           </a>
           <p className="cf-section-kicker">PORADNIKI / WORDPRESS</p>
           <h1>Poradniki WordPress.<br/><span>Naprawa, opieka i wyceny.</span></h1>
-          <p>
-            {wordpressGuides.length} praktycznych poradników: od diagnozy błędów i WooCommerce po wydajność,
-            opiekę, koszty naprawy i wycenę nowej strony WordPress.
+          <p className="guide-index-intro">
+            Znajdź rozwiązanie problemu lub sprawdź koszt naprawy, opieki i nowej strony.
           </p>
 
-          <nav className="guide-index-nav" aria-label="Kategorie poradników">
+          <form className="guide-search" role="search" onSubmit={(event) => event.preventDefault()}>
+            <label htmlFor="guide-search">Znajdź poradnik</label>
+            <div className="guide-search-control">
+              <input
+                ref={searchInput}
+                id="guide-search"
+                type="search"
+                placeholder="Np. błąd 500, maile, koszt opieki"
+                autoComplete="off"
+                maxLength={120}
+                value={query}
+                aria-controls="guide-results"
+                onChange={(event) => setQuery(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === 'Escape' && query) {
+                    event.preventDefault();
+                    clearSearch();
+                  }
+                }}
+              />
+              {query && <button type="button" onClick={clearSearch}>Wyczyść</button>}
+            </div>
+            <p role="status" aria-atomic="true">
+              {isSearching
+                ? `Znaleziono: ${matchingGuides.length} z ${wordpressGuides.length}.`
+                : `Wszystkie poradniki: ${wordpressGuides.length}.`}
+            </p>
+          </form>
+
+          {!isSearching && <nav className="guide-index-nav" aria-label="Kategorie poradników">
             {guideGroups.map((group) => (
               <a href={`#${group.id}`} key={group.id}>
                 {group.title}
               </a>
             ))}
-          </nav>
+          </nav>}
         </section>
 
-        <div className="cf-container guide-index-sections">
+        <div className="cf-container guide-index-sections" id="guide-results">
+          {matchingGuides.length === 0 && (
+            <section className="guide-search-empty" aria-labelledby="guide-empty-title">
+              <h2 id="guide-empty-title">Spróbuj krótszego hasła.</h2>
+              <p>Wpisz np. „maile”, „500” albo „opieka”.</p>
+              <button type="button" className="cf-button cf-button-secondary" onClick={clearSearch}>
+                Zobacz wszystkie poradniki
+              </button>
+            </section>
+          )}
           {guideGroups.map((group) => {
-            const guides = wordpressGuides.filter((guide) => guide.serviceHref === group.serviceHref);
+            const guides = matchingGuides.filter((guide) => guide.serviceHref === group.serviceHref);
+            if (!guides.length) return null;
 
             return (
               <section className="guide-index-group" id={group.id} key={group.id} aria-labelledby={`${group.id}-title`}>

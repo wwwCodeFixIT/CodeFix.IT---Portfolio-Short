@@ -40,12 +40,86 @@
   color: #797982;
 }
 
-.guide-index-hero > p:last-child {
+.guide-index-intro {
   max-width: 720px;
   margin: 26px 0 0;
   color: #96969e;
   font-size: 17px;
   line-height: 1.7;
+}
+
+.guide-search {
+  max-width: 720px;
+  margin-top: 28px;
+}
+
+.guide-search label {
+  display: block;
+  margin-bottom: 9px;
+  color: #d0d0d5;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.guide-search-control {
+  display: flex;
+  gap: 8px;
+}
+
+.guide-search input {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px;
+  border: 1px solid #62626b;
+  border-radius: 9px;
+  background: #111113;
+  color: #f1f1f3;
+  font: inherit;
+  font-size: 16px;
+}
+
+.guide-search input::placeholder {
+  color: #9797a0;
+}
+
+.guide-search input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+}
+
+.guide-search button {
+  min-height: 48px;
+  padding: 0 12px;
+  border: 1px solid #62626b;
+  border-radius: 9px;
+  background: #18181b;
+  color: #e4e4e8;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.guide-search :focus-visible,
+.guide-search-empty button:focus-visible {
+  outline: 2px solid #ff878c;
+  outline-offset: 3px;
+}
+
+.guide-search > p,
+.guide-search-empty > p {
+  color: #a0a0a9;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-search > p {
+  margin: 10px 0 0;
+}
+
+.guide-search-empty h2 {
+  margin: 0;
+  font-size: 24px;
+  letter-spacing: -.035em;
 }
 
 .guide-index-nav {
