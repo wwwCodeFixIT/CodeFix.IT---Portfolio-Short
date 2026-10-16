@@ -1,10 +1,12 @@
 /* LAB-3 real-browser E2E. All provider/CRM traffic is mocked; no live leads. */
 import assert from 'node:assert/strict';
+import { mkdir } from 'node:fs/promises';
 import { createRequire } from 'node:module';
 
 const require = createRequire(new URL('../.qa-tools/package.json', import.meta.url));
 const { chromium } = require('playwright');
 const origin = 'http://127.0.0.1:4173';
+await mkdir('qa-results/site-doctor', { recursive: true });
 
 const sample = {
   url: 'https://example.org/',
@@ -94,12 +96,14 @@ try {
     await page.locator('.cf-doctor-form input[type="url"]').fill('https://example.org/');
     await page.getByRole('button', { name: /Uruchom diagnozę/ }).click();
     await page.getByRole('heading', { name: 'Raport diagnostyczny' }).waitFor();
+    await page.locator('.cf-doctor-results').screenshot({ path: `qa-results/site-doctor/${width}-diagnosis.png` });
     await page.getByRole('button', { name: /Dołącz diagnozę do zapytania/ }).click();
     await page.waitForURL(/doctor=1/);
     await dismissConsent();
     await stepToDetails();
     const attach = page.locator('.cf-doctor-attachment');
     assert.equal(await attach.evaluate((node) => node.open), true, 'Attachment should open');
+    await attach.screenshot({ path: `qa-results/site-doctor/${width}-handoff-form.png` });
     const checkbox = attach.getByRole('checkbox', { name: /Dołącz ten raport/ });
     assert.equal(await checkbox.isChecked(), true, 'Explicit handoff should preselect report');
     const summary = await attach.locator('textarea').inputValue();
@@ -115,17 +119,32 @@ try {
     assert.equal(afterSuccess, null, 'Handoff should be deleted after sending');
     assert.deepEqual(pageErrors, [], 'Frontend errors in handoff flow');
 
-    // Path B: explicit report removal must not leak into a later standard request.
-    const secondPage = await context.newPage();
-    secondPage.on('pageerror', (error) => pageErrors.push(error.message));
-    await secondPage.goto(origin + '/?service=WORDPRESS_QUICK_FIX#contact', { waitUntil: 'domcontentloaded' });
-    const choose = secondPage.locator('.cf-brief-choices');
-    await choose.getByRole('button', { name: 'Naprawa WordPress', exact: true }).click();
-    await secondPage.locator('.cf-lead-form').getByRole('button', { name: 'Dalej', exact: true }).click();
-    await secondPage.locator('[data-brief-step="1"]:not([hidden])').waitFor();
-    assert.equal(await secondPage.locator('.cf-doctor-attachment input[type=checkbox]').isChecked(), false);
-    assert.equal(await secondPage.locator('.cf-doctor-attachment textarea').inputValue(), '');
-    await secondPage.close();
+    // Path B: transfer a second report, then remove it before submitting.
+    await page.goto(origin + '/narzedzia/', { waitUntil: 'domcontentloaded' });
+    await page.locator('.cf-doctor-form input[type="url"]').fill('https://example.org/');
+    await page.getByRole('button', { name: /Uruchom diagnozę/ }).click();
+    await page.getByRole('heading', { name: 'Raport diagnostyczny' }).waitFor();
+    await page.getByRole('button', { name: /Dołącz diagnozę do zapytania/ }).click();
+    await page.waitForURL(/doctor=1/);
+    await stepToDetails();
+    const removable = page.locator('.cf-doctor-attachment');
+    assert.equal(await removable.getByRole('checkbox', { name: /Dołącz ten raport/ }).isChecked(), true);
+    await removable.getByRole('button', { name: 'Usuń raport' }).click();
+    assert.equal(await removable.locator('textarea').inputValue(), '');
+    assert.equal(await removable.getByRole('checkbox', { name: /Dołącz ten raport/ }).isChecked(), false);
+    assert.equal(await page.evaluate(() => sessionStorage.getItem('codefix_site_doctor_handoff_v1')), null);
+    const withoutReport = await submitFromDetails();
+    assert.ok(!withoutReport.message.includes('ZAŁĄCZONY RAPORT AI SITE DOCTOR'));
+    assert.deepEqual(pageErrors, [], 'Frontend errors after removal');
+
+    // Path C: standard visitor never enables or sends a diagnostic attachment.
+    await page.goto(origin + '/?service=WORDPRESS_QUICK_FIX#contact', { waitUntil: 'domcontentloaded' });
+    await stepToDetails();
+    assert.equal(await page.locator('.cf-doctor-attachment input[type=checkbox]').isChecked(), false);
+    assert.equal(await page.locator('.cf-doctor-attachment textarea').inputValue(), '');
+    const standard = await submitFromDetails();
+    assert.ok(!standard.message.includes('ZAŁĄCZONY RAPORT AI SITE DOCTOR'));
+    assert.equal(leadPayloads.length, 3, 'Expected only mocked CRM submissions');
     assert.deepEqual(pageErrors, [], 'Frontend errors in standard flow');
 
     console.log('Site Doctor browser QA PASS at ' + width + 'px (mocked PageSpeed and CRM).');
