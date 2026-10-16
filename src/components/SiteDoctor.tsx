@@ -142,7 +142,7 @@ export default function SiteDoctor() {
   function handoffToContact() {
     if (!report) return;
     const summary = buildDoctorHandoff(report);
-    let saved = false;
+    let saved: boolean;
     try { saved = writeDoctorHandoff(window.sessionStorage, summary); }
     catch { saved = false; }
 
