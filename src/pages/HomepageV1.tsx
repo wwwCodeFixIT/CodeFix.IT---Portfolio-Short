@@ -34,6 +34,11 @@ import {
   trackMeasurementEvent,
 } from '../lib/measurement';
 import { mergeProjectBrief } from '../lib/project-estimator';
+import {
+  deleteDoctorHandoff,
+  DOCTOR_HANDOFF_LIMIT,
+  readDoctorHandoff,
+} from '../lib/site-doctor-handoff';
 import type { ProjectBrief } from '../lib/project-estimator';
 import {
   clearFunnelSession,
@@ -199,6 +204,19 @@ export function HomepageV1() {
   const [freeProjectRequested, setFreeProjectRequested] = useState(false);
   const previousBriefStep = useRef(0);
   const [briefSummary, setBriefSummary] = useState({ pageUrl: '', message: '' });
+  const [doctorAttachment, setDoctorAttachment] = useState(() => {
+    if (new URL(window.location.href).searchParams.get('doctor') !== '1') return '';
+    try { return readDoctorHandoff(window.sessionStorage)?.summary ?? ''; }
+    catch { return ''; }
+  });
+  const [doctorIncluded, setDoctorIncluded] = useState(() =>
+    new URL(window.location.href).searchParams.get('doctor') === '1' &&
+    (() => {
+      try { return Boolean(readDoctorHandoff(window.sessionStorage)); }
+      catch { return false; }
+    })(),
+  );
+  const [doctorHint, setDoctorHint] = useState('');
   const briefFormRef = useRef<HTMLFormElement | null>(null);
   const [estimatorOpen, setEstimatorOpen] = useState(false);
   const [estimatorStarted, setEstimatorStarted] = useState(false);
@@ -540,12 +558,38 @@ export function HomepageV1() {
     .filter(Boolean)
     .join('\n\n');
   const serviceLabel = briefServices.find(([value]) => value === selectedService)?.[1] ?? '';
+  const doctorText = doctorIncluded && doctorAttachment.trim()
+    ? doctorAttachment.trim()
+    : '';
   const messageLimit = Math.max(
     0,
     4000 -
       (projectBrief ? projectBrief.brief.length + 2 : 0) -
-      (supplementText ? supplementText.length + 2 : 0),
+      (supplementText ? supplementText.length + 2 : 0) -
+      (doctorText ? doctorText.length + 2 : 0),
   );
+
+  function loadRecentDoctorReport() {
+    let stored: ReturnType<typeof readDoctorHandoff> = null;
+    try { stored = readDoctorHandoff(window.sessionStorage); }
+    catch { /* private mode */ }
+
+    if (!stored) {
+      setDoctorHint('Brak aktualnego raportu. Wykonaj diagnozę lub wklej wynik ręcznie.');
+      return;
+    }
+    setDoctorAttachment(stored.summary);
+    setDoctorIncluded(true);
+    setDoctorHint('Raport jest dołączony. Możesz go usunąć przed wysłaniem.');
+  }
+
+  function removeDoctorReport() {
+    setDoctorIncluded(false);
+    setDoctorAttachment('');
+    setDoctorHint('Usunięto raport ze zgłoszenia.');
+    try { deleteDoctorHandoff(window.sessionStorage); }
+    catch { /* storage unavailable */ }
+  }
 
   function toggleBriefOption(option: string) {
     setBriefOptions((current) =>
@@ -555,7 +599,7 @@ export function HomepageV1() {
 
   function briefMessage(description: string) {
     return mergeProjectBrief(
-      [description.trim(), supplementText].filter(Boolean).join('\n\n'),
+      [description.trim(), supplementText, doctorText].filter(Boolean).join('\n\n'),
       projectBrief,
     );
   }
@@ -694,6 +738,11 @@ export function HomepageV1() {
       clearConversionJourney();
       setProjectBrief(null);
       setReferenceProject(null);
+      setDoctorAttachment('');
+      setDoctorIncluded(false);
+      setDoctorHint('');
+      try { deleteDoctorHandoff(window.sessionStorage); }
+      catch { /* storage unavailable */ }
       if (!result.duplicate) clearFunnelSession();
       setSelectedService('');
       setBriefStep(0);
@@ -1432,6 +1481,54 @@ export function HomepageV1() {
                         </div>
                       )}
 
+                      <details className="cf-doctor-attachment" defaultOpen={doctorIncluded}>
+                        <summary>
+                          Dołącz wynik AI Site Doctor <small>opcjonalnie</small>
+                        </summary>
+                        <div className="cf-doctor-attachment-body">
+                          <p>
+                            Możesz dołączyć wynik pomiaru do zapytania. Jest to osobna funkcja
+                            — zwykły formularz działa bez diagnozy i bez dodatkowych kosztów.
+                          </p>
+                          <div className="cf-doctor-attachment-actions">
+                            <a href="/narzedzia/">Uruchom Site Doctor →</a>
+                            <button type="button" onClick={loadRecentDoctorReport}>
+                              Wstaw ostatni wynik
+                            </button>
+                          </div>
+                          <label htmlFor="cf-doctor-report-text">
+                            Raport do przekazania <small>maks. {DOCTOR_HANDOFF_LIMIT} znaków</small>
+                          </label>
+                          <textarea
+                            id="cf-doctor-report-text"
+                            rows={5}
+                            maxLength={DOCTOR_HANDOFF_LIMIT}
+                            value={doctorAttachment}
+                            onChange={(event) => {
+                              setDoctorAttachment(event.currentTarget.value);
+                              setDoctorIncluded(false);
+                              setDoctorHint('Zmieniono raport. Zaznacz poniżej, aby go dołączyć.');
+                            }}
+                            placeholder="Wklej skopiowany raport Site Doctor albo wybierz „Wstaw ostatni wynik”."
+                          />
+                          <label className="cf-doctor-attachment-checkbox">
+                            <input
+                              type="checkbox"
+                              checked={doctorIncluded}
+                              disabled={!doctorAttachment.trim()}
+                              onChange={(event) => setDoctorIncluded(event.currentTarget.checked)}
+                            />
+                            <span>Dołącz ten raport do treści zgłoszenia</span>
+                          </label>
+                          {doctorAttachment && (
+                            <button type="button" onClick={removeDoctorReport}>
+                              Usuń raport
+                            </button>
+                          )}
+                          <p role="status">{doctorHint}</p>
+                        </div>
+                      </details>
+
                       <LeadField
                         label={projectBrief ? 'Dodatkowe informacje' : 'Co trzeba zrobić?'}
                         name="message"
@@ -1457,6 +1554,7 @@ export function HomepageV1() {
                         {scopeText && <p className="cf-brief-scope">{scopeText}</p>}
                         {freeProjectRequested && <p>{freeProject.requestLabel}</p>}
                         {projectBrief && <p>Zakres z kalkulatora dołączony.</p>}
+                        {doctorText && <p>Dołączono raport Site Doctor ({doctorText.length} znaków).</p>}
                         {referenceProject && (
                           <ProjectReference
                             project={referenceProject}
