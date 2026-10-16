@@ -13,6 +13,7 @@ import {
 import { Brand } from '../components/Brand';
 import { HeroEmblem, HeroExperience } from '../components/HeroExperience';
 import { HeroServicePicker } from '../components/HeroServicePicker';
+import { LeadField } from '../components/LeadField';
 import {
   ProjectPreview,
   ProjectPreviewGroup,
@@ -24,6 +25,8 @@ import homepageContent from '../data/homepage-content.json';
 import { captureSessionAttribution } from '../lib/attribution';
 import { clearConversionJourney, readConversionJourney } from '../lib/conversion-journey';
 import { readLeadResponse } from '../lib/lead-response';
+import { leadFieldError } from '../lib/lead-field';
+import type { LeadFieldElement } from '../lib/lead-field';
 import {
   measureAcceptedLead,
   openMeasurementSettings,
@@ -199,6 +202,7 @@ export function HomepageV1() {
   const [projectBrief, setProjectBrief] = useState<ProjectBrief | null>(null);
   const [referenceProject, setReferenceProject] = useState<Project | null>(null);
   const referenceFocusPending = useRef(false);
+  const invalidFieldFocus = useRef<LeadFieldElement | null>(null);
   const [attribution] = useState(captureSessionAttribution);
   const formStartTracked = useRef(false);
   const formViewTracked = useRef(false);
@@ -217,8 +221,10 @@ export function HomepageV1() {
     const heading = briefFormRef.current?.querySelector<HTMLElement>(
       `[data-brief-step="${briefStep}"] [data-step-heading]`,
     );
-    heading?.focus({ preventScroll: true });
-    heading?.scrollIntoView({ block: 'center', behavior: 'instant' });
+    const target = invalidFieldFocus.current ?? heading;
+    invalidFieldFocus.current = null;
+    target?.focus({ preventScroll: true });
+    target?.scrollIntoView({ block: 'center', behavior: 'instant' });
   }, [briefStep, referenceProject]);
 
   useEffect(() => {
@@ -566,17 +572,12 @@ export function HomepageV1() {
       `[data-brief-step="${step}"] input, [data-brief-step="${step}"] textarea`,
     );
     for (const field of fields ?? []) {
-      field.setCustomValidity('');
-      // WebKit does not consistently apply minlength to restored/programmatic values.
-      if (field.value && field.minLength > 0 && field.value.trim().length < field.minLength) {
-        field.setCustomValidity(`Minimalna liczba znaków: ${field.minLength}.`);
-      }
-      if (field.maxLength >= 0 && field.value.length > field.maxLength) {
-        field.setCustomValidity(`Maksymalna liczba znaków: ${field.maxLength}.`);
-      }
+      leadFieldError(field);
       if (!field.checkValidity()) {
-        if (briefStep !== step) goToBriefStep(step);
-        window.requestAnimationFrame(() => field.reportValidity());
+        if (briefStep !== step) {
+          invalidFieldFocus.current = field;
+          goToBriefStep(step);
+        } else field.focus();
         return false;
       }
     }
@@ -1327,23 +1328,18 @@ export function HomepageV1() {
                         )}
                       </details>
 
-                      <label>
-                        <span>
-                          Adres strony{' '}
-                          {selectedService !== miniAuditService && <small>opcjonalnie</small>}
-                        </span>
-                        <input
-                          name="pageUrl"
-                          type="url"
-                          inputMode="url"
-                          autoComplete="url"
-                          autoCapitalize="none"
-                          enterKeyHint="next"
-                          placeholder="https://twojastrona.pl"
-                          maxLength={500}
-                          required={selectedService === miniAuditService}
-                        />
-                      </label>
+                      <LeadField
+                        label="Adres strony"
+                        name="pageUrl"
+                        type="url"
+                        inputMode="url"
+                        autoComplete="url"
+                        autoCapitalize="none"
+                        enterKeyHint="next"
+                        placeholder="https://twojastrona.pl"
+                        maxLength={500}
+                        required={selectedService === miniAuditService}
+                      />
 
                       {projectBrief && (
                         <div className="cf-estimator-attachment">
@@ -1357,21 +1353,15 @@ export function HomepageV1() {
                         </div>
                       )}
 
-                      <label>
-                        <span>
-                          {projectBrief
-                            ? 'Dodatkowe informacje (opcjonalnie)'
-                            : 'Co trzeba zrobić?'}
-                        </span>
-                        <textarea
-                          name="message"
-                          rows={5}
-                          minLength={projectBrief ? undefined : 10}
-                          maxLength={messageLimit}
-                          placeholder={messagePlaceholder}
-                          required={!projectBrief}
-                        />
-                      </label>
+                      <LeadField
+                        label={projectBrief ? 'Dodatkowe informacje' : 'Co trzeba zrobić?'}
+                        name="message"
+                        rows={5}
+                        minLength={projectBrief ? undefined : 10}
+                        maxLength={messageLimit}
+                        placeholder={messagePlaceholder}
+                        required={!projectBrief}
+                      />
                     </div>
                     <div data-brief-step="2" hidden={briefStep !== 2}>
                       <h3 tabIndex={-1} data-step-heading>
@@ -1414,49 +1404,42 @@ export function HomepageV1() {
                         </div>
                       </div>
                       <div className="cf-form-row">
-                        <label>
-                          <span>Imię / osoba kontaktowa</span>
-                          <input
-                            name="name"
-                            type="text"
-                            autoComplete="name"
-                            autoCapitalize="words"
-                            enterKeyHint="next"
-                            minLength={2}
-                            maxLength={120}
-                            required
-                          />
-                        </label>
-                        <label>
-                          <span>E-mail</span>
-                          <input
-                            name="email"
-                            type="email"
-                            inputMode="email"
-                            autoComplete="email"
-                            autoCapitalize="none"
-                            enterKeyHint="next"
-                            maxLength={254}
-                            required
-                          />
-                        </label>
+                        <LeadField
+                          label="Imię / osoba kontaktowa"
+                          name="name"
+                          type="text"
+                          autoComplete="name"
+                          autoCapitalize="words"
+                          enterKeyHint="next"
+                          minLength={2}
+                          maxLength={120}
+                          required
+                        />
+                        <LeadField
+                          label="E-mail"
+                          name="email"
+                          type="email"
+                          inputMode="email"
+                          autoComplete="email"
+                          autoCapitalize="none"
+                          enterKeyHint="next"
+                          maxLength={254}
+                          required
+                        />
                       </div>
 
                       {showCompanyField && (
-                        <label>
-                          <span>
-                            {selectedService === agencyService ? 'Nazwa agencji / firmy' : 'Firma'}{' '}
-                            <small>opcjonalnie</small>
-                          </span>
-                          <input
-                            name="company"
-                            type="text"
-                            autoComplete="organization"
-                            autoCapitalize="words"
-                            enterKeyHint="next"
-                            maxLength={160}
-                          />
-                        </label>
+                        <LeadField
+                          label={
+                            selectedService === agencyService ? 'Nazwa agencji / firmy' : 'Firma'
+                          }
+                          name="company"
+                          type="text"
+                          autoComplete="organization"
+                          autoCapitalize="words"
+                          enterKeyHint="next"
+                          maxLength={160}
+                        />
                       )}
                     </div>
                     <label className="cf-form-honeypot" aria-hidden="true">

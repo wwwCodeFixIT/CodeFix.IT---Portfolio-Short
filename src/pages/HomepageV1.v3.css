@@ -536,6 +536,20 @@
   display: grid;
   gap: 7px;
 }
+.cf-lead-field {
+  display: grid;
+  gap: 7px;
+  min-width: 0;
+}
+.cf-field-error {
+  color: #ffb4b8;
+  font-size: 13px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.cf-lead-form [aria-invalid='true'] {
+  border-color: #ff878c;
+}
 
 .cf-lead-form label > span {
   color: #d2d2d8;

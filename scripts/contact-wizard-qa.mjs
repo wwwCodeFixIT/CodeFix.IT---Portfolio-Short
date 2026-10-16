@@ -79,6 +79,16 @@ for (const [engine, type] of [
           })
         }
         const form = page.locator('form.cf-lead-form')
+        const field = (name) => form.locator(`[name="${name}"]`)
+        const inlineError = async (name, pattern) => {
+          assert.equal(await field(name).getAttribute('aria-invalid'), 'true')
+          const message = await field(name).evaluate((el) => {
+            const error = document.getElementById(el.getAttribute('aria-describedby'))
+            return { text: error?.textContent, role: error?.getAttribute('role') }
+          })
+          assert.match(message.text, pattern)
+          assert.equal(message.role, 'alert')
+        }
         const next = form.getByRole('button', { name: 'Dalej', exact: true })
         const copy = () => form.getByRole('button', { name: 'Skopiuj brief', exact: true })
         const copied = () => form.getByRole('button', { name: 'Skopiowano', exact: true })
@@ -89,6 +99,7 @@ for (const [engine, type] of [
           'Kontakt',
         ])
         assert.equal(await form.locator('.cf-brief-progress [aria-current]').innerText(), 'Temat')
+        assert.equal(await form.locator('[aria-invalid="true"]').count(), 0)
         for (const choice of await form
           .getByRole('group', { name: 'Wybierz temat', exact: true })
           .getByRole('button')
@@ -130,10 +141,17 @@ for (const [engine, type] of [
         await form.locator('[name="message"]').fill('Krótki opis problemu na stronie.')
         await next.click()
         assert.equal(await step(), '1')
+        await inlineError('pageUrl', /Uzupełnij/)
+        assert.equal(await field('pageUrl').evaluate((el) => el === document.activeElement), true)
+        await field('pageUrl').fill('not-an-address')
+        await inlineError('pageUrl', /https:\/\/twojastrona/)
         await form.locator('[name="pageUrl"]').fill('https://example.invalid/')
+        assert.equal(await field('pageUrl').getAttribute('aria-invalid'), null)
+        assert.equal(await field('pageUrl').getAttribute('aria-describedby'), null)
         await form.locator('[name="message"]').fill('Krótko')
         await next.click()
         assert.equal(await step(), '1')
+        await inlineError('message', /Minimalna.*10/)
         // Adding scope must preserve long text and enforce the combined CRM limit.
         await form.locator('[name="message"]').fill('x'.repeat(3999))
         assert.equal(scopeChunkRequests, 0)
@@ -156,8 +174,19 @@ for (const [engine, type] of [
           await form.locator('[name="message"]').evaluate((el) => el.validationMessage),
           /Maksymalna/,
         )
+        await inlineError('message', /Maksymalna/)
+        // Removing scope updates validity and feedback without truncating existing text.
+        for (const name of ['Szybkość działania', 'Formularz kontaktowy'])
+          await form.getByRole('button', { name, exact: true }).press('Enter')
+        assert.equal(await field('message').getAttribute('aria-invalid'), null)
+        assert.equal(await field('message').inputValue(), 'x'.repeat(3999))
+        assert.equal(await field('message').evaluate((el) => el.maxLength), 4000)
+        for (const name of ['Szybkość działania', 'Formularz kontaktowy'])
+          await form.getByRole('button', { name, exact: true }).press('Enter')
+        await inlineError('message', /Maksymalna/)
         const note = 'Formularz nie wysyła wiadomości po aktualizacji.'
         await form.locator('[name="message"]').fill(note)
+        assert.equal(await field('message').getAttribute('aria-invalid'), null)
         await next.click()
         assert.equal(await step(), '2')
         assert.match(await form.locator('.cf-brief-summary').innerText(), /example.invalid/)
@@ -183,7 +212,13 @@ for (const [engine, type] of [
           await form.locator('[name="email"]').evaluate((el) => el.validity.valid),
           false,
         )
-        // Native validation focuses the field on the next animation frame.
+        // Inline validation focuses synchronously, without an animation-frame race.
+        await inlineError('email', /Podaj poprawny e-mail/)
+        assert.equal(await field('email').evaluate((el) => el === document.activeElement), true)
+        await field('email').fill('wizard@example.invalid')
+        assert.equal(await field('email').getAttribute('aria-invalid'), null)
+        await field('email').fill('invalid')
+        await inlineError('email', /Podaj poprawny e-mail/)
         await page.waitForFunction(() => document.activeElement?.getAttribute('name') === 'email')
         const expectedBrief = `Temat: Mini-ocena strony\n\nAdres strony: https://example.invalid/\n\n${note}\n\nWybrany zakres: Szybkość działania, Formularz kontaktowy.`
         await copy().press('Enter')
@@ -363,6 +398,15 @@ for (const [engine, type] of [
           clipboard: ['success', 'denied', 'unavailable', 'pending', 'edited', 'calculator'],
           copyLazyChunkRequests: copyChunkRequests,
           motionPreference: true,
+          inlineValidation: [
+            'required',
+            'url',
+            'min-length',
+            'email',
+            'max-length',
+            'scope-change',
+            'clear-on-input',
+          ],
           liveLeadRequests: 0,
         }
         results.push(result)

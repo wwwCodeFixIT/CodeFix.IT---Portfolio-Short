@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 
 import { Brand } from '../components/Brand';
+import { LeadField } from '../components/LeadField';
 import type { ServiceLandingConfig } from '../data/service-landings';
 import { projects } from '../data/projects';
 import { guideSummaries } from '../data/guide-summaries';
@@ -539,65 +540,52 @@ export function ServiceLanding({
               <div className="cf-contact-action">
                 <form className="cf-lead-form" onSubmit={handleSubmit} onFocusCapture={handleFormStart}>
                   <div className="cf-form-row">
-                    <label>
-                      <span>{config.nameFieldLabel ?? 'Imię / firma'}</span>
-                      <input
-                        name="name"
-                        type="text"
-                        autoComplete="name"
-                        placeholder={config.nameFieldPlaceholder}
-                        minLength={2}
-                        maxLength={120}
-                        required
-                      />
-                    </label>
-                    <label>
-                      <span>E-mail</span>
-                      <input name="email" type="email" autoComplete="email" maxLength={254} required />
-                    </label>
+                    <LeadField
+                      label={config.nameFieldLabel ?? 'Imię / firma'}
+                      name="name"
+                      type="text"
+                      autoComplete="name"
+                      placeholder={config.nameFieldPlaceholder}
+                      minLength={2}
+                      maxLength={120}
+                      required
+                    />
+                    <LeadField label="E-mail" name="email" type="email" autoComplete="email" maxLength={254} required />
                   </div>
 
                   {config.companyFieldLabel && (
-                    <label>
-                      <span>{config.companyFieldLabel} <small>opcjonalnie</small></span>
-                      <input
-                        name="company"
-                        type="text"
-                        autoComplete="organization"
-                        maxLength={160}
-                      />
-                    </label>
+                    <LeadField
+                      label={config.companyFieldLabel}
+                      name="company"
+                      type="text"
+                      autoComplete="organization"
+                      maxLength={160}
+                    />
                   )}
 
                   <p className="service-form-topic">
                     Temat: <strong>{config.eyebrow}</strong>
                   </p>
 
-                  <label>
-                    <span>
-                      {config.pageUrlLabel ?? 'Adres strony'} {config.pageUrlRequired ? '' : <small>opcjonalnie</small>}
-                    </span>
-                    <input
-                      name="pageUrl"
-                      type="url"
-                      inputMode="url"
-                      placeholder="https://twojastrona.pl"
-                      maxLength={500}
-                      required={config.pageUrlRequired}
-                    />
-                  </label>
+                  <LeadField
+                    label={config.pageUrlLabel ?? 'Adres strony'}
+                    name="pageUrl"
+                    type="url"
+                    inputMode="url"
+                    placeholder="https://twojastrona.pl"
+                    maxLength={500}
+                    required={config.pageUrlRequired}
+                  />
 
-                  <label>
-                    <span>Opisz temat</span>
-                    <textarea
-                      name="message"
-                      rows={6}
-                      minLength={10}
-                      maxLength={4000}
-                      placeholder={config.messagePlaceholder}
-                      required
-                    />
-                  </label>
+                  <LeadField
+                    label="Opisz temat"
+                    name="message"
+                    rows={6}
+                    minLength={10}
+                    maxLength={4000}
+                    placeholder={config.messagePlaceholder}
+                    required
+                  />
 
                   <label className="cf-form-honeypot" aria-hidden="true">
                     <span>Strona firmy</span>
