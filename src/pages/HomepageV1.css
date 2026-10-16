@@ -617,7 +617,9 @@
   font: inherit;
   font-weight: 650;
   cursor: pointer;
-  transition: background 160ms ease, border-color 160ms ease;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease;
 }
 
 .cf-doctor-attachment-actions button:hover,
