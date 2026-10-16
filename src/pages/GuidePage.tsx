@@ -136,7 +136,9 @@ export function GuidesIndex({ wordpressGuides }: { wordpressGuides: WordPressGui
   }, []);
 
   return (
-    <div className="homepage-v1 guide-page">
+    // Filtering can make the page very short. Keep the footer's real height so
+    // WebKit does not clamp scroll between pointerdown and pointerup on reset.
+    <div className="homepage-v1 guide-page cf-layout-ready">
       <header className="cf-header">
         <div className="cf-container cf-nav">
           <Brand />

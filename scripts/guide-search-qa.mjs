@@ -152,6 +152,20 @@ for (const [engine, type] of [
           await expectSlugs(guides.map((guide) => guide.slug))
           assert.ok(await input.evaluate((element) => document.activeElement === element))
 
+          // Repeat a long-to-empty transition: WebKit must keep the reset button
+          // under the pointer when the footer approaches the viewport.
+          for (let repeat = 0; repeat < 2; repeat++) {
+            await input.fill('wordpress')
+            await expectSlugs(guides.map((guide) => guide.slug))
+            await input.fill('nieistniejący temat xyz')
+            await expectSlugs([])
+            await page
+              .getByRole('button', { name: 'Zobacz wszystkie poradniki', exact: true })
+              .click()
+            await expectSlugs(guides.map((guide) => guide.slug))
+            assert.ok(await input.evaluate((element) => document.activeElement === element))
+          }
+
           await input.fill('   ')
           await expectSlugs(guides.map((guide) => guide.slug))
           await input.press('Escape')
