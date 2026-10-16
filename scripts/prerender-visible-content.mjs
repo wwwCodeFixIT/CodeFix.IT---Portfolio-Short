@@ -12,6 +12,12 @@ const serviceCatalog = JSON.parse(
   await readFile(new URL('../public/data/service-landings.json', import.meta.url), 'utf8'),
 )
 
+const guideCatalog = new Map(
+  JSON.parse(
+    await readFile(new URL('../public/data/wordpress-guides.json', import.meta.url), 'utf8'),
+  ).map((guide) => [`/poradniki/${guide.slug}`, guide]),
+)
+
 const serviceHeadings = Object.fromEntries(
   Object.entries(serviceCatalog).map(([path, page]) => [
     path,
@@ -146,7 +152,31 @@ function pageHeading(path, title) {
   if (serviceHeadings[path]) return serviceHeadings[path]
   if (path === '/poradniki') return 'Poradniki WordPress. Naprawa, opieka i wyceny.'
   if (path === '/realizacje') return 'Realizacje WordPress, które możesz sprawdzić przed kontaktem.'
+  if (guideCatalog.has(path)) return guideCatalog.get(path).title
   return title.replace(/\s*[|–—-]\s*CodeFix\.IT.*$/i, '').trim() || 'CodeFix.IT'
+}
+
+function guideReadingContent(guide) {
+  return `
+    <details class="guide-toc">
+      <summary>Spis treści</summary>
+      <nav aria-label="Spis treści poradnika"><ul>
+        ${guide.sections.map((section, index) => `<li><a href="#sekcja-${index + 1}">${escapeHtml(section.heading)}</a></li>`).join('')}
+        <li><a href="#pytania">Najczęstsze pytania</a></li>
+      </ul></nav>
+    </details>
+    ${guide.sections
+      .map(
+        (section, index) => `
+      <section><h2 id="sekcja-${index + 1}" tabindex="-1">${escapeHtml(section.heading)}</h2>
+        ${section.paragraphs.map((paragraph) => `<p>${escapeHtml(paragraph)}</p>`).join('')}
+        ${section.checklist ? `<ul>${section.checklist.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : ''}
+      </section>`,
+      )
+      .join('')}
+    <section><h2 id="pytania" tabindex="-1">Najczęstsze pytania</h2>
+      ${guide.faq.map((item) => `<details><summary>${escapeHtml(item.question)}</summary><p>${escapeHtml(item.answer)}</p></details>`).join('')}
+    </section>`
 }
 
 function relatedBlock(path) {
@@ -291,11 +321,13 @@ function relatedBlock(path) {
   }
 
   if (path.startsWith('/poradniki/')) {
+    const guide = guideCatalog.get(path)
     const [serviceHref, serviceLabel] = guideServiceLinks[path] ?? [
       '/naprawa-wordpress/',
       'Naprawa WordPress — zobacz zakres usługi',
     ]
     return `
+      ${guide ? guideReadingContent(guide) : ''}
       <p><a href="${serviceHref}">${escapeHtml(serviceLabel)}</a></p>
       <p><a href="/poradniki/">Wszystkie poradniki WordPress</a></p>`
   }
@@ -360,13 +392,22 @@ const style = `
   .cf-static-prerender ul{display:grid;gap:10px;padding-left:20px}
 </style>`
 
+const guideStyle = `<style id="codefix-static-guide-style">
+  .cf-static-prerender .guide-toc{position:static;max-width:780px;margin:24px 0;padding:12px;border:1px solid #62626b;border-radius:10px}
+  .cf-static-prerender .guide-toc summary{min-height:44px;cursor:pointer}
+  .cf-static-prerender .guide-toc a{display:block;min-height:44px}
+  .cf-static-prerender h2[id]{scroll-margin-top:24px}
+</style>`
+
 for (const url of urls) {
   const path = url.pathname === '/' ? '/' : url.pathname.replace(/\/$/, '')
   const file = outputPath(path)
   let html = await readFile(file, 'utf8')
   const title = titleContent(html)
   const description =
-    path === '/' ? homepageContent.hero.description : metaContent(html, 'description')
+    path === '/'
+      ? homepageContent.hero.description
+      : (guideCatalog.get(path)?.intro ?? metaContent(html, 'description'))
   const heading = pageHeading(path, title)
 
   const body = `<div id="root" data-static-prerender="true">
@@ -403,7 +444,7 @@ for (const url of urls) {
     )
   }
   if (!html.includes('id="codefix-static-prerender-style"')) {
-    html = html.replace('</head>', `${style}\n  </head>`)
+    html = html.replace('</head>', `${style}${guideCatalog.has(path) ? guideStyle : ''}\n  </head>`)
   }
 
   const isCommercialPage = path === '/' || Boolean(serviceHeadings[path])
