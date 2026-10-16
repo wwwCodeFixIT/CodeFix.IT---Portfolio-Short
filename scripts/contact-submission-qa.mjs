@@ -220,6 +220,35 @@ for (const [engine, type] of [
             await form.getByRole('button', { name: 'Aplikacja / integracja', exact: true }).click()
             await form.getByRole('button', { name: 'Dalej', exact: true }).click()
           }
+          const nativeInlineValidation = pageKind === 'service' && test.name === 'none'
+          if (nativeInlineValidation) {
+            assert.equal(await form.locator('[aria-invalid="true"]').count(), 0)
+            assert.equal(
+              await form.locator('[name="name"]').evaluate((el) => el.validity.customError),
+              false,
+            )
+            await form.locator('button[type="submit"]').press('Enter')
+            const name = form.locator('[name="name"]')
+            assert.equal(await name.getAttribute('aria-invalid'), 'true')
+            assert.equal(await name.evaluate((el) => el === document.activeElement), true)
+            assert.equal(payloads.length, 0)
+            await name.fill('  ')
+            assert.equal(await name.getAttribute('aria-invalid'), 'true')
+            await name.fill('Contact QA')
+            assert.equal(await name.getAttribute('aria-invalid'), null)
+            const email = form.locator('[name="email"]')
+            await email.fill('invalid')
+            await form.locator('button[type="submit"]').press('Enter')
+            assert.equal(await email.getAttribute('aria-invalid'), 'true')
+            assert.equal(await email.evaluate((el) => el === document.activeElement), true)
+            assert.match(
+              await email.evaluate(
+                (el) => document.getElementById(el.getAttribute('aria-describedby'))?.textContent,
+              ),
+              /Podaj poprawny e-mail/,
+            )
+            assert.equal(payloads.length, 0)
+          }
           const withScope = pageKind === 'homepage' && ['both', 'rejected'].includes(test.name)
           const selectedScope = 'Wybrany zakres: Panel klienta, Integracja z API.'
           if (withScope) {
@@ -233,6 +262,7 @@ for (const [engine, type] of [
             await form.getByRole('button', { name: 'Dalej', exact: true }).click()
           await form.locator('[name="name"]').fill('Contact QA')
           await form.locator('[name="email"]').fill('contact-qa@example.invalid')
+          assert.equal(await form.locator('[aria-invalid="true"]').count(), 0)
           if (withScope) {
             await form.getByRole('button', { name: 'Zmień temat', exact: true }).press('Enter')
             await form.getByRole('button', { name: 'Dalej', exact: true }).click()
@@ -272,6 +302,7 @@ for (const [engine, type] of [
             success ? '' : 'contact-qa@example.invalid',
           )
           assert.equal(payloads.length, 1)
+          if (success) assert.equal(await form.locator('.cf-field-error').count(), 0)
           assert.equal(payloads[0].service, expectedService)
           assert.equal(payloads[0].message, withScope ? note + '\n\n' + selectedScope : note)
           if (withScope) {
@@ -342,6 +373,7 @@ for (const [engine, type] of [
             blockedExternalRequests,
             liveLeadRequests: 0,
             repeatContextCleared,
+            nativeInlineValidation,
           }
           results.push(result)
           await writeFile(

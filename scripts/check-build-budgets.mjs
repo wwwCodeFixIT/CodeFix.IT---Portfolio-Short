@@ -46,7 +46,8 @@ const budgets = {
   entryJs: 215_000,
   largestDeferredJs: 50_000,
   // Native project quick view: shared triggers + dialog loaded only on demand (~5 KB).
-  totalJs: 326_000,
+  // Shared inline field feedback adds ~0.6 KB net; entry and route caps stay unchanged.
+  totalJs: 327_000,
   largestCss: 40_000,
   // Includes the isolated quick-view stylesheet and reference attachment (~3.7 KB).
   totalCss: 78_000,
