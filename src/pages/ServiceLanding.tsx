@@ -114,7 +114,8 @@ export function ServiceLanding({
   const [formStartedAt, setFormStartedAt] = useState(() => Date.now());
   const [attribution] = useState(captureSessionAttribution);
   const [journey, setJourney] = useState(readConversionJourney);
-  const guideTopic = journey.journeyDestination === config.path
+  const [guideTopicDismissed, setGuideTopicDismissed] = useState(false);
+  const guideTopic = !guideTopicDismissed && journey.journeyDestination === config.path
     ? guideSummaries.find((guide) => guide.slug === journey.journeyGuide && guide.serviceHref === config.path)
     : undefined;
   const formStartTracked = useRef(false);
@@ -291,6 +292,7 @@ export function ServiceLanding({
       if (!result.duplicate) clearFunnelSession();
       clearConversionJourney();
       setJourney(readConversionJourney());
+      setGuideTopicDismissed(false);
       setFormStartedAt(Date.now());
       setFormState('success');
       setFormMessage(
@@ -571,8 +573,7 @@ export function ServiceLanding({
                     Temat: <strong>{guideTopic?.intent ?? config.eyebrow}</strong>
                     {guideTopic && (
                       <button type="button" onClick={() => {
-                        clearConversionJourney();
-                        setJourney(readConversionJourney());
+                        setGuideTopicDismissed(true);
                         contactSectionRef.current?.querySelector<HTMLTextAreaElement>('[name="message"]')?.focus();
                       }}>
                         Usuń temat poradnika

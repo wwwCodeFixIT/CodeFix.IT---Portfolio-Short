@@ -122,7 +122,7 @@ for (const [engine, type] of [
             () => document.querySelector('form [name="message"]')?.value === '',
           )
           assert.equal(payloads.length, 2)
-          assert.equal(payloads[1].journeyGuide, '')
+          assert.equal(payloads[1].journeyGuide, guide.slug)
           assert.equal(payloads[1].message, note)
           assert.equal(payloads[1].utmSource, 'context_qa')
 

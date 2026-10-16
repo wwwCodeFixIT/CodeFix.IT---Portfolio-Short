@@ -71,10 +71,11 @@ for (const [engine, type] of [
           assert.equal(await hint.count(), 0)
           assert.ok(await message.evaluate((element) => element === document.activeElement))
           assert.equal(
-            await page.evaluate(() =>
-              window.sessionStorage.getItem('codefix_conversion_journey_v1'),
+            await page.evaluate(
+              () =>
+                JSON.parse(window.sessionStorage.getItem('codefix_conversion_journey_v1')).guide,
             ),
-            null,
+            item.slug,
           )
         } else {
           await page.locator(`a.cf-button-primary[href="/realizacje/${item.slug}/"]`).press('Enter')
