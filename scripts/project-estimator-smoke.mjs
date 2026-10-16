@@ -70,15 +70,17 @@ assert.deepEqual(generated, wordpressGuides, 'Guide catalog must preserve all ed
 const { guideSummaries } = await loadTypeScript('../src/data/guide-summaries.ts')
 assert.deepEqual(
   guideSummaries,
-  wordpressGuides.map(({ slug, title, serviceHref, description, intent }) => ({
+  wordpressGuides.map(({ slug, title, serviceHref, description, intent, contactHint }) => ({
     slug,
     title,
     serviceHref,
     description,
     intent,
+    contactHint,
   })),
 )
 for (const guide of generated) {
+  assert.ok(guide.contactHint.trim().length > 10, `Missing contact guidance: ${guide.slug}`)
   const html = await readFile(
     new URL(`../dist/poradniki/${guide.slug}/index.html`, import.meta.url),
     'utf8',
