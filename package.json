@@ -18,7 +18,9 @@
     "lint:production": "eslint src --max-warnings=0",
     "measurement:smoke": "node scripts/measurement-consent-smoke.mjs",
     "estimator:smoke": "node scripts/project-estimator-smoke.mjs",
-    "hero:smoke": "node scripts/hero-motion-smoke.mjs"
+    "hero:smoke": "node scripts/hero-motion-smoke.mjs",
+    "doctor:smoke": "node scripts/site-doctor-smoke.mjs",
+    "doctor:typecheck": "tsc --noEmit --strict --target ES2022 --module esnext --moduleResolution bundler --lib ES2022,DOM functions/api/site-doctor.ts"
   },
   "dependencies": {
     "lucide-react": "^0.563.0",

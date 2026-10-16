@@ -1,8 +1,10 @@
-import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { Brand } from '../components/Brand';
 import './ToolsLab.css';
 
-type ToolId = 'brief' | 'seo' | 'contrast';
+const SiteDoctor = lazy(() => import('../components/SiteDoctor'));
+
+type ToolId = 'doctor' | 'brief' | 'seo' | 'contrast';
 type ProjectKind = 'strona' | 'aplikacja' | 'naprawa' | 'opieka';
 
 const kinds: Record<ProjectKind, string> = {
@@ -47,7 +49,7 @@ function contrastRatio(foreground: string, background: string) {
 }
 
 export function ToolsLab() {
-  const [active, setActive] = useState<ToolId>('brief');
+  const [active, setActive] = useState<ToolId>('doctor');
   const [kind, setKind] = useState<ProjectKind>('strona');
   const [audience, setAudience] = useState('');
   const [goal, setGoal] = useState('');
@@ -145,14 +147,21 @@ export function ToolsLab() {
         <h1>Narzędzia, które pomagają podjąć decyzję.</h1>
         <p className="cf-tools-intro">
           Bezpłatne, praktyczne narzędzia do planowania strony i sprawdzania jakości.
-          Bez konta, zbędnych animacji i obietnic automatycznej naprawy.
+          Diabełek, rzeczywiste pomiary Lighthouse i narzędzia bez konta. Żadnych udawanych napraw.
         </p>
 
         <div className="cf-tool-tabs" role="group" aria-label="Wybierz narzędzie">
+          <button type="button" aria-pressed={active === 'doctor'} onClick={() => setActive('doctor')}>AI Site Doctor 😈</button>
           <button type="button" aria-pressed={active === 'brief'} onClick={() => setActive('brief')}>Asystent briefu AI</button>
           <button type="button" aria-pressed={active === 'seo'} onClick={() => setActive('seo')}>Podgląd SEO</button>
           <button type="button" aria-pressed={active === 'contrast'} onClick={() => setActive('contrast')}>Kontrast WCAG</button>
         </div>
+
+        {active === 'doctor' && (
+          <Suspense fallback={<div className="cf-tool-panel" role="status">Ładuję Site Doctor…</div>}>
+            <SiteDoctor />
+          </Suspense>
+        )}
 
         {active === 'brief' && (
           <section className="cf-tool-panel" aria-labelledby="brief-title">
@@ -236,7 +245,7 @@ export function ToolsLab() {
 
         <aside className="cf-tools-bottom">
           <h2>Potrzebujesz diagnozy zamiast symulacji?</h2>
-          <p>Sprawdzę rzeczywistą stronę WordPress, formularze, wydajność i dostępność. Narzędzia powyżej nie wykonują audytu adresu URL.</p>
+          <p>Site Doctor analizuje wyłącznie publiczną stronę przez Lighthouse. Naprawy WordPress, formularze, backend i bezpieczeństwo wymagają osobnej weryfikacji.</p>
           <a href="/naprawa-wordpress/">Zgłoś problem z WordPress →</a>
         </aside>
       </main>
