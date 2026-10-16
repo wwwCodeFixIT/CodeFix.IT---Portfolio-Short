@@ -15,41 +15,44 @@ export function GuideNavigation({ items }: { items: readonly GuideHeading[] }) {
   }, [items])
 
   useEffect(() => {
+    const headings = items
+      .map((item) => document.getElementById(item.id))
+      .filter((heading): heading is HTMLElement => heading !== null)
+    let frame = 0
+    const updateCurrent = () => {
+      frame = 0
+      const atEnd = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2
+      let current = headings[0]
+      for (const heading of headings) {
+        // Native history may restore just below the exact anchor offset.
+        // At the page end the last heading cannot always reach this band.
+        if (!atEnd && heading.getBoundingClientRect().top > 201) break
+        current = heading
+      }
+      if (current) setActive(current.id)
+    }
+    const scheduleUpdate = () => {
+      if (!frame) frame = window.requestAnimationFrame(updateCurrent)
+    }
     const focusHashTarget = () => {
       const id = window.location.hash.slice(1)
       if (items.some((item) => item.id === id)) {
         document.getElementById(id)?.focus({ preventScroll: true })
       }
+      scheduleUpdate()
     }
+    const contents = disclosure.current
+    window.addEventListener('scroll', scheduleUpdate, { passive: true })
+    window.addEventListener('resize', scheduleUpdate)
     window.addEventListener('hashchange', focusHashTarget)
-    if (!('IntersectionObserver' in window)) {
-      return () => window.removeEventListener('hashchange', focusHashTarget)
-    }
-    const headings = items
-      .map((item) => document.getElementById(item.id))
-      .filter((heading): heading is HTMLElement => heading !== null)
-    const observer = new IntersectionObserver(
-      () => {
-        let current = headings[0]
-        for (const heading of headings) {
-          // A reading band below the controls also covers native history
-          // restoration, which can land just below the exact anchor offset.
-          if (heading.getBoundingClientRect().top > 201) break
-          current = heading
-        }
-        if (current) setActive(current.id)
-      },
-      { rootMargin: '-200px 0px 0px', threshold: 0 },
-    )
-
-    for (const heading of headings) {
-      observer.observe(heading)
-      // Also detect jumps into the middle of a long section.
-      if (heading.parentElement) observer.observe(heading.parentElement)
-    }
+    contents?.addEventListener('toggle', scheduleUpdate)
+    scheduleUpdate()
     return () => {
-      observer.disconnect()
+      window.cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', scheduleUpdate)
+      window.removeEventListener('resize', scheduleUpdate)
       window.removeEventListener('hashchange', focusHashTarget)
+      contents?.removeEventListener('toggle', scheduleUpdate)
     }
   }, [items])
 
