@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import type { Project } from '../data/projects'
+import { ProjectInsights } from './ProjectInsights'
 import './ProjectQuickView.css'
 
 type Props = {
@@ -100,22 +101,7 @@ export default function ProjectQuickView({ project, onClose, onEnquire }: Props)
               Telefon
             </button>
           </div>
-          <figure className={`project-quick-image${mobile ? ' is-mobile' : ''}`}>
-            <img
-              key={mobile ? 'mobile' : 'desktop'}
-              src={`/portfolio/${project.slug}-${mobile ? 'mobile-375' : 'desktop-1200'}.webp`}
-              srcSet={
-                mobile
-                  ? undefined
-                  : `/portfolio/${project.slug}-desktop-600.webp 600w, /portfolio/${project.slug}-desktop-1200.webp 1200w`
-              }
-              sizes={mobile ? undefined : '(min-width: 761px) 560px, calc(100vw - 56px)'}
-              width={mobile ? 375 : 1200}
-              height={mobile ? 800 : 834}
-              decoding="async"
-              alt={`${project.title} — widok na ${mobile ? 'telefonie' : 'komputerze'}`}
-            />
-          </figure>
+          <ProjectInsights project={project} mobile={mobile} />
         </div>
         <dl className="project-quick-description">
           <div>

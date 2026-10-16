@@ -51,13 +51,15 @@ const budgets = {
   // Local guide search adds ~1.5 KB on guide routes, with no new dependencies.
   // Native contents navigation and section tracking add ~2.1 KB on guide routes.
   // Guide field hints, the free-project request and contact focus add ~3.0 KB in total.
-  totalJs: 333_000,
+  // Project annotations add ~2.6 KB, loaded with the optional quick-view dialog.
+  totalJs: 336_000,
   largestCss: 40_000,
   // Includes the isolated quick-view stylesheet and reference attachment (~3.7 KB).
   // Guide search controls and empty state add ~0.9 KB on guide routes.
   // The isolated contents bar adds ~1.0 KB on guide routes.
   // Form hints, the offer row and its checkbox add ~0.8 KB.
-  totalCss: 81_000,
+  // Numbered annotations and their disclosure add ~1.1 KB to the deferred dialog CSS.
+  totalCss: 82_500,
 };
 
 console.log(`Entry JS: ${entry.bytes} B / ${budgets.entryJs} B — ${entry.name}`);
