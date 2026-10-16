@@ -99,7 +99,7 @@ export function readDoctorHandoff(
   storage: Pick<Storage, 'getItem' | 'removeItem'>,
   now: number = Date.now(),
 ): DoctorHandoff | null {
-  let raw: string | null = null;
+  let raw: string | null;
   try { raw = storage.getItem(DOCTOR_HANDOFF_KEY); }
   catch { return null; }
   if (!raw) return null;
