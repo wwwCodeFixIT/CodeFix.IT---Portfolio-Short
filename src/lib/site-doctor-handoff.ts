@@ -67,6 +67,14 @@ export function buildDoctorHandoff(evidence: DoctorEvidence): string {
   return report.slice(0, DOCTOR_HANDOFF_LIMIT);
 }
 
+
+// Only read a URL produced by our diagnostic handoff; do not parse arbitrary text.
+export function doctorPageUrl(summary: string): string {
+  if (!summary.startsWith('ZAŁĄCZONY RAPORT AI SITE DOCTOR')) return '';
+  const match = summary.match(/^Strona: (https:\/\/[^\s]+)$/m);
+  return match ? safeAddress(match[1]) : '';
+}
+
 export function writeDoctorHandoff(
   storage: Pick<Storage, 'setItem'>,
   summary: string,
