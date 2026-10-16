@@ -141,6 +141,43 @@ for (const [engine, type] of [
               return img?.complete && img.naturalWidth > 0
             })
             assert.match(await image.getAttribute('src'), new RegExp(`${slug}-desktop-1200`))
+            const toggle = dialog().getByRole('button', {
+              name: 'Co tutaj zrobiłem?',
+              exact: false,
+            })
+            const points = dialog().locator('.project-insight-point')
+            const explanation = dialog().locator('.project-insight-description')
+            assert.equal(await toggle.getAttribute('aria-expanded'), 'false')
+            assert.equal(await points.count(), 0)
+            assert.equal(await explanation.isVisible(), false)
+            await toggle.press('Enter')
+            assert.equal(await toggle.getAttribute('aria-expanded'), 'true')
+            assert.equal(await points.count(), 2)
+            assert.equal(await explanation.getAttribute('aria-live'), 'polite')
+            const checkPoints = async () => {
+              const canvas = await dialog().locator('.project-quick-canvas').boundingBox()
+              for (const point of await points.all()) {
+                const box = await point.boundingBox()
+                assert.ok(box.width >= 44 && box.height >= 44)
+                assert.ok(box.x >= canvas.x - 1 && box.y >= canvas.y - 1)
+                assert.ok(box.x + box.width <= canvas.x + canvas.width + 1)
+                assert.ok(box.y + box.height <= canvas.y + canvas.height + 1)
+                assert.equal(
+                  await point.getAttribute('aria-controls'),
+                  await explanation.getAttribute('id'),
+                )
+              }
+            }
+            await checkPoints()
+            for (let pointIndex = 0; pointIndex < 2; pointIndex++) {
+              await points.nth(pointIndex).press('Enter')
+              const label = await points.nth(pointIndex).getAttribute('aria-label')
+              assert.equal(await explanation.locator('h3').innerText(), label)
+              assert.ok((await explanation.locator('p').last().innerText()).length > 40)
+              assert.equal(await points.nth(pointIndex).getAttribute('aria-pressed'), 'true')
+              assert.equal(await points.nth(1 - pointIndex).getAttribute('aria-pressed'), 'false')
+              if (index === 0) assert.match(await explanation.innerText(), /SyloSoftware/)
+            }
             await dialog().getByRole('button', { name: 'Telefon', exact: true }).press('Enter')
             await page.waitForFunction(() => {
               const img = document.querySelector('dialog img')
@@ -152,6 +189,22 @@ for (const [engine, type] of [
                 .getAttribute('aria-pressed'),
               'true',
             )
+            await checkPoints()
+            assert.equal(await points.nth(1).getAttribute('aria-pressed'), 'true')
+            await points.nth(0).click()
+            assert.equal(await points.nth(0).getAttribute('aria-pressed'), 'true')
+            assert.equal(
+              await explanation.locator('h3').innerText(),
+              await points.nth(0).getAttribute('aria-label'),
+            )
+            await toggle.press('Enter')
+            assert.equal(await toggle.getAttribute('aria-expanded'), 'false')
+            assert.equal(await points.count(), 0)
+            assert.equal(await explanation.isVisible(), false)
+            assert.ok(await toggle.evaluate((el) => el === document.activeElement))
+            await toggle.press('Enter')
+            assert.equal(await points.nth(0).getAttribute('aria-pressed'), 'true')
+            await toggle.press('Enter')
             await dialog().getByRole('button', { name: 'Komputer', exact: true }).press('Enter')
             assert.equal(
               await dialog()
@@ -345,6 +398,16 @@ for (const [engine, type] of [
             preservesBrief: true,
             referencePayload: true,
             referenceClipboard: true,
+            insights: {
+              points: 6,
+              lazyWithDialog: true,
+              initiallyHidden: true,
+              keyboardAndPointer: true,
+              devicePositionsWithinImage: true,
+              selectionPersistsAcrossDevices: true,
+              toggleAndProjectReset: true,
+              collaborationCreditPreserved: true,
+            },
             mockLeadRequests: payloads.length,
             liveLeadRequests: 0,
           }

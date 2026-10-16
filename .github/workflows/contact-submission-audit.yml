@@ -31,6 +31,8 @@ on:
       - 'src/components/ProjectPreview.css'
       - 'src/components/ProjectQuickView.tsx'
       - 'src/components/ProjectQuickView.css'
+      - 'src/components/ProjectInsights.tsx'
+      - 'src/data/project-insights.ts'
       - 'scripts/project-quick-view-qa.mjs'
       - 'scripts/automation-demo-qa.mjs'
       - 'src/lib/measurement.ts'
