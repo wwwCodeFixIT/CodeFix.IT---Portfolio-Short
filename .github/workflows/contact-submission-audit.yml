@@ -12,6 +12,7 @@ on:
       - 'src/components/GuideNavigation.tsx'
       - 'scripts/guide-navigation-qa.mjs'
       - 'scripts/contact-context-qa.mjs'
+      - 'scripts/process-steps-qa.mjs'
       - 'src/data/wordpress-guides.ts'
       - 'src/data/guide-summaries.ts'
       - 'src/data/homepage-content.json'
@@ -22,6 +23,7 @@ on:
       - 'scripts/content-paths-qa.mjs'
       - 'scripts/contact-wizard-qa.mjs'
       - 'src/pages/HomepageV1.v3.css'
+      - 'src/pages/HomepageV1.css'
       - 'src/components/BriefScopePicker.tsx'
       - 'src/components/BriefCopy.tsx'
       - 'src/components/LeadField.tsx'
@@ -78,6 +80,7 @@ jobs:
             if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then break; fi
             sleep 1
           done
+          node scripts/process-steps-qa.mjs
           node scripts/contact-context-qa.mjs
           node scripts/guide-navigation-qa.mjs
           node scripts/guide-search-qa.mjs

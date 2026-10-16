@@ -1180,14 +1180,31 @@ export function HomepageV1() {
             <div className="cf-process-intro">
               <p className="cf-section-kicker">Proces</p>
               <h2 className="cf-section-heading">Od wiadomości do wdrożenia.</h2>
-              <p>Cztery kroki i jasny zakres na każdym etapie.</p>
+              <p>Wybierz etap i zobacz, jak wygląda współpraca.</p>
             </div>
 
-            <ol className="cf-process-grid">
+            <ol className="cf-process-grid" aria-label="Etapy współpracy">
               {process.map((item, index) => (
-                <li key={item} className="cf-process-card">
-                  <span className="cf-process-number">0{index + 1}</span>
-                  <p>{item}</p>
+                <li key={item.title}>
+                  <details className="cf-process-card" name="codefix-process">
+                    <summary>
+                      <span className="cf-process-number" aria-hidden="true">
+                        0{index + 1}
+                      </span>
+                      <ChevronDown size={18} aria-hidden="true" />
+                      <h3>{item.title}</h3>
+                    </summary>
+                    <dl>
+                      <div>
+                        <dt>Otrzymujesz</dt>
+                        <dd>{item.receive}</dd>
+                      </div>
+                      <div>
+                        <dt>Twoja część</dt>
+                        <dd>{item.provide}</dd>
+                      </div>
+                    </dl>
+                  </details>
                 </li>
               ))}
             </ol>
