@@ -58,3 +58,8 @@
   .cf-doctor-interpretation img { width: 36px; height: 36px; flex-basis: 36px; }
 }
 @media (prefers-reduced-motion: reduce) { .cf-doctor-avatar.is-scanning::before { animation: none; } }
+
+/* Report handoff is a separate feature, not hidden inside the contact button. */
+.cf-doctor-handoff{margin:24px 0 16px;padding:22px;border:1px solid #9e4753;border-radius:14px;background:linear-gradient(130deg,rgba(204,42,62,.16),rgba(19,19,23,.9))}
+.cf-doctor-handoff h4{margin:3px 0 8px;font-size:20px}
+.cf-doctor-handoff p:not(.cf-section-kicker){margin:0 0 18px;color:#dad2d6;font-size:13px;line-height:1.7;max-width:670px}
