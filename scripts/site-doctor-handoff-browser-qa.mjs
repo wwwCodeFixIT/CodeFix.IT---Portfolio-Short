@@ -361,6 +361,51 @@ for (const [engine, browserType] of Object.entries({ chromium, webkit })) {
       )
       assert.deepEqual(pageErrors, [], 'Frontend errors after form preservation and brief mapping')
 
+      // RC: provider disabled. An honest manual-contact CTA must be available.
+      await page.route('**/api/site-doctor', (route) =>
+        route.fulfill({ status: 503, contentType: 'application/json', body: '{}' }),
+      )
+      await page.goto(origin + '/narzedzia/', { waitUntil: 'domcontentloaded' })
+      await page.locator('.cf-doctor-form input[type="url"]').fill('https://example.org/')
+      await page.getByRole('button', { name: /Uruchom diagnozę/ }).click()
+      await page.getByText('Skaner nie został jeszcze aktywowany.', { exact: false }).waitFor()
+      const manualLink = page.getByRole('link', { name: 'Opisz problem bez diagnozy →' })
+      await manualLink.waitFor()
+      assert.equal(await manualLink.getAttribute('href'), '/?service=WORDPRESS_QUICK_FIX#contact')
+      assert.equal(await page.locator('.cf-doctor-results').count(), 0)
+      await page.locator('.cf-doctor-manual-help').screenshot({
+        path: `qa-results/site-doctor/${engine}-${width}-api-fallback.png`,
+      })
+
+      // RC: HTTP 429 must not be misrepresented as a Lighthouse finding.
+      await page.unroute('**/api/site-doctor')
+      await page.route('**/api/site-doctor', (route) =>
+        route.fulfill({ status: 429, contentType: 'application/json', body: '{}' }),
+      )
+      await page.getByRole('button', { name: /Uruchom diagnozę/ }).click()
+      await page.getByText('Limit analiz został osiągnięty.', { exact: false }).waitFor()
+      assert.equal(await page.locator('.cf-doctor-results').count(), 0)
+      await manualLink.waitFor()
+
+      // RC: cancellation must be announced as cancellation, not a timeout.
+      await page.unroute('**/api/site-doctor')
+      await page.route('**/api/site-doctor', async (route) => {
+        await new Promise((resolve) => setTimeout(resolve, 1500))
+        try {
+          await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(sample) })
+        } catch {
+          // Browser aborted the in-flight fetch.
+        }
+      })
+      const pendingRequest = page.waitForRequest((req) => req.url().endsWith('/api/site-doctor'))
+      await page.getByRole('button', { name: /Uruchom diagnozę/ }).click()
+      await pendingRequest
+      await page.getByRole('button', { name: 'Anuluj', exact: true }).click()
+      await page.getByText('Pomiar został anulowany.', { exact: false }).waitFor()
+      await manualLink.waitFor()
+      assert.equal(await page.locator('.cf-doctor-results').count(), 0)
+      assert.deepEqual(pageErrors, [], 'RC error and cancellation flows must not throw')
+
       console.log(
         `Tools browser QA PASS: ${engine} ${width}px; 4 mocked lead paths, preserved form, 4 brief topics, fallback and in-flight edits. No live provider or CRM calls.`,
       )
