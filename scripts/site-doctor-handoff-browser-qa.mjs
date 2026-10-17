@@ -404,6 +404,28 @@ for (const [engine, browserType] of Object.entries({ chromium, webkit })) {
       await page.getByText('Pomiar został anulowany.', { exact: false }).waitFor()
       await manualLink.waitFor()
       assert.equal(await page.locator('.cf-doctor-results').count(), 0)
+
+      // RC: failed scan inside the lead wizard must return to the same form.
+      await page.unroute('**/api/site-doctor')
+      await page.route('**/api/site-doctor', (route) =>
+        route.fulfill({ status: 503, contentType: 'application/json', body: '{}' }),
+      )
+      await page.goto(origin + '/?service=WORDPRESS_QUICK_FIX#contact', {
+        waitUntil: 'domcontentloaded',
+      })
+      await stepToDetails()
+      const originalMessage = 'Błąd formularza po ostatniej aktualizacji WordPress.'
+      await page.locator('textarea[name="message"]').fill(originalMessage)
+      await page.locator('.cf-doctor-attachment summary').click()
+      await page.getByRole('button', { name: 'Uruchom Site Doctor →', exact: true }).click()
+      const fallbackDialog = page.getByRole('dialog', { name: 'Diagnoza strony', exact: true })
+      await fallbackDialog.waitFor()
+      await fallbackDialog.locator('input[type="url"]').fill('https://example.org/')
+      await fallbackDialog.getByRole('button', { name: /Uruchom diagnozę/ }).click()
+      await fallbackDialog.getByRole('button', { name: 'Wróć do zgłoszenia bez raportu →' }).click()
+      await fallbackDialog.waitFor({ state: 'hidden' })
+      assert.equal(await page.locator('textarea[name="message"]').inputValue(), originalMessage)
+      assert.equal(await page.locator('.cf-doctor-attachment input[type="checkbox"]').isChecked(), false)
       assert.deepEqual(pageErrors, [], 'RC error and cancellation flows must not throw')
 
       console.log(
