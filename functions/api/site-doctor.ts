@@ -309,7 +309,10 @@ export async function onRequestPost({ request, env }: Context): Promise<Response
       const claim = await env.SITE_DOCTOR_PILOT_DB.prepare(
         "INSERT OR IGNORE INTO site_doctor_pilot_claims (id, claimed_at) VALUES (1, datetime('now'))",
       ).run();
-      if (!claim.success || claim.meta?.changes !== 1) {
+      if (!claim.success) {
+        return response(503, { error: 'Nie udało się zabezpieczyć jednorazowego pomiaru.' });
+      }
+      if (claim.meta?.changes !== 1) {
         return response(409, { error: 'Jednorazowy pilotaż został już wykorzystany.' });
       }
     } catch {
