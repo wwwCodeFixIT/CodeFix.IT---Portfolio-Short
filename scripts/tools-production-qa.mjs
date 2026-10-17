@@ -4,11 +4,22 @@ import { createRequire } from 'node:module'
 
 const require = createRequire(new URL('../.qa-tools/package.json', import.meta.url))
 const { chromium, webkit } = require('playwright')
-const origin = 'https://codefix.it'
+// Default remains the production QA. Immutable Cloudflare preview targets must
+// be explicitly supplied by the SHA-validated GET-only probe.
+const configuredOrigin = process.env.TOOLS_QA_ORIGIN ?? 'https://codefix.it'
+const targetOrigin = new URL(configuredOrigin)
+assert.equal(targetOrigin.protocol, 'https:')
+assert.equal(targetOrigin.href, targetOrigin.origin + '/')
+assert.ok(
+  targetOrigin.hostname === 'codefix.it' ||
+    /^[a-f0-9]{8}\.codefix-it---portfolio-short\.pages\.dev$/.test(targetOrigin.hostname),
+  'Only production or a commit-addressed immutable Pages preview is allowed',
+)
+const origin = targetOrigin.origin
 const html = await readFile(new URL('../dist/narzedzia/index.html', import.meta.url), 'utf8')
 const expected = html.match(/<script[^>]+type="module"[^>]+src="([^"]+)"/)?.[1]
 assert.ok(expected?.startsWith('/assets/'))
-const output = 'qa-results/tools-production'
+const output = origin === 'https://codefix.it' ? 'qa-results/tools-production' : 'qa-results/tools-preview'
 await mkdir(output, { recursive: true })
 const results = []
 
