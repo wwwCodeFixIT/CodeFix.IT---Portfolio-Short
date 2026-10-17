@@ -82,6 +82,7 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
   const [requestKey, setRequestKey] = useState(0);
   const running = useRef(false);
   const controller = useRef<AbortController | null>(null);
+  const cancelRequested = useRef(false);
 
   useEffect(() => () => controller.current?.abort(), []);
 
@@ -103,6 +104,7 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
     }
 
     running.current = true;
+    cancelRequested.current = false;
     setRequestKey((n) => n + 1);
     setReport(null);
     setCopied('');
@@ -138,7 +140,9 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
       setState('success');
     } catch (error) {
       setMessage(error instanceof Error && error.name === 'AbortError'
-        ? 'Upłynął czas pomiaru. Spróbuj ponownie później.'
+        ? cancelRequested.current
+          ? 'Pomiar został anulowany. Nie dołączono żadnego raportu.'
+          : 'Upłynął czas pomiaru. Spróbuj ponownie później.'
         : error instanceof Error ? error.message : 'Nie udało się wykonać pomiaru.');
       setState('error');
     } finally {
@@ -225,7 +229,10 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
           <button className="cf-tool-primary" type="submit" disabled={state === 'loading'}>
             {state === 'loading' ? 'Trwa pomiar…' : 'Uruchom diagnozę'} <span aria-hidden="true">↗</span>
           </button>
-          {state === 'loading' && <button type="button" onClick={() => controller.current?.abort()}>Anuluj</button>}
+          {state === 'loading' && <button type="button" onClick={() => {
+            cancelRequested.current = true;
+            controller.current?.abort();
+          }}>Anuluj</button>}
         </div>
         <p className="cf-doctor-data-note">Adres strony trafia do Google PageSpeed Insights.
           Nie podawaj poufnych adresów ani haseł. Test wymaga aktywacji usługi i jest limitowany.</p>
@@ -235,6 +242,18 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
         <span className="cf-doctor-status-dot" aria-hidden="true" />
         <span>{message || 'Diabełek gotowy do diagnozy.'}</span>
       </div>
+
+      {state === 'error' && (
+        <div className="cf-doctor-manual-help" aria-labelledby="cf-doctor-manual-title">
+          <h3 id="cf-doctor-manual-title">Możesz zgłosić problem bez automatycznego pomiaru.</h3>
+          <p>Diagnoza nie została ukończona. Opisz, co nie działa, a CodeFix.IT pomoże ustalić dalsze kroki. To nie jest wynik audytu.</p>
+          {onDismiss ? (
+            <button type="button" onClick={onDismiss}>Wróć do zgłoszenia bez raportu →</button>
+          ) : (
+            <a href="/?service=WORDPRESS_QUICK_FIX#contact">Opisz problem bez diagnozy →</a>
+          )}
+        </div>
+      )}
 
       {report && state === 'success' && (
         <div className="cf-doctor-results" aria-label="Wynik diagnozy">
