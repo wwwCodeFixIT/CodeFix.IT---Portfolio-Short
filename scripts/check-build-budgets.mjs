@@ -75,7 +75,8 @@ const budgets = {
   // Mobile panel, desktop target sizes and static navigation add ~1.3 KB.
   // Isolated tools-lab style only loads on /narzedzia/.
   // Branded Site Doctor stylesheet loads on demand; largest CSS cap unchanged.
-  totalCss: 98_000,
+  // LAB-4: isolated non-animated offline/error CTA stylesheet adds ~0.8 KB.
+  totalCss: 99_000,
 };
 
 console.log(`Entry JS: ${entry.bytes} B / ${budgets.entryJs} B — ${entry.name}`);
