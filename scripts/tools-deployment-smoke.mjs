@@ -4,7 +4,7 @@ import { pathToFileURL } from 'node:url'
 // These GET requests never invoke a paid provider or submit a lead.
 export async function checkToolsDeployment(fetcher = globalThis.fetch) {
   const results = []
-  for (const path of ['/api/ai-brief', '/api/site-doctor']) {
+  for (const path of ['/api/ai-brief', '/api/site-doctor', '/api/tool-status']) {
     const response = await fetcher('https://codefix.it' + path, {
       method: 'GET',
       redirect: 'error',
@@ -12,8 +12,10 @@ export async function checkToolsDeployment(fetcher = globalThis.fetch) {
       headers: { Accept: 'application/json' },
       signal: AbortSignal.timeout(10000),
     })
-    assert.equal(response.status, 405, `${path}: expected a deployed function returning 405`)
-    assert.equal(response.headers.get('allow'), 'POST', `${path}: missing POST method contract`)
+    const statusRoute = path === '/api/tool-status'
+    assert.equal(response.status, statusRoute ? 200 : 405, `${path}: unexpected function status`)
+    if (!statusRoute)
+      assert.equal(response.headers.get('allow'), 'POST', `${path}: missing POST method contract`)
     assert.match(
       response.headers.get('content-type') ?? '',
       /^application\/json(?:;|$)/i,
@@ -25,8 +27,19 @@ export async function checkToolsDeployment(fetcher = globalThis.fetch) {
       `${path}: cached API response`,
     )
     const body = await response.json()
-    assert.ok(body && typeof body.error === 'string', `${path}: unexpected response contract`)
-    results.push({ path, status: response.status, method: 'GET' })
+    if (statusRoute) {
+      assert.ok(
+        body && typeof body.ai === 'boolean' && typeof body.doctor === 'boolean',
+        'Invalid availability',
+      )
+      assert.deepEqual(
+        Object.keys(body).sort(),
+        ['ai', 'doctor'],
+        'Availability must not expose configuration details',
+      )
+    } else
+      assert.ok(body && typeof body.error === 'string', `${path}: unexpected response contract`)
+    results.push({ path, status: response.status, method: 'GET', ...(statusRoute ? body : {}) })
   }
   return results
 }

@@ -9,6 +9,9 @@ on:
       - feat/site-doctor-lead-handoff-20261016
     paths:
       - 'src/main.tsx'
+      - 'src/lib/tool-availability.ts'
+      - 'functions/api/tool-status.ts'
+      - 'scripts/tool-availability-qa.mjs'
       - 'src/components/MeasurementConsent.tsx'
       - 'src/components/MeasurementConsent.css'
       - 'scripts/privacy-settings-qa.mjs'
@@ -67,6 +70,7 @@ jobs:
           node scripts/site-doctor-handoff-browser-qa.mjs
           node scripts/automation-map-qa.mjs
           node scripts/privacy-settings-qa.mjs
+          node scripts/tool-availability-qa.mjs
       - name: Save mobile and desktop QA screenshots
         uses: actions/upload-artifact@v4
         if: always()
@@ -74,6 +78,14 @@ jobs:
           name: site-doctor-browser-screenshots-${{ github.run_id }}
           path: qa-results/site-doctor/
           if-no-files-found: warn
+          retention-days: 14
+      - name: Save availability QA
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tool-availability-qa-${{ github.run_id }}
+          path: qa-results/tool-availability/
+          if-no-files-found: error
           retention-days: 14
       - name: Save privacy settings QA
         uses: actions/upload-artifact@v4

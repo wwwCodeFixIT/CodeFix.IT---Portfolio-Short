@@ -59,6 +59,15 @@ jobs:
         run: node scripts/mobile-navigation-qa.mjs
       - name: Verify deployed tool functions without calling providers
         run: node scripts/tools-deployment-smoke.mjs
+      - name: Verify published local tools without write requests
+        run: node scripts/tools-production-qa.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: tools-production-${{ github.run_id }}
+          path: qa-results/tools-production/
+          if-no-files-found: warn
+          retention-days: 14
       - uses: actions/upload-artifact@v4
         if: always()
         with:

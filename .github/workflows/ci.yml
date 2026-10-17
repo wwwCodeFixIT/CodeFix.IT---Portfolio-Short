@@ -78,6 +78,9 @@ jobs:
       - name: Validate read-only deployment probe
         run: npm run tools:probe:smoke
 
+      - name: Validate tool availability and API gates
+        run: npm run tools:status:typecheck && npm run tools:status:smoke
+
       - name: Run Site Doctor API security smoke
         run: npm run doctor:smoke
 

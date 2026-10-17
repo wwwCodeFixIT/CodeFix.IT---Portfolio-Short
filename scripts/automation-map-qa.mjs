@@ -51,7 +51,7 @@ for (const [engine, type] of Object.entries({ chromium, webkit })) {
         })
 
         await page.goto(origin + '/narzedzia/', { waitUntil: 'networkidle' })
-        await page.locator('.cf-doctor').waitFor()
+        await page.locator('#brief-title').waitFor()
         const reject = page.getByRole('button', { name: 'Odrzuć wszystkie', exact: true })
         if (await reject.isVisible()) await reject.click()
         assert.ok(

@@ -49,6 +49,13 @@ for (const [engine, browserType] of Object.entries({ chromium, webkit })) {
           body: JSON.stringify(sample),
         }),
       )
+      await context.route('**/api/tool-status', (route) =>
+        route.fulfill({
+          status: 200,
+          contentType: 'application/json',
+          body: '{"ai":true,"doctor":true}',
+        }),
+      )
       await context.route('**/api/ai-brief', (route) =>
         route.fulfill({ status: 503, contentType: 'application/json', body: '{}' }),
       )
@@ -111,7 +118,7 @@ for (const [engine, browserType] of Object.entries({ chromium, webkit })) {
       }
 
       // Path A: take short evidence from the doctor's independent CTA to the lead form.
-      await page.goto(origin + '/narzedzia/', { waitUntil: 'domcontentloaded' })
+      await page.goto(origin + '/narzedzia/?tool=diagnoza', { waitUntil: 'domcontentloaded' })
       await page.locator('.cf-doctor').waitFor()
       await dismissConsent()
       await page.locator('.cf-doctor-form input[type="url"]').fill('https://example.org/')
@@ -147,7 +154,7 @@ for (const [engine, browserType] of Object.entries({ chromium, webkit })) {
       assert.deepEqual(pageErrors, [], 'Frontend errors in handoff flow')
 
       // Path B: transfer a second report, then remove it before submitting.
-      await page.goto(origin + '/narzedzia/', { waitUntil: 'domcontentloaded' })
+      await page.goto(origin + '/narzedzia/?tool=diagnoza', { waitUntil: 'domcontentloaded' })
       await page.locator('.cf-doctor-form input[type="url"]').fill('https://example.org/')
       await page.getByRole('button', { name: /Uruchom diagnozę/ }).click()
       await page.getByRole('heading', { name: 'Raport diagnostyczny' }).waitFor()
@@ -299,8 +306,8 @@ for (const [engine, browserType] of Object.entries({ chromium, webkit })) {
       assert.equal(leadPayloads.length, 4, 'Only intercepted CRM submissions are permitted')
 
       // Brief CTA follows the generated brief, including edits while AI is in flight.
-      await page.goto(origin + '/narzedzia/', { waitUntil: 'domcontentloaded' })
-      await page.getByRole('button', { name: 'Asystent briefu AI', exact: true }).click()
+      await page.goto(origin + '/narzedzia/?tool=diagnoza', { waitUntil: 'domcontentloaded' })
+      await page.getByRole('button', { name: 'Asystent briefu', exact: true }).click()
       const brief = page.locator('[aria-labelledby="brief-title"]')
       await brief
         .getByLabel(/Cel lub problem/)

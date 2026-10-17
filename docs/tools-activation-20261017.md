@@ -28,7 +28,7 @@ Po scaleniu i zakończeniu wdrożenia aktualnej wersji:
 npm run tools:deployment
 ```
 
-To dwa żądania **GET** do `https://codefix.it/api/ai-brief` i `/api/site-doctor`. Oczekiwane są 405, JSON, `Allow: POST` i `Cache-Control: no-store`. Test rozpoznaje m.in. błędny fallback SPA z HTTP 200. Nie wywołuje dostawców i nie wysyła zgłoszeń. Potwierdza obecność funkcji, nie poprawność kluczy, WAF ani aktywację usług.
+To trzy żądania **GET**. `/api/ai-brief` i `/api/site-doctor` mają zwrócić 405, JSON i `Allow: POST`. `/api/tool-status` zwraca 200 oraz dwa booleany `ai`/`doctor`, bez kluczy i szczegółów konta. Wszystkie odpowiedzi wymagają `Cache-Control: no-store`. Test rozpoznaje m.in. błędny fallback SPA z HTTP 200. Nie wywołuje dostawców i nie wysyła zgłoszeń. Potwierdza obecność funkcji, nie poprawność kluczy, WAF ani aktywację usług.
 
 W workflow SEO Production Smoke ten test działa po sprawdzeniu opublikowanego runtime'u nawigacji. Można uruchomić cały workflow ręcznie dla opublikowanego `main`. Harmonogram SEO pozostaje bez dodatkowych żądań do API narzędzi.
 
@@ -66,6 +66,6 @@ npm run doctor:smoke
 npm run tools:probe:smoke
 ```
 
-Nowe pokrycie: 45 przypadków briefu, 19 dodatkowych przypadków Site Doctor oraz 8 wariantów testu wdrożenia. Scenariusze obejmują aktywację, origin, MIME, strumień, UTF-8, niepełne odpowiedzi, błędy i limity dostawców oraz ochronę przed fałszywym wynikiem GET. Wszystkie wywołania dostawców są przechwytywane. Dotychczasowe testy skanera i jego raportu pozostają w CI.
+Nowe pokrycie: 45 przypadków briefu, 19 dodatkowych przypadków Site Doctor oraz 11 wariantów testu wdrożenia. Scenariusze obejmują aktywację, origin, MIME, strumień, UTF-8, niepełne odpowiedzi, błędy i limity dostawców oraz ochronę przed fałszywym wynikiem GET. Wszystkie wywołania dostawców są przechwytywane. Dotychczasowe testy skanera i jego raportu pozostają w CI.
 
 Źródła konfiguracji sprawdzone 17.10.2026: [Cloudflare Pages — sekrety](https://developers.cloudflare.com/pages/functions/bindings/#secrets), [parametry rate limiting](https://developers.cloudflare.com/waf/rate-limiting-rules/parameters/), [OpenAI Responses API](https://developers.openai.com/api/reference/resources/responses/methods/create).

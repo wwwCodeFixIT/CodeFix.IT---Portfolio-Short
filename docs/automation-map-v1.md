@@ -13,7 +13,7 @@ Nowe narzędzie w laboratorium CodeFix.IT, bazujące na poprawionym Draft PR #11
 
 Mapa opisuje plan wdrożenia. Nie łączy się z systemami, nie uruchamia modelu AI ani nie wysyła danych. Stan pozostaje w pamięci karty, zachowuje się przy przełączaniu narzędzi i resetuje po przeładowaniu. Brak localStorage/sessionStorage dla treści planu.
 
-Wejście: `/narzedzia/` → „Mapa automatyzacji” lub `/narzedzia/?tool=automatyzacja`. Domyślnym narzędziem strony pozostaje Site Doctor.
+Wejście: `/narzedzia/` → „Mapa automatyzacji” lub `/narzedzia/?tool=automatyzacja`. Domyślnym narzędziem strony jest lokalny asystent briefu. Wejście do skanera: `/narzedzia/?tool=diagnoza`; skaner wymaga aktywnej usługi.
 
 ## UI, dostępność i SEO
 

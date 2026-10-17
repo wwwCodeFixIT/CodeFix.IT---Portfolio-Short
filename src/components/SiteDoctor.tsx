@@ -4,6 +4,7 @@
  */
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { buildDoctorHandoff, writeDoctorHandoff } from '../lib/site-doctor-handoff';
+import { refreshToolAvailability, useToolAvailability } from '../lib/tool-availability';
 import './ToolControls.css';
 import './SiteDoctor.css';
 
@@ -71,6 +72,8 @@ type Props = {
 };
 
 export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Props) {
+  const availability = useToolAvailability();
+  const [retryFocus, setRetryFocus] = useState(false);
   const [url, setUrl] = useState(initialUrl);
   const [problem, setProblem] = useState<Problem>('slow');
   const [description, setDescription] = useState('');
@@ -87,7 +90,7 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
 
   async function runScan(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (running.current) return;
+    if (running.current || !availability.doctor) return;
     // Fail on private/internal addresses at the client for quick feedback.
     let normalized: URL;
     try {
@@ -115,7 +118,7 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
       const response = await fetch('/api/site-doctor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: normalized.href, problem, description: description.trim(), includeAi: useAi }),
+        body: JSON.stringify({ url: normalized.href, problem, description: description.trim(), includeAi: useAi && availability.ai }),
         signal: abort.signal,
       });
       if (!response.ok) {
@@ -191,15 +194,14 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
           <p className="cf-doctor-tagline">Diabełek sprawdza, gdzie tkwi problem.</p>
         </div>
       </div>
-      <p className="cf-doctor-intro">
-        Wklej publiczny adres HTTPS. Sprawdzimy prawdziwy raport mobilny Lighthouse
-        (wydajność, SEO i dostępność) przez Google PageSpeed Insights. To pomiary
-        laboratoryjne — nie skanujemy panelu administratora ani nie testujemy wysyłania formularzy.
+      {availability.doctor ? <><p className="cf-doctor-intro">
+        Pomiar mobilny Lighthouse: wydajność, SEO i dostępność. Adres trafia do Google
+        PageSpeed Insights. Formularze i WordPress wymagają osobnego testu.
       </p>
       <form className="cf-tool-form cf-doctor-form" onSubmit={(event) => void runScan(event)}>
         <label>
           Adres strony <span aria-hidden="true">*</span>
-          <input required type="url" inputMode="url" maxLength={450} autoComplete="url"
+          <input required type="url" inputMode="url" maxLength={450} autoComplete="url" autoFocus={retryFocus}
             value={url} onChange={(event) => setUrl(event.target.value)}
             placeholder="https://twoja-strona.pl" />
         </label>
@@ -215,26 +217,37 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
             onChange={(event) => setDescription(event.target.value)}
             placeholder="Np. po aktualizacji koszyk nie przechodzi do płatności." />
         </label>
-        <label className="cf-doctor-optin">
+        {availability.ai && <label className="cf-doctor-optin">
           <input type="checkbox" checked={useAi} onChange={(event) => setUseAi(event.target.checked)} />
           <span><strong>Dodaj komentarz modelu AI</strong>
             <small>Opcjonalnie — opis i wyniki zostaną przekazane do dostawcy modelu, jeśli integracja jest aktywna.</small>
           </span>
-        </label>
+        </label>}
         <div className="cf-tool-actions">
           <button className="cf-tool-primary" type="submit" disabled={state === 'loading'}>
             {state === 'loading' ? 'Trwa pomiar…' : 'Uruchom diagnozę'} <span aria-hidden="true">↗</span>
           </button>
           {state === 'loading' && <button type="button" onClick={() => controller.current?.abort()}>Anuluj</button>}
         </div>
-        <p className="cf-doctor-data-note">Adres strony trafia do Google PageSpeed Insights.
-          Nie podawaj poufnych adresów ani haseł. Test wymaga aktywacji usługi i jest limitowany.</p>
-      </form>
+        <p className="cf-doctor-data-note">Podaj publiczny adres HTTPS. Nie wpisuj poufnych adresów ani haseł.</p>
+      </form></> : <div className="cf-doctor-intro" role="status">
+        <p>{availability.state === 'loading' ? 'Sprawdzam dostępność diagnozy…'
+          : availability.state === 'error' ? 'Nie udało się sprawdzić dostępności diagnozy.'
+          : 'Diagnoza online jest niedostępna. Opisz problem w zgłoszeniu.'}</p>
+        <div className="cf-tool-actions">
+          {onDismiss ? <button type="button" onClick={onDismiss}>Wróć do zgłoszenia</button>
+            : <a href="/?service=WORDPRESS_QUICK_FIX#contact">Opisz problem →</a>}
+          {availability.state === 'error' && <button type="button" autoFocus={retryFocus} onClick={() => {
+            setRetryFocus(true);
+            void refreshToolAvailability();
+          }}>Sprawdź ponownie</button>}
+        </div>
+      </div>}
 
-      <div role="status" aria-live="polite" className={'cf-doctor-status' + (state === 'error' ? ' is-error' : '')} key={requestKey}>
+      {availability.doctor && <div role="status" aria-live="polite" className={'cf-doctor-status' + (state === 'error' ? ' is-error' : '')} key={requestKey}>
         <span className="cf-doctor-status-dot" aria-hidden="true" />
         <span>{message || 'Diabełek gotowy do diagnozy.'}</span>
-      </div>
+      </div>}
 
       {report && state === 'success' && (
         <div className="cf-doctor-results" aria-label="Wynik diagnozy">

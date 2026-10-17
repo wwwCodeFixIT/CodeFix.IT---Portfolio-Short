@@ -1,6 +1,7 @@
-import { lazy, Suspense, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Brand } from '../components/Brand';
 import { openMeasurementSettings } from '../lib/measurement';
+import { refreshToolAvailability, useToolAvailability } from '../lib/tool-availability';
 import '../components/ToolControls.css';
 import './ToolsLab.css';
 
@@ -62,8 +63,10 @@ function contrastRatio(foreground: string, background: string) {
 
 export function ToolsLab() {
   const [active, setActive] = useState<ToolId>(() =>
-    new URL(window.location.href).searchParams.get('tool') === 'automatyzacja' ? 'automation' : 'doctor',
+    new URL(window.location.href).searchParams.get('tool') === 'automatyzacja' ? 'automation'
+      : new URL(window.location.href).searchParams.get('tool') === 'diagnoza' ? 'doctor' : 'brief',
   );
+  const availability = useToolAvailability();
   const [automationStarted, setAutomationStarted] = useState(active === 'automation');
   const [kind, setKind] = useState<ProjectKind>('strona');
   const [audience, setAudience] = useState('');
@@ -94,12 +97,12 @@ export function ToolsLab() {
       return;
     }
     setResult({ text: draft, kind });
-    setStatus('Przygotowano lokalny szkic. Bez połączenia z modelem AI.');
+    setStatus('Szkic lokalny gotowy. Bez połączenia z AI.');
     setCopyStatus('');
   }
 
-  async function aiDraft(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  async function aiDraft() {
+    if (!availability.ai) { localDraft(); return; }
     if (goal.trim().length < 15) {
       setStatus('Opisz cel lub problem w co najmniej 15 znakach.');
       return;
@@ -117,7 +120,7 @@ export function ToolsLab() {
       if (!response.ok) {
         if (response.status === 503) {
           setResult({ text: draft, kind });
-          setStatus('AI nie jest jeszcze aktywne. Wyświetlam użyteczny szkic lokalny.');
+          setStatus('AI nie jest jeszcze aktywne. Wyświetlam szkic lokalny.');
           return;
         }
         if (response.status === 429) throw new Error('Limit zapytań został osiągnięty. Spróbuj później.');
@@ -167,7 +170,7 @@ export function ToolsLab() {
 
         <div className="cf-tool-tabs" role="group" aria-label="Wybierz narzędzie">
           <button type="button" aria-pressed={active === 'doctor'} onClick={() => setActive('doctor')}>AI Site Doctor 😈</button>
-          <button type="button" aria-pressed={active === 'brief'} onClick={() => setActive('brief')}>Asystent briefu AI</button>
+          <button type="button" aria-pressed={active === 'brief'} onClick={() => setActive('brief')}>Asystent briefu</button>
           <button type="button" aria-pressed={active === 'automation'} onClick={() => {
             setAutomationStarted(true);
             setActive('automation');
@@ -194,10 +197,10 @@ export function ToolsLab() {
           <section className="cf-tool-panel" aria-labelledby="brief-title">
             <div className="cf-tool-heading">
               <div><p className="cf-section-kicker">01 / Planowanie</p><h2 id="brief-title">Asystent briefu projektu</h2></div>
-              <span className="cf-tool-chip">Szkic lokalny + opcjonalne AI</span>
+              <span className="cf-tool-chip">{availability.ai ? 'Szkic lokalny + opcjonalne AI' : 'Szkic lokalny'}</span>
             </div>
-            <p>Podaj tylko informacje o projekcie. Nie wpisuj haseł, danych klientów ani informacji poufnych. Wybór „Generuj z AI” wysyła treść do dostawcy modelu, gdy usługa jest aktywna.</p>
-            <form className="cf-tool-form" onSubmit={(event) => void aiDraft(event)}>
+            <p>Szkic powstaje w tej karcie. {availability.ai && 'Wybór „Generuj z AI” wysyła treść do modelu — pomiń informacje poufne.'}</p>
+            <form className="cf-tool-form" onSubmit={(event) => { event.preventDefault(); localDraft(); }}>
               <label>Rodzaj projektu
                 <select value={kind} onChange={(event) => setKind(event.target.value as ProjectKind)}>
                   {Object.entries(kinds).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
@@ -213,14 +216,18 @@ export function ToolsLab() {
                 <input value={website} maxLength={200} onChange={(event) => setWebsite(event.target.value)} placeholder="https://twoja-strona.pl" />
               </label>
               <div className="cf-tool-actions">
-                <button type="submit" disabled={busy} className="cf-tool-primary">{busy ? 'Analizuję…' : 'Generuj z AI'}</button>
-                <button type="button" disabled={busy} onClick={localDraft}>Szkic bez AI</button>
+                <button type="submit" disabled={busy} className="cf-tool-primary">Szkic bez AI</button>
+                {availability.ai && <button type="button" disabled={busy} onClick={() => void aiDraft()}>{busy ? 'Analizuję…' : 'Generuj z AI'}</button>}
+                {availability.state === 'error' && <button type="button" onClick={(event) => {
+                  event.currentTarget.form?.querySelector<HTMLButtonElement>('.cf-tool-primary')?.focus();
+                  void refreshToolAvailability();
+                }}>Sprawdź dostępność AI</button>}
               </div>
             </form>
             <p className="cf-tool-status" role="status" aria-live="polite">{status}</p>
             {result && (
               <div className="cf-tool-result">
-                <label htmlFor="cf-tool-brief-result">Twój brief — możesz go edytować po skopiowaniu</label>
+                <label htmlFor="cf-tool-brief-result">Twój brief</label>
                 <p>Brief dotyczy: {kinds[result.kind]}.</p>
                 <textarea ref={output} id="cf-tool-brief-result" readOnly rows={15} value={result.text} />
                 <div className="cf-tool-actions">

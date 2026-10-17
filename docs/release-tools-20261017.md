@@ -1,6 +1,6 @@
 # Wspólny kandydat wydania — 17.10.2026
 
-Gałąź `feat/release-tools-20261017` zbiera zmiany z PR #108–#112 w jeden Draft PR do `main`. Punktem wyjścia jest `742f1b6ffc73aa62921969994c0e9b90c9f09dae`; zawiera aktualny `main` (`d147f93fd6552d02655b8f8acb81645a9278126d`). Dotychczasowe gałęzie zachowują swoją historię. Tego kandydata należy przeglądać jako całość, a nie scalać równolegle ze stosem poprzednich PR.
+Gałąź `feat/release-tools-20261017` zbiera zmiany z PR #108–#112 w jeden PR do `main`. Punktem wyjścia jest `742f1b6ffc73aa62921969994c0e9b90c9f09dae`; zawiera aktualny `main` (`d147f93fd6552d02655b8f8acb81645a9278126d`). Dotychczasowe gałęzie zachowują swoją historię. Tego kandydata należy przeglądać jako całość, a nie scalać równolegle ze stosem poprzednich PR.
 
 ## Zakres
 
@@ -28,15 +28,15 @@ Build bez zwiększania limitów:
 
 | Zasób | Bajty | Limit |
 | --- | ---: | ---: |
-| Entry JS | 202756 | 215000 |
-| Największy odroczony JS | 57162 | 58000 |
-| Łączny JS | 378282 | 380000 |
+| Entry JS | 202793 | 215000 |
+| Największy odroczony JS | 57199 | 58000 |
+| Łączny JS | 379876 | 380000 |
 | Największy CSS | 40641 | 41000 |
 | Łączny CSS | 101351 | 102000 |
 
-Runtime: `/assets/index-D0EWBBuR.js`. Brak nowych zależności.
+Runtime: `/assets/index-DigwM1qb.js`. Brak nowych zależności.
 
-Uzupełnienie backendu i gotowa konfiguracja aktywacji są opisane w [tools-activation-20261017.md](tools-activation-20261017.md). Obejmują odrzucanie niepełnych odpowiedzi modeli, limity danych zgodne z UTF-8, testy API briefu i dodatkowe testy dostawców skanera oraz kontrolę wdrożenia przez GET. Nie zmieniają plików frontendowych ani powyższych budżetów.
+Uzupełnienie backendu i gotowa konfiguracja aktywacji są opisane w [tools-activation-20261017.md](tools-activation-20261017.md). Obejmują odrzucanie niepełnych odpowiedzi modeli, limity danych zgodne z UTF-8, testy API briefu i dodatkowe testy dostawców skanera oraz kontrolę wdrożenia przez GET. Bramka dostępności jest opisana poniżej.
 
 Testy przeglądarkowe uruchamia GitHub Actions na statycznym buildzie z PR:
 
@@ -49,3 +49,11 @@ Wyniki dla konkretnego SHA oraz zrzuty ekranu są w checkach i opisie zbiorczego
 ## Publikacja
 
 To kandydat do przeglądu, nie zapis wdrożenia. Przed scaleniem należy ocenić checki najnowszego SHA i zrzuty z testów wspólnej wersji. Po publikacji dotychczasowy workflow SEO sprawdza stronę produkcyjną i zgodność runtime'u menu. Aktywacja dostawców AI/PageSpeed oraz weryfikacja ich prawdziwych odpowiedzi stanowią osobny etap konfiguracji; test z atrapami nie potwierdza działania skonfigurowanej usługi na produkcji.
+
+## Publikacja z integracjami wyłączonymi
+
+Domyślnym narzędziem jest działający lokalnie asystent briefu. GET `/api/tool-status` ujawnia wyłącznie dwa booleany, zgodne z warunkami aktywacji endpointów. Poza produkcyjnym originem oba są wyłączone. Przycisk AI i formularz diagnozy są dostępne po potwierdzeniu konfiguracji. Niepowodzenie odczytu nie blokuje lokalnych narzędzi; ponowienie zachowuje pola i fokus. Enter w briefie zawsze uruchamia tryb lokalny.
+
+Odczyt konfiguracji jest współdzielony między komponentami w karcie i ograniczony do 5 sekund. Test API porównuje 64 konfiguracje z rzeczywistymi bramkami POST oraz odrzuca 3 obce originy. Test przeglądarkowy obejmuje 32 warianty obu silników i trzech szerokości: integracje off/on, osobna dostępność skanera i AI, lokalny Enter, domyślne opt-in wyłączone, retry po błędzie i timeout.
+
+Po publikacji workflow sprawdza aktualny runtime, trzy endpointy GET oraz lokalny brief i mapę na produkcji w Chromium/WebKit przy 320/390/1280 px. Cały etap produkcyjny blokuje POST i zewnętrzne żądania; nie uruchamia modeli, pomiaru PageSpeed ani CRM. Sekrety, WAF i przełączniki usług nie są zmieniane przez publikację kodu.
