@@ -12,7 +12,21 @@ const api = await import('data:text/javascript;charset=utf-8,' + encodeURICompon
 
 const TOKEN = 'a'.repeat(64)
 const homepage = 'https://codefix.it/'
+let claimed = false
+const pilotDb = {
+  prepare(sql) {
+    assert.match(sql, /^INSERT OR IGNORE INTO site_doctor_pilot_claims/)
+    return {
+      async run() {
+        if (claimed) return { success: true, meta: { changes: 0 } }
+        claimed = true
+        return { success: true, meta: { changes: 1 } }
+      },
+    }
+  },
+}
 const env = {
+  SITE_DOCTOR_PILOT_DB: pilotDb,
   SITE_DOCTOR_ENABLED: 'false',
   SITE_DOCTOR_PILOT_ENABLED: 'true',
   SITE_DOCTOR_PILOT_TOKEN: TOKEN,
@@ -81,6 +95,10 @@ try {
   await expectBlock(request(input, TOKEN, 'https://evil.example'), env, 403)
   await expectBlock(request(input, TOKEN, 'https://codefix.it', 'https://other.example/api/site-doctor'), env, 403)
 
+  // A missing binding must fail closed before any Google request.
+  await expectBlock(request(), { ...env, SITE_DOCTOR_PILOT_DB: undefined }, 503)
+  assert.equal(claimed, false, 'Missing D1 must not consume an attempt')
+
   const res = await api.onRequestPost({ request: request(), env })
   assert.equal(res.status, 200)
   const result = await res.json()
@@ -88,6 +106,8 @@ try {
   assert.equal(result.scores.seo, 91)
   assert.equal(result.aiExplanation, undefined)
   assert.equal(outbound.length, 1, 'Pilot canary must invoke exactly one Google request')
+  await expectBlock(request(), env, 409)
+  assert.equal(outbound.length, 1, 'Replayed token must never reach Google')
 
   // The public availability JSON MUST stay false while pilot access exists.
   const statusSource = await readFile(new URL('../functions/api/tool-status.ts', import.meta.url), 'utf8')
