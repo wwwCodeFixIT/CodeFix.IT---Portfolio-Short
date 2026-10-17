@@ -87,6 +87,9 @@ jobs:
       - name: Verify fail-closed Site Doctor canary without calling providers
         run: npm run doctor:activation:smoke
 
+      - name: Verify private pilot scope, token isolation and public-off status
+        run: npm run doctor:pilot:smoke
+
       - name: Validate Site Doctor contact handoff
         run: npm run doctor:handoff:smoke
 
