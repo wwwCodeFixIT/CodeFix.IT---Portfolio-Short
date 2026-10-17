@@ -392,7 +392,11 @@ for (const [engine, browserType] of Object.entries({ chromium, webkit })) {
       await page.route('**/api/site-doctor', async (route) => {
         await new Promise((resolve) => setTimeout(resolve, 1500))
         try {
-          await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(sample) })
+          await route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify(sample),
+          })
         } catch {
           // Browser aborted the in-flight fetch.
         }
@@ -425,7 +429,10 @@ for (const [engine, browserType] of Object.entries({ chromium, webkit })) {
       await fallbackDialog.getByRole('button', { name: 'Wróć do zgłoszenia bez raportu →' }).click()
       await fallbackDialog.waitFor({ state: 'hidden' })
       assert.equal(await page.locator('textarea[name="message"]').inputValue(), originalMessage)
-      assert.equal(await page.locator('.cf-doctor-attachment input[type="checkbox"]').isChecked(), false)
+      assert.equal(
+        await page.locator('.cf-doctor-attachment input[type="checkbox"]').isChecked(),
+        false,
+      )
       assert.deepEqual(pageErrors, [], 'RC error and cancellation flows must not throw')
 
       console.log(
