@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - feat/site-doctor-activation-canary-20261017
+      - feat/site-doctor-d1-preflight-20261017
 
 permissions:
   contents: read
