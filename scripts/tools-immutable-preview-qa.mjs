@@ -8,6 +8,7 @@
  * Usage: node scripts/tools-immutable-preview-qa.mjs <40-char-commit-sha>
  */
 import assert from 'node:assert/strict';
+import { appendFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 
 const REPO = 'wwwCodeFixIT/CodeFix.IT---Portfolio-Short';
@@ -114,6 +115,7 @@ if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) 
   try {
     const outcome = await checkImmutablePages(sha, globalThis.fetch, process.env.GITHUB_TOKEN ?? '');
     console.log(JSON.stringify({ status: 'passed', ...outcome }, null, 2));
+    if (process.env.GITHUB_OUTPUT) await appendFile(process.env.GITHUB_OUTPUT, 'preview_url=' + outcome.preview + '\n');
     console.log('READ ONLY: no POST, no provider requests, no CRM submissions.');
   } catch (error) {
     console.error('Immutable preview QA FAILED:', error instanceof Error ? error.message : String(error));
