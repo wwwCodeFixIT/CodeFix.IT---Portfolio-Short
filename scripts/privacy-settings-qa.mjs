@@ -138,7 +138,10 @@ for (const [engine, type] of Object.entries({ chromium, webkit })) {
               await page.locator('input[name="name"]').inputValue(),
               'QA: zachowany kontakt',
             )
-            assert.equal(await page.locator('select[name="service"]').inputValue(), 'development')
+            assert.equal(
+              await page.locator('form.cf-lead-form [name="service"]').inputValue(),
+              'development',
+            )
             assert.equal(
               await page.locator('textarea[name="message"]').inputValue(),
               'QA: zachowany opis projektu',
