@@ -137,7 +137,7 @@ export async function inspectCloudflare(env = process.env, fetcher = globalThis.
     '/accounts/' + account + '/pages/projects/' + project,
   ])
   async function readApi(path, optional = false) {
-    assert.ok(allowed.has(path), 'The audit is restricted to three Cloudflare GET routes')
+    assert.ok(allowed.has(path), 'The audit only permits documented Cloudflare GET routes')
     const res = await fetcher(API + path, {
       method: 'GET',
       redirect: 'manual',
@@ -154,16 +154,21 @@ export async function inspectCloudflare(env = process.env, fetcher = globalThis.
   const zone = await readApi('/zones/' + zoneId)
   const pages = await readApi('/accounts/' + account + '/pages/projects/' + project)
   const ruleset = await readApi('/zones/' + zoneId + '/rulesets/phases/http_ratelimit/entrypoint', true)
-  // D1 schema is not queried remotely: that endpoint uses POST even for SELECT.
-  // The database can be identified via Pages binding, but must be verified by
-  // an authorized operator against D1 separately.
+  // D1 metadata is GET-only. Schema/row inspection uses POST even for SELECT,
+  // and is deliberately left for an authorized operator.
   const d1Id = pages?.deployment_configs?.production?.d1_databases?.SITE_DOCTOR_PILOT_DB?.id
+  let database = null
+  if (typeof d1Id === 'string' && D1_UUID.test(d1Id)) {
+    const dbPath = '/accounts/' + account + '/d1/database/' + d1Id
+    allowed.add(dbPath)
+    database = await readApi(dbPath, true)
+  }
   const snapshot = assessCloudflare({
     zone, pages, rateRuleset: ruleset,
-    database: null,
+    database,
   })
-  if (typeof d1Id === 'string' && D1_UUID.test(d1Id)) {
-    snapshot.warnings.push('D1 binding ma poprawny format; potwierdzenie faktycznej bazy i schematu pozostaje ręczne.')
+  if (database?.uuid === d1Id) {
+    snapshot.warnings.push('D1 istnieje; schemat tabeli i pusty stan rekordu pilota pozostają do ręcznego sprawdzenia.')
   }
   return snapshot
 }
