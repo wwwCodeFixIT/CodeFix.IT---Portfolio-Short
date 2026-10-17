@@ -16,6 +16,7 @@ import { pathToFileURL } from 'node:url'
 const API = 'https://api.cloudflare.com/client/v4'
 const NAME = /^[a-z0-9][a-z0-9-]*$/
 const ID = /^[a-f0-9]{32}$/i
+const D1_UUID = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i
 const PAGES = 'https://codefix.it'
 const SECRET_KEYS = ['PAGESPEED_API_KEY', 'SITE_DOCTOR_PILOT_TOKEN']
 const PILOT_FLAGS = ['SITE_DOCTOR_ENABLED', 'SITE_DOCTOR_PILOT_ENABLED', 'SITE_DOCTOR_RATE_LIMIT_CONFIRMED']
@@ -64,7 +65,7 @@ export function assessCloudflare({ zone, pages, rateRuleset, database }) {
   blockersAdd(blockers, pages?.domains?.includes('codefix.it'),
     'Projekt Pages nie potwierdza domeny codefix.it.')
   const d1 = prod?.d1_databases?.SITE_DOCTOR_PILOT_DB?.id
-  blockersAdd(blockers, typeof d1 === 'string' && ID.test(d1), 'Brak produkcyjnego bindingu D1 SITE_DOCTOR_PILOT_DB.')
+  blockersAdd(blockers, typeof d1 === 'string' && D1_UUID.test(d1), 'Brak produkcyjnego bindingu D1 SITE_DOCTOR_PILOT_DB.')
   blockersAdd(blockers, Boolean(database && database.uuid === d1),
     'Niepotwierdzona oddzielna baza D1 wskazana przez binding.')
   blockersAdd(blockers, !preview?.d1_databases?.SITE_DOCTOR_PILOT_DB,
@@ -161,7 +162,7 @@ export async function inspectCloudflare(env = process.env, fetcher = globalThis.
     zone, pages, rateRuleset: ruleset,
     database: null,
   })
-  if (typeof d1Id === 'string' && ID.test(d1Id)) {
+  if (typeof d1Id === 'string' && D1_UUID.test(d1Id)) {
     snapshot.warnings.push('D1 binding ma poprawny format; potwierdzenie faktycznej bazy i schematu pozostaje ręczne.')
   }
   return snapshot
