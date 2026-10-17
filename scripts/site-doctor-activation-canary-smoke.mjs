@@ -67,7 +67,7 @@ const readOnly = await preflight(disabled.fetcher)
 assert.equal(readOnly.configuredActive, true)
 assert.equal(readOnly.providerRequests, 0)
 assert.deepEqual(disabled.calls.map((call) => call.options.method), ['GET', 'GET'])
-await assert.rejects(() => runOnce({ args, env }, disabled.fetcher), /disabled/)
+await assert.rejects(() => runOnce({ args, env }, disabled.fetcher), /Pilot must not run/)
 assert.equal(disabled.calls.filter((call) => call.options.method === 'POST').length, 0)
 
 const active = makeMock({ doctor: false })
