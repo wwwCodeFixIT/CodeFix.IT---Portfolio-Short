@@ -19,7 +19,8 @@ const origin = targetOrigin.origin
 const html = await readFile(new URL('../dist/narzedzia/index.html', import.meta.url), 'utf8')
 const expected = html.match(/<script[^>]+type="module"[^>]+src="([^"]+)"/)?.[1]
 assert.ok(expected?.startsWith('/assets/'))
-const output = origin === 'https://codefix.it' ? 'qa-results/tools-production' : 'qa-results/tools-preview'
+const output =
+  origin === 'https://codefix.it' ? 'qa-results/tools-production' : 'qa-results/tools-preview'
 await mkdir(output, { recursive: true })
 const results = []
 
