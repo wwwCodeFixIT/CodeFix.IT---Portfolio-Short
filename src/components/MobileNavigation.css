@@ -2,12 +2,16 @@
 .cf-mobile-navigation {
   display: none;
 }
-.cf-nav-with-menu .cf-nav-links a {
+.cf-nav-with-menu .cf-nav-links a,
+.cf-laboratory + a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-width: 44px;
   min-height: 44px;
+}
+.cf-nav-with-menu .cf-nav-links {
+  gap: clamp(8px, 1.4vw, 24px);
 }
 .cf-nav-with-menu .cf-nav-links a:focus-visible {
   outline: 2px solid #ff858c;

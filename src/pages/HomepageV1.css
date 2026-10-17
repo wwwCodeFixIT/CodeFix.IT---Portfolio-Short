@@ -229,6 +229,27 @@
   margin-top: 34px;
 }
 
+.cf-laboratory {
+  margin-top: 24px;
+}
+.cf-laboratory > summary {
+  width: fit-content;
+  cursor: pointer;
+}
+.cf-laboratory > summary::-webkit-details-marker {
+  display: none;
+}
+.cf-laboratory > summary:focus-visible {
+  outline: 3px solid #ff9999;
+  outline-offset: 3px;
+}
+.cf-laboratory[open] > summary {
+  margin-bottom: 24px;
+}
+.cf-laboratory[open] > summary svg {
+  transform: rotate(180deg);
+}
+
 .cf-button {
   min-height: 48px;
   display: inline-flex;

@@ -2,7 +2,7 @@
  * Site Doctor: browser never fetches a third-party URL.
  * This component only talks to the same-origin, rate-limited Pages Function.
  */
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
 import { buildDoctorHandoff, writeDoctorHandoff } from '../lib/site-doctor-handoff';
 import { refreshToolAvailability, useToolAvailability } from '../lib/tool-availability';
 import './ToolControls.css';
@@ -72,6 +72,7 @@ type Props = {
 };
 
 export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Props) {
+  const titleId = useId();
   const availability = useToolAvailability();
   const [retryFocus, setRetryFocus] = useState(false);
   const [url, setUrl] = useState(initialUrl);
@@ -182,7 +183,7 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
   }
 
   return (
-    <section className="cf-doctor" aria-labelledby="cf-doctor-title">
+    <section className="cf-doctor" aria-labelledby={titleId}>
       <div className="cf-doctor-top">
         <div className={'cf-doctor-avatar' + (state === 'loading' ? ' is-scanning' : '')}>
           <img src="/brand/codefix-devil-mark.webp" width="128" height="128" alt="" loading="lazy" />
@@ -190,7 +191,7 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
         </div>
         <div>
           <p className="cf-section-kicker">04 / Laboratorium diagnostyczne</p>
-          <h2 id="cf-doctor-title">AI Site Doctor<span className="cf-doctor-accent">.</span></h2>
+          <h2 id={titleId}>AI Site Doctor<span className="cf-doctor-accent">.</span></h2>
           <p className="cf-doctor-tagline">Diabełek sprawdza, gdzie tkwi problem.</p>
         </div>
       </div>
@@ -292,10 +293,10 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
             Wyniki to pomiar jednej publicznej podstrony na symulowanym urządzeniu mobilnym,
             a nie certyfikat WCAG, audyt bezpieczeństwa ani potwierdzenie sprawności WordPress.
           </p>
-          <div className="cf-doctor-handoff" aria-labelledby="cf-doctor-handoff-title">
+          <div className="cf-doctor-handoff" aria-labelledby={`${titleId}-handoff`}>
             <div>
               <p className="cf-section-kicker">Osobna funkcja · Przekaż diagnozę</p>
-              <h4 id="cf-doctor-handoff-title">Z wyniku do zgłoszenia — bez przepisywania.</h4>
+              <h4 id={`${titleId}-handoff`}>Z wyniku do zgłoszenia — bez przepisywania.</h4>
               <p>
                 {onAttach ? 'Dołączę' : 'Przeniosę'} wyłącznie skrócony raport z pomiaru Lighthouse do formularza.
                 Nie przenoszę opisu problemu ani komentarza AI. Raport będzie widoczny

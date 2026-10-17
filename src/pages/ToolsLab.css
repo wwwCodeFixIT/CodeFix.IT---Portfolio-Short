@@ -1,6 +1,7 @@
 /* CodeFix.IT Tools Lab — isolated, responsive, no animation dependencies. */
 .cf-tools { min-height: 100vh; background: #060606; color: #f7f7f8; font: 16px/1.55 Inter, ui-sans-serif, system-ui, sans-serif; }
 .cf-tools * { box-sizing: border-box; }
+.cf-tools-workspace { min-height: 0; background: none; }
 .cf-tools .cf-container { width: min(1050px, calc(100% - 40px)); margin-inline: auto; }
 .cf-tools .cf-brand { display: inline-flex; align-items: center; gap: 9px; min-width: 0; text-decoration: none; }
 .cf-tools .cf-brand-mark { width: 46px; height: 46px; flex: 0 0 46px; overflow: hidden; }

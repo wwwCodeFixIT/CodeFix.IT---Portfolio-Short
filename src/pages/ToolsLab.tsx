@@ -61,7 +61,9 @@ function contrastRatio(foreground: string, background: string) {
   return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
 }
 
-export function ToolsLab() {
+export type ToolsWorkspaceProps = { onContact?: (service: string, report?: string) => void };
+
+export function ToolsWorkspace({ onContact }: ToolsWorkspaceProps = {}) {
   const [active, setActive] = useState<ToolId>(() =>
     new URL(window.location.href).searchParams.get('tool') === 'automatyzacja' ? 'automation'
       : new URL(window.location.href).searchParams.get('tool') === 'diagnoza' ? 'doctor' : 'brief',
@@ -82,12 +84,6 @@ export function ToolsLab() {
   const [fg, setFg] = useState('#f7f7f8');
   const [bg, setBg] = useState('#101011');
   const ratio = useMemo(() => contrastRatio(fg, bg), [fg, bg]);
-
-  useEffect(() => {
-    const before = document.title;
-    document.title = 'Narzędzia AI, SEO i automatyzacji | CodeFix.IT';
-    return () => { document.title = before; };
-  }, []);
 
   const draft = basicBrief(kind, audience, goal, website);
 
@@ -153,6 +149,133 @@ export function ToolsLab() {
   }
 
   return (
+    <div className="cf-tools cf-tools-workspace">
+      <div className="cf-tool-tabs" role="group" aria-label="Wybierz narzędzie">
+        <button type="button" aria-pressed={active === 'doctor'} onClick={() => setActive('doctor')}>AI Site Doctor 😈</button>
+        <button type="button" aria-pressed={active === 'brief'} onClick={() => setActive('brief')}>Asystent briefu</button>
+        <button type="button" aria-pressed={active === 'automation'} onClick={() => {
+          setAutomationStarted(true);
+          setActive('automation');
+        }}>Mapa automatyzacji</button>
+        <button type="button" aria-pressed={active === 'seo'} onClick={() => setActive('seo')}>Podgląd SEO</button>
+        <button type="button" aria-pressed={active === 'contrast'} onClick={() => setActive('contrast')}>Kontrast WCAG</button>
+      </div>
+
+      {automationStarted && (
+        <div hidden={active !== 'automation'}>
+          <Suspense fallback={<p role="status">Ładuję mapę automatyzacji…</p>}>
+            <AutomationMap onDiscuss={onContact ? () => onContact('development') : undefined} />
+          </Suspense>
+        </div>
+      )}
+
+      {active === 'doctor' && (
+        <Suspense fallback={<div className="cf-tool-panel" role="status">Ładuję Site Doctor…</div>}>
+          <SiteDoctor
+            onAttach={onContact ? (report) => onContact('WORDPRESS_QUICK_FIX', report) : undefined}
+            onDismiss={onContact ? () => onContact('WORDPRESS_QUICK_FIX') : undefined}
+          />
+        </Suspense>
+      )}
+
+      {active === 'brief' && (
+        <section className="cf-tool-panel" aria-labelledby="brief-title">
+          <div className="cf-tool-heading">
+            <div><p className="cf-section-kicker">01 / Planowanie</p><h2 id="brief-title">Asystent briefu projektu</h2></div>
+            <span className="cf-tool-chip">{availability.ai ? 'Szkic lokalny + opcjonalne AI' : 'Szkic lokalny'}</span>
+          </div>
+          <p>Szkic powstaje w tej karcie. {availability.ai && 'Wybór „Generuj z AI” wysyła treść do modelu — pomiń informacje poufne.'}</p>
+          <form className="cf-tool-form" onSubmit={(event) => { event.preventDefault(); localDraft(); }}>
+            <label>Rodzaj projektu
+              <select value={kind} onChange={(event) => setKind(event.target.value as ProjectKind)}>
+                {Object.entries(kinds).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
+              </select>
+            </label>
+            <label>Do kogo kierujesz stronę lub aplikację?
+              <input value={audience} maxLength={120} onChange={(event) => setAudience(event.target.value)} placeholder="Np. lokalne firmy usługowe" />
+            </label>
+            <label>Cel lub problem
+              <textarea required minLength={15} maxLength={900} rows={4} value={goal} onChange={(event) => setGoal(event.target.value)} placeholder="Co chcesz osiągnąć? Co obecnie nie działa?" />
+            </label>
+            <label>Adres obecnej strony (opcjonalnie)
+              <input value={website} maxLength={200} onChange={(event) => setWebsite(event.target.value)} placeholder="https://twoja-strona.pl" />
+            </label>
+            <div className="cf-tool-actions">
+              <button type="submit" disabled={busy} className="cf-tool-primary">Szkic bez AI</button>
+              {availability.ai && <button type="button" disabled={busy} onClick={() => void aiDraft()}>{busy ? 'Analizuję…' : 'Generuj z AI'}</button>}
+              {availability.state === 'error' && <button type="button" onClick={(event) => {
+                event.currentTarget.form?.querySelector<HTMLButtonElement>('.cf-tool-primary')?.focus();
+                void refreshToolAvailability();
+              }}>Sprawdź dostępność AI</button>}
+            </div>
+          </form>
+          <p className="cf-tool-status" role="status" aria-live="polite">{status}</p>
+          {result && (
+            <div className="cf-tool-result">
+              <label htmlFor="cf-tool-brief-result">Twój brief</label>
+              <p>Brief dotyczy: {kinds[result.kind]}.</p>
+              <textarea ref={output} id="cf-tool-brief-result" readOnly rows={15} value={result.text} />
+              <div className="cf-tool-actions">
+                <button type="button" onClick={() => void copyResult()}>Skopiuj brief</button>
+                {onContact ? <button type="button" onClick={() => onContact(projectServices[result.kind])}>Przejdź do zapytania →</button>
+                  : <a href={`/?service=${projectServices[result.kind]}#contact`}>Omów projekt z CodeFix.IT →</a>}
+              </div>
+              <p role="status">{copyStatus}</p>
+            </div>
+          )}
+        </section>
+      )}
+
+      {active === 'seo' && (
+        <section className="cf-tool-panel" aria-labelledby="seo-title">
+          <div className="cf-tool-heading"><div><p className="cf-section-kicker">02 / SEO</p><h2 id="seo-title">Podgląd tytułu i opisu</h2></div><span className="cf-tool-chip">Lokalnie · bez AI</span></div>
+          <p>Sprawdź, jak może wyglądać wynik wyszukiwania. Google może zmienić tytuł, opis i ich długość — to tylko symulacja.</p>
+          <div className="cf-tool-form">
+            <label>Meta title <span className="cf-tool-count">{seoTitle.length} znaków · orientacyjnie 50–60</span>
+              <input value={seoTitle} maxLength={120} onChange={(event) => setSeoTitle(event.target.value)} />
+            </label>
+            <label>Meta description <span className="cf-tool-count">{seoDescription.length} znaków · orientacyjnie 140–160</span>
+              <textarea value={seoDescription} rows={3} maxLength={300} onChange={(event) => setSeoDescription(event.target.value)} />
+            </label>
+          </div>
+          <div className="cf-seo-preview" aria-label="Przykładowy wynik wyszukiwania">
+            <span>codefix.it › przykładowa-strona</span>
+            <strong>{seoTitle || 'Tytuł strony'}</strong>
+            <p>{seoDescription || 'Tutaj pojawi się meta description.'}</p>
+          </div>
+        </section>
+      )}
+
+      {active === 'contrast' && (
+        <section className="cf-tool-panel" aria-labelledby="contrast-title">
+          <div className="cf-tool-heading"><div><p className="cf-section-kicker">03 / Dostępność</p><h2 id="contrast-title">Tester kontrastu WCAG</h2></div><span className="cf-tool-chip">Lokalnie · bez AI</span></div>
+          <p>Sprawdź kontrast dwóch pełnych kolorów HEX. Wynik dotyczy tekstu na jednolitym tle, nie całego interfejsu.</p>
+          <div className="cf-tool-colors">
+            <label>Kolor tekstu <input aria-label="Wybierz kolor tekstu" type="color" value={fg} onChange={(event) => setFg(event.target.value)} /> <output>{fg}</output></label>
+            <label>Kolor tła <input aria-label="Wybierz kolor tła" type="color" value={bg} onChange={(event) => setBg(event.target.value)} /> <output>{bg}</output></label>
+          </div>
+          <div className="cf-contrast-preview" style={{ color: fg, background: bg }}><strong>Diabeł tkwi w kodzie.</strong><span>Przykładowy tekst o normalnym rozmiarze.</span></div>
+          <div className="cf-contrast-values" aria-live="polite">
+            <strong>Kontrast {ratio.toFixed(2)}:1</strong>
+            <span>Tekst zwykły AA (4.5:1): {ratio >= 4.5 ? 'spełnia' : 'nie spełnia'}</span>
+            <span>Tekst duży AA (3:1): {ratio >= 3 ? 'spełnia' : 'nie spełnia'}</span>
+            <span>Tekst zwykły AAA (7:1): {ratio >= 7 ? 'spełnia' : 'nie spełnia'}</span>
+          </div>
+        </section>
+      )}
+
+    </div>
+  );
+}
+
+export function ToolsLab() {
+  useEffect(() => {
+    const before = document.title;
+    document.title = 'Narzędzia AI, SEO i automatyzacji | CodeFix.IT';
+    return () => { document.title = before; };
+  }, []);
+
+  return (
     <div className="homepage-v1 cf-tools">
       <header className="cf-header">
         <div className="cf-container cf-tools-nav">
@@ -168,116 +291,7 @@ export function ToolsLab() {
           Zaplanuj automatyzację, przygotuj brief lub sprawdź stronę. Wybierz jedno narzędzie.
         </p>
 
-        <div className="cf-tool-tabs" role="group" aria-label="Wybierz narzędzie">
-          <button type="button" aria-pressed={active === 'doctor'} onClick={() => setActive('doctor')}>AI Site Doctor 😈</button>
-          <button type="button" aria-pressed={active === 'brief'} onClick={() => setActive('brief')}>Asystent briefu</button>
-          <button type="button" aria-pressed={active === 'automation'} onClick={() => {
-            setAutomationStarted(true);
-            setActive('automation');
-          }}>Mapa automatyzacji</button>
-          <button type="button" aria-pressed={active === 'seo'} onClick={() => setActive('seo')}>Podgląd SEO</button>
-          <button type="button" aria-pressed={active === 'contrast'} onClick={() => setActive('contrast')}>Kontrast WCAG</button>
-        </div>
-
-        {automationStarted && (
-          <div hidden={active !== 'automation'}>
-            <Suspense fallback={<p role="status">Ładuję mapę automatyzacji…</p>}>
-              <AutomationMap />
-            </Suspense>
-          </div>
-        )}
-
-        {active === 'doctor' && (
-          <Suspense fallback={<div className="cf-tool-panel" role="status">Ładuję Site Doctor…</div>}>
-            <SiteDoctor />
-          </Suspense>
-        )}
-
-        {active === 'brief' && (
-          <section className="cf-tool-panel" aria-labelledby="brief-title">
-            <div className="cf-tool-heading">
-              <div><p className="cf-section-kicker">01 / Planowanie</p><h2 id="brief-title">Asystent briefu projektu</h2></div>
-              <span className="cf-tool-chip">{availability.ai ? 'Szkic lokalny + opcjonalne AI' : 'Szkic lokalny'}</span>
-            </div>
-            <p>Szkic powstaje w tej karcie. {availability.ai && 'Wybór „Generuj z AI” wysyła treść do modelu — pomiń informacje poufne.'}</p>
-            <form className="cf-tool-form" onSubmit={(event) => { event.preventDefault(); localDraft(); }}>
-              <label>Rodzaj projektu
-                <select value={kind} onChange={(event) => setKind(event.target.value as ProjectKind)}>
-                  {Object.entries(kinds).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
-                </select>
-              </label>
-              <label>Do kogo kierujesz stronę lub aplikację?
-                <input value={audience} maxLength={120} onChange={(event) => setAudience(event.target.value)} placeholder="Np. lokalne firmy usługowe" />
-              </label>
-              <label>Cel lub problem
-                <textarea required minLength={15} maxLength={900} rows={4} value={goal} onChange={(event) => setGoal(event.target.value)} placeholder="Co chcesz osiągnąć? Co obecnie nie działa?" />
-              </label>
-              <label>Adres obecnej strony (opcjonalnie)
-                <input value={website} maxLength={200} onChange={(event) => setWebsite(event.target.value)} placeholder="https://twoja-strona.pl" />
-              </label>
-              <div className="cf-tool-actions">
-                <button type="submit" disabled={busy} className="cf-tool-primary">Szkic bez AI</button>
-                {availability.ai && <button type="button" disabled={busy} onClick={() => void aiDraft()}>{busy ? 'Analizuję…' : 'Generuj z AI'}</button>}
-                {availability.state === 'error' && <button type="button" onClick={(event) => {
-                  event.currentTarget.form?.querySelector<HTMLButtonElement>('.cf-tool-primary')?.focus();
-                  void refreshToolAvailability();
-                }}>Sprawdź dostępność AI</button>}
-              </div>
-            </form>
-            <p className="cf-tool-status" role="status" aria-live="polite">{status}</p>
-            {result && (
-              <div className="cf-tool-result">
-                <label htmlFor="cf-tool-brief-result">Twój brief</label>
-                <p>Brief dotyczy: {kinds[result.kind]}.</p>
-                <textarea ref={output} id="cf-tool-brief-result" readOnly rows={15} value={result.text} />
-                <div className="cf-tool-actions">
-                  <button type="button" onClick={() => void copyResult()}>Skopiuj brief</button>
-                  <a href={`/?service=${projectServices[result.kind]}#contact`}>Omów projekt z CodeFix.IT →</a>
-                </div>
-                <p role="status">{copyStatus}</p>
-              </div>
-            )}
-          </section>
-        )}
-
-        {active === 'seo' && (
-          <section className="cf-tool-panel" aria-labelledby="seo-title">
-            <div className="cf-tool-heading"><div><p className="cf-section-kicker">02 / SEO</p><h2 id="seo-title">Podgląd tytułu i opisu</h2></div><span className="cf-tool-chip">Lokalnie · bez AI</span></div>
-            <p>Sprawdź, jak może wyglądać wynik wyszukiwania. Google może zmienić tytuł, opis i ich długość — to tylko symulacja.</p>
-            <div className="cf-tool-form">
-              <label>Meta title <span className="cf-tool-count">{seoTitle.length} znaków · orientacyjnie 50–60</span>
-                <input value={seoTitle} maxLength={120} onChange={(event) => setSeoTitle(event.target.value)} />
-              </label>
-              <label>Meta description <span className="cf-tool-count">{seoDescription.length} znaków · orientacyjnie 140–160</span>
-                <textarea value={seoDescription} rows={3} maxLength={300} onChange={(event) => setSeoDescription(event.target.value)} />
-              </label>
-            </div>
-            <div className="cf-seo-preview" aria-label="Przykładowy wynik wyszukiwania">
-              <span>codefix.it › przykładowa-strona</span>
-              <strong>{seoTitle || 'Tytuł strony'}</strong>
-              <p>{seoDescription || 'Tutaj pojawi się meta description.'}</p>
-            </div>
-          </section>
-        )}
-
-        {active === 'contrast' && (
-          <section className="cf-tool-panel" aria-labelledby="contrast-title">
-            <div className="cf-tool-heading"><div><p className="cf-section-kicker">03 / Dostępność</p><h2 id="contrast-title">Tester kontrastu WCAG</h2></div><span className="cf-tool-chip">Lokalnie · bez AI</span></div>
-            <p>Sprawdź kontrast dwóch pełnych kolorów HEX. Wynik dotyczy tekstu na jednolitym tle, nie całego interfejsu.</p>
-            <div className="cf-tool-colors">
-              <label>Kolor tekstu <input aria-label="Wybierz kolor tekstu" type="color" value={fg} onChange={(event) => setFg(event.target.value)} /> <output>{fg}</output></label>
-              <label>Kolor tła <input aria-label="Wybierz kolor tła" type="color" value={bg} onChange={(event) => setBg(event.target.value)} /> <output>{bg}</output></label>
-            </div>
-            <div className="cf-contrast-preview" style={{ color: fg, background: bg }}><strong>Diabeł tkwi w kodzie.</strong><span>Przykładowy tekst o normalnym rozmiarze.</span></div>
-            <div className="cf-contrast-values" aria-live="polite">
-              <strong>Kontrast {ratio.toFixed(2)}:1</strong>
-              <span>Tekst zwykły AA (4.5:1): {ratio >= 4.5 ? 'spełnia' : 'nie spełnia'}</span>
-              <span>Tekst duży AA (3:1): {ratio >= 3 ? 'spełnia' : 'nie spełnia'}</span>
-              <span>Tekst zwykły AAA (7:1): {ratio >= 7 ? 'spełnia' : 'nie spełnia'}</span>
-            </div>
-          </section>
-        )}
-
+        <ToolsWorkspace />
         <aside className="cf-tools-bottom">
           <h2>Potrzebujesz diagnozy zamiast symulacji?</h2>
           <p>Site Doctor analizuje wyłącznie publiczną stronę przez Lighthouse. Naprawy WordPress, formularze, backend i bezpieczeństwo wymagają osobnej weryfikacji.</p>
