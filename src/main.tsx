@@ -17,6 +17,11 @@ async function loadHomepage(): Promise<ReactNode> {
 }
 
 async function resolveRoute(path: string): Promise<ReactNode> {
+  if (path === '/narzedzia') {
+    const { ToolsLab } = await import('./pages/ToolsLab');
+    return <ToolsLab />;
+  }
+
   if (path === '/polityka-prywatnosci') {
     const { PrivacyPolicy } = await import('./pages/PrivacyPolicy');
     return <PrivacyPolicy />;
@@ -102,7 +107,10 @@ async function bootstrap() {
     createRoot(root).render(
       <StrictMode>
         {route}
-        <MeasurementConsent servicePage={servicePaths.has(path)} />
+        <MeasurementConsent
+          servicePage={servicePaths.has(path)}
+          floatingSettings={path !== '/' && path !== '/narzedzia'}
+        />
       </StrictMode>,
     );
   } catch (error) {

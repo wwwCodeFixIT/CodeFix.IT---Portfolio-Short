@@ -57,6 +57,14 @@ const projectCases = [
 
 const pages = [
   {
+    path: 'narzedzia',
+    title: 'Narzędzia AI, SEO i automatyzacji | CodeFix.IT',
+    description: 'Zaplanuj automatyzację firmy, przygotuj brief i sprawdź stronę. Mapa procesów, AI Site Doctor, podgląd SEO i tester kontrastu CodeFix.IT.',
+    schemaType: 'WebPage',
+    schemaName: 'Laboratorium CodeFix.IT — narzędzia online',
+    ogType: 'website',
+  },
+  {
     path: 'polityka-prywatnosci',
     title: 'Polityka prywatności | CodeFix.IT',
     description:

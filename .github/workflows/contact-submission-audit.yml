@@ -2,9 +2,11 @@ name: Contact Submission Audit
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, feat/site-doctor-lab2-20261016]
     paths:
       - 'src/main.tsx'
+      - 'src/components/MeasurementConsent.tsx'
+      - 'src/components/MeasurementConsent.css'
       - 'src/lib/attribution.ts'
       - 'src/lib/conversion-journey.ts'
       - 'src/pages/GuidePage.tsx'
@@ -33,6 +35,9 @@ on:
       - 'src/components/ProjectPreview.css'
       - 'src/components/ProjectQuickView.tsx'
       - 'src/components/ProjectLinkCopy.tsx'
+      - 'src/components/MobileNavigation.tsx'
+      - 'src/components/MobileNavigation.css'
+      - 'scripts/mobile-navigation-qa.mjs'
       - 'src/components/ProjectQuickView.css'
       - 'src/components/ProjectInsights.tsx'
       - 'src/data/project-insights.ts'
@@ -81,6 +86,7 @@ jobs:
             if curl --fail --silent http://127.0.0.1:4173/ > /dev/null; then break; fi
             sleep 1
           done
+          node scripts/mobile-navigation-qa.mjs
           node scripts/project-quick-view-qa.mjs
           node scripts/process-steps-qa.mjs
           node scripts/contact-context-qa.mjs

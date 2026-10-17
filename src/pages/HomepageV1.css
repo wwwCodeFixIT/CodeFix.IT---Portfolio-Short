@@ -565,3 +565,79 @@
   scroll-margin-top: 100px;
   margin-top: 24px;
 }
+
+/* Optional Site Doctor attachment — small, accessible extension to the lead wizard. */
+.cf-doctor-attachment {
+  border: 1px solid #4a4045;
+  border-radius: 12px;
+  padding: 14px;
+  margin: 18px 0;
+}
+
+.cf-doctor-attachment summary {
+  cursor: pointer;
+  min-height: 44px;
+  padding: 9px 0;
+  font-weight: 700;
+}
+
+.cf-doctor-attachment-body {
+  display: grid;
+  gap: 12px;
+  padding-top: 8px;
+}
+
+.cf-doctor-attachment-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.cf-doctor-attachment-checkbox {
+  display: flex !important;
+  align-items: center;
+  gap: 9px;
+}
+
+.cf-lead-form .cf-doctor-attachment-checkbox input {
+  width: 20px;
+  min-height: 20px;
+  accent-color: #ef4444;
+}
+
+.cf-doctor-attachment-actions button,
+.cf-doctor-attachment-body > button {
+  appearance: none;
+  border: 1px solid #74515a;
+  background: #272126;
+  color: #f8f7f8;
+  min-height: 44px;
+  padding: 10px 16px;
+  border-radius: 9px;
+  font: inherit;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    border-color 160ms ease;
+}
+
+.cf-doctor-attachment-actions button:hover,
+.cf-doctor-attachment-body > button:hover {
+  background: #62232f;
+  border-color: #ed5667;
+}
+
+.cf-doctor-attachment-actions button:focus-visible,
+.cf-doctor-attachment-body > button:focus-visible {
+  outline: 2px solid #ffabb3;
+  outline-offset: 3px;
+}
+
+.cf-doctor-attachment-body > button {
+  justify-self: start;
+}
+
+.cf-doctor-attachment-actions a {
+  align-self: center;
+}

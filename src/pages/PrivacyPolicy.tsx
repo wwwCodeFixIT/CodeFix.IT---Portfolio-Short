@@ -35,7 +35,7 @@ export function PrivacyPolicy() {
             Poniżej wyjaśniam, jakie dane są przetwarzane przez codefix.it,
             po co są potrzebne i jakie masz prawa.
           </p>
-          <span>Ostatnia aktualizacja: 6 października 2026 r.</span>
+          <span>Ostatnia aktualizacja: 16 października 2026 r.</span>
         </div>
 
         <div className="cf-privacy-grid">
@@ -167,6 +167,35 @@ export function PrivacyPolicy() {
               <p>
                 Dane z formularza nie są wykorzystywane do podejmowania wobec Ciebie
                 decyzji wywołujących skutki prawne w sposób wyłącznie zautomatyzowany.
+              </p>
+            </section>
+            <section>
+              <h2>9. Narzędzia, AI i Site Doctor</h2>
+              <p>
+                Podgląd SEO, sprawdzanie kontrastu i lokalny szkic briefu działają
+                w przeglądarce bez wysyłania wpisanych danych do modelu AI.
+                Dopiero wybranie przycisku „Generuj z AI”, gdy usługa jest aktywna,
+                przesyła rodzaj projektu, opis celu, odbiorców i opcjonalny adres
+                strony do serwera CodeFix.IT, a następnie do dostawcy modelu AI w celu
+                opracowania odpowiedzi. Nie wpisuj w te pola haseł ani danych poufnych.
+                Serwis nie zapisuje celowo treści briefu w bazie danych.
+                Dostawca API może przetwarzać przekazane treści zgodnie ze swoimi
+                zasadami świadczenia usługi. Korzystanie z AI jest dobrowolne;
+                szkic lokalny pozostaje dostępny bez AI. W przypadku Site Doctor
+                podany publiczny adres HTTPS jest przekazywany z serwera
+                CodeFix.IT do Google PageSpeed Insights w celu wykonania pomiaru
+                Lighthouse. Opcjonalny opis problemu pozostaje w CodeFix.IT,
+                chyba że dobrowolnie wybierzesz komentarz AI. W takim przypadku
+                opis i wynik testu zostaną przekazane także do dostawcy modelu.
+                Nie są skanowane strefy zalogowane ani prywatne adresy sieciowe.
+                Wynik nie stanowi audytu bezpieczeństwa ani pełnej oceny WCAG.
+                Wybranie opcji „Dołącz diagnozę do zapytania” zapisuje skrócony
+                raport techniczny w pamięci bieżącej karty lub sesji przeglądarki
+                (sessionStorage). Zawiera adres strony bez parametrów zapytania,
+                datę pomiaru, oceny i wykryte sygnały. Nie zawiera opisu problemu
+                ani komentarza AI. Raport można usunąć, a jego ważność wynosi
+                15 minut. Trafia do CRM dopiero po zaznaczeniu dołączenia
+                oraz dobrowolnym wysłaniu formularza.
               </p>
             </section>
           </article>
