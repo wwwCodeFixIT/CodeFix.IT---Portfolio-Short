@@ -63,3 +63,43 @@
 .cf-doctor-handoff{margin:24px 0 16px;padding:22px;border:1px solid #9e4753;border-radius:14px;background:linear-gradient(130deg,rgba(204,42,62,.16),rgba(19,19,23,.9))}
 .cf-doctor-handoff h4{margin:3px 0 8px;font-size:20px}
 .cf-doctor-handoff p:not(.cf-section-kicker){margin:0 0 18px;color:#dad2d6;font-size:13px;line-height:1.7;max-width:670px}
+
+/* Graceful degradation when the external PSI service is gated or unreachable. */
+.cf-doctor-manual-help {
+  margin-top: 14px;
+  padding: clamp(16px, 3vw, 22px);
+  border: 1px solid #8a3947;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(148, 31, 47, .14), #171518);
+}
+.cf-doctor-manual-help h3 {
+  margin: 0 0 8px;
+  font-size: clamp(17px, 2.2vw, 21px);
+  line-height: 1.3;
+}
+.cf-doctor-manual-help p {
+  margin: 0 0 17px;
+  color: #d8c9cd;
+  font-size: 13px;
+  line-height: 1.65;
+}
+.cf-doctor-manual-help a,
+.cf-doctor-manual-help button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 15px;
+  border: 1px solid #ef6878;
+  border-radius: 9px;
+  background: #842732;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+.cf-doctor-manual-help :is(a, button):hover { background: #a73040; color: #fff; }
+.cf-doctor-manual-help :is(a, button):focus-visible {
+  outline: 3px solid #ffb7c1;
+  outline-offset: 3px;
+}

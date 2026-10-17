@@ -361,6 +361,80 @@ for (const [engine, browserType] of Object.entries({ chromium, webkit })) {
       )
       assert.deepEqual(pageErrors, [], 'Frontend errors after form preservation and brief mapping')
 
+      // RC: provider disabled. An honest manual-contact CTA must be available.
+      await page.route('**/api/site-doctor', (route) =>
+        route.fulfill({ status: 503, contentType: 'application/json', body: '{}' }),
+      )
+      await page.goto(origin + '/narzedzia/', { waitUntil: 'domcontentloaded' })
+      await page.locator('.cf-doctor-form input[type="url"]').fill('https://example.org/')
+      await page.getByRole('button', { name: /Uruchom diagnozę/ }).click()
+      await page.getByText('Skaner nie został jeszcze aktywowany.', { exact: false }).waitFor()
+      const manualLink = page.getByRole('link', { name: 'Opisz problem bez diagnozy →' })
+      await manualLink.waitFor()
+      assert.equal(await manualLink.getAttribute('href'), '/?service=WORDPRESS_QUICK_FIX#contact')
+      assert.equal(await page.locator('.cf-doctor-results').count(), 0)
+      await page.locator('.cf-doctor-manual-help').screenshot({
+        path: `qa-results/site-doctor/${engine}-${width}-api-fallback.png`,
+      })
+
+      // RC: HTTP 429 must not be misrepresented as a Lighthouse finding.
+      await page.unroute('**/api/site-doctor')
+      await page.route('**/api/site-doctor', (route) =>
+        route.fulfill({ status: 429, contentType: 'application/json', body: '{}' }),
+      )
+      await page.getByRole('button', { name: /Uruchom diagnozę/ }).click()
+      await page.getByText('Limit analiz został osiągnięty.', { exact: false }).waitFor()
+      assert.equal(await page.locator('.cf-doctor-results').count(), 0)
+      await manualLink.waitFor()
+
+      // RC: cancellation must be announced as cancellation, not a timeout.
+      await page.unroute('**/api/site-doctor')
+      await page.route('**/api/site-doctor', async (route) => {
+        await new Promise((resolve) => setTimeout(resolve, 1500))
+        try {
+          await route.fulfill({
+            status: 200,
+            contentType: 'application/json',
+            body: JSON.stringify(sample),
+          })
+        } catch {
+          // Browser aborted the in-flight fetch.
+        }
+      })
+      const pendingRequest = page.waitForRequest((req) => req.url().endsWith('/api/site-doctor'))
+      await page.getByRole('button', { name: /Uruchom diagnozę/ }).click()
+      await pendingRequest
+      await page.getByRole('button', { name: 'Anuluj', exact: true }).click()
+      await page.getByText('Pomiar został anulowany.', { exact: false }).waitFor()
+      await manualLink.waitFor()
+      assert.equal(await page.locator('.cf-doctor-results').count(), 0)
+
+      // RC: failed scan inside the lead wizard must return to the same form.
+      await page.unroute('**/api/site-doctor')
+      await page.route('**/api/site-doctor', (route) =>
+        route.fulfill({ status: 503, contentType: 'application/json', body: '{}' }),
+      )
+      await page.goto(origin + '/?service=WORDPRESS_QUICK_FIX#contact', {
+        waitUntil: 'domcontentloaded',
+      })
+      await stepToDetails()
+      const originalMessage = 'Błąd formularza po ostatniej aktualizacji WordPress.'
+      await page.locator('textarea[name="message"]').fill(originalMessage)
+      await page.locator('.cf-doctor-attachment summary').click()
+      await page.getByRole('button', { name: 'Uruchom Site Doctor →', exact: true }).click()
+      const fallbackDialog = page.getByRole('dialog', { name: 'Diagnoza strony', exact: true })
+      await fallbackDialog.waitFor()
+      await fallbackDialog.locator('input[type="url"]').fill('https://example.org/')
+      await fallbackDialog.getByRole('button', { name: /Uruchom diagnozę/ }).click()
+      await fallbackDialog.getByRole('button', { name: 'Wróć do zgłoszenia bez raportu →' }).click()
+      await fallbackDialog.waitFor({ state: 'hidden' })
+      assert.equal(await page.locator('textarea[name="message"]').inputValue(), originalMessage)
+      assert.equal(
+        await page.locator('.cf-doctor-attachment input[type="checkbox"]').isChecked(),
+        false,
+      )
+      assert.deepEqual(pageErrors, [], 'RC error and cancellation flows must not throw')
+
       console.log(
         `Tools browser QA PASS: ${engine} ${width}px; 4 mocked lead paths, preserved form, 4 brief topics, fallback and in-flight edits. No live provider or CRM calls.`,
       )
