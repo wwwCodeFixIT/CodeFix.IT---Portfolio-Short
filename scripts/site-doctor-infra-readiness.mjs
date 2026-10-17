@@ -173,7 +173,7 @@ if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) 
     const summary = await inspectCloudflare()
     console.log(JSON.stringify(summary, null, 2))
     console.log('HOLD: This read-only Cloudflare audit never authorizes a paid scan.')
-  } catch (error) {
+  } catch {
     // Do not expose Cloudflare API responses, credentials or request headers.
     console.error('LAB-10 HOLD: odczyt konfiguracji Cloudflare nie został potwierdzony.')
     console.error('Sprawdź read-only API token, strefę, projekt i uprawnienia do WAF/Pages.')
