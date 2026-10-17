@@ -2,6 +2,7 @@
   "navigation": [
     { "href": "#services", "label": "Usługi" },
     { "href": "#work", "label": "Realizacje" },
+    { "href": "#laboratorium", "label": "Laboratorium" },
     { "href": "#about", "label": "O mnie" },
     { "href": "#process", "label": "Proces" },
     { "href": "#faq", "label": "FAQ" },

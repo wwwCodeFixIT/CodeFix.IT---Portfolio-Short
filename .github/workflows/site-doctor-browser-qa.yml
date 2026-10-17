@@ -27,6 +27,8 @@ on:
       - 'src/lib/automation-map.ts'
       - 'scripts/automation-map-qa.mjs'
       - 'src/pages/HomepageV1.tsx'
+      - 'src/components/HomeLaboratory.tsx'
+      - 'scripts/home-laboratory-qa.mjs'
       - 'src/pages/HomepageV1.css'
       - 'src/lib/site-doctor-handoff.ts'
       - 'scripts/site-doctor-handoff-browser-qa.mjs'
@@ -71,6 +73,15 @@ jobs:
           node scripts/automation-map-qa.mjs
           node scripts/privacy-settings-qa.mjs
           node scripts/tool-availability-qa.mjs
+          node scripts/home-laboratory-qa.mjs
+      - name: Save homepage laboratory QA
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: home-laboratory-${{ github.run_id }}
+          path: qa-results/home-laboratory/
+          if-no-files-found: error
+          retention-days: 14
       - name: Save mobile and desktop QA screenshots
         uses: actions/upload-artifact@v4
         if: always()

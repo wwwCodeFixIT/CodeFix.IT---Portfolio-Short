@@ -15,6 +15,7 @@ import { HeroEmblem, HeroExperience } from '../components/HeroExperience';
 import { HeroServicePicker } from '../components/HeroServicePicker';
 import { LeadField } from '../components/LeadField';
 import { MobileNavigation } from '../components/MobileNavigation';
+import { HomeLaboratory } from '../components/HomeLaboratory';
 import { SiteDoctorDialog } from '../components/SiteDoctorDialog';
 import {
   ProjectPreview,
@@ -436,6 +437,13 @@ export function HomepageV1() {
       });
       toggle?.focus({ preventScroll: true });
     });
+  }
+
+  function handleLaboratoryContact(service: string, report?: string) {
+    if (formState === 'submitting') return;
+    chooseService(service, 'laboratory_contact');
+    if (report) attachDoctorReport(report);
+    window.requestAnimationFrame(() => focusContact(contactSectionRef.current, 'instant'));
   }
 
   function useProjectBrief(project: ProjectBrief) {
@@ -1092,8 +1100,8 @@ export function HomepageV1() {
                 {homepageContent.application.cta}
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
-              <a href="/narzedzia/" className="cf-card-link cf-card-link-secondary">
-                Wypróbuj darmowe narzędzia AI i SEO
+              <a href="#laboratorium" className="cf-card-link cf-card-link-secondary">
+                Wypróbuj Laboratorium
                 <ArrowRight size={17} aria-hidden="true" />
               </a>
             </div>
@@ -1102,6 +1110,8 @@ export function HomepageV1() {
             </Suspense>
           </div>
         </section>
+
+        <HomeLaboratory onContact={handleLaboratoryContact} />
 
         <section id="work" className="cf-section cf-work-section">
           <div className="cf-container">

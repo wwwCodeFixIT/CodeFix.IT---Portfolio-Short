@@ -198,7 +198,7 @@ function relatedBlock(path) {
         <ul>${homepageContent.services.map(({ title, description, price, detailsHref }) => `<li><a href="${escapeHtml(detailsHref)}">${escapeHtml(title)} — ${escapeHtml(price)}</a><p>${escapeHtml(description)}</p></li>`).join('')}</ul>
         <p>Zakres i cenę potwierdzam przed startem.</p>
         <p><a href="/dla-agencji-wordpress/">Wsparcie WordPress dla agencji</a></p>
-        <p><a href="/narzedzia/">Darmowe narzędzia AI, SEO i kontrastu</a></p>
+        <p><a href="#laboratorium">Wypróbuj Laboratorium</a></p>
         <aside id="free-project">
           <h3>${escapeHtml(homepageContent.freeProject.title)}</h3>
           <p>${escapeHtml(homepageContent.freeProject.description)}</p>
@@ -210,6 +210,11 @@ function relatedBlock(path) {
         <p>${escapeHtml(homepageContent.application.description)}</p>
         <ul>${homepageContent.application.points.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>
         <p><a href="/?service=development#contact">${escapeHtml(homepageContent.application.cta)}</a></p>
+      </section>
+      <section id="laboratorium">
+        <h2>Laboratorium CodeFix.IT.</h2>
+        <p>Przygotuj brief, ułóż proces lub sprawdź SEO i kontrast.</p>
+        <p><a href="/narzedzia/">Otwórz Laboratorium osobno</a></p>
       </section>
       <section id="about">
         <h2>${escapeHtml(homepageContent.about.title)}</h2>

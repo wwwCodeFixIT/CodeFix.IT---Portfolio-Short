@@ -50,7 +50,8 @@ const budgets = {
   // LAB-3 adds the optional doctor-to-CRM handoff and consent state to the deferred homepage (about 2.5 KB).
   // Keeping the form mounted adds ~1.8 KB for the native dialog and its trigger.
   // The scanner and shared tool controls still load only when requested.
-  largestDeferredJs: 58_000,
+  // Homepage lab launcher adds ~1.6 KB; the shared tool workspace still loads on explicit open.
+  largestDeferredJs: 59_000,
   // Native project quick view: shared triggers + dialog loaded only on demand (~5 KB).
   // Shared inline field feedback adds ~0.6 KB net; entry and route caps stay unchanged.
   // Local guide search adds ~1.5 KB on guide routes, with no new dependencies.
@@ -65,7 +66,8 @@ const budgets = {
   // Includes the independent, opt-in diagnostic attachment and transfer helper.
   // Automation map: +9.6 KB overall, with the 9.0 KB planner loaded on demand.
   // Entry and homepage route sizes remain unchanged.
-  totalJs: 380_000,
+  // Embedded lab and in-page contact callbacks add ~2.1 KB overall, without dependencies.
+  totalJs: 382_000,
   // Branded optional report controls add ~0.7 KB to the deferred contact stylesheet.
   largestCss: 41_000,
   // Includes the isolated quick-view stylesheet and reference attachment (~3.7 KB).

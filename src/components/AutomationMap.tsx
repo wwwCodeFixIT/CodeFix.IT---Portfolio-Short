@@ -10,7 +10,7 @@ import {
 import type { AutomationConfig, ProcessId, SystemId } from '../lib/automation-map'
 import './AutomationMap.css'
 
-export default function AutomationMap() {
+export default function AutomationMap({ onDiscuss }: { onDiscuss?: () => void } = {}) {
   const [config, setConfig] = useState(initialAutomationConfig)
   const [selected, setSelected] = useState('input')
   const [status, setStatus] = useState('')
@@ -210,7 +210,13 @@ export default function AutomationMap() {
           <button type="button" className="cf-tool-primary" onClick={() => void copyScope()}>
             Skopiuj plan
           </button>
-          <a href="/?service=development#contact">Omów automatyzację →</a>
+          {onDiscuss ? (
+            <button type="button" onClick={onDiscuss}>
+              Omów automatyzację →
+            </button>
+          ) : (
+            <a href="/?service=development#contact">Omów automatyzację →</a>
+          )}
           <button type="button" onClick={reset}>
             Zacznij od nowa
           </button>
