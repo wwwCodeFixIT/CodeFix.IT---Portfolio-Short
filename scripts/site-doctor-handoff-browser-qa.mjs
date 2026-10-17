@@ -380,7 +380,7 @@ for (const [engine, browserType] of Object.entries({ chromium, webkit })) {
       await manualLink.waitFor()
       assert.equal(await manualLink.getAttribute('href'), '/?service=WORDPRESS_QUICK_FIX#contact')
       assert.equal(await page.locator('.cf-doctor-results').count(), 0)
-      await page.locator('.cf-doctor-manual-help').screenshot({
+      await page.locator('.cf-doctor-recovery').screenshot({
         path: `qa-results/site-doctor/${engine}-${width}-api-fallback.png`,
       })
 
