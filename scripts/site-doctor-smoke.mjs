@@ -94,6 +94,7 @@ function request(body, url = 'https://codefix.it/api/site-doctor', origin = 'htt
 }
 
 let outbound = [];
+let hardeningCases = 0;
 const fetchOriginal = globalThis.fetch;
 globalThis.fetch = async (url) => {
   outbound.push(new URL(String(url)));
@@ -145,8 +146,110 @@ try {
   res = await api.onRequestPost({ request: request(input), env });
   assert.equal(res.status, 429);
   assert.equal(res.headers.get('retry-after'), '120');
+
+  // Invalid requests must stop before either upstream is reached.
+  let invalidCalls = 0;
+  globalThis.fetch = async () => { invalidCalls++; throw Error('Unexpected provider request'); };
+  for (const url of ['http://codefix.it/api/site-doctor', 'https://codefix.it:8443/api/site-doctor']) {
+    res = await api.onRequestPost({ request: request(input, url), env });
+    assert.equal(res.status, 403);
+    hardeningCases++;
+  }
+  for (const contentType of ['application/jsonp', 'application/json-invalid']) {
+    const req = request(input);
+    req.headers.set('Content-Type', contentType);
+    assert.equal((await api.onRequestPost({ request: req, env })).status, 415);
+    hardeningCases++;
+  }
+  const declared = request(input);
+  declared.headers.set('Content-Length', '3072');
+  assert.equal((await api.onRequestPost({ request: declared, env })).status, 413);
+  hardeningCases++;
+  let cancelled = false;
+  const stream = new ReadableStream({
+    start(controller) { controller.enqueue(new Uint8Array(3072)); },
+    cancel() { cancelled = true; },
+  });
+  const streamed = new Request('https://codefix.it/api/site-doctor', {
+    method: 'POST', headers: { Origin: 'https://codefix.it', 'Content-Type': 'application/json' },
+    body: stream, duplex: 'half',
+  });
+  assert.equal((await api.onRequestPost({ request: streamed, env })).status, 413);
+  assert.equal(cancelled, true);
+  hardeningCases++;
+  assert.equal(invalidCalls, 0);
+
+  const aiEnv = { ...env, AI_TOOLS_ENABLED: 'true', AI_RATE_LIMIT_CONFIRMED: 'true', OPENAI_API_KEY: 'qa-ai-secret' };
+  globalThis.fetch = async () => Response.json(completeSample);
+  const unicodeInput = {
+    ...input,
+    url: 'https://example.org/' + 'a'.repeat(240) + '?q=' + 'b'.repeat(130),
+    description: '漢'.repeat(400),
+  };
+  assert.ok(new TextEncoder().encode(JSON.stringify(unicodeInput)).length > 1300);
+  assert.equal((await api.onRequestPost({ request: request(unicodeInput), env })).status, 200,
+    'The advertised 400-character description and valid URL must fit the UTF-8 body limit');
+  hardeningCases++;
+  const withAi = { ...input, includeAi: true };
+  let aiCalls = 0;
+  let aiProvider = () => Response.json({ status: 'completed', output: [{ content: [{ type: 'output_text', text: 'Wyjaśnienie pomiaru.' }] }] });
+  globalThis.fetch = async (url, options) => {
+    const host = new URL(String(url)).hostname;
+    if (host === 'www.googleapis.com') return Response.json(completeSample);
+    assert.equal(String(url), 'https://api.openai.com/v1/responses');
+    aiCalls++;
+    assert.equal(options.redirect, 'error');
+    const payload = JSON.parse(options.body);
+    assert.equal(payload.store, false);
+    assert.equal(payload.max_output_tokens, 260);
+    return aiProvider();
+  };
+  // Configured AI still requires an explicit visitor opt-in.
+  res = await api.onRequestPost({ request: request(input), env: aiEnv });
+  assert.equal(res.status, 200);
+  assert.equal(aiCalls, 0);
+  hardeningCases++;
+  res = await api.onRequestPost({ request: request(withAi), env: aiEnv });
+  assert.equal(res.status, 200);
+  assert.equal((await res.json()).aiExplanation, 'Wyjaśnienie pomiaru.');
+  assert.equal(aiCalls, 1);
+  hardeningCases++;
+  for (const status of ['incomplete', 'failed', 'cancelled', undefined]) {
+    aiProvider = () => Response.json({ status, output: [{ content: [{ type: 'output_text', text: 'Niedokończone wyjaśnienie' }] }] });
+    res = await api.onRequestPost({ request: request(withAi), env: aiEnv });
+    assert.equal(res.status, 200, 'Optional AI cannot remove the real Lighthouse report');
+    const body = await res.json();
+    assert.equal(body.aiExplanation, undefined);
+    assert.equal(body.scores.performance, 71);
+    hardeningCases++;
+  }
+  for (const providerFailure of [
+    () => new Response('private error qa-ai-secret', { status: 429 }),
+    () => new Response('not JSON'),
+    () => { throw new DOMException('Timeout', 'TimeoutError'); },
+  ]) {
+    aiProvider = providerFailure;
+    res = await api.onRequestPost({ request: request(withAi), env: aiEnv });
+    assert.equal(res.status, 200);
+    const body = await res.json();
+    assert.equal(body.aiExplanation, undefined);
+    assert.equal(body.scores.performance, 71);
+    assert.doesNotMatch(JSON.stringify(body), /private error|qa-ai-secret/);
+    hardeningCases++;
+  }
+  for (const [providerFailure, expected] of [
+    [() => { throw new DOMException('Timeout', 'TimeoutError'); }, 504],
+    [() => new Response('not JSON'), 502],
+    [() => new Response('private error local-test-secret', { status: 500 }), 502],
+  ]) {
+    globalThis.fetch = providerFailure;
+    res = await api.onRequestPost({ request: request(input), env });
+    assert.equal(res.status, expected);
+    assert.doesNotMatch(await res.text(), /private error|local-test-secret/);
+    hardeningCases++;
+  }
 } finally {
   globalThis.fetch = fetchOriginal;
 }
 
-console.log('Site Doctor API smoke PASS: input security, gated API, real-report mapping, limited provider and no false AI.');
+console.log(`Site Doctor API smoke PASS: input security, gated API, real-report mapping and ${hardeningCases} additional provider/activation cases. All provider calls mocked.`);

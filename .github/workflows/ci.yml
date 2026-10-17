@@ -69,6 +69,15 @@ jobs:
       - name: Type-check Site Doctor API
         run: npm run doctor:typecheck
 
+      - name: Type-check AI brief API
+        run: npm run brief:typecheck
+
+      - name: Validate AI brief provider contract
+        run: npm run brief:smoke
+
+      - name: Validate read-only deployment probe
+        run: npm run tools:probe:smoke
+
       - name: Run Site Doctor API security smoke
         run: npm run doctor:smoke
 

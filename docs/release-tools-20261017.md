@@ -36,6 +36,8 @@ Build bez zwiększania limitów:
 
 Runtime: `/assets/index-D0EWBBuR.js`. Brak nowych zależności.
 
+Uzupełnienie backendu i gotowa konfiguracja aktywacji są opisane w [tools-activation-20261017.md](tools-activation-20261017.md). Obejmują odrzucanie niepełnych odpowiedzi modeli, limity danych zgodne z UTF-8, testy API briefu i dodatkowe testy dostawców skanera oraz kontrolę wdrożenia przez GET. Nie zmieniają plików frontendowych ani powyższych budżetów.
+
 Testy przeglądarkowe uruchamia GitHub Actions na statycznym buildzie z PR:
 
 1. Istniejąca pełna regresja kontaktu, nawigacji i interakcji w Chromium/WebKit.

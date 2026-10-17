@@ -32,7 +32,10 @@ async function limitedBody(request: Request, limit: number) {
       const { done, value } = await reader.read();
       if (done) break;
       size += value.byteLength;
-      if (size > limit) throw new Error('Payload too large');
+      if (size > limit) {
+        await reader.cancel().catch(() => {});
+        throw new RangeError('Payload too large');
+      }
       chunks.push(value);
     }
   } finally {
@@ -58,10 +61,10 @@ export async function onRequestPost({ request, env }: Context): Promise<Response
   const origin = request.headers.get('Origin');
   // Do not allow browsers hosted on other sites to use this endpoint.
   // An Origin header is not authentication: WAF limits are also required.
-  if (url.hostname !== 'codefix.it' || origin !== 'https://codefix.it') {
+  if (url.origin !== 'https://codefix.it' || origin !== 'https://codefix.it') {
     return json(403, { error: 'Odrzucono zapytanie.' });
   }
-  if (!request.headers.get('content-type')?.toLowerCase().startsWith('application/json')) {
+  if (request.headers.get('content-type')?.split(';', 1)[0].trim().toLowerCase() !== 'application/json') {
     return json(415, { error: 'Wymagany format JSON.' });
   }
   if (Number(request.headers.get('content-length') || 0) > 4096) {
@@ -74,7 +77,8 @@ export async function onRequestPost({ request, env }: Context): Promise<Response
     const data: unknown = JSON.parse(raw);
     if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error('Invalid body');
     input = data as Record<string, unknown>;
-  } catch {
+  } catch (error) {
+    if (error instanceof RangeError) return json(413, { error: 'Zbyt długie zapytanie.' });
     return json(400, { error: 'Nieprawidłowe dane zapytania.' });
   }
 
@@ -101,6 +105,7 @@ export async function onRequestPost({ request, env }: Context): Promise<Response
   try {
     const upstream = await fetch('https://api.openai.com/v1/responses', {
       method: 'POST',
+      redirect: 'error',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${env.OPENAI_API_KEY}`,
@@ -127,7 +132,8 @@ export async function onRequestPost({ request, env }: Context): Promise<Response
         upstream.status === 429 ? { 'Retry-After': '60' } : {});
     }
     const response: unknown = await upstream.json();
-    if (!response || typeof response !== 'object' || !('output' in response)) {
+    if (!response || typeof response !== 'object' ||
+        !('status' in response) || response.status !== 'completed' || !('output' in response)) {
       return json(502, { error: 'Nieprawidłowa odpowiedź modelu.' });
     }
     const output = (response as { output?: Array<{ content?: Array<{ type?: string; text?: string }> }> }).output;

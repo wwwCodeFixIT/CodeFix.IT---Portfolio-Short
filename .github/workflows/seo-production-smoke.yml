@@ -37,7 +37,7 @@ jobs:
 
   navigation:
     name: Mobile navigation on production
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
     needs: smoke
     runs-on: ubuntu-24.04
     timeout-minutes: 10
@@ -57,6 +57,8 @@ jobs:
         env:
           CODEFIX_NAVIGATION_PRODUCTION: '1'
         run: node scripts/mobile-navigation-qa.mjs
+      - name: Verify deployed tool functions without calling providers
+        run: node scripts/tools-deployment-smoke.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

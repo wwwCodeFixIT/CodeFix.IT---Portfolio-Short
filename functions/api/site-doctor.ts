@@ -156,8 +156,8 @@ export function buildReport(input: Input, psi: unknown) {
   };
 }
 
-async function readLimitedJson(request: Request, limit = 1300): Promise<unknown> {
-  if (Number(request.headers.get('content-length') || 0) > limit) throw Error('Too large');
+async function readLimitedJson(request: Request, limit = 2048): Promise<unknown> {
+  if (Number(request.headers.get('content-length') || 0) > limit) throw new RangeError('Too large');
   const reader = request.body?.getReader();
   if (!reader) throw Error('Missing data');
   const chunks: Uint8Array[] = [];
@@ -167,7 +167,10 @@ async function readLimitedJson(request: Request, limit = 1300): Promise<unknown>
       const { done, value } = await reader.read();
       if (done) break;
       length += value.length;
-      if (length > limit) throw Error('Too large');
+      if (length > limit) {
+        await reader.cancel().catch(() => {});
+        throw new RangeError('Too large');
+      }
       chunks.push(value);
     }
   } finally { reader.releaseLock(); }
@@ -199,6 +202,7 @@ async function getOptionalAiExplanation(env: Env, input: Input, report: NonNulla
   try {
     const res = await fetch('https://api.openai.com/v1/responses', {
       method: 'POST',
+      redirect: 'error',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${env.OPENAI_API_KEY}` },
       body: JSON.stringify({
         model: env.OPENAI_MODEL || 'gpt-4.1-mini',
@@ -221,7 +225,8 @@ async function getOptionalAiExplanation(env: Env, input: Input, report: NonNulla
       signal: AbortSignal.timeout(9000),
     });
     if (!res.ok) return undefined;
-    const data = await res.json() as { output?: Array<{ content?: Array<{ type?: string; text?: string }> }> };
+    const data = await res.json() as { status?: string; output?: Array<{ content?: Array<{ type?: string; text?: string }> }> };
+    if (data?.status !== 'completed') return undefined;
     const message = data.output?.flatMap((item) => item.content ?? [])
       .filter((item) => item.type === 'output_text')
       .map((item) => item.text ?? '')
@@ -239,15 +244,19 @@ export async function onRequestPost({ request, env }: Context): Promise<Response
   ) return response(503, { error: 'Diagnostyka nie została jeszcze aktywowana.' });
 
   const self = new URL(request.url);
-  if (self.hostname !== 'codefix.it' || request.headers.get('Origin') !== 'https://codefix.it') {
+  if (self.origin !== 'https://codefix.it' || request.headers.get('Origin') !== 'https://codefix.it') {
     return response(403, { error: 'Zapytanie spoza CodeFix.IT.' });
   }
-  if (!request.headers.get('content-type')?.toLowerCase().startsWith('application/json')) {
+  if (request.headers.get('content-type')?.split(';', 1)[0].trim().toLowerCase() !== 'application/json') {
     return response(415, { error: 'Wymagany JSON.' });
   }
   let input: Input | null;
   try { input = parseInput(await readLimitedJson(request)); }
-  catch { return response(400, { error: 'Nieprawidłowy format.' }); }
+  catch (error) {
+    return error instanceof RangeError
+      ? response(413, { error: 'Zbyt długie zapytanie.' })
+      : response(400, { error: 'Nieprawidłowy format.' });
+  }
   if (!input) return response(400, { error: 'Adres musi wskazywać publiczną witrynę HTTPS.' });
 
   // Fixed origin. No user-directed Worker fetch and no redirect following to
