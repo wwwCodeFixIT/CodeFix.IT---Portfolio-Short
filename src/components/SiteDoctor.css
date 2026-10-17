@@ -63,3 +63,12 @@
 .cf-doctor-handoff{margin:24px 0 16px;padding:22px;border:1px solid #9e4753;border-radius:14px;background:linear-gradient(130deg,rgba(204,42,62,.16),rgba(19,19,23,.9))}
 .cf-doctor-handoff h4{margin:3px 0 8px;font-size:20px}
 .cf-doctor-handoff p:not(.cf-section-kicker){margin:0 0 18px;color:#dad2d6;font-size:13px;line-height:1.7;max-width:670px}
+
+.cf-doctor-recovery {
+  border: 1px solid #80414a;
+  border-radius: 12px;
+  padding: 18px;
+  margin-top: 14px;
+}
+.cf-doctor-recovery h3 { margin: 0 0 8px; color: #f5f2f2; font-size: 18px; }
+.cf-doctor-recovery .cf-tool-actions { margin-top: 14px; }

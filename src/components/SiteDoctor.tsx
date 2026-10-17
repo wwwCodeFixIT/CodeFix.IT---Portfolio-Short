@@ -85,6 +85,7 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
   const [requestKey, setRequestKey] = useState(0);
   const running = useRef(false);
   const controller = useRef<AbortController | null>(null);
+  const cancelRequested = useRef(false);
 
   useEffect(() => () => controller.current?.abort(), []);
 
@@ -106,6 +107,7 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
     }
 
     running.current = true;
+    cancelRequested.current = false;
     setRequestKey((n) => n + 1);
     setReport(null);
     setCopied('');
@@ -140,9 +142,11 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
       setMessage('Pomiar gotowy. Diabełek znalazł wyniki do przejrzenia.');
       setState('success');
     } catch (error) {
-      setMessage(error instanceof Error && error.name === 'AbortError'
-        ? 'Upłynął czas pomiaru. Spróbuj ponownie później.'
-        : error instanceof Error ? error.message : 'Nie udało się wykonać pomiaru.');
+      setMessage(cancelRequested.current
+        ? 'Pomiar został anulowany. Nie dołączono żadnego raportu.'
+        : error instanceof Error && error.name === 'AbortError'
+          ? 'Upłynął czas pomiaru. Spróbuj ponownie później.'
+          : error instanceof Error ? error.message : 'Nie udało się wykonać pomiaru.');
       setState('error');
     } finally {
       clearTimeout(timeout);
@@ -227,7 +231,10 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
           <button className="cf-tool-primary" type="submit" disabled={state === 'loading'}>
             {state === 'loading' ? 'Trwa pomiar…' : 'Uruchom diagnozę'} <span aria-hidden="true">↗</span>
           </button>
-          {state === 'loading' && <button type="button" onClick={() => controller.current?.abort()}>Anuluj</button>}
+          {state === 'loading' && <button type="button" onClick={() => {
+            cancelRequested.current = true;
+            controller.current?.abort();
+          }}>Anuluj</button>}
         </div>
         <p className="cf-doctor-data-note">Podaj publiczny adres HTTPS. Nie wpisuj poufnych adresów ani haseł.</p>
       </form></> : <div className="cf-doctor-intro" role="status">
@@ -248,6 +255,20 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
         <span className="cf-doctor-status-dot" aria-hidden="true" />
         <span>{message || 'Diabełek gotowy do diagnozy.'}</span>
       </div>}
+
+      {availability.doctor && state === 'error' && (
+        <div className="cf-doctor-intro cf-doctor-recovery" role="group" aria-labelledby="cf-doctor-recovery-title">
+          <h3 id="cf-doctor-recovery-title">Zgłoś problem bez automatycznego pomiaru.</h3>
+          <p>Nie ma wiarygodnego raportu Lighthouse. Opisz objawy, a CodeFix.IT pomoże zdiagnozować usterkę.</p>
+          <div className="cf-tool-actions">
+            {onDismiss ? (
+              <button type="button" onClick={onDismiss}>Wróć do zgłoszenia bez raportu →</button>
+            ) : (
+              <a href="/?service=WORDPRESS_QUICK_FIX#contact">Opisz problem bez diagnozy →</a>
+            )}
+          </div>
+        </div>
+      )}
 
       {report && state === 'success' && (
         <div className="cf-doctor-results" aria-label="Wynik diagnozy">
