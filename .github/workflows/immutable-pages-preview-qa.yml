@@ -1,0 +1,38 @@
+name: Immutable Cloudflare Pages Preview QA
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_sha:
+        description: 'Verified deployed 40-character commit SHA'
+        required: true
+        type: string
+  push:
+    branches:
+      - feat/tools-immutable-preview-qa-20261017
+
+permissions:
+  contents: read
+  checks: read
+
+concurrency:
+  group: immutable-pages-preview-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  read-only-preview:
+    name: Verified immutable preview (GET-only)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Assert immutable URL and no-write request contract (local mocks)
+        run: node scripts/tools-immutable-preview-smoke.mjs
+      - name: Probe exact deployed Pages URL from GitHub checks
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_SHA: ${{ inputs.target_sha || '59b64e46b7d602ee76054d81f2033e216ce2ca77' }}
+        run: node scripts/tools-immutable-preview-qa.mjs "$TARGET_SHA"
