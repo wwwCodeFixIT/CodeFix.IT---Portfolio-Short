@@ -209,7 +209,7 @@ export function ToolsLab() {
               <label>Do kogo kierujesz stronę lub aplikację?
                 <input value={audience} maxLength={120} onChange={(event) => setAudience(event.target.value)} placeholder="Np. lokalne firmy usługowe" />
               </label>
-              <label>Cel lub problem <span aria-hidden="true">*</span>
+              <label>Cel lub problem
                 <textarea required minLength={15} maxLength={900} rows={4} value={goal} onChange={(event) => setGoal(event.target.value)} placeholder="Co chcesz osiągnąć? Co obecnie nie działa?" />
               </label>
               <label>Adres obecnej strony (opcjonalnie)

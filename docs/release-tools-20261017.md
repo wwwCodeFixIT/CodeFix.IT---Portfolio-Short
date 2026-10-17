@@ -30,11 +30,11 @@ Build bez zwiększania limitów:
 | --- | ---: | ---: |
 | Entry JS | 202793 | 215000 |
 | Największy odroczony JS | 57199 | 58000 |
-| Łączny JS | 379876 | 380000 |
+| Łączny JS | 379784 | 380000 |
 | Największy CSS | 40641 | 41000 |
 | Łączny CSS | 101351 | 102000 |
 
-Runtime: `/assets/index-DigwM1qb.js`. Brak nowych zależności.
+Runtime: `/assets/index-DxMdH2ex.js`. Brak nowych zależności.
 
 Uzupełnienie backendu i gotowa konfiguracja aktywacji są opisane w [tools-activation-20261017.md](tools-activation-20261017.md). Obejmują odrzucanie niepełnych odpowiedzi modeli, limity danych zgodne z UTF-8, testy API briefu i dodatkowe testy dostawców skanera oraz kontrolę wdrożenia przez GET. Bramka dostępności jest opisana poniżej.
 
@@ -55,5 +55,7 @@ To kandydat do przeglądu, nie zapis wdrożenia. Przed scaleniem należy ocenić
 Domyślnym narzędziem jest działający lokalnie asystent briefu. GET `/api/tool-status` ujawnia wyłącznie dwa booleany, zgodne z warunkami aktywacji endpointów. Poza produkcyjnym originem oba są wyłączone. Przycisk AI i formularz diagnozy są dostępne po potwierdzeniu konfiguracji. Niepowodzenie odczytu nie blokuje lokalnych narzędzi; ponowienie zachowuje pola i fokus. Enter w briefie zawsze uruchamia tryb lokalny.
 
 Odczyt konfiguracji jest współdzielony między komponentami w karcie i ograniczony do 5 sekund. Test API porównuje 64 konfiguracje z rzeczywistymi bramkami POST oraz odrzuca 3 obce originy. Test przeglądarkowy obejmuje 32 warianty obu silników i trzech szerokości: integracje off/on, osobna dostępność skanera i AI, lokalny Enter, domyślne opt-in wyłączone, retry po błędzie i timeout.
+
+Wymagane pola zachowują natywną semantykę `required`, bez ozdobnej gwiazdki łamiącej etykietę na telefonie. Zielona kontrolka skanera pojawia się wyłącznie po potwierdzeniu jego konfiguracji.
 
 Po publikacji workflow sprawdza aktualny runtime, trzy endpointy GET oraz lokalny brief i mapę na produkcji w Chromium/WebKit przy 320/390/1280 px. Cały etap produkcyjny blokuje POST i zewnętrzne żądania; nie uruchamia modeli, pomiaru PageSpeed ani CRM. Sekrety, WAF i przełączniki usług nie są zmieniane przez publikację kodu.

@@ -186,7 +186,7 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
       <div className="cf-doctor-top">
         <div className={'cf-doctor-avatar' + (state === 'loading' ? ' is-scanning' : '')}>
           <img src="/brand/codefix-devil-mark.webp" width="128" height="128" alt="" loading="lazy" />
-          <span className="cf-doctor-led" aria-hidden="true" />
+          {availability.doctor && <span className="cf-doctor-led" aria-hidden="true" />}
         </div>
         <div>
           <p className="cf-section-kicker">04 / Laboratorium diagnostyczne</p>
@@ -200,7 +200,7 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
       </p>
       <form className="cf-tool-form cf-doctor-form" onSubmit={(event) => void runScan(event)}>
         <label>
-          Adres strony <span aria-hidden="true">*</span>
+          Adres strony
           <input required type="url" inputMode="url" maxLength={450} autoComplete="url" autoFocus={retryFocus}
             value={url} onChange={(event) => setUrl(event.target.value)}
             placeholder="https://twoja-strona.pl" />
