@@ -16,7 +16,8 @@ export function canRunLive(args, env) {
   return args.includes(CANARY_ARG) &&
     env.SITE_DOCTOR_CANARY_APPROVAL === AUTHORIZE &&
     env.SITE_DOCTOR_WAF_VERIFIED === 'true' &&
-    env.SITE_DOCTOR_QUOTA_VERIFIED === 'true'
+    env.SITE_DOCTOR_QUOTA_VERIFIED === 'true' &&
+    /^[a-f0-9]{64}$/.test(env.SITE_DOCTOR_PILOT_TOKEN ?? '')
 }
 
 async function getJson(fetcher, path) {
@@ -81,10 +82,11 @@ export async function runOnce(options = {}, fetcher = globalThis.fetch) {
   const { args = [], env = {} } = options
   // Fail CLOSED *before* any live network access. Explicitly approve the
   // real provider call and separately attest WAF and quota configuration.
+  // The private token must only be supplied from a local/owner-controlled secret store.
   assert.ok(canRunLive(args, env), 'Live scan blocked: explicit approval, WAF and quota attestations are required')
   const state = await preflight(fetcher)
-  assert.equal(state.configuredActive, true,
-    'Site Doctor is disabled: do not send a PageSpeed request')
+  assert.equal(state.configuredActive, false,
+    'Pilot must not run while public Site Doctor is available')
   const body = JSON.stringify({
     url: ORIGIN + '/',
     problem: 'seo',
@@ -96,7 +98,12 @@ export async function runOnce(options = {}, fetcher = globalThis.fetch) {
     method: 'POST',
     cache: 'no-store',
     redirect: 'manual',
-    headers: { Origin: ORIGIN, Accept: 'application/json', 'Content-Type': 'application/json' },
+    headers: {
+      Origin: ORIGIN,
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + env.SITE_DOCTOR_PILOT_TOKEN,
+    },
     body,
     signal: AbortSignal.timeout(70000),
   })
@@ -108,7 +115,7 @@ export async function runOnce(options = {}, fetcher = globalThis.fetch) {
     providerRequests: 1,
     crmSubmissions: 0,
     scanUrl: ORIGIN + '/',
-    note: 'Single live Lighthouse request. This does not prove WAF enforcement or CMS functionality.',
+    note: 'Single live pilot request with public scanner disabled. Disable the pilot and rotate its token after use.',
   }
 }
 

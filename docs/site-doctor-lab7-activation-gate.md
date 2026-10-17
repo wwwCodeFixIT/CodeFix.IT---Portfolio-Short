@@ -36,27 +36,19 @@ Według aktualnej dokumentacji Cloudflare (*rate limiting rules*, 25.08.2026), m
 - Ustaw klucz wyłącznie jako zaszyfrowany sekret Cloudflare Pages **Production → Settings → Variables and Secrets → `PAGESPEED_API_KEY` → Encrypt**. Nie wklejaj go do ChatGPT, GitHub, CI logs ani zmiennych `VITE_*`. Dokumentacja: https://developers.cloudflare.com/pages/functions/bindings/#secrets
 - W Preview pozostaw **`SITE_DOCTOR_ENABLED=false`** i brak klucza produkcyjnego. Klucz OpenAI i `AI_TOOLS_ENABLED` pozostają wyłączone na pierwszym etapie.
 
-## 3. Aktywacja etapami
+## 3. Aktywacja etapami — aktualizacja LAB-8
 
-1. Odbierz faktyczną regułę WAF i limity dostawcy. Zapisz je prywatnie poza repo (ID reguły, plan, próg, okno, data sprawdzenia), **bez kluczy**.
-2. Dodaj sekret `PAGESPEED_API_KEY` do właściwego projektu Pages. Początkowo pozostaw `SITE_DOCTOR_ENABLED=false`, `SITE_DOCTOR_RATE_LIMIT_CONFIRMED=false`.
-3. Po zatwierdzeniu właściciela ustaw `SITE_DOCTOR_RATE_LIMIT_CONFIRMED=true` i `SITE_DOCTOR_ENABLED=true`; wykonaj kontrolowany deployment Pages. Sprawdź `npm run doctor:activation:preflight`: `configuredActive: true` to **jedynie deklaracja konfiguracji, nie dowód WAF ani poprawności klucza**.
-4. Jednorazowy canary: wyłącznie przy spełnieniu powyższych warunków i oddzielnej zgodzie na **jedno rzeczywiste żądanie PageSpeed**:
+**UWAGA: poprzedni wariant canary, który wymagał publicznego `SITE_DOCTOR_ENABLED=true`, został zastąpiony bezpieczniejszym trybem prywatnym.** Zobacz dokładny protokół [LAB-8 private pilot](site-doctor-lab8-private-pilot.md).
 
-```bash
-SITE_DOCTOR_WAF_VERIFIED=true \
-SITE_DOCTOR_QUOTA_VERIFIED=true \
-SITE_DOCTOR_CANARY_APPROVAL=I_APPROVE_ONE_REAL_PAGESPEED_SCAN \
-node scripts/site-doctor-activation-canary.mjs --one-live-site-doctor-scan
-```
-
-Skrypt najpierw robi dwa GET, sprawdza publiczną flagę doctor, a potem **jeden POST** do produkcji z `url=https://codefix.it/`, `includeAi=false`, pustym opisem i stałą kategorią SEO. Waliduje realną strukturę wyników Lighthouse. **Nie ponawia żądania**, nawet po timeout/429/502. Zwraca oceny 0–100, nie loguje klucza, nie wykonuje OpenAI ani zgłoszenia CRM.
-
-5. Jeśli test się nie powiódł, nie zgaduj przyczyn. Zweryfikuj WAF Events, ograniczenia klucza API, logi Cloudflare Pages i wynik `/api/tool-status`. Przy wzroście użycia natychmiast ustaw `SITE_DOCTOR_ENABLED=false` i wdroż zmianę.
-6. Funkcję generatywnego komentarza AI aktywuj **osobno**, po dodatkowym WAF i limicie kosztów projektu OpenAI. Pierwszy canary nigdy nie optuje się na komentarz AI.
+1. Potwierdź rzeczywistą regułę WAF, limity Google oraz ograniczony do PageSpeed sekret Google Cloud.
+2. Dodaj *zaszyfrowany* `SITE_DOCTOR_PILOT_TOKEN` (64 znaki losowego hex) w Pages Production, oprócz `PAGESPEED_API_KEY`.
+3. Ustaw `SITE_DOCTOR_PILOT_ENABLED=true`, `SITE_DOCTOR_RATE_LIMIT_CONFIRMED=true`, ale **pozostaw publiczne `SITE_DOCTOR_ENABLED=false`**. Konflikt obu flag aktywacyjnych blokuje wszystko (503).
+4. Odczytowy `npm run doctor:activation:preflight` musi nadal zwracać `configuredActive:false` — to prawidłowe: użytkownicy nie mają dostępu. Po osobnej zgodzie uruchom lokalnie canary z tym samym tokenem i trzema potwierdzeniami. Skrypt sprawdza publicznie wyłączony skaner i wysyła najwyżej jeden POST z nagłówkiem Authorization do `https://codefix.it/`, bez AI i CRM.
+5. **Wyłącz pilota natychmiast po teście i usuń/zmień token.** Ten sekret nie jest jednorazowy po stronie serwera. WAF nadal jest obowiązkowy.
+6. Publiczną aktywację `SITE_DOCTOR_ENABLED=true` przy `SITE_DOCTOR_PILOT_ENABLED=false` rozważ wyłącznie po odbiorze pomiaru i osobnej zgodzie właściciela. AI generatywne pozostaje oddzielnym etapem.
 
 ## 4. Bramka akceptacyjna
 
-**GO dla jednego live canary dopiero, gdy właściciel potwierdzi:** plan Cloudflare, aktywną regułę/zdarzenie, dostępną kwotę Google API, restrykcję klucza do PageSpeed, poprawny sekret Pages Production, aktywne flagi i zatwierdzenie wykonania pojedynczego pomiaru.
+**GO dla jednego live canary dopiero, gdy właściciel potwierdzi:** plan Cloudflare, aktywną regułę/zdarzenie, dostępną kwotę Google API, restrykcję klucza do PageSpeed, poprawny sekret Pages Production, oddzielny prywatny token pilota i zatwierdzenie wykonania pojedynczego pomiaru.
 
-**Wszystko inne = HOLD.** Testy automatyczne nie mają uprawnień do uruchomienia canary i nie są dowodem aktywnej ochrony w Cloudflare.
+**Wszystko inne = HOLD.** Skrypt canary wymaga tajnego tokenu i trzech ręcznych potwierdzeń. Testy automatyczne nie mają uprawnień do uruchomienia canary i nie są dowodem aktywnej ochrony w Cloudflare.
