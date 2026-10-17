@@ -65,7 +65,7 @@ const budgets = {
   // Includes the independent, opt-in diagnostic attachment and transfer helper.
   // Automation map: +9.6 KB overall, with the 9.0 KB planner loaded on demand.
   // Entry and homepage route sizes remain unchanged.
-  totalJs: 380_000,
+  // Error recovery adds a small independent action to the lazy-loaded Site Doctor.\n  totalJs: 381_000,
   // Branded optional report controls add ~0.7 KB to the deferred contact stylesheet.
   largestCss: 41_000,
   // Includes the isolated quick-view stylesheet and reference attachment (~3.7 KB).
