@@ -93,6 +93,9 @@ jobs:
       - name: Verify D1 single-use pilot concurrency and fail-closed gate
         run: npm run doctor:one-shot:smoke
 
+      - name: Verify opt-in WAF probe only sends mocked GET requests
+        run: node scripts/site-doctor-waf-get-only-smoke.mjs
+
       - name: Verify D1 SQLite migration using real concurrent transactions
         run: python3 scripts/site-doctor-d1-migration-qa.py
 
