@@ -46,8 +46,9 @@ for (const [engine, type] of Object.entries({ chromium, webkit })) {
           (r) => r.url() === origin + '/api/tool-status' && r.request().method() === 'GET',
         )
         await page.goto(origin + '/narzedzia/', { waitUntil: 'networkidle' })
+        // Cloudflare can inject another module script; verify the app entry only.
         assert.equal(
-          await page.locator('script[type=module][src]').getAttribute('src'),
+          await page.locator('script[type="module"][src^="/assets/index-"]').getAttribute('src'),
           expected,
           'Verify the published runtime',
         )

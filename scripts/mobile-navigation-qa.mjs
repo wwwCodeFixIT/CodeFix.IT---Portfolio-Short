@@ -97,8 +97,9 @@ for (const [engine, type] of [
         await page.goto(target.href, { waitUntil: 'networkidle' })
         if (javaScriptEnabled) {
           await page.waitForFunction(() => !document.querySelector('#root[data-static-prerender]'))
+          // Cloudflare can inject another module script; verify the app entry only.
           assert.equal(
-            await page.locator('script[type="module"][src]').getAttribute('src'),
+            await page.locator('script[type="module"][src^="/assets/index-"]').getAttribute('src'),
             expectedRuntime,
           )
           const reject = page.getByRole('button', { name: 'Odrzuć wszystkie', exact: true })
