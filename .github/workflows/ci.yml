@@ -93,6 +93,9 @@ jobs:
       - name: Verify D1 single-use pilot concurrency and fail-closed gate
         run: npm run doctor:one-shot:smoke
 
+      - name: Verify D1 SQLite migration using real concurrent transactions
+        run: python3 scripts/site-doctor-d1-migration-qa.py
+
       - name: Validate Site Doctor contact handoff
         run: npm run doctor:handoff:smoke
 
