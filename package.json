@@ -24,6 +24,8 @@
     "doctor:activation:smoke": "node scripts/site-doctor-activation-canary-smoke.mjs",
     "doctor:pilot:smoke": "node scripts/site-doctor-private-pilot-smoke.mjs",
     "doctor:one-shot:smoke": "node scripts/site-doctor-one-shot-d1-smoke.mjs",
+    "doctor:infra:inspect": "node scripts/site-doctor-infra-readiness.mjs",
+    "doctor:infra:smoke": "node scripts/site-doctor-infra-readiness-smoke.mjs",
     "doctor:handoff:smoke": "node scripts/site-doctor-handoff-smoke.mjs",
     "doctor:typecheck": "tsc --noEmit --strict --target ES2022 --module esnext --moduleResolution bundler --lib ES2022,DOM functions/api/site-doctor.ts",
     "automation:smoke": "node scripts/automation-map-smoke.mjs",
