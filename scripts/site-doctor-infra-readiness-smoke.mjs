@@ -60,6 +60,8 @@ const fetcher = async (url, options) => {
   assert.equal(options.method, 'GET')
   assert.equal(options.redirect, 'manual')
   const path = new URL(url).pathname
+  if (path.endsWith('/d1/database/' + uuid))
+    return Response.json({ success: true, result: { uuid } })
   if (path.endsWith('/pages/projects/' + credentials.CLOUDFLARE_PAGES_PROJECT))
     return Response.json({ success: true, result: pages })
   if (path.endsWith('/rulesets/phases/http_ratelimit/entrypoint'))
@@ -69,12 +71,12 @@ const fetcher = async (url, options) => {
   throw Error('Unexpected GET path')
 }
 const summary = await inspectCloudflare(credentials, fetcher)
-assert.equal(calls, 3)
+assert.equal(calls, 4)
 assert.equal(summary.status, 'HOLD')
 assert.equal(summary.d1BindingPresent, true)
-assert.equal(summary.d1DatabaseAccessible, false)
+assert.equal(summary.d1DatabaseAccessible, true)
 assert.ok(!JSON.stringify(summary).includes(key))
 let forbidden = 0
 await assert.rejects(() => inspectCloudflare({}, async () => { forbidden++; throw Error() }))
 assert.equal(forbidden, 0)
-console.log('Site Doctor infrastructure smoke PASS: 3 GET requests, WAF/D1/secret checks, HOLD and no configuration changes.')
+console.log('Site Doctor infrastructure smoke PASS: 4 GET requests, WAF/D1/secret checks, HOLD and no configuration changes.')
