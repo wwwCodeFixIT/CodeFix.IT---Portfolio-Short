@@ -4,15 +4,16 @@
 
 ## Cel i zakres
 
-Skrypt `scripts/site-doctor-infra-readiness.mjs` pobiera wyłącznie **3 GET** z publicznie udokumentowanego Cloudflare REST API za pomocą osobnego, ograniczonego tokenu Read:
+Skrypt `scripts/site-doctor-infra-readiness.mjs` pobiera wyłącznie **4 GET** z publicznie udokumentowanego Cloudflare REST API za pomocą osobnego, ograniczonego tokenu Read:
 
 1. `GET /zones/{zone_id}`: sprawdza nazwę, aktywność strefy i plan.
 2. `GET /accounts/{account_id}/pages/projects/{project_name}`: sprawdza domenę Pages, binding D1 `SITE_DOCTOR_PILOT_DB`, typy szyfrowania sekretów `PAGESPEED_API_KEY` i `SITE_DOCTOR_PILOT_TOKEN` w Production oraz ich brak w Preview. Sprawdza również flagi aktywacji, bez ujawniania wartości kluczy.
 3. `GET /zones/{zone_id}/rulesets/phases/http_ratelimit/entrypoint`: szuka włączonej reguły Block z zakresem `/api/site-doctor`, licznikiem IP (`ip.src` albo `cf.unique_visitor_id`) i dodatnim progiem/oknem. Brak ruleset (404) jest sygnałem blokującym.
+4. `GET /accounts/{account_id}/d1/database/{database_id}`: wyłącznie metadane bazy, której UUID pochodzi ze zweryfikowanej konfiguracji Pages. Brak tego D1 lub rozbieżność ID oznacza HOLD. Nie sprawdza schematu ani rekordów.
 
 Dokumentacja Cloudflare: [Pages project](https://developers.cloudflare.com/api/resources/pages/subresources/projects/methods/get/), [WAF Rulesets](https://developers.cloudflare.com/api/resources/rulesets/), [D1](https://developers.cloudflare.com/api/resources/d1/).
 
-**Ważne:** znalezienie definicji reguły nie potwierdza jej faktycznego egzekwowania dla ruchu użytkowników. Konieczna jest manualna kontrola w Cloudflare Security Events. D1 binding nie potwierdza istnienia tabeli. D1 REST Query korzysta z metody POST nawet przy SQL SELECT, więc celowo nie występuje w tym audycie GET-only. Limit Google Cloud też wymaga odrębnej kontroli w Google Cloud.
+**Ważne:** znalezienie definicji reguły nie potwierdza jej faktycznego egzekwowania dla ruchu użytkowników. Konieczna jest manualna kontrola w Cloudflare Security Events. Metadane D1 nie potwierdzają istnienia tabeli ani pustego rekordu pilota. D1 REST Query korzysta z metody POST nawet przy SQL SELECT, więc celowo nie występuje w tym audycie GET-only. Limit Google Cloud też wymaga odrębnej kontroli w Google Cloud.
 
 ## Instrukcja użycia (tylko lokalny terminal administratora)
 
@@ -53,4 +54,4 @@ unset CLOUDFLARE_API_TOKEN
 
 Zachowaj `SITE_DOCTOR_ENABLED=false` przez wszystkie testy; prywatny pilot uruchamiaj tylko na krótko po zatwierdzeniu, a potem natychmiast `SITE_DOCTOR_PILOT_ENABLED=false`, zrotuj lub usuń jego sekret i zweryfikuj ponownie `doctor:false`.
 
-*Nie traktuj zielonego CI ani 3 udanych GET jako dowodu aktywnego WAF, gotowości rozliczeń lub zezwolenia na płatne zapytanie.*
+*Nie traktuj zielonego CI ani 4 udanych GET jako dowodu aktywnego WAF, gotowości rozliczeń lub zezwolenia na płatne zapytanie.*
