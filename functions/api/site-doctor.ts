@@ -5,7 +5,13 @@
  * PageSpeed Insights endpoint is requested. Google performs the public scan.
  * Disabled by default until the owner configures a WAF rate rule and API quota.
  */
+type PilotDatabase = {
+  prepare(sql: string): {
+    run(): Promise<{ success: boolean; meta?: { changes?: number } }>;
+  };
+};
 type Env = {
+  SITE_DOCTOR_PILOT_DB?: PilotDatabase;
   SITE_DOCTOR_ENABLED?: string;
   SITE_DOCTOR_PILOT_ENABLED?: string;
   SITE_DOCTOR_PILOT_TOKEN?: string;
@@ -291,6 +297,29 @@ export async function onRequestPost({ request, env }: Context): Promise<Response
     input.url !== 'https://codefix.it/' || input.problem !== 'seo' ||
     input.description !== '' || input.includeAi
   )) return response(403, { error: 'Pilotaż dopuszcza tylko kontrolny pomiar CodeFix.IT.' });
+
+  if (authorizedPilot) {
+    // D1 claim is atomic (singleton PRIMARY KEY): only one successful INSERT
+    // across concurrent requests/deployments. A failed Google request still
+    // consumes the pilot. Never retry or reset the claim automatically.
+    if (!env.SITE_DOCTOR_PILOT_DB) {
+      return response(503, { error: 'Jednorazowy pilotaż nie jest jeszcze skonfigurowany.' });
+    }
+    try {
+      const claim = await env.SITE_DOCTOR_PILOT_DB.prepare(
+        "INSERT OR IGNORE INTO site_doctor_pilot_claims (id, claimed_at) VALUES (1, datetime('now'))",
+      ).run();
+      if (!claim.success) {
+        return response(503, { error: 'Nie udało się zabezpieczyć jednorazowego pomiaru.' });
+      }
+      if (claim.meta?.changes !== 1) {
+        return response(409, { error: 'Jednorazowy pilotaż został już wykorzystany.' });
+      }
+    } catch {
+      // Absent/missing schema, D1 connection failure, etc. must not call Google.
+      return response(503, { error: 'Nie udało się zabezpieczyć jednorazowego pomiaru.' });
+    }
+  }
 
   // Fixed origin. No user-directed Worker fetch and no redirect following to
   // host chosen by the user (Google owns and isolates the crawling).

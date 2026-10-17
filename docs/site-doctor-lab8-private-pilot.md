@@ -1,5 +1,7 @@
 # LAB-8 — prywatny pilotaż Site Doctor bez publicznego uruchamiania
 
+> **Aktualizacja LAB-9 (17.10.2026):** prywatny pilot wymaga już dodatkowo osobnej bazy Cloudflare D1 z bindingiem `SITE_DOCTOR_PILOT_DB` i tabelą `site_doctor_pilot_claims`. Bez tej bazy skan jest blokowany kodem HTTP 503. Po pierwszej autoryzowanej próbie globalny zapis blokuje powtórne wywołania (409), także po błędzie Google. Najpierw przeczytaj [LAB-9 — jednorazowa blokada D1](site-doctor-lab9-one-shot-d1.md); poprzednia uwaga o wielokrotnym użyciu tokenu opisuje sam sekret, a nie obecny serwerowy limit liczby prób.
+
 **Stan: DRAFT / HOLD.** To separacja testów dostawcy od aktywacji publicznego skanera. Nie konfiguruje automatycznie Cloudflare, WAF, Google Cloud ani kosztów. Wszystkie flagi i sekrety pozostają niewprowadzone aż do ręcznego odbioru.
 
 ## Dlaczego ten etap?
