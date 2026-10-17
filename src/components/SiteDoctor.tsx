@@ -139,11 +139,11 @@ export default function SiteDoctor({ initialUrl = '', onAttach, onDismiss }: Pro
       setMessage('Pomiar gotowy. Diabełek znalazł wyniki do przejrzenia.');
       setState('success');
     } catch (error) {
-      setMessage(error instanceof Error && error.name === 'AbortError'
-        ? cancelRequested.current
-          ? 'Pomiar został anulowany. Nie dołączono żadnego raportu.'
-          : 'Upłynął czas pomiaru. Spróbuj ponownie później.'
-        : error instanceof Error ? error.message : 'Nie udało się wykonać pomiaru.');
+      setMessage(cancelRequested.current
+        ? 'Pomiar został anulowany. Nie dołączono żadnego raportu.'
+        : error instanceof Error && error.name === 'AbortError'
+          ? 'Upłynął czas pomiaru. Spróbuj ponownie później.'
+          : error instanceof Error ? error.message : 'Nie udało się wykonać pomiaru.');
       setState('error');
     } finally {
       clearTimeout(timeout);
