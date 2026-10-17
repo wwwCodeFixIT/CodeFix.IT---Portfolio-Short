@@ -89,6 +89,12 @@ for (const [engine, type] of Object.entries({ chromium, webkit })) {
             const box = await launcher.boundingBox()
             assert.ok(box.width >= 44 && box.height >= 44, 'Footer target must be at least 44px')
           } else if (scenario.id === 'home') {
+            const form = page.locator('form.cf-lead-form')
+            const next = form.getByRole('button', { name: 'Dalej', exact: true })
+            await next.click()
+            await form.locator('[name="pageUrl"]').fill('https://example.invalid/')
+            await form.locator('[name="message"]').fill('QA: zachowany opis projektu')
+            await next.click()
             await page.locator('input[name="name"]').fill('QA: zachowany kontakt')
           }
 
@@ -133,6 +139,10 @@ for (const [engine, type] of Object.entries({ chromium, webkit })) {
               'QA: zachowany kontakt',
             )
             assert.equal(await page.locator('select[name="service"]').inputValue(), 'development')
+            assert.equal(
+              await page.locator('textarea[name="message"]').inputValue(),
+              'QA: zachowany opis projektu',
+            )
           }
           if (scenario.inline) {
             await page.locator('footer').screenshot({
