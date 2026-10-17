@@ -93,6 +93,9 @@ jobs:
       - name: Verify D1 single-use pilot concurrency and fail-closed gate
         run: npm run doctor:one-shot:smoke
 
+      - name: Validate Cloudflare infrastructure read-only inspection contract
+        run: npm run doctor:infra:smoke
+
       - name: Validate Site Doctor contact handoff
         run: npm run doctor:handoff:smoke
 
