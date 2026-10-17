@@ -1708,9 +1708,9 @@
     transform: translateY(8px);
   }
 
-  /* Focused fields must not compete with the mobile CTA.
+  /* Focused fields and the open laboratory must not compete with the mobile CTA.
      Do not hide on #contact:target: URL fragments persist after scrolling away. */
-  .homepage-v1:has(.cf-lead-form:focus-within) .cf-mobile-sticky-cta {
+  .homepage-v1:has(.cf-lead-form:focus-within, .cf-laboratory[open]) .cf-mobile-sticky-cta {
     display: none;
   }
 

@@ -2,7 +2,8 @@
 .cf-mobile-navigation {
   display: none;
 }
-.cf-nav-with-menu .cf-nav-links a {
+.cf-nav-with-menu .cf-nav-links a,
+.cf-laboratory + a {
   display: inline-flex;
   align-items: center;
   justify-content: center;

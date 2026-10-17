@@ -10,6 +10,7 @@ Laboratorium jest dostępne pod `/#laboratorium`, z menu desktopowego i mobilneg
 - Osadzony panel nie zmienia tytułu, canonicala ani opisu strony i nie dodaje kolejnego `main` ani `h1`. Instancje skanera mają unikalne identyfikatory również obok dialogu diagnostycznego.
 - Dostępność usług online nadal wynika z backendu. Publikacja nie aktywuje kluczy, WAF ani dostawców.
 - Statyczny HTML zawiera sekcję i link do narzędzi. Natywna nawigacja bez JavaScriptu ma również pozycję Laboratorium.
+- Otwarty panel ukrywa mobilny przycisk stały, aby nie zasłaniał kontrolek. Po zwinięciu przycisk wraca zgodnie ze stanem widoczności kontaktu. Przełącznik i link do nowej karty mają obszar co najmniej 44 px.
 
 ## Kontrole
 
@@ -19,4 +20,4 @@ GitHub Actions: dotychczasowy audyt kontaktu i narzędzi oraz `home-laboratory-q
 
 Po publikacji ten sam skrypt wykonuje sześć kontekstów na codefix.it, bez wysyłania formularza lub uruchamiania usług online. Wyniki i zrzuty zapisuje istniejący workflow SEO Production Smoke.
 
-Budżety JS uwzględniają nową sekcję: największy odroczony plik do 59000 B, suma do 382000 B. Entry i limity CSS pozostają bez zmian. Build: entry 202793 B, homepage 58955 B, suma JS 381953 B, suma CSS 101793 B. Runtime: `/assets/index-DgxMWDtL.js`.
+Budżety JS uwzględniają nową sekcję: największy odroczony plik do 59000 B, suma do 382000 B. Entry i limity CSS pozostają bez zmian. Build: entry 202793 B, homepage 58955 B, suma JS 381953 B, suma CSS 101831 B. Runtime: `/assets/index-BOTDDnjs.js`.

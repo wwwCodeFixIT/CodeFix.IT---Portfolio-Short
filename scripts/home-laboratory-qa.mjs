@@ -165,11 +165,20 @@ for (const [engine, type] of Object.entries({ chromium, webkit })) {
         }
         if (mode === 'local' || mode === 'live')
           await lab.screenshot({ path: `${output}/${engine}-${width}-closed.png` })
+        for (const control of [
+          toggle,
+          lab.getByRole('link', { name: 'Otwórz w nowej karcie ↗', exact: true }),
+        ]) {
+          const box = await control.boundingBox()
+          assert.ok(box.width >= 44 && box.height >= 44, 'Lab controls need 44px targets')
+        }
         const available =
           mode === 'chunk-error'
             ? null
             : page.waitForResponse((response) => response.url() === origin + '/api/tool-status')
         await toggle.press('Enter')
+        if (width <= 720)
+          assert.equal(await page.locator('.cf-mobile-sticky-cta').isVisible(), false)
         if (mode === 'chunk-error') {
           await lab.getByRole('alert').waitFor()
           assert.equal(
@@ -197,6 +206,8 @@ for (const [engine, type] of Object.entries({ chromium, webkit })) {
           assert.match(await brief.locator('textarea[readOnly]').inputValue(), /WERSJA LOKALNA/)
           await toggle.press('Space')
           assert.equal(await disclosure.getAttribute('open'), null)
+          if (width <= 720)
+            await page.locator('.cf-mobile-sticky-cta').waitFor({ state: 'visible' })
           await toggle.press('Enter')
           assert.equal(
             await goal.inputValue(),
