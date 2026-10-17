@@ -84,6 +84,9 @@ jobs:
       - name: Run Site Doctor API security smoke
         run: npm run doctor:smoke
 
+      - name: Verify fail-closed Site Doctor canary without calling providers
+        run: npm run doctor:activation:smoke
+
       - name: Validate Site Doctor contact handoff
         run: npm run doctor:handoff:smoke
 
