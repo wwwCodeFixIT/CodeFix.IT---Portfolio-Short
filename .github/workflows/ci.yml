@@ -84,6 +84,21 @@ jobs:
       - name: Run Site Doctor API security smoke
         run: npm run doctor:smoke
 
+      - name: Verify fail-closed Site Doctor canary without calling providers
+        run: npm run doctor:activation:smoke
+
+      - name: Verify private pilot scope, token isolation and public-off status
+        run: npm run doctor:pilot:smoke
+
+      - name: Verify D1 single-use pilot concurrency and fail-closed gate
+        run: npm run doctor:one-shot:smoke
+
+      - name: Verify opt-in WAF probe only sends mocked GET requests
+        run: node scripts/site-doctor-waf-get-only-smoke.mjs
+
+      - name: Verify D1 SQLite migration using real concurrent transactions
+        run: python3 scripts/site-doctor-d1-migration-qa.py
+
       - name: Validate Site Doctor contact handoff
         run: npm run doctor:handoff:smoke
 

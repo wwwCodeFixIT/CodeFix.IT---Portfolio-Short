@@ -5,8 +5,16 @@
  * PageSpeed Insights endpoint is requested. Google performs the public scan.
  * Disabled by default until the owner configures a WAF rate rule and API quota.
  */
+type PilotDatabase = {
+  prepare(sql: string): {
+    run(): Promise<{ success: boolean; meta?: { changes?: number } }>;
+  };
+};
 type Env = {
+  SITE_DOCTOR_PILOT_DB?: PilotDatabase;
   SITE_DOCTOR_ENABLED?: string;
+  SITE_DOCTOR_PILOT_ENABLED?: string;
+  SITE_DOCTOR_PILOT_TOKEN?: string;
   SITE_DOCTOR_RATE_LIMIT_CONFIRMED?: string;
   PAGESPEED_API_KEY?: string;
   AI_TOOLS_ENABLED?: string;
@@ -235,13 +243,37 @@ async function getOptionalAiExplanation(env: Env, input: Input, report: NonNulla
   } catch { return undefined; }
 }
 
+/**
+ * Temporary private pilot: 64-character random hex secret, submitted only
+ * in Authorization header over HTTPS. This is a shared secret, NOT a rate
+ * limiter and NOT a single-use token. Remove it after the controlled canary.
+ */
+function matchesPilotToken(header: string | null, secret?: string): boolean {
+  if (!secret || !/^[a-f0-9]{64}$/.test(secret) || !header?.startsWith('Bearer ')) return false;
+  const supplied = header.slice(7);
+  if (supplied.length !== secret.length) return false;
+  let mismatch = 0;
+  for (let i = 0; i < secret.length; i++) mismatch |= supplied.charCodeAt(i) ^ secret.charCodeAt(i);
+  return mismatch === 0;
+}
+
 export async function onRequestPost({ request, env }: Context): Promise<Response> {
-  // Fail-closed until API quota and explicit WAF rule are verified.
+  // The pilot is separate from PUBLIC activation. Conflicting flags fail shut.
+  // WAF and PageSpeed quota still need real-world configuration and checking.
+  const pilotMode = env.SITE_DOCTOR_PILOT_ENABLED === 'true';
+  const publicMode = env.SITE_DOCTOR_ENABLED === 'true';
   if (
-    env.SITE_DOCTOR_ENABLED !== 'true' ||
+    (pilotMode && publicMode) ||
+    (!pilotMode && !publicMode) ||
     env.SITE_DOCTOR_RATE_LIMIT_CONFIRMED !== 'true' ||
     !env.PAGESPEED_API_KEY
   ) return response(503, { error: 'Diagnostyka nie została jeszcze aktywowana.' });
+  const authorizedPilot = pilotMode && matchesPilotToken(
+    request.headers.get('Authorization'), env.SITE_DOCTOR_PILOT_TOKEN,
+  );
+  if (pilotMode && !authorizedPilot) {
+    return response(503, { error: 'Diagnostyka nie została jeszcze aktywowana.' });
+  }
 
   const self = new URL(request.url);
   if (self.origin !== 'https://codefix.it' || request.headers.get('Origin') !== 'https://codefix.it') {
@@ -258,6 +290,36 @@ export async function onRequestPost({ request, env }: Context): Promise<Response
       : response(400, { error: 'Nieprawidłowy format.' });
   }
   if (!input) return response(400, { error: 'Adres musi wskazywać publiczną witrynę HTTPS.' });
+
+  // The pilot can only scan OUR homepage, with no user text or OpenAI option.
+  // A copied or guessed token cannot scan arbitrary third-party addresses.
+  if (authorizedPilot && (
+    input.url !== 'https://codefix.it/' || input.problem !== 'seo' ||
+    input.description !== '' || input.includeAi
+  )) return response(403, { error: 'Pilotaż dopuszcza tylko kontrolny pomiar CodeFix.IT.' });
+
+  if (authorizedPilot) {
+    // D1 claim is atomic (singleton PRIMARY KEY): only one successful INSERT
+    // across concurrent requests/deployments. A failed Google request still
+    // consumes the pilot. Never retry or reset the claim automatically.
+    if (!env.SITE_DOCTOR_PILOT_DB) {
+      return response(503, { error: 'Jednorazowy pilotaż nie jest jeszcze skonfigurowany.' });
+    }
+    try {
+      const claim = await env.SITE_DOCTOR_PILOT_DB.prepare(
+        "INSERT OR IGNORE INTO site_doctor_pilot_claims (id, claimed_at) VALUES (1, datetime('now'))",
+      ).run();
+      if (!claim.success) {
+        return response(503, { error: 'Nie udało się zabezpieczyć jednorazowego pomiaru.' });
+      }
+      if (claim.meta?.changes !== 1) {
+        return response(409, { error: 'Jednorazowy pilotaż został już wykorzystany.' });
+      }
+    } catch {
+      // Absent/missing schema, D1 connection failure, etc. must not call Google.
+      return response(503, { error: 'Nie udało się zabezpieczyć jednorazowego pomiaru.' });
+    }
+  }
 
   // Fixed origin. No user-directed Worker fetch and no redirect following to
   // host chosen by the user (Google owns and isolates the crawling).
@@ -284,7 +346,7 @@ export async function onRequestPost({ request, env }: Context): Promise<Response
   catch { return response(502, { error: 'Nieprawidłowa odpowiedź Google PageSpeed.' }); }
   const report = buildReport(input, payload);
   if (!report) return response(502, { error: 'Niekompletny pomiar Lighthouse.' });
-  const aiExplanation = await getOptionalAiExplanation(env, input, report);
+  const aiExplanation = authorizedPilot ? undefined : await getOptionalAiExplanation(env, input, report);
   return response(200, { ...report, ...(aiExplanation ? { aiExplanation } : {}) });
 }
 

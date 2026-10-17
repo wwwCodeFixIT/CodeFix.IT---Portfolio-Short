@@ -1,0 +1,30 @@
+name: Site Doctor Read-only Activation Preflight
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feat/site-doctor-activation-canary-20261017
+      - feat/site-doctor-d1-preflight-20261017
+
+permissions:
+  contents: read
+
+concurrency:
+  group: doctor-readiness-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preflight:
+    name: GET-only production readiness (no provider usage)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Confirm canary gates via mocked provider
+        run: node scripts/site-doctor-activation-canary-smoke.mjs
+      - name: Check deployed API availability without POST
+        run: node scripts/site-doctor-activation-canary.mjs
