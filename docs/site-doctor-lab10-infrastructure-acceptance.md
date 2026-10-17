@@ -53,3 +53,29 @@ Przed: wszystkie powyższe punkty rzeczywiście sprawdzone, migracja zastosowana
 Po: bez względu na sukces albo błąd, w D1 powinien być dokładnie **jeden** rekord, brak możliwości ponownego POST, publiczny `/api/tool-status` nadal `doctor:false`; natychmiast wyłącz `SITE_DOCTOR_PILOT_ENABLED` i zrotuj/usuń `SITE_DOCTOR_PILOT_TOKEN`. Zapisz wynik testu i stan zużycia kwoty Google.
 
 **Go/no-go:** bez autoryzowanego potwierdzenia Cloudflare+Google Cloud = **HOLD**. Zielone CI nie znaczy, że realna baza została utworzona. Włączenie publicznego skanera to osobny release gate.
+
+
+## LAB-11 — aktualizacja z odbioru ręcznego 17.10.2026
+
+Źródło poniższych ustaleń: **ekrany przedstawione przez właściciela w trakcie ręcznej konfiguracji**. Nie są to wyniki odczytu poświadczonego tokenem administracyjnym; żadnych wartości kluczy nie zapisano do repozytorium ani w dokumentacji. Poprzedni opis „nie utworzono bazy” odnosi się do stanu przed ręczną konfiguracją.
+
+| Kontrola | Dowód z odbioru | Stan |
+| --- | --- | --- |
+| Projekt Pages i wdrożenie | Domena `codefix.it`, automatyczne publikacje z `main`; widoczny commit produkcyjny `59b64e4`. | **POTWIERDZONE NA EKRANIE** |
+| Baza D1 | Wydzielona `codefix-site-doctor-pilot`; D1 Console pokazała 1 tabelę oraz `SELECT COUNT(*) AS used FROM site_doctor_pilot_claims;` = **0**. Wykonana ręcznie definicja `CREATE TABLE` odpowiada migracji repo. | **POTWIERDZONE NA EKRANIE** |
+| Binding Pages | `SITE_DOCTOR_PILOT_DB` → `codefix-site-doctor-pilot`, widoczny w Settings → Bindings. | **ZAPISANY; ZAKRES PRODUCTION I DEPLOYMENT PO ZMIANIE DO SPRAWDZENIA** |
+| WAF plan i reguła | Plan **Free**. Zapisana reguła `CF - Site Doctor - Rate Limit`, dokładny URI path `/api/site-doctor`, **2 żądania / 10 s / IP**, akcja Block na 10 s, Active. Panel pokazuje 1/1 — trójkąt tylko informuje o wykorzystaniu limitu reguł planu. | **ZAPISANA; REALNY EGZEKWOWANY BLOCK W SECURITY EVENTS NIEPOTWIERDZONY** |
+| Google Cloud | Wydzielony projekt `codefixit-site-doctor`; `pagespeedonline.googleapis.com` włączony. Limit dzienny zmieniono z 25 000 na **5**, a minutowy z 30 na **2** — Google wyświetlił oba potwierdzenia aktualizacji. | **POTWIERDZONE NA EKRANIE** |
+| Klucz Google | Klucz ograniczony do **PageSpeed Insights API**, aplikacja: Brak (serwer Cloudflare). W Pages `PAGESPEED_API_KEY` widoczny jako **Secret / Value encrypted**; nazwę potwierdził właściciel. | **ZAPISANY; ZAKRES PRODUCTION I DEPLOYMENT PO ZMIANIE DO SPRAWDZENIA** |
+| Flagi | W widocznym środowisku w Pages nie ma `SITE_DOCTOR_ENABLED` ani `SITE_DOCTOR_PILOT_ENABLED`. Ich brak jest równoważny trybowi OFF w obecnym kodzie. | **PUBLICZNY SKANER NIEAKTYWOWANY (NA POZIOMIE KONFIGURACJI)** |
+| Bezpieczeństwo kodu | CI `39031667346` PASS dla `9442d53b`; poprawność SQLite sprawdzona na 12 równoczesnych sesjach lokalnych. | **PASS W CI; D1 CLOUDFLARE NIE ZOSTAŁO PRZETESTOWANE ŻĄDANIEM POST** |
+
+### Pozostałe blokady wdrożenia (wymagane, nie pomijaj)
+
+1. W panelu Pages **jednoznacznie sprawdź Production** dla bindingu D1 i sekretu API oraz odnotuj, czy zaktualizowany deployment odczytuje zmiany. Sytuacji nie rozstrzyga sam widok `main` w sekcji Build.
+2. Potwierdź przez Security Events albo inną autoryzowaną obserwację, że WAF **rzeczywiście** chroni ścieżkę na `codefix.it`; pamiętaj, że obecny warunek obejmuje też GET (brak filtra metody). Nie wykonuj testów obciążeniowych ani płatnych POST tylko dla takiej kontroli.
+3. **Nie włączaj** `SITE_DOCTOR_ENABLED`, `SITE_DOCTOR_PILOT_ENABLED` ani `SITE_DOCTOR_RATE_LIMIT_CONFIRMED` przy tej dokumentacyjnej weryfikacji. Do prywatnego canary potrzeba ponadto osobnego tokenu 64 hex, jawnej zgody oraz kontrolowanego przełączenia flag *dopiero po wdrożeniu kodu*.
+4. Łańcuch PR-ów **#118 → #119 → #120 → #122** jest Draft; Production ma automatyczne wdrożenia `main`. Scalenie wymaga odrębnego, wyraźnego zatwierdzenia właściciela. Nie utożsamiaj zielonego CI z zgodą na publikację.
+5. Wykonaj dostępny preflight **tylko GET** w docelowym środowisku bez wywołania Google. Każdy prawdziwy POST PageSpeed wymaga osobnej zgody; nie ma automatycznych ponowień i D1 zużywa próbę również przy błędzie dostawcy.
+
+**Decyzja po odbiorze infrastruktury: HOLD na merge, aktywację i live canary.** Wykonano konfigurację zasobów ręcznie, lecz nadal nie potwierdzono zakresu środowiskowego, wdrożenia bindingów/sekretu i skuteczności WAF w ruchu. Docelowy stan bezpieczny: publiczny i prywatny Site Doctor pozostają OFF.
