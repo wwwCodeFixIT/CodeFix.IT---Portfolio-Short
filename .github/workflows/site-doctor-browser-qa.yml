@@ -6,6 +6,7 @@ on:
     branches:
       - main
       - feat/site-doctor-lab2-20261016
+      - feat/site-doctor-lead-handoff-20261016
     paths:
       - 'src/components/SiteDoctor.tsx'
       - 'src/components/SiteDoctor.css'
