@@ -79,3 +79,35 @@ Po: bez względu na sukces albo błąd, w D1 powinien być dokładnie **jeden** 
 5. Wykonaj dostępny preflight **tylko GET** w docelowym środowisku bez wywołania Google. Każdy prawdziwy POST PageSpeed wymaga osobnej zgody; nie ma automatycznych ponowień i D1 zużywa próbę również przy błędzie dostawcy.
 
 **Decyzja po odbiorze infrastruktury: HOLD na merge, aktywację i live canary.** Wykonano konfigurację zasobów ręcznie, lecz nadal nie potwierdzono zakresu środowiskowego, wdrożenia bindingów/sekretu i skuteczności WAF w ruchu. Docelowy stan bezpieczny: publiczny i prywatny Site Doctor pozostają OFF.
+
+
+## LAB-12 — przygotowany test działania WAF wyłącznie metodą GET (bez uruchomienia)
+
+Zamiast wnioskować o egzekwowaniu reguły wyłącznie z ekranu „Active”, dodano
+`scripts/site-doctor-waf-get-only-probe.mjs` oraz automatyczny **wyłącznie mockowany**
+`scripts/site-doctor-waf-get-only-smoke.mjs`.
+
+**Tryb domyślny: STOP; brak sieci.** Prawdziwy test wymaga osobnej, świadomej zgody
+właściciela: argumentu `--one-waf-get-only-observation` oraz zmiennej
+`SITE_DOCTOR_WAF_READONLY_APPROVAL=I_APPROVE_FOUR_WAF_READONLY_GETS`.
+Nie dodawać tej zgody do sekretów GitHub Actions, workflow ani Cloudflare.
+Skrypt nie wykonuje się w żadnym automatycznym workflow; CI testuje go przy
+podstawionym `fetch`, bez wyjścia do Internetu.
+
+Działanie po ręcznym zatwierdzeniu:
+- Co najwyżej 4 kolejne **GET** na jeden, sztywny adres
+  `https://codefix.it/api/site-doctor`, z wyłączonym cache i bez przekierowań.
+  Żadnego POST, body, cookies, tokenu, AI, Google PageSpeed ani CRM.
+- 405 oznacza typową odpowiedź funkcji dla GET. WAF na planie Free ma
+  skonfigurowane 2 żądania na 10 s na IP, ale licznik może zadziałać z
+  opóźnieniem i zależy od ruchu oraz lokalizacji. Test może tymczasowo
+  zablokować IP wykonujące test na tym endpointcie (około 10 s).
+- 403/429 po wcześniejszym 405 to **wyłącznie sygnał potencjalnej blokady**.
+  Nie jest dowodem działania konkretnej reguły. Wymagane dopasowanie
+  Security Events po czasie i WAF rule ID/expression/action. Brak sygnału
+  lub brak eventu = **HOLD**, nie „PASS”.
+- Test nie potwierdza poprawnego zakresu Production dla D1 ani sekretu
+  `PAGESPEED_API_KEY`; te bramki pozostają odrębne.
+
+**Stan LAB-12:** skrypt i smoke test przygotowane, test realny **NIEURUCHOMIONY**.
+Brak zgody na live WAF probe, merge, publiczne skanowanie i płatny canary.
