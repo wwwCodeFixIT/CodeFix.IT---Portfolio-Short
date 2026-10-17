@@ -107,7 +107,10 @@ async function bootstrap() {
     createRoot(root).render(
       <StrictMode>
         {route}
-        <MeasurementConsent servicePage={servicePaths.has(path)} />
+        <MeasurementConsent
+          servicePage={servicePaths.has(path)}
+          floatingSettings={path !== '/' && path !== '/narzedzia'}
+        />
       </StrictMode>,
     );
   } catch (error) {

@@ -46,6 +46,10 @@
 .cf-tools-bottom { border-top: 1px solid #414147; margin-top: 48px; padding-top: 35px; }
 .cf-tools-bottom p { max-width: 680px; color: #b3b3ba; }
 .cf-tools-bottom a { display: inline-block; margin-top: 10px; font-weight: 700; color: #ff979e; }
-.cf-tools-footer { border-top: 1px solid #36363a; padding: 26px 0; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; color: #aaaab0; font-size: 13px; }
+.cf-tools-footer { border-top: 1px solid #36363a; padding: 26px 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; color: #aaaab0; font-size: 13px; }
+.cf-tools-footer-links { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 20px; }
+.cf-tools-footer-links :is(a, button) { display: inline-flex; align-items: center; min-height: 44px; }
+.cf-tools-footer-links button { padding: 0; border: 0; background: none; color: #f7f7f8; text-decoration: underline; text-underline-offset: 4px; font: inherit; cursor: pointer; }
+.cf-tools-footer-links button:hover { color: #ff9b9b; }
 @media (max-width: 520px) { .cf-tools .cf-container { width: min(100% - 28px, 1050px); } .cf-tool-colors { grid-template-columns: 1fr; } .cf-tools-nav { min-height: 65px; } }
 @media (prefers-reduced-motion: reduce) { .cf-tools *, .cf-tools *::before, .cf-tools *::after { animation-duration: .01ms !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }

@@ -7,11 +7,26 @@ import {
 } from '../lib/measurement';
 import './MeasurementConsent.css';
 
-export function MeasurementConsent({ servicePage = false }: { servicePage?: boolean }) {
+export function MeasurementConsent({
+  servicePage = false,
+  floatingSettings = true,
+}: {
+  servicePage?: boolean;
+  floatingSettings?: boolean;
+}) {
   const [preferences, setPreferences] = useState(readMeasurementPreferences);
   const [open, setOpen] = useState(needsMeasurementChoice);
   const panelRef = useRef<HTMLElement>(null);
+  const settingsRef = useRef<HTMLButtonElement>(null);
   const previousFocus = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (!open && previousFocus.current) {
+      const target = previousFocus.current.isConnected ? previousFocus.current : settingsRef.current;
+      target?.focus();
+      previousFocus.current = null;
+    }
+  }, [open]);
 
   useEffect(() => {
     let frame = 0;
@@ -32,7 +47,6 @@ export function MeasurementConsent({ servicePage = false }: { servicePage?: bool
     saveMeasurementPreferences(nextPreferences);
     setPreferences(nextPreferences);
     setOpen(false);
-    previousFocus.current?.focus();
   }
 
   return open ? (
@@ -75,14 +89,18 @@ export function MeasurementConsent({ servicePage = false }: { servicePage?: bool
         <button type="button" onClick={() => save({ analytics: true, ads: true })}>Akceptuj wszystkie</button>
       </div>
     </section>
-  ) : (
+  ) : floatingSettings ? (
     <button
+      ref={settingsRef}
       type="button"
       className="cf-measurement-settings"
       data-service-page={servicePage}
-      onClick={openMeasurementSettings}
+      onClick={(event) => {
+        event.currentTarget.focus({ preventScroll: true });
+        openMeasurementSettings();
+      }}
     >
       Ustawienia prywatności
     </button>
-  );
+  ) : null;
 }

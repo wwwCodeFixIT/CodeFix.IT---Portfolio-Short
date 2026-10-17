@@ -1,5 +1,6 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
 import { Brand } from '../components/Brand';
+import { openMeasurementSettings } from '../lib/measurement';
 import '../components/ToolControls.css';
 import './ToolsLab.css';
 
@@ -278,7 +279,13 @@ export function ToolsLab() {
       </main>
       <footer className="cf-container cf-tools-footer">
         <span>© 2026 CodeFix.IT · Diabeł tkwi w kodzie.</span>
-        <a href="/polityka-prywatnosci/">Prywatność</a>
+        <div className="cf-tools-footer-links">
+          <a href="/polityka-prywatnosci/">Prywatność</a>
+          <button type="button" onClick={(event) => {
+            event.currentTarget.focus({ preventScroll: true });
+            openMeasurementSettings();
+          }}>Ustawienia prywatności</button>
+        </div>
       </footer>
     </div>
   );

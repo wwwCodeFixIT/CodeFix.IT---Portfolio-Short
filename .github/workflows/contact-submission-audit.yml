@@ -5,6 +5,8 @@ on:
     branches: [main, feat/site-doctor-lab2-20261016]
     paths:
       - 'src/main.tsx'
+      - 'src/components/MeasurementConsent.tsx'
+      - 'src/components/MeasurementConsent.css'
       - 'src/lib/attribution.ts'
       - 'src/lib/conversion-journey.ts'
       - 'src/pages/GuidePage.tsx'

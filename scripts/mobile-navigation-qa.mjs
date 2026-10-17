@@ -62,14 +62,23 @@ for (const [engine, type] of [
       page.setDefaultTimeout(15000)
       const errors = []
       let externalRequests = 0
+      let blockedPassiveScripts = 0
       page.on('pageerror', (error) => errors.push(error.message))
       await context.route('**/*', (route) => {
         const request = route.request()
-        if (
-          new URL(request.url()).origin === target.origin &&
-          ['GET', 'HEAD'].includes(request.method())
-        )
+        const url = new URL(request.url())
+        if (url.origin === target.origin && ['GET', 'HEAD'].includes(request.method()))
           return route.continue()
+        // Cloudflare injects this passive script into production HTML. Keep it blocked.
+        if (
+          production &&
+          request.method() === 'GET' &&
+          url.hostname === 'static.cloudflareinsights.com' &&
+          url.pathname.startsWith('/beacon.min.js/')
+        ) {
+          blockedPassiveScripts++
+          return route.abort('blockedbyclient')
+        }
         externalRequests++
         return route.abort('blockedbyclient')
       })
@@ -250,6 +259,7 @@ for (const [engine, type] of [
           contactFocus: javaScriptEnabled && width <= 980,
           nativeDismissal: javaScriptEnabled && width <= 980,
           externalRequests,
+          blockedPassiveScripts,
           liveLeadRequests: 0,
         }
         results.push(result)
