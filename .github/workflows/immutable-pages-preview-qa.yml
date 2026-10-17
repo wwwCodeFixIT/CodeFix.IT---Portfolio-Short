@@ -1,0 +1,59 @@
+name: Immutable Cloudflare Pages Preview QA
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_sha:
+        description: 'Verified deployed 40-character commit SHA'
+        required: true
+        type: string
+  push:
+    branches:
+      - feat/tools-immutable-preview-qa-20261017
+
+permissions:
+  contents: read
+  checks: read
+
+concurrency:
+  group: immutable-pages-preview-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  read-only-preview:
+    name: Verified immutable preview (GET-only)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Assert immutable URL and no-write request contract (local mocks)
+        run: node scripts/tools-immutable-preview-smoke.mjs
+      - name: Probe exact deployed Pages URL from GitHub checks
+        id: verified
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TARGET_SHA: ${{ inputs.target_sha || '59b64e46b7d602ee76054d81f2033e216ce2ca77' }}
+        run: node scripts/tools-immutable-preview-qa.mjs "$TARGET_SHA"
+      - name: Build matching application runtime
+        run: |
+          npm ci
+          npm run build
+      - name: Install Chromium and WebKit for external read-only QA
+        run: |
+          npm install --prefix .qa-tools --no-save --ignore-scripts playwright@1.64.0
+          .qa-tools/node_modules/.bin/playwright install --with-deps chromium webkit
+      - name: Browser QA against the SHA-verified immutable preview
+        env:
+          TOOLS_QA_ORIGIN: ${{ steps.verified.outputs.preview_url }}
+        run: node scripts/tools-production-qa.mjs
+      - name: Upload read-only preview browser screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: immutable-preview-browser-${{ github.run_id }}
+          path: qa-results/tools-preview/
+          if-no-files-found: warn
+          retention-days: 14
